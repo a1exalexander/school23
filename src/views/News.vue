@@ -93,6 +93,7 @@ export default {
 <style lang="scss">
 .news {
   height: 100vh;
+  padding: 16px;
   @include flex-col(stretch, stretch);
   &__header {
     background-color: $N0;
