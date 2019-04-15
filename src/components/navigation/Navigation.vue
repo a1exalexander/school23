@@ -1,11 +1,12 @@
 <template>
 <div class="navigation">
-  <div class="navigation__header">
-    <router-link to='/'>
-      <img src="@/assets/images/Kremenchuk.png" alt="logo" class="navigation__logo">
-    </router-link>
-    <h1 class="navigation__title">Школа 23</h1>
-  </div>
+  <!-- <a href='https://goo.gl/maps/KC5KayS3K1m' target='_blank' class="navigation__location">
+    <span
+      title="Олександрійська вулиця, 18, Кременчук, Полтавська область, 39600"
+      class="navigation__location-text"
+      >м. Кременчук
+    </span>
+  </a> -->
   <a-menu
     mode="inline"
     :openKeys="openKeys"
@@ -40,8 +41,13 @@
 </div>
 </template>
 <script>
+import IconMapColor from '@/components/common/icons/IconMapColor.vue';
+
 export default {
   name: 'Navigation',
+  components: {
+    IconMapColor,
+  },
   data () {
     return {
       rootSubmenuKeys: ['sub1', 'sub2', 'sub3'],
@@ -65,12 +71,14 @@ export default {
 .navigation {
   width: 290px;
   height: 100vh;
+  padding-top: 84px;
   overflow-y: auto;
   background-color: $N0;
   position: relative;
   z-index: 2;
   overflow-x: hidden;
-  box-shadow: 2px 0 2px rgba(10,10,10,.1);
+  box-shadow: 2px 0 3px rgba(10,10,10,.1);
+  // @include flex-col(space-between, stretch);
   // border-right: 1px solid $N2;
   .ant-menu-submenu > .ant-menu {
     background-color: $N0;
@@ -85,6 +93,21 @@ export default {
     position: sticky;
     top: 0;
     z-index: 2;
+  }
+  &__location-text {
+    // padding-bottom: 4px;
+    // @include text($H500, 500);
+  }
+  &__location {
+    padding: 12px 24px;
+    @include flex-row(flex-start, flex-start);
+    margin-bottom: 4px;
+  }
+  &__location-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    margin-right: 12px;
   }
   &__logo {
     width: 40px;

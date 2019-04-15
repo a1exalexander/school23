@@ -1,0 +1,17 @@
+%transition-bg {
+  transition: background-color ease-in-out 0.2s;
+}
+%transition-svg {
+  transition: fill ease-in-out 0.2s;
+}
+%transition-border {
+  transition: border-color ease-in-out 0.2s;
+}
+%transition-text {
+  transition: color ease-in-out 0.2s;
+}
+%transition-box {
+  transition-property: background-color, border-color;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.2s;
+}
