@@ -13,11 +13,33 @@
     @openChange="onOpenChange"
     class="navigation__inner"
   >
-    <a-menu-item key="1"><a-icon type="mail" /><span>Новини</span></a-menu-item>
+    <a-menu-item
+    key="1"
+    @click="$router.push({name: 'news'})"
+    :class="{'ant-menu-item-selected': $route.name === 'news'}">
+      <icon-open-book class="navigation__icon"></icon-open-book>
+      <span>Новини</span>
+    </a-menu-item>
     <a-sub-menu key="sub1">
-      <span slot="title"><a-icon type="appstore" /><span>Про школу</span></span>
-      <a-menu-item key="2">Школа сьогодні</a-menu-item>
-      <a-menu-item key="3">Педагогічний колектив</a-menu-item>
+      <span
+        slot="title"
+        class='navigation__title'
+        :class="{'active': routeAbout}">
+        <icon-university class="navigation__icon"></icon-university>
+        <span>Про школу</span>
+      </span>
+      <a-menu-item
+        key="2"
+        @click="$router.push({name: 'school-now'})"
+        :class="{'ant-menu-item-selected': $route.name === 'school-now'}"
+        >Школа сьогодні
+      </a-menu-item>
+      <a-menu-item
+       key="3"
+       @click="$router.push({name: 'colective'})"
+       :class="{'ant-menu-item-selected': $route.name === 'colective'}"
+       >Педагогічний колектив
+      </a-menu-item>
       <a-menu-item key="4">Історія школи</a-menu-item>
       <a-menu-item key="5">Гімн школи</a-menu-item>
     </a-sub-menu>
@@ -42,16 +64,26 @@
 </template>
 <script>
 import IconMapColor from '@/components/common/icons/IconMapColor.vue';
+import IconOpenBook from '@/components/common/icons/IconOpenBook.vue';
+import IconUniversity from '@/components/common/icons/IconUniversity.vue';
 
 export default {
   name: 'Navigation',
   components: {
     IconMapColor,
+    IconOpenBook,
+    IconUniversity,
   },
   data () {
     return {
       rootSubmenuKeys: ['sub1', 'sub2', 'sub3'],
       openKeys: [],
+    }
+  },
+  computed: {
+    routeAbout() {
+      const { name } = this.$route;
+      return (name === 'school-now' || name === 'colective');
     }
   },
   methods: {
@@ -78,6 +110,12 @@ export default {
   z-index: 2;
   overflow-x: hidden;
   box-shadow: 2px 0 3px rgba(10,10,10,.1);
+  &__icon {
+    $size: 18px;
+    width: $size;
+    height: $size;
+    margin-right: 8px;
+  }
   // @include flex-col(space-between, stretch);
   // border-right: 1px solid $N2;
   .ant-menu-submenu > .ant-menu {
@@ -85,6 +123,11 @@ export default {
   }
   &__inner {
     border: none !important;
+  }
+  &__title {
+    &.active {
+      color: #1890ff;
+    }
   }
   &__header {
     background-color: $N0;

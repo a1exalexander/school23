@@ -24,5 +24,22 @@ export default new Router({
       name: 'news',
       component: () => import('./views/News.vue'),
     },
+    {
+      path: '/about',
+      component: () => import('./views/About.vue'),
+      redirect: {name: 'school-now'},
+      children: [
+        {
+          path: 'school-now',
+          name: 'school-now',
+          component: () => import('./components/about/school-now/AboutSchoolNow.vue'),
+        },
+        {
+          path: 'colective',
+          name: 'colective',
+          component: () => import('./components/about/colective/AboutColective.vue'),
+        },
+      ],
+    },
   ],
 })

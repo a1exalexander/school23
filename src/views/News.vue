@@ -1,8 +1,6 @@
 <template>
-  <div class="news" @scroll="handleNav">
-    <header
-      class="news__header"
-      :class='{"news__header--fix": fixedNav !== 0}'>
+  <div class="news" >
+    <header-bar>
       <a-auto-complete
         :dataSource="dataSource"
         class="news__search"
@@ -33,7 +31,7 @@
           <a-icon type="appstore" class='news__toggle-icon'/>
         </label>
       </div>
-    </header>
+    </header-bar>
     <transition
       name="custom-classes-transition"
       enter-active-class="animated dur04 fadeIn"
@@ -62,7 +60,6 @@ export default {
   },
   data() {
     return {
-      fixedNav: 0,
       grid: true,
       dataSource: [],
       content: {
@@ -80,9 +77,9 @@ export default {
     }
   },
   methods: {
-    handleNav(event) {
-      this.fixedNav = event.target.scrollTop;
-    },
+    // handleNav(event) {
+    //   this.fixedNav = event.target.scrollTop;
+    // },
     handleSearch(value) {
       this.dataSource = !value ? [] : [
         value,
@@ -102,51 +99,6 @@ export default {
 <style lang="scss">
 $news: news;
 .#{$news} {
-  max-height: 100vh;
-  overflow-y: auto;
-  @include flex-col(stretch, stretch);
-  &__header {
-    background-color: $N0;
-    box-shadow: 2px 2px 3px rgba(10,10,10,.1);
-    padding: 12px 24px;
-    position: sticky;
-    position: -webkit-sticky;
-    height: 64px;
-    flex-shrink: 0;
-    top: -64px;
-    z-index: 11;
-    @include flex-row(space-between, center);
-    @extend %transition-box;
-    transition-duration: 0.4s;
-    border-top: 1px solid $N3;
-    border-left: 1px solid $N3;
-    &--fix {
-      background-color: $N0;
-      border-color: white;
-      // & .#{$news}__toggle-icon svg {
-      //   fill: $N10;
-      // }
-      // & .#{$news}__toggle-button {
-      //   &:hover svg {
-      //     fill: $B1;
-      //   }
-      //   &:focus svg {
-      //     fill: $B2;
-      //   }
-      //   &:active svg {
-      //     fill: $N1;
-      //   }
-      // }
-      // .ant-select-auto-complete.ant-select input.ant-input {
-      //   &:hover, &:focus {
-      //     border-color: #40a9ff;
-      //   }
-      // }
-      // .ant-select-auto-complete.ant-select input.ant-input {
-      //   border-color: #d9d9d9;
-      // }
-    }
-  }
   &__search {
     width: 240px;
     input {
