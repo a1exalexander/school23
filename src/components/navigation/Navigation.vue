@@ -72,8 +72,6 @@
 import IconMapColor from '@/components/common/icons/IconMapColor.vue';
 import IconOpenBook from '@/components/common/icons/IconOpenBook.vue';
 import IconUniversity from '@/components/common/icons/IconUniversity.vue';
-import IconStudentHeat from '@/components/common/icons/IconStudentHeat.vue';
-import IconBooks from '@/components/common/icons/IconBooks.vue';
 
 export default {
   name: 'Navigation',
@@ -81,8 +79,6 @@ export default {
     IconMapColor,
     IconOpenBook,
     IconUniversity,
-    IconStudentHeat,
-    IconBooks,
   },
   data () {
     return {
