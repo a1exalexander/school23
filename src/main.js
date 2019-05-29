@@ -4,7 +4,11 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import 'ant-design-vue/dist/antd.css';
-import '@/scss/animate.scss';
+import '@/scss/_animate.scss';
+
+import HeaderBar from './components/common/HeaderBar';
+
+Vue.component('HeaderBar', HeaderBar);
 
 Vue.config.productionTip = false;
 

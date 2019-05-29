@@ -32,13 +32,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   font-family: $base-font;
   background-color: $BG-COLOR;
-  min-height: 100vh;
+  height: 100vh;
   &__row {
     @include flex-row(stretch, stretch);
   }
   &__view {
     flex: 1 1;
     padding-top: 64px;
+    @include flex-col(stretch, stretch);
+    max-height: 100vh;
+    overflow-y: auto;
   }
 }
 </style>
