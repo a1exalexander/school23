@@ -1,0 +1,65 @@
+@import './variables';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  @media screen and (min-width: $screen-desktop) {
+    scroll-behavior: smooth;
+  }
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  ::-webkit-scrollbar-thumb {
+    width: 0;
+    border-radius: 100px;
+    background: $N0;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+@media screen and (min-width: $screen-desktop) {
+  * {
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      width: 4px;
+      background: $N4;
+    }
+  }
+}
+
+@for $i from 1 through 6 {
+  h#{$i} {
+    margin: 0;
+    line-height: 1;
+  }
+}
+
+input, textarea, button, a, body, body * {
+  font-family: $base-font;
+  background-color: transparent;
+  outline: none;
+  border: none;
+} 
+
+a, button {
+  cursor: pointer;
+  text-decoration: none;
+  &:visited, &:focus {
+    text-decoration: none;
+  }
+}
+
+p {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
