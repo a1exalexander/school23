@@ -1,11 +1,7 @@
 <template>
-   <div>
-    <a-button
-    type="primary"
-    @click="showModal"
-    >Додаткова інформація</a-button>
+
     <a-modal
-      v-model="visible"
+      v-model="visibled"
       :footer="null"
       width="80vw"
       class="about-colective-modal"
@@ -47,29 +43,22 @@
         </div>
       </div>
     </a-modal>
-  </div>
 </template>
 <script>
-import AboutColectiveCard from '@/components/about/components/AboutColectiveCard.vue';
 
 export default {
-  data() {
-    return {
-      visible: false,
+  name: 'AboutTeacherModal',
+  props: ['visible'],
+  computed: {
+    visibled: {
+      set(value) {
+        this.$emit('change', value);
+      },
+      get() {
+        return this.visible;
+      }
     }
-  },
-  methods: {
-    showModal() {
-      this.visible = true
-    },
-    handleOk(e) {
-      console.log(e);
-      this.visible = false
-    },
-  },
-  components: {
-    AboutColectiveCard,
-  },
+  }
 }
 </script>
 <style lang="scss">

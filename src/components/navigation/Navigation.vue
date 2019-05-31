@@ -1,22 +1,16 @@
 <template>
 <div class="navigation">
-  <!-- <a href='https://goo.gl/maps/KC5KayS3K1m' target='_blank' class="navigation__location">
-    <span
-      title="Олександрійська вулиця, 18, Кременчук, Полтавська область, 39600"
-      class="navigation__location-text"
-      >м. Кременчук
-    </span>
-  </a> -->
   <a-menu
     mode="inline"
     :openKeys="openKeys"
     @openChange="onOpenChange"
+    @click="handleClick"
     class="navigation__inner"
+    :forceSubMenuRender='true'
+    :selectedKeys="[current]"
   >
     <a-menu-item
-    key="1"
-    @click="$router.push({name: 'news'})"
-    :class="{'ant-menu-item-selected': $route.name === 'news'}">
+    key="news">
       <icon-open-book class="navigation__icon"></icon-open-book>
       <span>Новини</span>
     </a-menu-item>
@@ -29,16 +23,10 @@
         <span>Про школу</span>
       </span>
       <a-menu-item
-        key="2"
-        @click="$router.push({name: 'school-now'})"
-        :class="{'ant-menu-item-selected': $route.name === 'school-now'}"
-        >Школа сьогодні
+        key="school-now">Школа сьогодні
       </a-menu-item>
       <a-menu-item
-       key="3"
-       @click="$router.push({name: 'colective'})"
-       :class="{'ant-menu-item-selected': $route.name === 'colective'}"
-       >Педагогічний колектив
+       key="colective">Педагогічний колектив
       </a-menu-item>
       <a-menu-item key="4">Історія школи</a-menu-item>
       <a-menu-item key="5">Гімн школи</a-menu-item>
@@ -63,20 +51,19 @@
 </div>
 </template>
 <script>
-import IconMapColor from '@/components/common/icons/IconMapColor.vue';
 import IconOpenBook from '@/components/common/icons/IconOpenBook.vue';
 import IconUniversity from '@/components/common/icons/IconUniversity.vue';
 
 export default {
   name: 'Navigation',
   components: {
-    IconMapColor,
     IconOpenBook,
     IconUniversity,
   },
   data () {
     return {
       rootSubmenuKeys: ['sub1', 'sub2', 'sub3'],
+      current: 'news',
       openKeys: [],
     }
   },
@@ -84,6 +71,10 @@ export default {
     routeAbout() {
       const { name } = this.$route;
       return (name === 'school-now' || name === 'colective');
+    },
+    selected() {
+      const { name = '1'} = this.$route;
+      return [name];
     }
   },
   methods: {
@@ -95,7 +86,21 @@ export default {
         this.openKeys = latestOpenKey ? [latestOpenKey] : []
       }
     },
+    handleClick({ key }) {
+      this.$router.push({name: key})
+    },
+    setMenuItem() {
+      this.current = this.$route.name;
+    }
   },
+  created() {
+    this.setMenuItem();
+  },
+  watch: {
+    '$route.name'() {
+      this.setMenuItem()
+    }
+  }
 }
 
 </script>
@@ -125,8 +130,14 @@ export default {
     border: none !important;
   }
   &__title {
+    * {
+      transition: ease 0.2s;
+    }
     &.active {
       color: #1890ff;
+      svg {
+        fill: #1890ff;
+      }
     }
   }
   &__header {
