@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 export default {
   name: 'NavBar',
   components: { 
@@ -42,7 +40,7 @@ export default {
     return {
       count: 0,
       clicked: false,
-      time: moment().format('HH:mm:ss'),
+      time: this.$moment().format('HH:mm:ss'),
     };
   },
   methods: {
@@ -53,7 +51,7 @@ export default {
       this.clicked = visible;
     },
     setTime() {
-      this.time = moment().format('HH:mm:ss');
+      this.time = this.$moment().format('HH:mm:ss');
     },
   },
   mounted() {
