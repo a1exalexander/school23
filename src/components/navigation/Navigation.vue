@@ -44,13 +44,19 @@
       <a-menu-item key="5">Гімн школи</a-menu-item>
     </a-sub-menu>
     <a-sub-menu key="sub2">
-      <span slot="title"><a-icon type="setting" /><span>Навчально-виховна робота</span></span>
+      <span slot="title">
+        <icon-student-heat class="navigation__icon" />
+        <span>Навчально-виховна робота</span>
+      </span>
       <a-menu-item key="6">Режим роботи школи</a-menu-item>
       <a-menu-item key="7">Роздклад уроків</a-menu-item>
       <a-menu-item key="8">Методичні рекомендації</a-menu-item>
     </a-sub-menu>
     <a-sub-menu key="sub3">
-      <span slot="title"><a-icon type="setting" /><span>Виховна робота</span></span>
+      <span slot="title">
+        <icon-books class="navigation__icon" />
+        <span>Виховна робота</span>
+      </span>
       <a-menu-item key="9">Бібліотека</a-menu-item>
       <a-menu-item key="10">Учнівське самоврядування</a-menu-item>
       <a-menu-item key="11">Сторінка психолога</a-menu-item>
@@ -66,6 +72,8 @@
 import IconMapColor from '@/components/common/icons/IconMapColor.vue';
 import IconOpenBook from '@/components/common/icons/IconOpenBook.vue';
 import IconUniversity from '@/components/common/icons/IconUniversity.vue';
+import IconStudentHeat from '@/components/common/icons/IconStudentHeat.vue';
+import IconBooks from '@/components/common/icons/IconBooks.vue';
 
 export default {
   name: 'Navigation',
@@ -73,6 +81,8 @@ export default {
     IconMapColor,
     IconOpenBook,
     IconUniversity,
+    IconStudentHeat,
+    IconBooks,
   },
   data () {
     return {
