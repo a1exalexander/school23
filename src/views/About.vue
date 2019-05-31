@@ -3,7 +3,6 @@
   <header-bar class='about__nav'>
     <a-tabs
     class='about__tabs'
-    defaultActiveKey="school-now"
     :activeKey='$route.name'
     @change="changeTab">
       <a-tab-pane
