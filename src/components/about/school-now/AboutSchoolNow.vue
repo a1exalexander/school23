@@ -1,7 +1,7 @@
 <template>
   <div class="about-school-now">
-    <div>
-    <about-school-now-carousel></about-school-now-carousel>
+    <div class="about-school-now__carousel">
+      <about-school-now-carousel/>
     </div>
       <div class="about-school-now__card-wrapper">
         <div class="about-school-now__card">

@@ -21,13 +21,13 @@
           Педагогічний колектив
         </span>
       </a-tab-pane>
-       <a-tab-pane key="3">
+       <a-tab-pane key="history">
         <span slot="tab">
           <a-icon type="hourglass" />
           Історія школи
         </span>
       </a-tab-pane>
-       <a-tab-pane key="4">
+       <a-tab-pane key="song">
         <span slot="tab">
           <a-icon type="sound" />
           Гімн школи
