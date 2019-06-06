@@ -34,7 +34,7 @@ export default {
 /* For demo */
 .about-school-now-carousel {
   max-width: calc(100vw - 290px);
-  padding: 0 40px;
+  padding: 22px 40px 0;
   margin-bottom: 50px;
   .ant-carousel {
     width: 100%;
