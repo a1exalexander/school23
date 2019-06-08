@@ -11,7 +11,8 @@
     <template v-else>
       <a-skeleton
         :avatar='{ shape: "square" }'
-        active :paragraph="{rows: 4}"
+        active
+        :paragraph="{rows: 4}"
         class='news__skeleton-card'
         v-for='n in 6'
         :key='n'/>

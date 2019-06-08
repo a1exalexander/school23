@@ -1,6 +1,12 @@
 <template>
 <div>
-  <a-skeleton :loading='loading' active :title="{width: '300px'}" :paragraph="{rows: 2}" v-for='n in 6' :key='n'/>
+  <a-skeleton
+    :loading='loading'
+    active
+    :title="{width: '300px'}"
+    :paragraph="{rows: 2}"
+    v-for='n in 6'
+    :key='n'/>
 
 <a-list
     class="demo-loadmore-list news-list"

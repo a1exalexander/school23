@@ -1,4 +1,9 @@
 <template>
+ <transition
+  name="custom-classes-transition"
+  enter-active-class="animated dur02 fadeIn"
+  leave-active-class="animated dur02 fadeOut"
+  appear>
   <nav class="nav-bar">
     <div class="nav-bar__inner">
       <div class="nav-bar__inner nav-bar__inner--logo">
@@ -28,6 +33,7 @@
       </a-popover>
     </div>
   </nav>
+ </transition>
 </template>
 
 <script>

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import Home from './views/Home.vue';
 
 Vue.use(Router);
 
@@ -10,14 +11,14 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import('./views/Home.vue'),
-      beforeEnter(to, from, next) {
-        if (localStorage.getItem('school23')) {
-          next({ name: 'news' })
-        } else {
-          next();
-        }
-      },
+      component: Home,
+      // beforeEnter(to, from, next) {
+      //   if (localStorage.getItem('school23')) {
+      //     next({ name: 'news' })
+      //   } else {
+      //     next();
+      //   }
+      // },
     },
     {
       path: '/news',
