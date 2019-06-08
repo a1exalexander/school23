@@ -9,10 +9,11 @@
     mode="inline"
     :openKeys="openKeys"
     @openChange="onOpenChange"
+    @select='onSelect'
     @click="handleClick"
     class="navigation__inner"
     :forceSubMenuRender='true'
-    :selectedKeys="[current]"
+    :selectedKeys="current"
   >
     <a-menu-item
     key="news">
@@ -33,17 +34,23 @@
       <a-menu-item
        key="colective">Педагогічний колектив
       </a-menu-item>
-      <a-menu-item key="4">Історія школи</a-menu-item>
-      <a-menu-item key="5">Гімн школи</a-menu-item>
+      <a-menu-item key="history">Історія школи</a-menu-item>
+      <a-menu-item key="song">Гімн школи</a-menu-item>
     </a-sub-menu>
     <a-sub-menu key="sub2">
-      <span slot="title"><a-icon type="setting" /><span>Навчально-виховна робота</span></span>
+      <span slot="title">
+        <icon-student-heat class="navigation__icon" />
+        <span>Навчально-виховна робота</span>
+      </span>
       <a-menu-item key="6">Режим роботи школи</a-menu-item>
       <a-menu-item key="7">Роздклад уроків</a-menu-item>
       <a-menu-item key="8">Методичні рекомендації</a-menu-item>
     </a-sub-menu>
     <a-sub-menu key="sub3">
-      <span slot="title"><a-icon type="setting" /><span>Виховна робота</span></span>
+      <span slot="title">
+        <icon-books class="navigation__icon" />
+        <span>Виховна робота</span>
+      </span>
       <a-menu-item key="9">Бібліотека</a-menu-item>
       <a-menu-item key="10">Учнівське самоврядування</a-menu-item>
       <a-menu-item key="11">Сторінка психолога</a-menu-item>
@@ -59,23 +66,32 @@
 <script>
 import IconOpenBook from '@/components/common/icons/IconOpenBook.vue';
 import IconUniversity from '@/components/common/icons/IconUniversity.vue';
+import IconStudentHeat from '@/components/common/icons/IconStudentHeat.vue';
+import IconBooks from '@/components/common/icons/IconBooks.vue';
 
 export default {
   name: 'Navigation',
   components: {
     IconOpenBook,
     IconUniversity,
+    IconStudentHeat,
+    IconBooks,
   },
   data () {
     return {
       rootSubmenuKeys: ['sub1', 'sub2', 'sub3'],
-      current: 'news',
+      current: ['news'],
       openKeys: [],
     }
   },
   computed: {
     routeAbout() {
+<<<<<<< HEAD
       return (this.current === 'school-now' || this.current === 'colective');
+=======
+      const { name } = this.$route;
+      return (name === 'school-now' || name === 'colective' || name === 'history' || name === 'song');
+>>>>>>> news
     },
     selected() {
       const { name = '1'} = this.$route;
@@ -91,20 +107,27 @@ export default {
         this.openKeys = latestOpenKey ? [latestOpenKey] : []
       }
     },
+    onSelect({ key }) {
+      this.current = [key];
+    },
     handleClick({ key }) {
       this.$router.push({name: key})
     },
     setMenuItem() {
+<<<<<<< HEAD
       if (this.$route.name) this.current = this.$route.name;
     }
   },
   beforeMount() {
     this.setMenuItem();
   },
-  watch: {
-    '$route.name'() {
-      this.setMenuItem()
+=======
+      this.current = [this.$route.name];
     }
+  },
+>>>>>>> news
+  watch: {
+    '$route': 'setMenuItem'
   }
 }
 
@@ -120,14 +143,31 @@ export default {
   z-index: 2;
   overflow-x: hidden;
   box-shadow: 2px 0 3px rgba(10,10,10,.1);
+  svg {
+    transition-property: fill !important;
+    transition-duration: 0.3s !important;
+    transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+    transition-delay: 0s !important;
+  }
   &__icon {
     $size: 18px;
     width: $size;
     height: $size;
     margin-right: 8px;
+    position: relative;
+    bottom: -2px;
   }
-  // @include flex-col(space-between, stretch);
-  // border-right: 1px solid $N2;
+  .ant-menu-submenu-title:hover {
+    fill: #1890ff;
+  }
+  .ant-menu-item-active * {
+    fill: #1890ff;
+    color: #1890ff;
+  }
+  .ant-menu-item-selected * {
+    fill: #1890ff;
+    color: #1890ff;
+  }
   .ant-menu-submenu > .ant-menu {
     background-color: $N0;
   }
@@ -140,10 +180,13 @@ export default {
     }
   }
   &__title {
+<<<<<<< HEAD
     transition: color ease 0.2s;
     svg {
       transition: fill ease 0.2s;
     }
+=======
+>>>>>>> news
     &.active {
       color: #1890ff;
       svg {
@@ -158,10 +201,6 @@ export default {
     position: sticky;
     top: 0;
     z-index: 2;
-  }
-  &__location-text {
-    // padding-bottom: 4px;
-    // @include text($H500, 500);
   }
   &__location {
     padding: 12px 24px;

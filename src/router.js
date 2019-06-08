@@ -40,6 +40,16 @@ export default new Router({
           name: 'colective',
           component: () => import('./components/about/colective/AboutColective.vue'),
         },
+        {
+          path: 'history',
+          name: 'history',
+          component: () => import('./components/about/history/AboutHistory.vue'),
+        },
+        {
+          path: 'song',
+          name: 'song',
+          component: () => import('./components/about/song/AboutSong.vue'),
+        },
       ],
     },
   ],

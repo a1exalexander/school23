@@ -6,20 +6,14 @@
     class="about-colective-card__img"
     @click='visible = true'>
     <div class="about-colective-card__body">
-      <h3 class="about-colective-card__title">Петро Порошенко</h3>
+      <h3 class="about-colective-card__title">Петро Пороdsadadadadшенко</h3>
       <p class="about-colective-card__job">Викладач права</p>
-      <div class="about-colective-card__social">
-        <a href="#" class="about-colective-card__link"><a-icon type="twitter"/></a>
-        <a href="#" class="about-colective-card__link"><a-icon type="mail"/></a>
-        <a href="#" class="about-colective-card__link"><a-icon type="facebook"/></a>
-      </div>
     </div>
-    
     <about-colective-modal :visible='visible' @change='(e) => {visible = e}'></about-colective-modal>
   </div>
 </template>
 <script>
-import AboutColectiveModal from '@/components/about/components/AboutColectiveModal.vue';
+import AboutColectiveModal from './AboutColectiveModal.vue';
 
 export default {
   name: 'AboutColectiveCard',
@@ -37,7 +31,6 @@ export default {
 <style lang="scss">
 .about-colective-card {
   box-shadow: $shadow;
-  max-width: 250px;
   text-align: center;
   border-radius: 4px;
   height: 280px;
@@ -62,10 +55,13 @@ export default {
     width: 100%;
     height: 100px;
     padding: 12px;
+    @include flex-col(space-between, center);
   }
   &__title {
-    @include text($H600, 500, $N15);
+    @include text($H500, 500, $N15);
     margin-bottom: 6px;
+    line-height: 1.2;
+    overflow: hidden;
   }
 
   &__job {
@@ -73,9 +69,6 @@ export default {
     margin-bottom: 6px;
   }
 
-  &__social {
-    // margin-bottom: 12px;
-  }
 
   &__link {
     text-decoration: none;
