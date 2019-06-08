@@ -86,12 +86,8 @@ export default {
   },
   computed: {
     routeAbout() {
-<<<<<<< HEAD
-      return (this.current === 'school-now' || this.current === 'colective');
-=======
       const { name } = this.$route;
       return (name === 'school-now' || name === 'colective' || name === 'history' || name === 'song');
->>>>>>> news
     },
     selected() {
       const { name = '1'} = this.$route;
@@ -114,18 +110,9 @@ export default {
       this.$router.push({name: key})
     },
     setMenuItem() {
-<<<<<<< HEAD
-      if (this.$route.name) this.current = this.$route.name;
-    }
-  },
-  beforeMount() {
-    this.setMenuItem();
-  },
-=======
       this.current = [this.$route.name];
     }
   },
->>>>>>> news
   watch: {
     '$route': 'setMenuItem'
   }
@@ -180,13 +167,6 @@ export default {
     }
   }
   &__title {
-<<<<<<< HEAD
-    transition: color ease 0.2s;
-    svg {
-      transition: fill ease 0.2s;
-    }
-=======
->>>>>>> news
     &.active {
       color: #1890ff;
       svg {

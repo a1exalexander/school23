@@ -6,9 +6,7 @@
   appear>
   <video-bg
   :sources="[video]"
-  :img="img"
   class="home">
-  <!-- If you want to add content here, a slot is waiting! -->
  
   <div class="home__layer animated slow fadeIn"></div>
   <transition
@@ -57,7 +55,7 @@ export default {
     start() {
       this.home = false;
       localStorage.setItem('school23', 'visite');
-      setTimeout(() => this.$router.push({ name: 'news' }), 1000);
+      setTimeout(() => this.$router.push({ name: 'news' }), 500);
     },
   },
 };
@@ -109,19 +107,19 @@ export default {
   }
   &__title {
     @include text($H900, 500, $N0);
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     &:last-child {
       margin: 0;
     }
   }
   &__logo {
-    width: 60px;
+    width: 64px;
     margin-right: 24px;
   }
   &__button {
     padding: {
-      right: 32px;
-      left: 32px;
+      right: 32px !important;
+      left: 32px !important;
     }
   }
 }
