@@ -1,12 +1,21 @@
 <template>
-<div class="home">
-  <div class="home__layer animated slow delay-2s fadeIn"></div>
+<transition
+  name="custom-classes-transition"
+  enter-active-class="animated dur04 fadeIn"
+  leave-active-class="animated dur02 fadeOut"
+  appear>
+  <video-bg
+  :sources="[video]"
+  :img="img"
+  class="home">
+  <!-- If you want to add content here, a slot is waiting! -->
+ 
+  <div class="home__layer animated slow fadeIn"></div>
   <transition
       name="custom-classes-transition"
-      enter-active-class="animated dur02 fadeIn"
-      leave-active-class="animated dur1 fadeOut"
-      appear
-      mode="out-in">
+      enter-active-class="animated dur04 fadeIn"
+      leave-active-class="animated dur04 fadeOut"
+      appear>
   <div class="home__head" v-if='home'>
     <div class="home__row row">
       <div class="home__inner animated slow delay-01 fadeIn">
@@ -26,15 +35,23 @@
     </div>
   </div>
   </transition>
-</div>
+ </video-bg>
+</transition>
 </template>
 <script>
+import VideoBg from 'vue-videobg';
+
 export default {
   name: 'Home',
   data() {
     return {
       home: true,
+      video: require('@/assets/video/school.mp4'),
+      img: require('@/assets/images/23_bg2.jpg'),
     };
+  },
+  components: {
+    VideoBg,
   },
   methods: {
     start() {
@@ -48,12 +65,19 @@ export default {
 <style lang="scss">
 .home {
   padding: 80px 120px;
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background-image: url(~@/assets/images/23_bg2.jpg);
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  // z-index: 10;
+  // background-image: url(~@/assets/images/23_bg2.jpg);
+  background-color: #1D334A;
   background-repeat: no-repeat;
   background-size: cover;
+  .VideoBg__content {
+    padding: 80px 120px;
+  }
   &__row {
     @include flex-row(flex-start, center);
     margin-bottom: 32px;

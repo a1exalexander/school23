@@ -1,8 +1,8 @@
 <template>
   <div id="app" class='app'>
-    <navigation-bar/>
+    <navigation-bar v-if="routeName"/>
     <div class="app__row">
-      <navigation/>
+      <navigation v-if="routeName"/>
       <transition
         name="custom-classes-transition"
         enter-active-class="animated dur02 fadeIn"
@@ -24,6 +24,11 @@ export default {
     Navigation,
     NavigationBar,
   },
+  computed: {
+    routeName() {
+      return this.$route.name !== 'home';
+    }
+  }
 };
 </script>
 <style lang="scss">
