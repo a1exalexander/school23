@@ -62,7 +62,6 @@ overflow-y: scroll;
   &__nav {
     justify-content: center;
     padding-bottom: 0;
-    margin-bottom: 16px;
   }
   &__tabs {
     margin: 0;
