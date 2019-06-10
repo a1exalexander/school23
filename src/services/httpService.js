@@ -49,8 +49,7 @@ export default class HttpService {
   _tranformTeacher = (teacher) => {
     return {
       id: teacher.id,
-      // ava: require("../assets/images/poroh.jpg"),
-      ava: null,
+      ava: `https://i.pravatar.cc/1000?img=${teacher.id}`,
       name: teacher.name,
       username: teacher.username,
       phone: teacher.phone,

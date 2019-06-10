@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      count: 0,
+      count: 2,
       clicked: false,
       time: this.$moment().format('HH:mm:ss'),
     };

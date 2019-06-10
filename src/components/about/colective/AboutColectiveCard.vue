@@ -4,7 +4,7 @@
       :username="teacher.name"
       :customStyle="{width: 100+'%', height: 180 + 'px'}"
       :rounded="false"
-      :src='img'
+      :src='teacher.ava'
       class="about-colective-card__img"
       color="#fff">
     </avatar>
