@@ -4,6 +4,7 @@ import Antd, { message } from 'ant-design-vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import Avatar from 'vue-avatar';
 
 import 'ant-design-vue/dist/antd.css';
 import '@/scss/_animate.scss';
@@ -12,7 +13,7 @@ import '@/scss/main.scss';
 import HeaderBar from './components/common/HeaderBar';
 
 Vue.component('HeaderBar', HeaderBar);
-
+Vue.component('Avatar', Avatar);
 
 Vue.prototype.$moment = moment;
 Vue.prototype.$message = message;

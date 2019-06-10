@@ -5,7 +5,16 @@ const {getAllTeachers, getTeacher} = new HttpService();
 const state = {
   loading: false,
   teachers: [],
-  teacher: {},
+  teacher: {
+    id: null,
+    // ava: require("../assets/images/poroh.jpg"),
+    ava: null,
+    name: null,
+    username: null,
+    phone: null,
+    email: null,
+    company: null,
+  },
   news: [],
 };
 
@@ -32,15 +41,13 @@ const actions = {
   async getTeachers({ commit }) {
     commit('showLoading');
     const data = await getAllTeachers();
-    commit('updateNews', data);
+    commit('updateTeachers', data);
     commit('hideLoading');
     return;
   },
   async getTeacher({ commit }, id) {
-    commit('showLoading');
     const data = await getTeacher(id);
-    commit('updateOneNews', data);
-    commit('hideLoading');
+    commit('updateTeacher', data);
     return;
   },
 };

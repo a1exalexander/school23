@@ -30,10 +30,16 @@ const getters = {
 const actions = {
   async getNews({ commit }) {
     commit('showLoading');
-    const data = await getAllNews();
-    commit('updateNews', data);
-    commit('hideLoading');
-    return;
+    try {
+      const data = await getAllNews();
+      commit('updateNews', data);
+      commit('hideLoading');
+      return;
+    } catch(e) {
+      commit('hideLoading');
+      throw e;
+    }
+    
   },
   async getOneNews({ commit }, id) {
     commit('showLoading');

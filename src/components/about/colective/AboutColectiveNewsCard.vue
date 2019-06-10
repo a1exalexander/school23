@@ -10,7 +10,7 @@ export default {
   name: 'AboutColectiveNewsCard',
   props: {
     news: {
-      type: Array,
+      type: Object,
       required: true,
     }
   },

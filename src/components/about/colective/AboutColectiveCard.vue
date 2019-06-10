@@ -1,30 +1,36 @@
 <template>
-  <div class="about-colective-card">
-    <img
-    src="@/assets/images/poroh.jpg"
-    alt="John"
-    class="about-colective-card__img"
-    @click='visible = true'>
+  <div class="about-colective-card" @click='visible = true'>
+    <avatar
+      :username="teacher.name"
+      :customStyle="{width: 100+'%', height: 180 + 'px'}"
+      :rounded="false"
+      :src='img'
+      class="about-colective-card__img"
+      color="#fff">
+    </avatar>
     <div class="about-colective-card__body">
-      <h3 class="about-colective-card__title">Петро Пороdsadadadadшенко</h3>
-      <p class="about-colective-card__job">Викладач права</p>
+      <h3 class="about-colective-card__title">{{ teacher.name }}</h3>
+      <p class="about-colective-card__job">{{ teacher.company }}</p>
     </div>
-    <about-colective-modal :visible='visible' @change='(e) => {visible = e}'></about-colective-modal>
   </div>
 </template>
 <script>
-import AboutColectiveModal from './AboutColectiveModal.vue';
+
 
 export default {
   name: 'AboutColectiveCard',
-  data() {
-    return {
-      visible: false,
+  props: {
+    teacher: {
+      type: Object,
+      required: true,
     }
   },
-  components: {
-    AboutColectiveModal,
-  }
+  data() {
+    return {
+      // img: require("@/assets/images/poroh.jpg"),
+      img: null,
+    }
+  },
 }
 </script>
 
@@ -47,6 +53,8 @@ export default {
     object-fit: cover;
     cursor: pointer;
     transition: filter ease 0.2s;
+    background-size: cover !important;
+    background-position: center !important;
     &:hover {
       filter: brightness(0.9);
     }

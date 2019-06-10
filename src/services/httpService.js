@@ -5,9 +5,13 @@ export default class HttpService {
   _apiBase = 'https://jsonplaceholder.typicode.com';
 
   _api = {
-    awards(n) { return `${this._apiBase}/todos/${n}`},
+    awards(n) {
+      return `${this._apiBase}/todos/${n}`
+    },
     teachers: `${this._apiBase}/users/`,
-    teacher(n) {return `${this._apiBase}/users/${n}`},
+    teacher: (id) => {
+      return `${this._apiBase}/users/${id}`
+    },
     news: `${this._apiBase}/posts/`,
     oneNews(n) {return `${this._apiBase}/posts/${n}`},
   }
@@ -17,13 +21,13 @@ export default class HttpService {
       const res = await http.get(url);
       return res;
     } catch(e) {
-      const body = await e.json();
-      throw new Error(`Could not fetch ${url}, received ${e.status}, Response: ${body}`);
+      console.error(e);
+      throw new Error(`Could not fetch ${url}, received ${e.status}, Response: ${e.response}`);
     }
   }
 
   getAllTeachers = async () => {
-    const {data} = await this.getResource(this._api.teachers);
+    const {data = []} = await this.getResource(this._api.teachers);
     return data.map(this._tranformTeacher);
   }
 
@@ -45,6 +49,7 @@ export default class HttpService {
   _tranformTeacher = (teacher) => {
     return {
       id: teacher.id,
+      // ava: require("../assets/images/poroh.jpg"),
       ava: null,
       name: teacher.name,
       username: teacher.username,

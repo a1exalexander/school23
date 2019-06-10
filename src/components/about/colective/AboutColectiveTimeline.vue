@@ -16,7 +16,6 @@
 </template>
 <script>
 import IconAwards from "@/components/common/icons/IconAwards.vue";
-import { setTimeout } from 'timers';
 
 export default {
   name: 'AboutColectiveTimeline',
@@ -36,7 +35,7 @@ export default {
         "Вчитель року 2017 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, quasi.",
         "Вчитель року 2018 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, quasi."
       ];
-      setTimeout(() => this.awards = [...awards], 1500);
+      this.awards = [...awards]
     }
   },
   computed: {
