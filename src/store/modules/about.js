@@ -1,11 +1,12 @@
 import HttpService from '@/services/httpService';
 
-const {getAllNews, getOneNews} = new HttpService();
+const {getAllTeachers, getTeacher} = new HttpService();
 
 const state = {
   loading: false,
+  teachers: [],
+  teacher: {},
   news: [],
-  oneNews: {},
 };
 
 const mutations = {
@@ -15,11 +16,11 @@ const mutations = {
   hideLoading(state) {
     state.loading = false;
   },
-  updateNews(state, data) {
-    state.news = [...data];
+  updateTeachers(state, data) {
+    state.teachers = [...data];
   },
-  updateOneNews(state, data) {
-    state.oneNews = {...data};
+  updateTeacher(state, data) {
+    state.teacher = {...data};
   }
 };
 
@@ -28,16 +29,16 @@ const getters = {
 };
 
 const actions = {
-  async getNews({ commit }) {
+  async getTeachers({ commit }) {
     commit('showLoading');
-    const data = await getAllNews();
+    const data = await getAllTeachers();
     commit('updateNews', data);
     commit('hideLoading');
     return;
   },
-  async getOneNews({ commit }, id) {
+  async getTeacher({ commit }, id) {
     commit('showLoading');
-    const data = await getOneNews(id);
+    const data = await getTeacher(id);
     commit('updateOneNews', data);
     commit('hideLoading');
     return;

@@ -5,9 +5,9 @@
   leave-active-class="animated dur02 fadeOut"
   appear>
   <video-bg
-  :sources="[video]"
-  class="home">
- 
+    :sources="[video]"
+    :img='img'
+    class="home">
   <div class="home__layer animated slow fadeIn"></div>
   <transition
       name="custom-classes-transition"
@@ -68,8 +68,6 @@ export default {
   right: 0;
   left: 0;
   bottom: 0;
-  // z-index: 10;
-  // background-image: url(~@/assets/images/23_bg2.jpg);
   background-color: #1D334A;
   background-repeat: no-repeat;
   background-size: cover;
