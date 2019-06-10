@@ -13,57 +13,25 @@
         <h1 class="nav-bar__title">Школа 23</h1>
       </div>
       <div class="nav-bar__clock-wrapper">
-        <span class="nav-bar__clock">{{ time }}</span>
+        <span class="nav-bar__clock"></span>
       </div>
     </div>
     <div class="nav-bar__inner">
-      <a-popover
-        placement="bottomRight"
-        title="Термінові оголошення"
-        trigger="click"
-        :visible="clicked"
-        @visibleChange="handleClickChange">
-        <div slot="content">
-          <div>This is click content.</div>
-          <a @click="hide">Close</a>
-        </div>
-        <a-badge class="nav-bar__count" :count="count" showZero>
-          <a-button @click.native='count += 1' type="primary" :disabled='!count'>Оголошення</a-button>
-        </a-badge>
-      </a-popover>
+     <navigation-alerts/>
     </div>
   </nav>
  </transition>
 </template>
 
 <script>
+import NavigationAlerts from './NavigationAlerts.vue';
+
 export default {
   name: 'NavBar',
-  components: { 
-
-  },
-  data() {
-    return {
-      count: 2,
-      clicked: false,
-      time: this.$moment().format('HH:mm:ss'),
-    };
-  },
-  methods: {
-    hide () {
-      this.clicked = false
-    },
-    handleClickChange(visible) {
-      this.clicked = visible;
-    },
-    setTime() {
-      this.time = this.$moment().format('HH:mm:ss');
-    },
-  },
-  mounted() {
-    setInterval(() => this.setTime(), 1000);
-  },
-};
+  components: {
+    NavigationAlerts,
+  }
+}
 </script>
 
 <style lang="scss">

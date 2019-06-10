@@ -90,6 +90,9 @@ export default {
 </script>
 <style lang="scss">
 .about-colective-modal {
+  .ant-skeleton-active {
+    padding: 24px 32px;
+  }
   .ant-skeleton-avatar  {
     $size: 164px;
     width: $size;
