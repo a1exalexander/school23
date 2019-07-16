@@ -16,7 +16,7 @@
 
 </template>
 <script>
-import AboutSchoolNowCarousel from '@/components/about/components/AboutSchoolNowCarousel.vue';
+import AboutSchoolNowCarousel from './AboutSchoolNowCarousel.vue';
 
 export default {
   name: 'AboutSchoolNow',

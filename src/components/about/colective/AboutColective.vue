@@ -1,18 +1,50 @@
 <template>
+<div>
   <div class="about-colective">
     <about-colective-card
-    v-for='card in 10'
-    :key='card'
-    class="about-colective__card"></about-colective-card>
+      v-for='(teacher, index) in teachers'
+      :key='`${teacher.id}${index}`'
+      :teacher='teacher'
+      @click.native='openProfile(teacher.id)'
+      class="about-colective__card">
+    </about-colective-card>
+  </div>
+  <about-colective-modal
+    v-if='visible'
+    :id='userId'
+    @close='visible = false'/>
   </div>
 </template>
 <script>
 import AboutColectiveCard from './AboutColectiveCard.vue';
+import AboutColectiveModal from './AboutColectiveModal.vue';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'AboutColective',
   components: {
     AboutColectiveCard,
+    AboutColectiveModal,
+  },
+  data() {
+    return {
+      visible: false,
+      userId: null,
+    }
+  },
+  methods: {
+    ...mapActions('about', ['getTeachers']),
+    async openProfile(id) {
+      this.userId = id;
+      await this.$nextTick();
+      this.visible = true;
+    }
+  },
+  computed: {
+    ...mapState('about', ['teachers']),
+  },
+  created() {
+    this.getTeachers();
   }
 }
 </script>

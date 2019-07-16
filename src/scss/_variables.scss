@@ -2,6 +2,7 @@
 
 $BG-COLOR: #fafcff;
 $shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+$shadow-hovered: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 
 // Naturel
 $N0: #ffffff;
@@ -35,7 +36,7 @@ $B10: #0e1733;
 $B11: #0d111f;
 $B12: #1C1D1F;
 
-// Promary 
+// Primary 
 $PR1: #1890ff; 
 $PR2: #40a9ff;
 
@@ -46,6 +47,8 @@ $A1: #00d1ff;
 $G1: #1fd16f;
 $G2: #00b853;
 $G3: #008F40;
+$G4: #52c41a;
+$G5: #87d068;
 
 // Yellow
 $Y1: #ffab00;
@@ -56,7 +59,6 @@ $P1: #fc2390;
 // Red
 $R1: #ff2727;
 $R2: #ff5858;
-
 /* ---FONR FAMILY--- */
 $base-font: -apple-system, BlinkMacSystemFont, 'Open Sans', sans-serif;;
 

@@ -1,117 +1,190 @@
 <template>
-
-    <a-modal
-      v-model="visibled"
-      :footer="null"
-      width="80vw"
-      class="about-colective-modal"
-    >
-      <div class="about-colective-card about-colective-card--modal">
-        <img
-        src="@/assets/images/poroh.jpg"
-        alt="John"
-        class="about-colective-card__img">
-        <h1 class="about-colective-card__title">Петро Порошенко</h1>
-        <p class="about-colective-card__job">Викладач права</p>
-        <div class="about-colective-card__social">
-          <a href="#" class="about-colective-card__link"><a-icon type="twitter"/></a>
-          <a href="#" class="about-colective-card__link"><a-icon type="mail"/></a>
-          <a href="#" class="about-colective-card__link"><a-icon type="facebook"/></a>
-        </div>
+<a-modal
+  :visible="true"
+  :footer="null"
+  width="80vw"
+  class="about-colective-modal"
+  @cancel="handleCancel"
+> 
+<a-skeleton
+  :loading="loading"
+  :title="{width: '300px'}"
+  :paragraph="{rows: 12}"
+  class="about-colective-modal__skeleton"
+  active
+  avatar>
+  <div>
+    <div class='about-colective-modal__profile'>
+      <div class="about-colective-modal__avatar-wrapper">
+        <avatar
+          :username="teacher.name"
+          :size="164"
+          :src='teacher.ava'
+          class="about-colective-modal__avatar"
+          color="#fff"/>
+        <h1 class='about-colective-modal__title'>{{ teacher.name }}</h1>
+        <p class='about-colective-modal__job'>{{ teacher.company }}</p>
       </div>
-      <div class="about-colective-modal__info">
-        <div class="about-colective-modal__graduetes">
-          <h2 class="about-colective-modal__graduetes-title">Досягнення</h2>
-          <ul class="about-colective-modal__graduetes-list">
-            <li class="about-colective-modal__graduetes-item">1. Вчитель року 2016 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, ut.</li>
-            <li class="about-colective-modal__graduetes-item">2. Вчитель року 2017 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, vitae!</li>
-            <li class="about-colective-modal__graduetes-item">3. Вчитель року 2018 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, quasi.</li>
-          </ul>
-        </div>
-        <h2 class="about-colective-modal__news-title">Новини пов'язані з викладачем</h2>
-        <div class="about-colective-modal__news">
-          <div
-          class="about-colective-modal__news-card"
-          v-for="card in 10"
-          :key='card'>
-            <h2 class="about-colective-modal__news-card-title">Lorem, ipsum.</h2>
-            <p class="about-colective-modal__news-card-text">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus blanditiis, rem praesentium maiores nulla ex repellat. Error laboriosam ullam deserunt porro, ab dolorem placeat rem quos minus consequatur harum adipisci.
-            </p>
-            <a href="#" class="about-colective-modal__news-card-link">Дізнатися більше</a>
-          </div>
-        </div>
+      <div class="about-colective-modal__graduetes">
+        <h2 class="about-colective-modal__subtitle">Досягнення</h2>
+        <about-colective-timeline class='about-colective-modal__timeline'/>
       </div>
-    </a-modal>
+    </div>
+  <div class="about-colective-modal__info">
+    <h2 class="about-colective-modal__subtitle">Новини пов'язані з викладачем</h2>
+    <div class="about-colective-modal__news">
+      <about-colective-news-card
+        class='about-colective-modal__news-card'
+        v-for='(item, index) in newsList'
+        :key='`${item.id}${index}`'
+        :news='item'
+      />
+    </div>
+  </div>
+  </div>
+</a-skeleton>
+</a-modal>
 </template>
 <script>
+import AboutColectiveNewsCard from "./AboutColectiveNewsCard.vue";
+import AboutColectiveTimeline from './AboutColectiveTimeline.vue';
+import { mapState, mapActions } from "vuex";
 
 export default {
-  name: 'AboutTeacherModal',
-  props: ['visible'],
+  name: "AboutTeacherModal",
+  components: {
+    AboutColectiveNewsCard,
+    AboutColectiveTimeline,
+  },
+  props: ["visible", 'id'],
+  data() {
+    return {
+      loading: true,
+    };
+  },
+  methods: {
+    ...mapActions({
+      getNews: "news/getNews",
+      getTeacher: "about/getTeacher",
+    }),
+    handleCancel() {
+      this.$emit('close');
+    },
+  },
   computed: {
-    visibled: {
-      set(value) {
-        this.$emit('change', value);
-      },
-      get() {
-        return this.visible;
-      }
+    ...mapState({
+      news: state => state.news.news,
+      teacher: state => state.about.teacher,
+    }),
+    newsList() {
+      const data = this.news.filter((el, idx) => idx < 5);
+      return data;
     }
+  },
+  async created() {
+    await this.getNews();
+    await this.getTeacher(this.id);
+    this.loading = false;
   }
-}
+};
 </script>
 <style lang="scss">
- .about-colective-modal {
-   .ant-modal-body {
-     @include flex-row(flex-start, flex-start);
-   }
-   .ant-modal-content {
-     background-color: #F9FBFF;
-   }
-   .about-colective-card--modal {
-     margin-right: 30px;
-   }
-   &__info {
-     @include flex-col(flex-start, stretch);
-     width: 100%;
-   }
-   &__graduetes {
-     margin-bottom: 16px;
-   }
-   &__graduetes-title,
-   &__news-title {
-     @include text($H700, 500, $N12);
-     margin-bottom: 16px;
-   }
-   &__graduetes-list,
-   &__news-card {
-     background-color: $N0;
-     box-shadow: $shadow;
-     padding: 16px 24px;
-     border-radius: 4px;
-   }
-   &__graduetes-list{
-     list-style: none;
-   }
-   &__graduetes-item {
-     margin-bottom: 8px;
-     &:last-child {
-       margin-bottom: 0;
-     }
-   }
-   &__news {
-     @include flex-row(space-between, flex-start);
-     flex-wrap: wrap;
-   }
-   &__news-card {
-     flex-basis: 49%;
-      margin-bottom: 16px;
-   }
-   &__news-card-title,
-    &__news-card-text {
-     margin-bottom: 16px;
-   }
- }
+.about-colective-modal {
+  .ant-skeleton-active {
+    padding: 24px 32px;
+  }
+  .ant-skeleton-avatar  {
+    $size: 164px;
+    width: $size;
+    height: $size;
+    margin-right: 24px;
+  }
+  .ant-modal-body {
+    padding: 32px;
+  }
+  .ant-modal-content {
+    background-color: $BG-COLOR;
+  }
+  .about-colective-card--modal {
+    margin-right: 30px;
+  }
+  .about-colective-timeline {
+    padding-left: 0;
+  }
+  .ant-modal-close-x {
+    $size: 32px;
+    width: $size;
+    height: $size;
+    position: relative;
+    top: -4px !important;
+    right: 2px;
+  }
+  &__info {
+    @include flex-col(flex-start, stretch);
+    width: 100%;
+  }
+  &__profile {
+    @include flex-row(stretch, flex-start);
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    background-color: $N0;
+    border-radius: 6px;
+    box-shadow: $shadow;
+  }
+  &__avatar-wrapper {
+    padding: 24px 24px 0;
+    width: 260px;
+    border-radius: 6px;
+    margin-right: 24px;
+    text-align: center;
+    @include flex-col(flex-start, center);
+    img {
+      object-fit: cover;
+    }
+  }
+  &__avatar {
+    background-color: #87d068;
+    margin-bottom: 16px;
+    text-align: center;
+    background-size: cover !important;
+    background-position: center !important;
+  }
+  &__graduetes {
+    border-radius: 6px;
+    padding: 24px 16px 16px;
+    flex: 1 1;
+  }
+
+  &__title {
+    @include text($H700, 600, $N14);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  &__job {
+    @include text($H500, 500, $N12);
+    text-align: center;
+  }
+  &__subtitle {
+    @include text($H700, 500, $N14);
+    margin-bottom: 16px;
+  }
+  &__news-card {
+    flex: 0 0 32%;
+    margin-right: 2%;
+    &:nth-child(3n + 3) {
+      margin-right: 0;
+    }
+  }
+  &__graduetes-item {
+    margin-bottom: 8px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  &__news {
+    @include flex-row(flex-start, stretch);
+    flex-wrap: wrap;
+  }
+}
 </style>
 

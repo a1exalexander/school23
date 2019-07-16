@@ -15,7 +15,9 @@
     >
       <a-icon type="right-circle" />
     </div>
-    <div v-for='image in 10'
+    <div
+      class="about-school-now-carousel__slide"
+      v-for='image in 10'
       :key='image'>
       <img
       class="about-school-now-carousel__img"
@@ -36,6 +38,9 @@ export default {
   max-width: calc(100vw - 290px);
   padding: 22px 40px 0;
   margin-bottom: 50px;
+  &__slide {
+    height: 100%;
+  }
   .ant-carousel {
     width: 100%;
     
@@ -45,7 +50,7 @@ export default {
     line-height: 160px;
     background: #364d79;
     overflow: hidden;
-    max-height: 350px;
+    height: 450px;
   }
 
   .ant-carousel .custom-slick-arrow {
@@ -66,9 +71,10 @@ export default {
   .ant-carousel .slick-slide  h3 {
     color: #fff;
   }
-  &__img {
+  .ant-carousel .slick-slide img {
     width: 100%;
-    height: auto;
+    height: 450px;
+    object-fit: cover;
   }
 }
 </style>
