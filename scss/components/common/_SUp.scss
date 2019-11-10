@@ -1,0 +1,43 @@
+$styles: s-up;
+.#{$styles} {
+  cursor: pointer;
+  pointer-events: all;
+  @include flex-col(center, center);
+  @include transition(all);
+  border-radius: 3px;
+  background-color: transparent;
+  line-height: 1;
+  @include media($screen-desktop) {
+    &:hover {
+      .#{$styles}__button {
+        background-color: $C100;
+      }
+      .#{$styles}__text {
+        color: $C100;
+      }
+    }
+  }
+  &:active {
+    .#{$styles}__button {
+      background-color: $C500;
+    }
+    .#{$styles}__text {
+      color: $C500;
+    }
+  }
+  &__button {
+    background-color: $C300;
+    border-radius: 3px;
+    @include size(32px);
+    margin-bottom: 8px;
+    @include flex-col(center, center);
+    @include transition(all);
+  }
+  &__icon {
+    @include svg(12px, $N0);
+  }
+  &__text {
+    @include text($H20, 400, $C300);
+    @include transition(all);
+  }
+}

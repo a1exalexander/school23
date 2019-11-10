@@ -1,0 +1,60 @@
+$styles: s-navigation;
+.#{$styles} {
+  &__top-bar {
+    position: fixed;
+    @include position(0, 0, auto, 0);
+    @include z-index(navigation);
+    padding: 0 24px;
+    height: 64px;
+    @include flex-row(flex-start, center);
+    pointer-events: none;
+    border-radius: 0 0 30px 30px;
+    @include media {
+      height: auto;
+      padding: 24px 32px;
+    }
+    &.visible {
+      background-color: $N0;
+      box-shadow: $SH3;
+      @include media {
+        box-shadow: none;
+        background-color: transparent;
+      }
+    }
+    &.active {
+      @include z-index(activeMenu);
+      background-color: transparent;
+      box-shadow: none;
+      .#{$styles}__description {
+        display: none;
+      }
+    }
+  }
+  &__button {
+    pointer-events: all;
+    margin-right: 20px;
+  }
+  &__description {
+    @include flex-row(flex-start, center);
+    animation-name: shakeDelay;
+    animation-duration: 10s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+    pointer-events: none;
+  }
+  &__icon-description {
+    @include svg(11px, $N0);
+    margin-right: 4px;
+  }
+  &__description-text {
+    @include text($H300, 400, $N0);
+    position: relative;
+    bottom: 1px;
+  }
+  &__title {
+    @include text($H700, 400);
+    @include media {
+      display: none;
+    }
+  }
+}

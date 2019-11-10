@@ -1,0 +1,52 @@
+.nav-menu {
+  position: fixed;
+  @include z-index(menu);
+  background-color: $N0;
+  @include position(8px, 8px, 8px, 8px);
+  border-radius: 2px;
+  padding: 72px 30px;
+  @include media {
+    @include position(8px, auto, 8px, 8px);
+    width: 600px;
+  }
+  &__inner {
+    height: 100%;
+    @include flex-col(space-between, stretch);
+  }
+  &__logout {
+    position: absolute;
+    top: 16px;
+    right: 30px;
+  }
+  &__layer {
+    position: fixed;
+    @include z-index(menuLayer);
+    width: 100vw;
+    height: 100vh;
+    @include position(0);
+    background-color: rgba($N900, 0.6);
+  }
+  &__list {
+    list-style: none;
+    @include flex-row;
+    flex-wrap: wrap;
+  }
+  &__item {
+    margin-right: 24px;
+    margin-bottom: 24px;
+    &:nth-of-type(2n + 2) {
+      margin-right: 0;
+    }
+    @include media {
+      margin-right: 32px;
+      margin-bottom: 32px;
+      &:nth-of-type(2n + 2) {
+        margin-right: 32px;
+      }
+      &:nth-of-type(3n + 3) {
+        margin-right: 0;
+      }
+    }
+    
+  }
+}

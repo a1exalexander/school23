@@ -1,0 +1,262 @@
+@-webkit-keyframes spinnerRotateAnimation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinnerRotateAnimation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+$names: "primary", "secondary", "transparent", "warning", "danger", "link", "white";
+$bg-default: (
+  "primary": $B300,
+  "secondary": $N600,
+  "transparent": transparent,
+  "warning": $Y300,
+  "danger": $R300,
+  'link': transparent,
+  'white': $N0,
+);
+$color: (
+  "primary": $N0,
+  "secondary": $N0,
+  "transparent": $N100,
+  "warning": $N900,
+  "danger": $N0,
+  'link': $B300,
+  'white': $N900,
+);
+$bg-hover: (
+  "primary": $B300,
+  "secondary": $N600,
+  "transparent": $N100,
+  "warning": $Y300,
+  "danger": $R300,
+  'link': transparent,
+  'white': $N0,
+);
+$color-hover: (
+  "primary": $N0,
+  "secondary": $N0,
+  "transparent": $N800,
+  "warning": $N900,
+  "danger": $N0,
+  'link': $B200,
+  'white': $N800,
+);
+$bg-active: (
+  "primary": $B300,
+  "secondary": $N600,
+  "transparent": $N0,
+  "warning": $Y300,
+  "danger": $R300,
+  'link': transparent,
+  'white': $N0,
+);
+$color-active: (
+  'primary': $N0,
+  'secondary': $N0,
+  "transparent": $N200,
+  'warning': $N0,
+  'danger': $N0,
+  'link': $B500,
+  'white': $N900,
+);
+$bg-disable: (
+  "primary": $N50,
+  "secondary": $N50,
+  "transparent": transparent,
+  "warning": $N50,
+  "danger": $N50,
+  'link': transparent,
+  'white': $N50,
+);
+$color-disable: (
+  "primary": $N200,
+  "secondary": $N200,
+  "transparent": $N200,
+  "warning": $N200,
+  "danger": $N200,
+  'link': $N60,
+  'white': $N200,
+);
+$border-color: (
+  "primary": $B300,
+  "secondary": $N600,
+  "transparent": $N100,
+  "warning": $Y300,
+  "danger": $R300,
+  'link': transparent,
+  "white": $N0,
+);
+$border-color-disabled: (
+  "primary": $N50,
+  "secondary": $N50,
+  "transparent": $N100,
+  "warning": $N50,
+  "danger": $N50,
+  'link': transparent,
+  "white": $N50,
+);
+$loading: (
+  "primary": $N0,
+  "secondary": $N0,
+  "transparent": $N900,
+  "warning": $N900,
+  "danger": $N0,
+  "white": $N900,
+);
+
+$styles: s-button;
+.#{$styles} {
+  cursor: pointer;
+  pointer-events: all;
+  position: relative;
+  @include flex-row(center, center);
+  display: inline-flex;
+  @include transition(
+    color,
+    fill,
+    border-color,
+    background-color,
+    opacity,
+    transform
+  );
+  border-radius: 3px;
+  padding: 9px 18px;
+  width: 100%;
+  border: 1px solid transparent;
+  font-size: $H200;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: $SH1;
+  svg:not(.#{$styles}__loading) {
+    @include transition(stroke, color, fill);
+    @include size(11px);
+  }
+  &.small {
+    padding: 4px 12px;
+    svg:not(.#{$styles}__loading) {
+      @include transition(color, fill);
+      @include size(9px);
+    }
+  }
+  @include media {
+    width: fit-content;
+    &.fluid {
+      width: 100%;
+    }
+  }
+  &__text {
+    &.icon-right {
+      margin-right: 6px;
+    }
+    &.icon-left {
+      margin-left: 6px;
+    }
+  }
+  &__loading {
+    display: none;
+    position: absolute;
+    @include svg(22px);
+    fill: none;
+    stroke-dasharray: 42px;
+    stroke-dashoffset: 44px;
+    stroke-width: 2px;
+    z-index: 1;
+    stroke-linecap: round;
+    animation: 0.86s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite
+      spinnerRotateAnimation;
+  }
+  &__wrapper {
+    pointer-events: none;
+    display: inline-flex;
+  }
+  &.loading {
+    color: transparent;
+    cursor: not-allowed;
+    pointer-events: none;
+    span,
+    p,
+    svg,
+    div,
+    a,
+    i,
+    img {
+      &::selection,
+      &::-moz-selection {
+        visibility: hidden;
+        opacity: 0;
+      }
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+  &.link {
+    font-size: $H300;
+    padding: 0;
+    width: fit-content;
+    min-height: auto;
+    box-shadow: none;
+    border: none;
+    &.fluid {
+      width: fit-content;
+    }
+    .#{$styles}__loading {
+      @include size(13px);
+    }
+  }
+  @each $name in $names {
+    &.#{$name} {
+      background-color: map-get($bg-default, $name);
+      color: map-get($color, $name);
+      border-color: map-get($border-color, $name);
+      .#{$styles}__loading {
+        stroke: map-get($loading, $name);
+      }
+      svg:not(.#{$styles}__loading) {
+        fill: map-get($color, $name);
+      }
+    }
+    @include media($screen-desktop) {
+      &.#{$name}:hover {
+        background-color: lighten(map-get($bg-hover, $name), 5%);
+        color: map-get($color-hover, $name);
+        border-color: lighten(map-get($border-color, $name), 5%);
+        svg:not(.#{$styles}__loading) {
+          fill: map-get($color-hover, $name);
+        }
+      }
+    }
+    &.#{$name}:active {
+      background-color: darken(map-get($bg-active, $name), 5%);
+      color: map-get($color-active, $name);
+      border-color: darken(map-get($border-color, $name), 5%);
+      box-shadow: 0 2px 4px 0 rgba($N900, 0.1);
+      svg:not(.#{$styles}__loading) {
+        fill: map-get($color-active, $name);
+      }
+    }
+    &.#{$name}:disabled {
+      background-color: map-get($bg-disable, $name);
+      color: map-get($color-disable, $name);
+      border-color: map-get($border-color-disabled, $name);
+      box-shadow: none;
+      cursor: not-allowed;
+      svg:not(.#{$styles}__loading) {
+        fill: map-get($color-disable, $name);
+      }
+    }
+    &.#{$name}.loading {
+      .#{$styles}__loading {
+        visibility: visible;
+        opacity: 1;
+        display: block;
+      }
+    }
+  }
+}

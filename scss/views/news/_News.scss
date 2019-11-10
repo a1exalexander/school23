@@ -1,0 +1,99 @@
+$style: news;
+.#{$style} {
+  min-height: 100vh;
+  background-color: $N0;
+  padding: 42px;
+  line-height: 1;
+  padding: 32px 24px;
+  @include media {
+    padding: 36px 8%;
+  }
+  &__title {
+    padding-left: 12px;
+    @include text($H700, 400);
+    margin-right: 24px;
+  }
+  &__header {
+    @include flex-row(flex-start, flex-end);
+    margin-bottom: 32px;
+  }
+  &__grid {
+    @include flex-row(flex-start, stretch);
+    flex-wrap: wrap; 
+  }
+  &__card {
+    margin-bottom: 24px;
+    height: 320px;
+    flex: 1 1 100%;
+    @include media($screen-desktop) {
+      margin: 12px 12px 12px 12px;
+      flex: 1 1 calc(50% - 24px);
+      
+      &:nth-child(2n + 3) {
+        flex: 1 1 calc(40% - 24px);
+      }
+      &:nth-child(2n + 4) {
+        flex: 1 1 calc(60% - 24px);
+      }
+      &:nth-child(4n + 4) {
+        flex: 1 1 calc(40% - 24px);
+      }
+      &:nth-child(4n + 5) {
+        flex: 1 1 calc(60% - 24px);
+      }
+      &:nth-child(4) {
+        flex: 1 1 calc(40% - 24px);
+      }
+      &:nth-child(5) {
+        flex: 1 1 calc(60% - 24px);
+      }
+      &:nth-child(7n + 7) {
+        flex: 1 1 calc(40% - 24px);
+      }
+      &:first-child {
+        flex: 1 1 calc(100% - 24px);
+      }
+    }
+    @include media($screen-hd) {
+      flex: 1 1 calc(25% - 24px);
+      &:nth-child(even), &:nth-child(odd) {
+        flex: 1 1 calc(25% - 24px);
+      }
+      &:first-child {
+        flex: 1 1 calc(100% - 24px);
+      }
+      &:nth-child(3n + 3) {
+        flex: 1 1 calc(38% - 24px);
+      }
+      &:nth-child(2n + 2) {
+        flex: 1 1 calc(25% - 24px);
+      }
+      &:nth-child(7n + 7) {
+        flex: 1 1 calc(46% - 24px);
+      }
+      &:nth-child(6n + 6) {
+        flex: 1 1 calc(46% - 24px);
+      }
+    }
+  }
+  &__input-wrapper {
+    @include flex-row(flex-start, center);
+  }
+  &__input-icon {
+    @include svg(16px, $N100);
+    margin-right: 6px;
+    order: -1;
+  }
+  &__input {
+    border: none;
+    outline: none;
+    @include text($H600, 300);
+    @include transition(all);
+    &::placeholder {
+      @include text($H600, 300, $N60)
+    }
+    &:focus + .#{$style}__input-icon {
+      fill: $N900;
+    }
+  }
+}

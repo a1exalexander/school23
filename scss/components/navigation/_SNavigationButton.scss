@@ -1,0 +1,73 @@
+$styles: s-navigation-button;
+.#{$styles} {
+  border-radius: 3px;
+  &.dark {
+    background-color: $N0;
+  }
+  &.active {
+    .#{$styles}__dot:after {
+      background-color: $B500;
+    }
+  }
+  &__button {
+    @include size(36px);
+    position: relative;
+    @include flex-row(space-between);
+    flex-wrap: wrap;
+    cursor: pointer;
+    animation-name: rotate360;
+    animation-duration: 10s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    @include media {
+      @include transition(transform);
+      &:hover {
+        animation: none;
+        @include transition(transform);
+        transform: rotate(0);
+        transform: scale(1.05);
+        .#{$styles}__dot:after {
+          animation: none;
+          @include transition(transform);
+          transform: scale3d(1, 1, 1);
+        }
+      }
+    }
+    &:active {
+      transform: scale(0.9);
+      .#{$styles}__dot:after {
+        transform: scale3d(1.1, 1.1, 1.1);
+      }
+    }
+  }
+  &__dot {
+    @include size(18px);
+    flex-shrink: 0;
+    position: relative;
+    @include flex-row(center, center);
+    @include transition(all);
+    &:after {
+      content: '';
+      @include size(9px, true);
+      flex-shrink: 0;
+      background-color: $N0;
+      @include transition(background-color, translate);
+      animation-name: pulseDot;
+      animation-duration: 5s;
+      animation-timing-function: ease;
+      animation-iteration-count: infinite;
+    }
+
+    $delays: 0.8s, 0.4s, 0.16s, 0.12s;
+
+    @each $delay in $delays {
+      $i: index($delays, $delay);
+      &:nth-child(#{$i}):after {
+        animation-delay: $delay;
+      }
+    }
+  }
+  &.dark &__dot:after{
+    background-color: $N600;
+  }
+}

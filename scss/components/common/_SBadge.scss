@@ -1,0 +1,52 @@
+$names: "blue", "green", "cyan", "red", "yellow";
+$bg-default: (
+  "blue": $B50,
+  "green": $G50,
+  "cyan": $C50,
+  "red": $R50,
+  "yellow": $Y50
+);
+$color: (
+  "blue": $B400,
+  "green": $G300,
+  "cyan": $C300,
+  "red": $R300,
+  "yellow": $Y300
+);
+
+$styles: s-badge;
+.#{$styles} {
+  background-color: $B50;
+  max-width: fit-content;
+  max-height: 20px;
+  border-radius: 2px;
+  padding: 3px 7px 2px;
+  @include flex-row(center, center);
+  display: inline-flex;
+  box-shadow: $SH2;
+  cursor: default;
+  @include transition(box-shadow, background-color);
+  transition-duration: 0.5s;
+  pointer-events: all;
+  &__text {
+    font-size: $H9;
+    font-weight: 500;
+    pointer-events: none;
+  }
+  @each $name in $names {
+    &.#{$name} {
+      &:active {
+        background-color: darken(map-get($bg-default, $name), 2%);
+        box-shadow: 0 0 6px 0 map-get($bg-default, $name);
+      }
+      background-color: map-get($bg-default, $name);
+      color: map-get($color, $name);
+      svg {
+        @include size(10px);
+        fill: map-get($color, $name);
+        margin-right: 6px;
+        pointer-events: none;
+      }
+    }
+  }
+}

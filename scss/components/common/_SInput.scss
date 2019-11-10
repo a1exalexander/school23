@@ -1,0 +1,38 @@
+$styles: s-input;
+
+.#{$styles} {
+  display: block;
+  line-height: 1;
+  &__inner {
+    position: relative;
+    @include flex-row(stretch, center);
+  }
+  &__input {
+    @extend %input;
+    &.error {
+      border-color: $R300;
+      box-shadow: 0 0 4px 0 rgba($R300, 0.4);
+    }
+  }
+  &__button {
+    position: absolute;
+    border-radius: 3px;
+    background-color: transparent;
+    cursor: pointer;
+    @include size(22px);
+    right: 8px;
+    svg {
+      @include svg(100%, $C300);
+    }
+  }
+  &__error {
+    @include text($H100, 400, $R300);
+    display: inline-block;
+    margin-top: 6px;
+  }
+  &__label {
+    @include text($H100, 500, $N900);
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+}

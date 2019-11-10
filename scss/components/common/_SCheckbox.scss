@@ -1,0 +1,61 @@
+$styles: s-checkbox;
+.#{$styles} {
+  position: relative;
+  @include flex-row(flex-start, center);
+  z-index: 1;
+  max-width: fit-content;
+  &:hover {
+    .#{$styles}__cell {
+      border-color: $C300;
+    }
+  }
+  &__input {
+    position: absolute;
+    left: 2px;
+    top: 6px;
+    opacity: 0;
+    z-index: -1;
+    visibility: hidden;
+    &:checked + .#{$styles}__inner  {
+      .#{$styles}__cell {
+        background-color: $C50;
+        border-color: $C300;
+      }
+      .#{$styles}__image {
+        opacity: 1;
+      }
+    }
+    
+    
+  }
+  &:focus {
+    outline: none;
+    .#{$styles}__cell {
+      border-color: $C300;
+    }
+  }
+  &__inner {
+    @include flex-row(flex-start, center);
+    
+  }
+  &__cell {
+    @include size(16px);
+    @include flex-row(center, center);
+    background-color: transparent;
+    border-radius: 3px;
+    @include transition(background-color, border-color);
+    margin-right: 8px;
+    cursor: pointer;
+    border: 1px solid $N40;
+    
+  }
+  &__image {
+    opacity: 0;
+    @include svg(8px, $C300);
+  }
+  &__text {
+    line-height: 1;
+    @include text($H20, 400, $N500);
+    cursor: pointer;
+  }
+}

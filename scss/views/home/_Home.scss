@@ -1,0 +1,76 @@
+$sizeX: 48px;
+$sizeY: 38px;
+$top: 42px;
+$border-width: 1px;
+$border-radius: 4px;
+
+.home {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 68px 24px;
+  @include media {
+    padding: 32px;
+  }
+  &__layer {
+    @extend %layer;
+    @include z-index(wrapper);
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  &__video {
+    position: absolute;
+    @include position;
+  }
+  
+  &__banner {
+    position: relative;
+    @include media {
+      position: absolute;
+      top: 80px;
+      left: 120px;
+    }
+    @include media($screen-desktop) {
+      top: 60px;
+      // transform: translateY(-50%);
+      left: 60px;
+    }
+  }
+  &__line {
+    display: none;
+    @include media($screen-desktop) {
+      display: block;
+      position: absolute;
+      @include z-index(line);
+      border-radius: $border-radius;
+      @include position($top, $sizeX, $sizeY, $sizeX);
+      border: $border-width solid white;
+      border-top-color: transparent;
+      border-left-color: transparent;
+      &:after, &:before {
+        content: '';
+        border: $border-width solid white;
+        display: block;
+      } 
+      &:after {
+        border-top-color: transparent;
+        border-right-color: transparent;
+        @include size(90%);
+        position: relative;
+        top: calc(10% - #{$border-width});
+        left: -$border-width;
+        border-radius: 0 0 0 #{$border-radius};
+      }
+      &:before {
+        border-left-color: transparent;
+        border-bottom-color: transparent;
+        width: 80%;
+        height: 40px;
+        position: absolute;
+        right: -$border-width;
+        top: -$border-width;
+        border-radius: 0 #{$border-radius} 0 0;
+      }
+    }
+    
+  }
+}

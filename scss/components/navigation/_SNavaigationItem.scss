@@ -1,0 +1,40 @@
+.nav-item {
+  flex: 1 1 calc(50% - 24px);
+  @include media {
+    flex: 0 0 auto;
+  }
+  &__link {
+    @include flex-col(center, center);
+    height: 100px;
+    background-color: $N10;
+    border-radius: 2px;
+    padding: 6px 12px;
+    position: relative;
+    box-shadow: $SH3;
+    @include transition;
+    @include media {
+      width: 158px;
+    }
+    @include media($screen-desktop) {
+      &:hover {
+        box-shadow: 0 4px 4px -4px rgba(0,0,0,0.16);
+        transform: translate3d(0, 1px, 0);
+      }
+    }
+    &:active {
+      box-shadow: 0 2px 2px -4px rgba(0,0,0,0.12);
+      transform: translate3d(0, 2px, 0);
+    }
+  }
+  &__icon-wrapper {
+    @include size(36px);
+    margin-bottom: 6px;
+    svg {
+      @include svg(100%, $N900);
+    }
+  }
+  &__text {
+    text-align: center;
+    @include text($H400, 500, $N900);
+  }
+}

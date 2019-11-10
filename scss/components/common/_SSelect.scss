@@ -1,0 +1,98 @@
+$styles: s-select;
+.#{$styles} {
+  position: relative;
+  &__origin-select {
+    @extend %input;
+    padding: 0 18px 0 12px;
+    &:focus + .#{$styles}__icon-wrapper .#{$styles}__icon {
+      transform: rotateX(-180deg);
+    }
+  }
+  &__placeholder {
+    position: relative;
+    @extend %input;
+    @include z-index(dropdown-placeholder);
+    padding: 0 18px 0 12px;
+    cursor: pointer;
+    &.active {
+      pointer-events: none;
+    }
+  }
+  &__wrapper {
+    position: relative;
+    @include flex-row(stretch, center);
+    &--mobile {
+      @include media {
+        display: none;
+      }
+    }
+    &--desktop {
+      display: none;
+      @include media {
+        display: flex;
+      }
+    }
+  }
+  &__icon-wrapper {
+    @include size(16px);
+    @include flex-col(center, center);
+    position: absolute;
+    z-index: 1;
+    background-color: $N0;
+    right: 2px;
+    padding-right: 12px;
+    pointer-events: none;
+  }
+  &__icon {
+    @include svg(9px, $C300);
+    @include transition(all);
+    &.active {
+      transform: rotateX(-180deg);
+    }
+  }
+  &__dropdown {
+    @extend %dropdown;
+  }
+  &__list {
+    max-height: 110px;
+    overflow-y: auto;
+  }
+  &__option {
+    padding: 5px 16px;
+    @include text($H20, 300, $N300);
+    @include transition(all);
+    cursor: pointer;
+    &.active {
+      color: $N50;
+    }
+    @include media {
+      &:hover {
+        color: $N900;
+        background-color: $C50;
+      }
+      &.active:hover {
+        color: $N50;
+        background-color: $N0;
+      }
+    }
+  }
+  &__search {
+    padding: 0 0 6px 0;
+    margin: 0 0 10px 16px;
+    border-bottom: 1px solid $N40;
+    position: relative;
+    @include flex-row(stretch, center);
+  }
+  &__search-input {
+    width: 100%;
+    @include text($H20, 300, $N900);
+    outline: none;
+    border: none;
+    padding: 0 18px;
+  }
+  &__search-icon {
+    position: absolute;
+    @include svg(10px, $C300);
+    left: 0;
+  }
+}

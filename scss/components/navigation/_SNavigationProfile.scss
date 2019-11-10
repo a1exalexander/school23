@@ -1,0 +1,45 @@
+.nav-profile-card {
+  border-radius: 2px;
+  background-color: $B500;
+  box-shadow: 0 4px 12px 0 rgba($N900, 0.6);
+  padding: 18px 22px;
+  @include flex-row(flex-start, center);
+  cursor: pointer;
+  @include transition(all);
+  @include media {
+    &:hover {
+      background-color: lighten($B500, 1%);
+      box-shadow: 0 4px 12px 0 rgba($N900, 0.4);
+    }
+  }
+  &:active {
+    background-color: darken($B500, 1%);
+    box-shadow: 0 4px 12px 0 rgba($N900, 0.2);
+  }
+  &__image-wrapper {
+    box-shadow: 0 0 12px 0 rgba($N900, 0.4);
+    @include size(64px, true);
+    margin-right: 24px;
+    background-color: transparent;
+  }
+  &__image {
+    @include size(100%, true);
+    object-fit: cover;
+  }
+  &__name-box {
+    flex: 1 1;
+  }
+  &__name {
+    @include text($H700, 500, $N0);
+  }
+  &__job {
+    @include text($H400, 500, $N0);
+  }
+  &__class-room {
+    background-color: $N0;
+    padding: 12px;
+    border-radius: 2px;
+    @include text($H800, 400, $N900);
+    box-shadow: 0 0 12px 0 $N900;
+  }
+}

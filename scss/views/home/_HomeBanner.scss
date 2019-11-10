@@ -1,0 +1,16 @@
+.home-banner {
+  @include flex-row(flex-start, center);
+  &__title {
+    @include text($H800, 500, $N0);
+    &:last-child {
+      margin: 0;
+    }
+    @include media {
+      font-size: $H900;
+    }
+  }
+  &__logo {
+    width: 70px;
+    margin-right: 24px;
+  }
+}

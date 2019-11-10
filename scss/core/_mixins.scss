@@ -1,0 +1,158 @@
+@mixin flex-row($justify: flex-start, $align: flex-start) {
+  display: flex;
+  flex-direction: row;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin flex-col($justify: flex-start, $align: flex-start) {
+  display: flex;
+  flex-direction: column;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin text($size, $weight: 400, $color: $H900) {
+  font: {
+    size: $size;
+    weight: $weight;
+  }
+  color: $color;
+  @content;
+}
+
+@mixin size($size, $round: false) {
+  width: $size;
+  height: $size;
+  flex-shrink: 0;
+  @if $round {
+    border-radius: 50%;
+  }
+  @content;
+}
+
+@mixin svg($size: 16px, $color: black) {
+  width: $size;
+  height: $size;
+  fill: $color;
+  transition-property: fill, opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  flex-shrink: 0;
+  @content;
+}
+
+@mixin position($top: 0, $right: 0, $bottom: 0, $left: 0) {
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin transition($types...) {
+  transition-property: $types;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  @content;
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+
+  &:-moz-placeholder {
+    @content;
+  }
+
+  &::-moz-placeholder {
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+
+$z-index: (
+  immortal : 100,
+  activeMenu : 26,
+  menu : 25,
+  menuLayer : 24,
+  popup2 : 20,
+  popup : 15,
+  drawer : 12,
+  navigation : 10,
+  popover : 5,
+  dropdown : 3,
+  line : 2,
+  wrapper : 1,
+  default : 0,
+  under : -1,
+);
+
+@mixin z-index($key: default) {
+  z-index: z-index($key);
+}
+
+@function z-index($key) {
+  @return map-get($z-index, $key);
+}
+
+/* Screens */
+$screen-iphone-6: 375px;
+$screen-iphone-plus: 414px;
+$screen-tablet-small: 480px;
+$screen-tablet: 768px;
+$screen-pc: 800px;
+$screen-tablet-large: 860px;
+$screen-netbook: 960px;
+$screen-desktop: 1024px;
+$screen-desktop-large: 1280px;
+$screen-hd: 1366px;
+$screen-fullhd: 1440px;
+$screen-retina: 1660px;
+
+@mixin media($screen: $screen-pc) {
+  @media screen and (min-width: $screen) {
+    @content;
+  }
+}
+
+@mixin AnimationBG($type) {
+  @-webkit-keyframes AnimationBG {
+    0%{background-position:0% 81%}
+    50%{background-position:100% 20%}
+    100%{background-position:0% 81%}
+  }
+  @-moz-keyframes AnimationBG {
+    0%{background-position:0% 81%}
+    50%{background-position:100% 20%}
+    100%{background-position:0% 81%}
+  }
+  @keyframes AnimationBG {
+    0%{background-position:0% 81%}
+    50%{background-position:100% 20%}
+    100%{background-position:0% 81%}
+  }
+  @if $type == before {
+    background: linear-gradient(271deg, $P200, $P300);
+  } @else if $type == class {
+    background: linear-gradient(271deg, $G200, $G300);
+  } @else if $type == break {
+    background: linear-gradient(271deg, $Y200, $Y300);
+  } @else {
+    background: linear-gradient(271deg, $N200, $N300);
+  }
+  background-size: 400% 400%;
+  -webkit-animation: AnimationBG 5s ease infinite;
+  -moz-animation: AnimationBG 5s ease infinite;
+  animation: AnimationBG 5s ease infinite;
+}
+
+@mixin is-desktop($display: block) {
+  @include media {
+    display: $display;
+  }
+}

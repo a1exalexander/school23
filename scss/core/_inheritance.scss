@@ -1,0 +1,45 @@
+%layer {
+  position: absolute;
+  @include position;
+}
+
+%input {
+  width: 100%;
+  border: 1px solid $N40;
+  border-radius: 3px;
+  height: 32px;
+  padding: 0 12px;
+  outline: none;
+  box-shadow: none;
+  @include text($H200, 400, $N900);
+  @include transition(all);
+  caret-color: $N300;
+  @include media {
+    &:hover:not(:focus) {
+      border-color: $C75;
+    }
+    &.error:hover:not(:focus) {
+      border-color: $R200;
+      box-shadow: 0 0 4px 0 rgba($R300, 0.3);
+    }
+  }
+  &:focus:not(.error) {
+    border-color: $C600;
+    box-shadow: 0 0 2px 2px rgba($C75, 0.6);
+  }
+}
+
+%dropdown {
+  position: absolute;
+  @include z-index(dropdown);
+  top: 100%;
+  right: 0;
+  left: 0;
+  background-color: $N0;
+  border-radius: 0 0 3px 3px;
+  border: 1px solid $N40;
+  box-shadow: $SH3;
+  padding: 12px 16px 12px 0;
+  @include text($H200, 300, $N300);
+  line-height: 1;
+}
