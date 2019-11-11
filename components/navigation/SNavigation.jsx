@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SNavigationButton from './components/SNavigationButton';
 import IconArrowLeft from '../common/icons/IconArrowLeft';
 import SNavigationMenu from './SNavigationMenu';
@@ -17,10 +17,16 @@ const SNavigation = () => {
     switch (route) {
       case '/news':
         return title('Шкільні новини');
+      case '/news/[nid]':
+        return title('Шкільні новини');
       default:
         return null;
     }
   }
+
+  useEffect(() => {
+    setShowMenu(false)
+  }, [route])
 
   return (
     <nav className="s-navigation">

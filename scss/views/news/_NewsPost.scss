@@ -1,0 +1,28 @@
+$style: news-post;
+.#{$style} {
+  @extend %container;
+  &__header {
+    margin-bottom: 32px;
+    @include flex-row(flex-start, flex-end);
+  }
+  &__info {
+    @include flex-row(flex-start, baseline);
+  }
+  &__title {
+    @include media {
+      display: block;
+      @include text($H700, 400);
+      margin-right: 24px;
+    }
+  }
+  &__title {
+    @include text($H700, 400);
+  }
+  &__description {
+    @include text($H200, 400);
+    margin-right: 24px;
+  }
+  &__button-back {
+    align-self: flex-end;
+  }
+}

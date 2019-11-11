@@ -1,6 +1,5 @@
 import React from 'react';
 import { Page } from '../components';
-import '../scss/styles.scss';
 import SVideo from '../components/common/media/SVideo';
 import HomeBanner from '../components/views/home/HomeBanner';
 

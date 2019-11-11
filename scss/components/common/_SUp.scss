@@ -7,26 +7,38 @@ $styles: s-up;
   border-radius: 3px;
   background-color: transparent;
   line-height: 1;
+  position: fixed;
+  right: -100px;
+  bottom: 80px;
+  transition: right 0.5s;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 10px;
+  outline: none;
+  border: none;
+  &__transition-up {
+    right: 20px;
+  }
   @include media($screen-desktop) {
     &:hover {
       .#{$styles}__button {
-        background-color: $C100;
+        background-color: $N500;
       }
       .#{$styles}__text {
-        color: $C100;
+        color: $N500;
       }
     }
   }
   &:active {
     .#{$styles}__button {
-      background-color: $C500;
+      background-color: $N700;
     }
     .#{$styles}__text {
-      color: $C500;
+      color: $N700;
     }
   }
   &__button {
-    background-color: $C300;
+    background-color: $N600;
     border-radius: 3px;
     @include size(32px);
     margin-bottom: 8px;
@@ -37,7 +49,7 @@ $styles: s-up;
     @include svg(12px, $N0);
   }
   &__text {
-    @include text($H20, 400, $C300);
+    @include text($H200, 500, $N600);
     @include transition(all);
   }
 }

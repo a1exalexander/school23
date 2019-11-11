@@ -3,6 +3,14 @@
   @include position;
 }
 
+%container {
+  min-height: 100vh;
+  padding: 82px 24px;
+  @include media {
+    padding: 36px 8%;
+  }
+}
+
 %input {
   width: 100%;
   border: 1px solid $N40;

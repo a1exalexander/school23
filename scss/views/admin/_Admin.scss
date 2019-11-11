@@ -1,0 +1,4 @@
+$style: admin;
+.#{$style} {
+  @extend %container;
+}

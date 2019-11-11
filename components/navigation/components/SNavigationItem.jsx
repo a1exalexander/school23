@@ -1,13 +1,16 @@
 import React from 'react';
+import Link from 'next/link';
 import classNames from 'classnames';
 
-const SNavigationItem = ({ className, children, label }) => {
+const SNavigationItem = ({ href = '/', className, children, label }) => {
   return (
     <li className={classNames('nav-item', className)}>
-      <a href="#" className="nav-item__link">
-        <div className="nav-item__icon-wrapper">{children}</div>
-        <span className="nav-item__text">{label}</span>
-      </a>
+      <Link href={href}>
+        <a className="nav-item__link">
+          <div className="nav-item__icon-wrapper">{children}</div>
+          <span className="nav-item__text">{label}</span>
+        </a>
+      </Link>
     </li>
   );
 };

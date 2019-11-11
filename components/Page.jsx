@@ -1,13 +1,14 @@
 import React from "react";
 import Meta from "./Meta";
-import SNavigation from './navigation/SNavigation';
+import '../scss/styles.scss';
+// import SNavigation from './navigation/SNavigation';
 
 const Page = ({ children, title }) => {
 
   return (
     <>
       <Meta title={title}/>
-      <SNavigation/>
+      {/* <SNavigation/> */}
       { children }
     </>
   );

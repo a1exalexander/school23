@@ -4,6 +4,7 @@ import { IconRadio, IconSchool, IconMail, IconBooksApple, IconBooks, IconLaws } 
 import SNavigationItem from './components/SNavigationItem';
 import SNavigationProfile from './components/SNavigationProfile';
 import SNavigationInfo from './components/SNavigationInfo';
+import { routes } from '../../constants';
 
 const SNavigationMenu = ({ inProp = false, onClose }) => {
 
@@ -16,10 +17,10 @@ const SNavigationMenu = ({ inProp = false, onClose }) => {
             <div>
               <SNavigationInfo />
               <ul className="nav-menu__list">
-                <SNavigationItem label="Новини" className="nav-menu__item">
+                <SNavigationItem href={routes.NEWS} label="Новини" className="nav-menu__item">
                   <IconRadio />
                 </SNavigationItem>
-                <SNavigationItem label="Про школу" className="nav-menu__item">
+                <SNavigationItem href={routes.ABOUT} label="Про школу" className="nav-menu__item">
                   <IconSchool />
                 </SNavigationItem>
                 <SNavigationItem label="Учительська" className="nav-menu__item">

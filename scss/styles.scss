@@ -9,7 +9,8 @@
 
 // Components
 @import './components/SVideo';
-@import './components/SButton';
+@import './components/common/SButton';
+@import './components/common/SUp';
 @import './components/common/SInput';
 
 // Navigation
@@ -27,3 +28,8 @@
 // News
 @import './views/news/News';
 @import './views/news/NewsCard';
+@import './views/news/NewsPost';
+
+// Admin
+@import './views/admin/Admin';
+@import './views/admin/AdminPost';

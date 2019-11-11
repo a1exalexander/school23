@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 import PropTypes from "prop-types";
 import transitionClasses from './transitionClasses';
 
-const NTransition = ({ appear = true, inProp, children, timeout = 200, name = 'fade' }) => {
+const STransition = ({ appear = true, inProp, children, timeout = 200, name = 'fade' }) => {
 
   return (
     <CSSTransition
@@ -18,7 +18,7 @@ const NTransition = ({ appear = true, inProp, children, timeout = 200, name = 'f
   );
 };
 
-NTransition.propTypes = {
+STransition.propTypes = {
   inProp: PropTypes.bool.isRequired,
   name: PropTypes.string,
   appear: PropTypes.bool,
@@ -29,4 +29,4 @@ NTransition.propTypes = {
   ]),
 }
 
-export default NTransition;
+export default STransition;

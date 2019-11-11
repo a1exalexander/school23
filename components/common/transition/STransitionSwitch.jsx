@@ -3,7 +3,7 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import PropTypes from "prop-types";
 import transitionClasses from './transitionClasses';
 
-const NTransitionSwitch = ({ appear = false, keyProp, timeout = 200, mode = 'out-in', children, name = 'fade' }) => {
+const STransitionSwitch = ({ appear = true, keyProp, timeout = 200, mode = 'out-in', children, name = 'fade' }) => {
 
   return (
     <SwitchTransition mode={mode}>
@@ -20,7 +20,7 @@ const NTransitionSwitch = ({ appear = false, keyProp, timeout = 200, mode = 'out
   );
 };
 
-NTransitionSwitch.propTypes = {
+STransitionSwitch.propTypes = {
   name: PropTypes.string,
   mode: PropTypes.string,
   keyProp: PropTypes.oneOfType([
@@ -32,4 +32,4 @@ NTransitionSwitch.propTypes = {
   timeout: PropTypes.number,
 }
 
-export default NTransitionSwitch;
+export default STransitionSwitch;
