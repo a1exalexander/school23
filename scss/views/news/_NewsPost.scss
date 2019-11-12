@@ -2,27 +2,45 @@ $style: news-post;
 .#{$style} {
   @extend %container;
   &__header {
-    margin-bottom: 32px;
-    @include flex-row(flex-start, flex-end);
+    line-height: 1;
+    margin-bottom: 24px;
   }
   &__info {
     @include flex-row(flex-start, baseline);
+
   }
   &__title {
+    display: none;
     @include media {
-      display: block;
+      display: inline-block;
       @include text($H700, 400);
       margin-right: 24px;
     }
   }
   &__title {
-    @include text($H700, 400);
-  }
-  &__description {
-    @include text($H200, 400);
+    @include text($H800, 400);
     margin-right: 24px;
   }
+  &__description {
+    @include text($H400, 400);
+    @include media {
+      font-size: $H200;
+    }
+  }
   &__button-back {
-    align-self: flex-end;
+    margin-bottom: 24px;
+  }
+  &__container {
+    margin-bottom: 32px;
+    @include media {
+      margin-bottom: 0;
+    }
+  }
+  &__bottom-bar {
+    position: fixed;
+    @include position(auto, 6px, 12px, 6px);
+    @include media {
+      display: none;
+    }
   }
 }

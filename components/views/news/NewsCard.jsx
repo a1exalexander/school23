@@ -17,7 +17,7 @@ const NewsCard = ({ className, idx }) => {
         <p className="news-card__text is-mobile">{ trancate(text, idx ? 180 : 200) }</p>
         <p className="news-card__text is-desktop">{ trancate(text, idx ? 200 : 400) }</p>
       </div>
-      <div className="news-card__button-wrapper">
+      <div className="news-card__button-wrapper is-desktop">
         <SButton type={idx % 2 ? 'secondary' : 'white'} className='news-card__button'>Переглянути</SButton>
       </div>
     </div>

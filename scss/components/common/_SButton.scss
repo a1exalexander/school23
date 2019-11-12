@@ -9,104 +9,104 @@
   }
 }
 
-$names: "primary", "secondary", "transparent", "warning", "danger", "link", "white";
+$names: 'primary', 'secondary', 'transparent', 'warning', 'danger', 'link', 'white';
 $bg-default: (
-  "primary": $B300,
-  "secondary": $N600,
-  "transparent": transparent,
-  "warning": $Y300,
-  "danger": $R300,
+  'primary': $N600,
+  'secondary': $N600,
+  'transparent': transparent,
+  'warning': $Y300,
+  'danger': $R300,
   'link': transparent,
-  'white': $N0,
+  'white': $N0
 );
 $color: (
-  "primary": $N0,
-  "secondary": $N0,
-  "transparent": $N100,
-  "warning": $N900,
-  "danger": $N0,
+  'primary': $N0,
+  'secondary': $N0,
+  'transparent': $N100,
+  'warning': $N900,
+  'danger': $N0,
   'link': $B300,
-  'white': $N900,
+  'white': $N900
 );
 $bg-hover: (
-  "primary": $B300,
-  "secondary": $N600,
-  "transparent": $N100,
-  "warning": $Y300,
-  "danger": $R300,
+  'primary': $N600,
+  'secondary': $N600,
+  'transparent': $N100,
+  'warning': $Y300,
+  'danger': $R300,
   'link': transparent,
-  'white': $N0,
+  'white': $N0
 );
 $color-hover: (
-  "primary": $N0,
-  "secondary": $N0,
-  "transparent": $N800,
-  "warning": $N900,
-  "danger": $N0,
+  'primary': $N0,
+  'secondary': $N0,
+  'transparent': $N800,
+  'warning': $N900,
+  'danger': $N0,
   'link': $B200,
-  'white': $N800,
+  'white': $N800
 );
 $bg-active: (
-  "primary": $B300,
-  "secondary": $N600,
-  "transparent": $N0,
-  "warning": $Y300,
-  "danger": $R300,
+  'primary': $N600,
+  'secondary': $N600,
+  'transparent': $N0,
+  'warning': $Y300,
+  'danger': $R300,
   'link': transparent,
-  'white': $N0,
+  'white': $N0
 );
 $color-active: (
   'primary': $N0,
   'secondary': $N0,
-  "transparent": $N200,
+  'transparent': $N200,
   'warning': $N0,
   'danger': $N0,
   'link': $B500,
-  'white': $N900,
+  'white': $N900
 );
 $bg-disable: (
-  "primary": $N50,
-  "secondary": $N50,
-  "transparent": transparent,
-  "warning": $N50,
-  "danger": $N50,
+  'primary': $N50,
+  'secondary': $N50,
+  'transparent': transparent,
+  'warning': $N50,
+  'danger': $N50,
   'link': transparent,
-  'white': $N50,
+  'white': $N50
 );
 $color-disable: (
-  "primary": $N200,
-  "secondary": $N200,
-  "transparent": $N200,
-  "warning": $N200,
-  "danger": $N200,
+  'primary': $N200,
+  'secondary': $N200,
+  'transparent': $N200,
+  'warning': $N200,
+  'danger': $N200,
   'link': $N60,
-  'white': $N200,
+  'white': $N200
 );
 $border-color: (
-  "primary": $B300,
-  "secondary": $N600,
-  "transparent": $N100,
-  "warning": $Y300,
-  "danger": $R300,
+  'primary': $N600,
+  'secondary': $N600,
+  'transparent': $N100,
+  'warning': $Y300,
+  'danger': $R300,
   'link': transparent,
-  "white": $N0,
+  'white': $N0
 );
 $border-color-disabled: (
-  "primary": $N50,
-  "secondary": $N50,
-  "transparent": $N100,
-  "warning": $N50,
-  "danger": $N50,
+  'primary': $N50,
+  'secondary': $N50,
+  'transparent': $N100,
+  'warning': $N50,
+  'danger': $N50,
   'link': transparent,
-  "white": $N50,
+  'white': $N50
 );
 $loading: (
-  "primary": $N0,
-  "secondary": $N0,
-  "transparent": $N900,
-  "warning": $N900,
-  "danger": $N0,
-  "white": $N900,
+  'primary': $N0,
+  'secondary': $N0,
+  'transparent': $N900,
+  'warning': $N900,
+  'danger': $N0,
+  'white': $N900
 );
 
 $styles: s-button;
@@ -116,14 +116,7 @@ $styles: s-button;
   position: relative;
   @include flex-row(center, center);
   display: inline-flex;
-  @include transition(
-    color,
-    fill,
-    border-color,
-    background-color,
-    opacity,
-    transform
-  );
+  @include transition(color, fill, border-color, background-color, opacity, transform);
   border-radius: 3px;
   padding: 9px 18px;
   width: 100%;
@@ -142,6 +135,14 @@ $styles: s-button;
     svg:not(.#{$styles}__loading) {
       @include transition(color, fill);
       @include size(9px);
+    }
+  }
+  &.big {
+    padding: 14px 24px;
+    font-size: $H300;
+    svg:not(.#{$styles}__loading) {
+      @include transition(color, fill);
+      @include size(14px);
     }
   }
   @include media {
@@ -168,8 +169,7 @@ $styles: s-button;
     stroke-width: 2px;
     z-index: 1;
     stroke-linecap: round;
-    animation: 0.86s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite
-      spinnerRotateAnimation;
+    animation: 0.86s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite spinnerRotateAnimation;
   }
   &__wrapper {
     pointer-events: none;
@@ -209,6 +209,9 @@ $styles: s-button;
     .#{$styles}__loading {
       @include size(13px);
     }
+  }
+  &.secondary {
+    opacity: 0.8;
   }
   @each $name in $names {
     &.#{$name} {

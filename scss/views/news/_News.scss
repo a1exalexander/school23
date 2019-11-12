@@ -22,12 +22,15 @@ $style: news;
   }
   &__card {
     margin-bottom: 24px;
-    height: 320px;
+    min-height: 180px;
+    height: auto;
     flex: 1 1 100%;
+    cursor: pointer;
     @include media($screen-desktop) {
+      cursor: auto;
+      height: 320px;
       margin: 12px 12px 12px 12px;
       flex: 1 1 calc(50% - 24px);
-      
       &:nth-child(2n + 3) {
         flex: 1 1 calc(40% - 24px);
       }

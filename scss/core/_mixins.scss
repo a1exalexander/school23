@@ -12,7 +12,7 @@
   align-items: $align;
 }
 
-@mixin text($size, $weight: 400, $color: $H900) {
+@mixin text($size, $weight: 400, $color: $N900) {
   font: {
     size: $size;
     weight: $weight;

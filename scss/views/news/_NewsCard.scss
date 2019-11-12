@@ -13,8 +13,11 @@
   }
   @include media($screen-desktop) {
     &:hover {
-      box-shadow: 0 0.4em 0.9em -0.1em rgba(0,0,0,.11);
+      box-shadow: 0 0.4em 0.9em -0.1em rgba(0,0,0,.1);
     }
+  }
+  &:active {
+    box-shadow: 0 0.2em 0.6em -0.1em rgba(0,0,0,.1);
   }
   &__title {
     @include text($H600, 500);
@@ -44,11 +47,13 @@
     flex-shrink: 0;
   }
   &__content {
-    padding: 24px 24px 0;
+    padding: 24px;
     position: relative;
     z-index: 1;
     flex: 1 1;
-    
+    @include media {
+      padding-bottom: 0;
+    }
   }
   &.image &__content {
     background: -moz-linear-gradient(top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */

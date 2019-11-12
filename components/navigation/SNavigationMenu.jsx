@@ -12,7 +12,7 @@ const SNavigationMenu = ({ inProp = false, onClose }) => {
     <Fragment>
       <STransition inProp={inProp} name='slideLeft'>
         <div className="nav-menu">
-          {/* TODO: <SButton className='nav-menu__logout' type='secondary' size='small' label='Вийти з аккаунту'/> */}
+          {/* TODO: <SButton className='nav-menu__logout'  size='small' label='Вийти з аккаунту'/> */}
           <div className="nav-menu__inner">
             <div>
               <SNavigationInfo />

@@ -3,6 +3,7 @@ $styles: s-up;
   cursor: pointer;
   pointer-events: all;
   @include flex-col(center, center);
+  display: none;
   @include transition(all);
   border-radius: 3px;
   background-color: transparent;
@@ -16,6 +17,9 @@ $styles: s-up;
   padding: 10px;
   outline: none;
   border: none;
+  @include media {
+    display: flex;
+  }
   &__transition-up {
     right: 20px;
   }

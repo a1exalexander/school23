@@ -1,38 +1,126 @@
+@-webkit-keyframes AnimationName {
+  0%{background-position:0% 81%}
+  50%{background-position:100% 20%}
+  100%{background-position:0% 81%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:0% 81%}
+  50%{background-position:100% 20%}
+  100%{background-position:0% 81%}
+}
+@keyframes AnimationName {
+  0%{background-position:0% 81%}
+  50%{background-position:100% 20%}
+  100%{background-position:0% 81%}
+}
+@-webkit-keyframes color-transition {
+	0% {
+		background-color: $B200;
+		border-color: $B200;
+	}
+	25% {
+    background-color: $R200;
+		border-color: $R200;
+		
+	}
+	50% {
+		background-color: $G200;
+		border-color: $G200;
+  }
+  75% {
+		background-color: $T200;
+		border-color: $T200;
+	}
+	100% {
+		background-color: $B200;
+		border-color: $B200;
+	}
+}
+
+@keyframes color-transition {
+	0% {
+		background-color: $B200;
+		border-color: $B200;
+	}
+	25% {
+    background-color: $R200;
+		border-color: $R200;
+		
+	}
+	50% {
+		background-color: $G200;
+		border-color: $G200;
+  }
+  75% {
+		background-color: $T200;
+		border-color: $T200;
+	}
+	100% {
+		background-color: $B200;
+		border-color: $B200;
+	}
+}
+
+%animate-gradient {
+  background: linear-gradient(271deg, $R200, $Y200, $G200, $T200, $B200);
+  background-size: 1000% 1000%;
+  -webkit-animation: AnimationName 39s ease infinite;
+  -moz-animation: AnimationName 39s ease infinite;
+  animation: AnimationName 39s ease infinite;
+}
+
 $styles: s-navigation;
 .#{$styles} {
   &__top-bar {
     position: fixed;
-    @include position(0, 0, auto, 0);
+    @include position(4px, 4px, auto, 4px);
     @include z-index(navigation);
     padding: 0 24px;
     height: 64px;
     @include flex-row(flex-start, center);
     pointer-events: none;
-    border-radius: 0 0 30px 30px;
+    // border-radius: 0 0 30px 30px;
+    border-radius: 3px;
     @include media {
+      @include position(0, 0, auto, 0);
       height: auto;
       padding: 24px 32px;
     }
     &.visible {
-      background-color: $N0;
+      @extend %animate-gradient;
       box-shadow: $SH3;
       @include media {
         box-shadow: none;
+        animation: none;
+        background: transparent;
         background-color: transparent;
       }
     }
     &.active {
       @include z-index(activeMenu);
       background-color: transparent;
+      background: transparent;
       box-shadow: none;
       .#{$styles}__description {
         display: none;
+      }
+      .#{$styles}__title {
+        visibility: hidden;
+        opacity: 0;
+      }
+      .#{$styles}__button {
+        transform: translate(2px, 8px);
+        @include media {
+          transform: translate(0, 0);
+        }
       }
     }
   }
   &__button {
     pointer-events: all;
     margin-right: 20px;
+    position: relative;
+    @include transition(all);
   }
   &__description {
     @include flex-row(flex-start, center);
@@ -52,7 +140,10 @@ $styles: s-navigation;
     bottom: 1px;
   }
   &__title {
-    @include text($H700, 400);
+    @include text($H700, 400, $N0);
+    @include transition(opacity);
+    visibility: visible;
+    opacity: 1;
     @include media {
       display: none;
     }

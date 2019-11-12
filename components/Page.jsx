@@ -8,7 +8,6 @@ const Page = ({ children, title }) => {
   return (
     <>
       <Meta title={title}/>
-      {/* <SNavigation/> */}
       { children }
     </>
   );

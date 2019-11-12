@@ -22,7 +22,7 @@ const NPopup = props => {
 
   const buttonsContainer = (
     <div className="n-popup__buttons">
-      <NButton onClick={onSecondary} type="secondary">
+      <NButton onClick={onSecondary} >
         {secondaryLabel}
       </NButton>
       <NButton onClick={onPrimary}>{primaryLabel}</NButton>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 const SNavigationButton = ({ className, onClick }) => {
 
   const { route } = useRouter();
-  const isLight = ['/'].includes(route);
+  const isLight = ['/', '/about'].includes(route);
 
   return (
     <div className={classNames('s-navigation-button', className, { dark: !isLight })}>

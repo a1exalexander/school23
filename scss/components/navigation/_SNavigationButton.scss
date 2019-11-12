@@ -1,12 +1,9 @@
 $styles: s-navigation-button;
 .#{$styles} {
   border-radius: 3px;
-  &.dark {
-    background-color: $N0;
-  }
-  &.active {
+  &.active, &.dark.active {
     .#{$styles}__dot:after {
-      background-color: $B500;
+      background-color: $N600;
     }
   }
   &__button {
@@ -68,6 +65,9 @@ $styles: s-navigation-button;
     }
   }
   &.dark &__dot:after{
-    background-color: $N600;
+    background-color: $N0;
+    @include media {
+      background-color: $N600;
+    }
   }
 }

@@ -10,5 +10,6 @@ import IconHide from './IconHide';
 import IconEye from './IconEye';
 import IconSearch from './IconSearch';
 import IconUp from './IconUp';
+import IconSchoolColor from './IconSchoolColor';
 
-export { IconUp, IconSearch, IconHide, IconEye, IconCheck, IconMail, IconRadio, IconArrowLeft, IconSchool, IconBooksApple, IconBooks, IconLaws };
+export { IconSchoolColor, IconUp, IconSearch, IconHide, IconEye, IconCheck, IconMail, IconRadio, IconArrowLeft, IconSchool, IconBooksApple, IconBooks, IconLaws };

@@ -6,8 +6,10 @@ import SInput from './common/form/SInput';
 import Meta from './Meta';
 import Page from './Page';
 import * as icons from './common/icons';
+import SVideo from './common/media/SVideo';
 
 export {
+  SVideo,
   SUp,
   SButton,
   SInput,

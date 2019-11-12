@@ -1,0 +1,96 @@
+$style: about;
+.#{$style} {
+  // @extend %container;
+  min-height: 100vh;
+  // background-color: $N700;
+  &__header {
+    position: relative;
+    z-index: 1;
+  }
+  &__header-inner {
+    height: 100%;
+    width: 100%;
+    @include flex-col(center, center);
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 32px 8%;
+  }
+  &__title {
+    @include text($H900, 400);
+    margin-bottom: 32px;
+  }
+  &__header-image {
+    height: 100vh;
+    min-height: 500px;
+    background-position: center bottom;
+  }
+  &__section {
+    @extend %section;
+    padding-top: 82px;
+    padding-bottom: 82px;
+    min-height: 300px;
+    @include flex-row(stretch, center);
+  }
+  &__section-image {
+    flex: 0 0 30%;
+    @include flex-row(flex-start, center);
+  }
+  &__section-content {
+    flex: 1 1;
+  }
+  &__text {
+    @include text($H500, 400, $N900);
+    margin: 0;
+    line-height: 1.4;
+    @include media {
+      font-size: $H600;
+      line-height: 1.5;
+    }
+    &--light {
+      color: $N0;
+    }
+    &--center {
+      text-align: center;
+    }
+  }
+  &__video-layer {
+    position: fixed;
+    height: 100vh;
+    @include position;
+  }
+  &__text-frame {
+    border: 1px solid $N40;
+    border-radius: 3px;
+  }
+  &__slider {
+    border-radius: 3px;
+    @extend %section;
+    .s-uk-slider {
+      border-radius: 3px;
+      overflow: hidden;
+    }
+  }
+  &__icon {
+    @include size(200px);
+  }
+  &__frame {
+    position: relative;
+    border: 1px solid $N100;
+    border-left: none;
+    border-right: none;
+    padding: 62px 0;
+    @include flex-col(center, center);
+    &:after, &:before {
+      position: absolute;
+      content: '';
+      height: 1px;
+      width: 90%;
+      background-color: $N100;
+    }
+    &:after {
+      top: 16px;
+    }
+    &:before {
+      bottom: 16px;
+    }
+  }
+}
