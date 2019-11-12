@@ -1,4 +1,5 @@
-.news-card {
+$style: news-card;
+.#{$style} {
   position: relative;
   background-color: $N0;
   border-radius: 4px;
@@ -10,6 +11,15 @@
   @include transition(all);
   &.image {
     color: $N0;
+    .#{$style}__title {
+      color: $N0;
+    }
+    .#{$style}__date {
+      color: $N0;
+    }
+    .#{$style}__text {
+      color: $N0;
+    }
   }
   @include media($screen-desktop) {
     &:hover {

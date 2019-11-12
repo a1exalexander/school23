@@ -3,6 +3,7 @@ import SNavigationButton from './components/SNavigationButton';
 import IconArrowLeft from '../common/icons/IconArrowLeft';
 import SNavigationMenu from './SNavigationMenu';
 import classNames from 'classnames';
+import { routes } from '../../constants';
 import { useRouter } from 'next/router';
 
 const SNavigation = () => {
@@ -15,10 +16,12 @@ const SNavigation = () => {
 
   const menuTitle = () => {
     switch (route) {
-      case '/news':
+      case routes.NEWS:
         return title('Шкільні новини');
-      case '/news/[nid]':
+      case routes.NEWS_POST:
         return title('Шкільні новини');
+      case routes.ABOUT:
+        return title('Про школу');
       default:
         return null;
     }

@@ -1,8 +1,6 @@
 $style: about;
 .#{$style} {
-  // @extend %container;
   min-height: 100vh;
-  // background-color: $N700;
   &__header {
     position: relative;
     z-index: 1;
@@ -11,12 +9,19 @@ $style: about;
     height: 100%;
     width: 100%;
     @include flex-col(center, center);
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.4);
     padding: 32px 8%;
+    @include media {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
   }
   &__title {
-    @include text($H900, 400);
+    text-align: center;
+    @include text($H800, 400);
     margin-bottom: 32px;
+    @include media {
+      font-size: $H900;
+    }
   }
   &__header-image {
     height: 100vh;
@@ -25,10 +30,14 @@ $style: about;
   }
   &__section {
     @extend %section;
-    padding-top: 82px;
-    padding-bottom: 82px;
     min-height: 300px;
     @include flex-row(stretch, center);
+    padding-top: 32px;
+    padding-bottom: 32px;
+    @include media {
+      padding-top: 82px;
+      padding-bottom: 82px;
+    }
   }
   &__section-image {
     flex: 0 0 30%;
@@ -63,7 +72,10 @@ $style: about;
   }
   &__slider {
     border-radius: 3px;
-    @extend %section;
+    padding: 24px 0;
+    @include media {
+      padding: 32px 8%;
+    }
     .s-uk-slider {
       border-radius: 3px;
       overflow: hidden;

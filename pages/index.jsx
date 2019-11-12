@@ -12,11 +12,12 @@ const Home = () => (
       </div>
       <div className='home__layer'></div>
       <SVideo
-        className='home__video'
+        className='home__video is-desktop'
         videos={[
           { src: '/23.mp4', type: 'video/mp4' }
         ]}
       />
+      <img src="images/23_bg.jpg" alt="" className='home__bg'/>
     </div>
 
   </Page>

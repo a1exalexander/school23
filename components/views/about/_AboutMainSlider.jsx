@@ -8,7 +8,7 @@ const AboutMainSlider = ({ className }) => {
       <div
         className={classNames("s-uk-slider uk-position-relative uk-visible-toggle uk-light")}
         tabIndex="-1"
-        uk-slideshow="animation: push; ratio: 12:6;"
+        uk-slideshow="animation: push; ratio: 16:8;"
       >
         <ul className="uk-slideshow-items">
           <li>

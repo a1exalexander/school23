@@ -13,6 +13,10 @@ body, a, input, button {
   font-family: $base-font;
 }
 
+p, h1, h2, h3, h4, h5 {
+  margin: 0;
+}
+
 button, a {
   text-decoration: none;
   outline: none;
