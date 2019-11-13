@@ -1,14 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { routes } from '../../../constants';
 
 const SNavigationButton = ({ className, onClick }) => {
 
   const { route } = useRouter();
-  const isLight = ['/', '/about'].includes(route);
+  const isLight = [routes.HOME, routes.ABOUT].includes(route);
+  const [isDark, setIsDark] = useState(false);
+
+  const handleScroll = () => {
+    if (process.browser) {
+      const h = Math.max(window.innerHeight || 0);
+      switch (route) {
+        case routes.ABOUT:
+          setIsDark(window.pageYOffset > h);
+          break;
+        default:
+          setIsDark(false);
+          break;
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (process.browser) {
+      window.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      if (process.browser) {
+        window.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [])
 
   return (
-    <div className={classNames('s-navigation-button', className, { dark: !isLight })}>
+    <div className={classNames('s-navigation-button', className, { dark: !isLight || isDark })}>
       <button onClick={onClick} className='s-navigation-button__button'>
         <div className="s-navigation-button__dot"></div>
         <div className="s-navigation-button__dot"></div>
