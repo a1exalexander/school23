@@ -9,18 +9,12 @@ $border-radius: 4px;
   width: 100%;
   min-height: 100vh;
   padding: 68px 24px;
-  
+  background-image: url('/images/23_bg.jpg');
+  background-position-x: 47%;
+  background-size: cover;
+  background-repeat: no-repeat;
   @include media {
     padding: 32px;
-  }
-  &__bg {
-    position: absolute;
-    overflow: hidden;
-    @include position;
-    height: 100vh;
-    width: 100vw;
-    object-fit: cover;
-    object-position: center;
   }
   &__layer {
     @extend %layer;
@@ -30,6 +24,7 @@ $border-radius: 4px;
   &__video {
     position: absolute;
     @include position;
+    background-color: $N00;
   }
   
   &__banner {
@@ -41,16 +36,15 @@ $border-radius: 4px;
     }
     @include media($screen-desktop) {
       top: 60px;
-      // transform: translateY(-50%);
       left: 60px;
     }
   }
   &__line {
-    display: none;
+    position: relative;
+    @include z-index(line);
     @include media($screen-desktop) {
-      display: block;
       position: absolute;
-      @include z-index(line);
+      display: block;
       border-radius: $border-radius;
       @include position($top, $sizeX, $sizeY, $sizeX);
       border: $border-width solid white;
@@ -82,5 +76,15 @@ $border-radius: 4px;
       }
     }
     
+  }
+  &__city {
+    @include text($H600, 300, $N0);
+    position: absolute;
+    @include z-index(line);
+    bottom: 32px;
+    @include media {
+      bottom: 82px;
+      left: 120px;
+    }
   }
 }

@@ -17,7 +17,7 @@ const Home = () => (
           { src: '/23.mp4', type: 'video/mp4' }
         ]}
       />
-      <img src="images/23_bg.jpg" alt="" className='home__bg'/>
+      <p className='home__city animated delay-4s slow fadeIn'>м. Кременчук</p>
     </div>
 
   </Page>

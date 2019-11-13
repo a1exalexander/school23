@@ -4,6 +4,8 @@ import { IconRadio, IconSchool, IconMail, IconBooksApple, IconBooks, IconLaws } 
 import SNavigationItem from './components/SNavigationItem';
 import SNavigationProfile from './components/SNavigationProfile';
 import SNavigationInfo from './components/SNavigationInfo';
+import logo from '../../assets/images/Kremenchuk.png';
+import Link from 'next/link';
 import { routes } from '../../constants';
 
 const SNavigationMenu = ({ inProp = false, onClose }) => {
@@ -12,7 +14,6 @@ const SNavigationMenu = ({ inProp = false, onClose }) => {
     <Fragment>
       <STransition inProp={inProp} name='slideLeft'>
         <div className="nav-menu">
-          {/* TODO: <SButton className='nav-menu__logout'  size='small' label='Вийти з аккаунту'/> */}
           <div className="nav-menu__inner">
             <div>
               <SNavigationInfo />
@@ -37,7 +38,16 @@ const SNavigationMenu = ({ inProp = false, onClose }) => {
                 </SNavigationItem>
               </ul>
             </div>
-            {/* TODO: <SNavigationProfile /> */}
+            <div>
+             <Link href={routes.HOME}>
+                <a>
+                  <SButton revert type='transparent' className='nav-menu__home-button' label='Головна'>
+                    <img src={logo} alt="logo" className="nav-menu__logo"/>
+                  </SButton>
+                </a>
+             </Link>
+              {/* TODO: <SNavigationProfile /> */}
+            </div>
           </div>
         </div>
       </STransition>

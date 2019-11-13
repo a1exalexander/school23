@@ -1,4 +1,5 @@
 $style: about;
+
 .#{$style} {
   min-height: 100vh;
   &__header {
@@ -29,6 +30,7 @@ $style: about;
     background-position: center bottom;
   }
   &__section {
+    position: relative;
     @extend %section;
     min-height: 300px;
     @include flex-row(stretch, center);
@@ -103,6 +105,27 @@ $style: about;
     }
     &:before {
       bottom: 16px;
+    }
+  }
+  &__clip {
+    $list:
+      1 32px 3% auto auto,
+      2 162px 4.5% auto auto,
+      3 362px 2.5% auto auto,
+      4 526px 5% auto auto,
+      5 46px auto auto 3%,
+      6 199px auto auto 2%,
+      7 380px auto auto 3.5%,
+      8 550px auto auto 4.9%;
+    @include size(32px);
+    position: absolute;
+    @each $n, $top, $right, $bottom, $left in $list {
+      &:nth-child(#{$n}) {
+        top: $top;
+        left: $left;
+        right: $right;
+        bottom: $bottom;
+      }
     }
   }
 }

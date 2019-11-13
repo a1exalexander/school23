@@ -8,7 +8,7 @@
   @include media {
     @include position(8px, auto, 8px, 8px);
     width: 600px;
-    padding: 72px 30px;
+    padding: 82px 30px;
   }
   &__inner {
     height: 100%;
@@ -49,5 +49,15 @@
       }
     }
     
+  }
+  &__logo {
+    height: 22px;
+    margin-right: 2px;
+  }
+  &__home-button {
+    width: fit-content;
+    position: absolute;
+    top: 18px;
+    right: 30px;
   }
 }

@@ -7,7 +7,7 @@ const SVideo = ({ videos, className }) => {
       {videos.map((props, idx) => (
         <source {...props} key={idx} />
       ))}
-      <img src="https://picsum.photos/1440/960" alt="" />
+      <img src="/images/23_bg.jpg" alt="" />
     </video>
   );
 };

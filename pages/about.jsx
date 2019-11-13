@@ -1,9 +1,19 @@
 import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import classNames from 'classnames';
 import { Page } from '../components';
 import Head from 'next/head';
-import IconSchoolColor from '../assets/svg/school.svg';
-import SchoolImage from '../assets/images/23_bg.jpg';
+import IconClip1 from '../assets/svg/clip.svg';
+import IconClip2 from '../assets/svg/clip1.svg';
+import IconClip3 from '../assets/svg/clip2.svg';
+import IconClip4 from '../assets/svg/clip3.svg';
+
+const clips = [
+  IconClip1,
+  IconClip2,
+  IconClip3,
+  IconClip4,
+]
 
 const AboutMainSlider = dynamic(() => import('../components/views/about/_AboutMainSlider'), {
   ssr: false
@@ -13,7 +23,18 @@ const AboutSliderBoss = dynamic(() => import('../components/views/about/_AboutSl
   ssr: false
 });
 
+const Anime = dynamic(() => import('react-anime'), { ssr: false });
+
 const About = () => {
+
+  const clipsAnime = [0, 1, 2, 3, 3, 2, 0, 1].map((i, idx) => {
+    return (
+      <Anime key={String(idx + 1)} loop={true} duration={Number(`1${i}00`)} translateY={Number(Number(`${i+1}0`) * 1.2)} easing='easeInOutSine' direction='alternate'>
+        <img src={clips[i]} className={classNames('about__clip', { reverse: idx % 2 })} alt=""/>
+      </Anime>
+    )
+  })
+
   return (
     <Page title="Про школу">
       <Head>
@@ -29,7 +50,7 @@ const About = () => {
             uk-parallax="bgy: -100"
             style={{ backgroundImage: `url('images/23_bg.jpg')` }}
           >
-            <div className="about__header-inner" uk-parallax="blur: 0,10; opacity: 0;">
+            <div className="about__header-inner" uk-parallax="opacity: 0;">
               <h1 className="about__title">Крeменчуцька школа №23</h1>
               <p className='about__text about__text--light about__text--center'>
                 Наша школа – навчальний заклад з давньою історією, в
@@ -52,8 +73,9 @@ const About = () => {
           </div>
         </header>
         <section className="about__section">
+          { clipsAnime }
           <div className="about__frame">
-            <p className="about__text about__text--center">
+            <div className="about__text about__text--center">
               <p className="is-mobile">
                 Педагогічний склад - професіонали своєї справи, які уміло володіють педагогічною
                 майстерністю. Кредо наших педагогів: найкращий спосіб зробити дітей хорошими - це
@@ -70,7 +92,7 @@ const About = () => {
               школі. Основним завданням школи є виховання морально і фізично здорової дитини,
               розвиток її природних здібностей, формування творчої особистості, самосвідомості на
               основі практичних занять, пізнання себе, суспільства.
-            </p>
+            </div>
           </div>
         </section>
         <AboutMainSlider className="about__slider" />
