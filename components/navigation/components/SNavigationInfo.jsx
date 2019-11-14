@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-const SNavigationInfo = ({ className }) => {
+const SNavigationInfo = ({ className = ''  }) => {
 
   const colorType = 'class';
 

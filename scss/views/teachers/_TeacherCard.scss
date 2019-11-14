@@ -1,0 +1,27 @@
+.teacher-card {
+  $gap: 32px;
+  flex: 1 1 100%;
+  margin-bottom: $gap;
+  &__image-wrapper {
+    max-height: 220px;
+    overflow: hidden;
+  }
+  @include media(600px) {
+    flex: 0 0 calc(50% - #{$gap});
+    margin: 0 calc(#{$gap} / 2) $gap;
+    max-width: calc(50% - #{$gap});
+  }
+  @include media($screen-desktop) {
+    flex: 1 1 calc(33% - #{$gap});
+    max-width: calc(33% - #{$gap});
+  }
+  @include media($screen-fullhd) {
+    min-width: 200px;
+    flex: 1 1 calc(25% - #{$gap});
+    max-width: calc(25% - #{$gap});
+  }
+  @include media($screen-retina) {
+    flex: 1 1 calc(20% - #{$gap});
+    max-width: calc(20% - #{$gap});
+  }
+}

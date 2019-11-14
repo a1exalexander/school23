@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../../../assets/images/Kremenchuk.png';
 import classNames from 'classnames';
 
-const HomeBanner = ({ className }) => {
+const HomeBanner = ({ className = ''  }) => {
 
   return (
     <div className={classNames('home-banner', className)}>

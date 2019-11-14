@@ -38,6 +38,9 @@
     &:nth-of-type(2n + 2) {
       margin-right: 0;
     }
+    &:last-of-type {
+      margin-right: 0;
+    }
     @include media {
       margin-right: 32px;
       margin-bottom: 32px;
@@ -55,7 +58,7 @@
     margin-right: 2px;
   }
   &__home-button {
-    width: fit-content;
+    width: auto;
     position: absolute;
     top: 18px;
     right: 30px;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const IconSearch = ({ className }) => {
+const IconSearch = ({ className = ''  }) => {
   return (
     <svg
       className={className}

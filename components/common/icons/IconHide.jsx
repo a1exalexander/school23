@@ -1,6 +1,6 @@
 import React from 'react'
 
-const IconHide = ({ className }) => {
+const IconHide = ({ className = ''  }) => {
 
   return (
     <svg className={className} viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">

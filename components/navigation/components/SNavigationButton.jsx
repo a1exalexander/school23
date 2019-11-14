@@ -11,7 +11,7 @@ const SNavigationButton = ({ className, onClick }) => {
 
   const handleScroll = () => {
     if (process.browser) {
-      const h = Math.max(window.innerHeight || 0);
+      const h = Math.max(window.innerHeight - 30 || 0);
       switch (route) {
         case routes.ABOUT:
           setIsDark(window.pageYOffset > h);
@@ -24,15 +24,15 @@ const SNavigationButton = ({ className, onClick }) => {
   }
 
   useEffect(() => {
-    if (process.browser) {
+    if (process.browser && route === routes.ABOUT) {
       window.addEventListener('scroll', handleScroll);
     }
     return () => {
-      if (process.browser) {
+      if (process.browser && route === routes.ABOUT) {
         window.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [])
+  }, [route])
 
   return (
     <div className={classNames('s-navigation-button', className, { dark: !isLight || isDark })}>

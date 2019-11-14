@@ -1,0 +1,7 @@
+.teachers {
+  @extend %container;
+  &__list {
+    @include flex-row(flex-start, stretch);
+    flex-wrap: wrap;
+  }
+}

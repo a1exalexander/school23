@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-const SVideo = ({ videos, className }) => {
+const SVideo = ({ videos, className = ''  }) => {
   return (
     <video className={classNames('s-video', className)} autoPlay loop muted>
       {videos.map((props, idx) => (

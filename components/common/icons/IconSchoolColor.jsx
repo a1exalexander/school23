@@ -1,6 +1,6 @@
 import React from 'react';
 
-const IconSchoolColor = ({ className }) => {
+const IconSchoolColor = ({ className = ''  }) => {
   return (
     <svg
       className={className}

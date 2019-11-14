@@ -1,6 +1,6 @@
 import React from 'react'
 
-const IconEye = ({ className }) => {
+const IconEye = ({ className = ''  }) => {
 
   return (
   <svg

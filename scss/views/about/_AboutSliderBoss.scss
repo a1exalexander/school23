@@ -1,0 +1,39 @@
+$style: about-slider-boss;
+.#{$style} {
+  &__content {
+    padding: 0px 12px;
+    @include media {
+      padding: 32px 64px;
+    }
+  }
+  &__image {
+    filter: brightness(0.9);
+    object-position: center;
+  }
+  &__title {
+    @include text($H600, 500, $N0);
+    margin-bottom: 12px;
+    @include media {
+      font-size: $H800;
+    }
+  }
+  &__year {
+    @include text($H400, 400, $N0);
+    margin-bottom: 24px;
+  }
+  &__about {
+    @include text($H300, 400, $N0);
+    @include media {
+      font-size: $H500;
+    }
+  }
+  ul.#{$style}__dots.uk-dotnav {
+    li a {
+      background-color: $N600;
+    }
+    li.uk-active a {
+      border-color: $N600;
+      background-color: $N0;
+    }
+  }
+}

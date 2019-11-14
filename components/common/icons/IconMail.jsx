@@ -1,6 +1,6 @@
 import React from 'react';
 
-const IconMail = ({ className }) => {
+const IconMail = ({ className = ''  }) => {
   return (
     <svg
       className={className}

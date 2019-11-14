@@ -1,6 +1,6 @@
 import React from 'react';
 
-const IconCheck = ({ className }) => {
+const IconCheck = ({ className = ''  }) => {
   return (
     <svg
       version="1.1"

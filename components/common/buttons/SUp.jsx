@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { IconUp } from '../icons';
 import ScrollUpButton from 'react-scroll-up-button';
 
-const SUp = ({ className }) => {
+const SUp = ({ className = '' }) => {
   return (
     <ScrollUpButton ContainerClassName="s-up" TransitionClassName="s-up__transition-up">
       <>

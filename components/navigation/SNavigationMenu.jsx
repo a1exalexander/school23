@@ -27,9 +27,9 @@ const SNavigationMenu = ({ inProp = false, onClose }) => {
                 <SNavigationItem label="Учительська" className="nav-menu__item">
                   <IconBooksApple />
                 </SNavigationItem>
-                <SNavigationItem label="Бібліотека" className="nav-menu__item">
+                {/* <SNavigationItem label="Бібліотека" className="nav-menu__item">
                   <IconBooks />
-                </SNavigationItem>
+                </SNavigationItem> */}
                 <SNavigationItem label="Нормативно-правові акти" className="nav-menu__item">
                   <IconLaws />
                 </SNavigationItem>

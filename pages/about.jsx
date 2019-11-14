@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import classNames from 'classnames';
 import { Page } from '../components';
 import Head from 'next/head';
-import { Link as ScrollLink, Element as ScrollElement } from 'react-scroll'
 import IconClip1 from '../assets/svg/clip.svg';
 import IconClip2 from '../assets/svg/clip1.svg';
 import IconClip3 from '../assets/svg/clip2.svg';
@@ -31,10 +30,10 @@ const About = () => {
 
   const Anime = dynamic(() => import('react-anime'), { ssr: false });
 
-  const clipsAnime = [0, 1, 2, 3, 3, 2, 0, 1].map((i, idx) => {
+  const clipsAnime = (className = '') => [0, 1, 2, 3, 3, 2, 0, 1].map((i, idx) => {
     return (
-      <Anime key={String(idx + 1)} loop={true} duration={Number(`1${i}00`)} translateY={Number(Number(`${i+1}0`) * 1.2)} easing='easeInOutSine' direction='alternate'>
-        <img src={clips[i]} className={classNames('about__clip', { reverse: idx % 2 })} alt=""/>
+      <Anime key={String(idx + 1)} loop={true} duration={Number(`1${i}00`)} translateY={Number(Number(`${i+1}0`) * 1.1)} easing='easeInOutSine' direction='alternate'>
+        <img src={clips[i]} className={classNames('about__clip', className, { reverse: idx % 2 })} alt=""/>
       </Anime>
     )
   })
@@ -51,7 +50,7 @@ const About = () => {
           <div
             id="test-filter"
             className="about__header-image uk-background-cover uk-light uk-flex"
-            uk-parallax="bgy: -100"
+            uk-parallax="bgy: -50"
             style={{ backgroundImage: `url('images/23_bg.jpg')` }}
           >
             <div className="about__header-inner" uk-parallax="opacity: 0;">
@@ -76,33 +75,32 @@ const About = () => {
             </div>
           </div>
         </header>
-        <ScrollElement name='about-section-1' id='about-section-1'>
-          <section className="about__section">
-            { clipsAnime }
-            <div className="about__frame">
-              <div className="about__text about__text--center">
-                <p className="is-mobile">
-                  Педагогічний склад - професіонали своєї справи, які уміло володіють педагогічною
-                  майстерністю. Кредо наших педагогів: найкращий спосіб зробити дітей хорошими - це
-                  зробити їх щасливими. Маю надію, що відвідувачі сайту дізнаються про історію і
-                  сьогодення школи, про перемоги, досягнення і гарні традиції, організацію навчального
-                  процесу, та людей які тут навчаються та працюють, знайдуть на його сторінках багато
-                  корисної і цікавої інформації.
-                  <br /><br />
-                </p>
-                Головною метою освіти сучасної людини є здобуття знань на високому рівні. Школа №23
-                надає обдарованим дітям можливість реалізувати свої індивідуальні творчі здібності,
-                оволодіти навичками наукової роботи, знаннями етики, художньої культури, опанування
-                іноземними мовами, комп’ютерною технікою та продовжити відповідну освіту у вищій
-                школі. Основним завданням школи є виховання морально і фізично здорової дитини,
-                розвиток її природних здібностей, формування творчої особистості, самосвідомості на
-                основі практичних занять, пізнання себе, суспільства.
-              </div>
+        <section className="about__section">
+          { clipsAnime('about__clip--header') }
+          <div className="about__frame">
+            <div className="about__text about__text--center">
+              <p className="is-mobile">
+                Педагогічний склад - професіонали своєї справи, які уміло володіють педагогічною
+                майстерністю. Кредо наших педагогів: найкращий спосіб зробити дітей хорошими - це
+                зробити їх щасливими. Маю надію, що відвідувачі сайту дізнаються про історію і
+                сьогодення школи, про перемоги, досягнення і гарні традиції, організацію навчального
+                процесу, та людей які тут навчаються та працюють, знайдуть на його сторінках багато
+                корисної і цікавої інформації.
+                <br /><br />
+              </p>
+              Головною метою освіти сучасної людини є здобуття знань на високому рівні. Школа №23
+              надає обдарованим дітям можливість реалізувати свої індивідуальні творчі здібності,
+              оволодіти навичками наукової роботи, знаннями етики, художньої культури, опанування
+              іноземними мовами, комп’ютерною технікою та продовжити відповідну освіту у вищій
+              школі. Основним завданням школи є виховання морально і фізично здорової дитини,
+              розвиток її природних здібностей, формування творчої особистості, самосвідомості на
+              основі практичних занять, пізнання себе, суспільства.
             </div>
-          </section>
-        </ScrollElement>
+          </div>
+        </section>
         <AboutMainSlider className="about__slider" />
         <section className="about__section">
+          { clipsAnime('about__clip--section-small') }
           <div className="about__frame">
             <p className="about__text about__text--center">
               Школа I - III ступенів передбачає пізнання учнями оточуючого середовища, себе, свого
@@ -113,7 +111,11 @@ const About = () => {
             </p>
           </div>
         </section>
-        <AboutSliderBoss />
+        <div className="about__slider">
+          { clipsAnime('about__clip--slider') }
+          <h2 className="about__heading">Директори школи</h2>
+          <AboutSliderBoss />
+        </div>
       </div>
     </Page>
   );

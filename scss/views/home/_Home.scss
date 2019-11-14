@@ -13,6 +13,7 @@ $border-radius: 4px;
   background-position-x: 47%;
   background-size: cover;
   background-repeat: no-repeat;
+  background-color: $N00;
   @include media {
     padding: 32px;
   }
@@ -81,9 +82,8 @@ $border-radius: 4px;
     @include text($H600, 300, $N0);
     position: absolute;
     @include z-index(line);
-    bottom: 32px;
+    bottom: 82px;
     @include media {
-      bottom: 82px;
       left: 120px;
     }
   }

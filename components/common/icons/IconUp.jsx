@@ -1,6 +1,6 @@
 import React from 'react';
 
-const IconUp = ({ className }) => {
+const IconUp = ({ className = ''  }) => {
   return (
     <svg
       className={className}

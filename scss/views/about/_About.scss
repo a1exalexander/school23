@@ -13,7 +13,7 @@ $style: about;
     background-color: rgba(0, 0, 0, 0.4);
     padding: 32px 8%;
     @include media {
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.3);
     }
   }
   &__title {
@@ -49,15 +49,19 @@ $style: about;
     flex: 1 1;
   }
   &__text {
-    @include text($H500, 400, $N900);
+    @include text($H600, 400, $N900);
     margin: 0;
     line-height: 1.4;
     @include media {
-      font-size: $H600;
-      line-height: 1.5;
+      font-size: $H700;
     }
     &--light {
       color: $N0;
+      @include media {
+        line-height: 1.5;
+        font-weight: 300;
+        padding: 0 8%;
+      }
     }
     &--center {
       text-align: center;
@@ -75,6 +79,7 @@ $style: about;
   &__slider {
     border-radius: 3px;
     padding: 24px 0;
+    position: relative;
     @include media {
       padding: 32px 8%;
     }
@@ -109,14 +114,14 @@ $style: about;
   }
   &__clip {
     $list:
-      1 32px 3% auto auto,
-      2 162px 4.5% auto auto,
+      1 330px 33% auto auto,
+      2 122px 4% auto auto,
       3 362px 2.5% auto auto,
-      4 526px 5% auto auto,
-      5 46px auto auto 3%,
-      6 199px auto auto 2%,
+      4 626px 4% auto auto,
+      5 12px auto auto 22%,
+      6 179px auto auto 2%,
       7 380px auto auto 3.5%,
-      8 550px auto auto 4.9%;
+      8 650px auto auto 4.9%;
     @include size(32px);
     position: absolute;
     @each $n, $top, $right, $bottom, $left in $list {
@@ -127,5 +132,69 @@ $style: about;
         bottom: $bottom;
       }
     }
+    &--header {
+      &:nth-child(1) {
+        display: none;
+        @include media {
+          display: block;
+        }
+      }
+    }
+    &--section-small {
+      $list:
+        1 22px 58% auto auto,
+        2 12px 95% auto auto,
+        3 222px 2.8% auto auto,
+        4 526px 4% auto auto,
+        5 -10px auto auto 88%,
+        6 -28px auto auto 55%,
+        7 320px auto auto 44%,
+        8 320px auto auto 14%;
+        @each $n, $top, $right, $bottom, $left in $list {
+          &:nth-child(#{$n}) {
+            top: $top;
+            left: $left;
+            right: $right;
+            bottom: $bottom;
+          }
+        }
+        &:nth-child(8), &:nth-child(7) {
+          display: none;
+          @include media {
+            display: block;
+          }
+        }
+    }
+    &--slider {
+      $list:
+        1 -42px 32% auto auto,
+        2 12px 14% auto auto,
+        3 222px 2.8% auto auto,
+        4 526px 4% auto auto,
+        5 -10px auto auto 28%,
+        6 -28px auto auto 5%,
+        7 280px auto auto 2%,
+        8 550px auto auto 4%;
+        @each $n, $top, $right, $bottom, $left in $list {
+          &:nth-child(#{$n}) {
+            top: $top;
+            left: $left;
+            right: $right;
+            bottom: $bottom;
+          }
+        }
+        &:nth-child(5), &:nth-child(4), &:nth-child(7), &:nth-child(8) {
+          display: none;
+          @include media {
+            display: block;
+          }
+        }
+    }
+  }
+  &__heading {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 32px;
+    @include text($H800, 500);
   }
 }
