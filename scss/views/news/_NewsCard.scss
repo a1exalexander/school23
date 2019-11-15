@@ -4,7 +4,7 @@ $style: news-card;
   background-color: $N0;
   border-radius: 4px;
   box-shadow: $SH3;
-  line-height: 1;
+  line-height: 1.4;
   box-shadow: $SH4;
   @include flex-col(stretch, stretch);
   overflow: hidden;
@@ -32,22 +32,21 @@ $style: news-card;
   &__title {
     @include text($H600, 500);
     @include media {
-      font-size: $H700;
+      font-size: $H500;
     }
     margin-bottom: 6px;
   }
   &__date {
-    @include text($H300, 400);
-    margin-bottom: 24px;
+    @include text($H110, 400);
+    margin-bottom: 20px;
   }
   &__text {
-    @include text($H400, 400);
+    @include text($H400, 300);
     line-height: 1.3;
     @include media {
-      font-size: $H500;
-      line-height: 1.4;
+      line-height: 1.5;
+      font-size: $H300;
     }
-    
   }
   &__image {
     position: absolute;

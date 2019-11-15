@@ -75,7 +75,7 @@ const About = () => {
             </div>
           </div>
         </header>
-        <section className="about__section">
+        <section className="about__section" uk-scrollspy="cls: uk-animation-slide-left; target: .about__frame; delay: 400; repeat: true">
           { clipsAnime('about__clip--header') }
           <div className="about__frame">
             <div className="about__text about__text--center">
@@ -99,7 +99,7 @@ const About = () => {
           </div>
         </section>
         <AboutMainSlider className="about__slider" />
-        <section className="about__section">
+        <section className="about__section" uk-scrollspy="cls: uk-animation-slide-right; target: .about__frame; delay: 400; repeat: true">
           { clipsAnime('about__clip--section-small') }
           <div className="about__frame">
             <p className="about__text about__text--center">

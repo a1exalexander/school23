@@ -9,12 +9,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body, a, input, button {
+body, input, textarea {
   font-family: $base-font;
+}
+
+a, button {
+  font-family: $head-font;
 }
 
 p, h1, h2, h3, h4, h5 {
   margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: $head-font;
 }
 
 button, a {

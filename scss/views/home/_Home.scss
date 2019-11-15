@@ -80,6 +80,7 @@ $border-radius: 4px;
   }
   &__city {
     @include text($H600, 300, $N0);
+    font-family: $head-font;
     position: absolute;
     @include z-index(line);
     bottom: 82px;

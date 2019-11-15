@@ -35,6 +35,7 @@
   }
   &__text {
     text-align: center;
-    @include text($H400, 500, $N900);
+    @include text($H400, 400, $N900);
+    font-family: $head-font;
   }
 }

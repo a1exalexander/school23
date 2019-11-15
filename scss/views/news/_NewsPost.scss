@@ -1,24 +1,16 @@
 $style: news-post;
 .#{$style} {
   @extend %container;
+  line-height: 1.5;
   &__header {
     line-height: 1;
     margin-bottom: 24px;
   }
   &__info {
     @include flex-row(flex-start, baseline);
-
   }
   &__title {
-    display: none;
-    @include media {
-      display: inline-block;
-      @include text($H700, 400);
-      margin-right: 24px;
-    }
-  }
-  &__title {
-    @include text($H800, 400);
+    @include text($H700, 400);
     margin-right: 24px;
   }
   &__description {
