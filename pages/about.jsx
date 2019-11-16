@@ -49,20 +49,20 @@ const About = () => {
         <header className="about__header">
           <div
             id="test-filter"
-            className="about__header-image uk-background-cover uk-light uk-flex"
+            className="about__header-image animated fast fadeIn uk-background-cover uk-flex"
             uk-parallax="bgy: -50"
             style={{ backgroundImage: `url('images/23_bg.jpg')` }}
           >
-            <div className="about__header-inner" uk-parallax="opacity: 0;">
-              <h1 className="about__title">Крeменчуцька школа №23</h1>
-              <p className='about__text about__text--light about__text--center'>
+            <div className="about__header-inner">
+              <h1 className="about__title animated slow delay-1s fadeIn">Крeменчуцька школа №23</h1>
+              <p className='about__text animated delay-2s slow fadeIn about__text--light about__text--center'>
                 Наша школа – навчальний заклад з давньою історією, в
                 якому приємно не лише вчитись, а й здобувати гарні, міцні , дорогоцінні знання.
                 Навчальний заклад відкриє чарівний світ наук, зробить все для того, щоб учнівські
                 роки промайнули з великою радістю та приємними згадками про подорожі,спортивні
                 змагання, веселі години позакласного життя.
               </p>
-              <p className="about__text about__text--light about__text--center is-desktop">
+              <p className="about__text animated delay-2s slow fadeIn about__text--light about__text--center is-desktop">
                 Педагогічний склад - професіонали своєї
                 справи, які уміло володіють педагогічною майстерністю. Кредо наших педагогів:
                 найкращий спосіб зробити дітей хорошими - це зробити їх щасливими. Маю надію, що

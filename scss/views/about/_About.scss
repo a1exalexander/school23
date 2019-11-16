@@ -18,7 +18,7 @@ $style: about;
   }
   &__title {
     text-align: center;
-    @include text($H800, 400);
+    @include text($H800, 400, $N0);
     margin-bottom: 32px;
     @include media {
       font-size: $H900;
@@ -51,11 +51,12 @@ $style: about;
   &__text {
     @include text($H600, 400, $N900);
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
     @include media {
-      font-size: $H700;
+      font-size: $H600;
     }
     &--light {
+      font-weight: 300;
       color: $N0;
       @include media {
         line-height: 1.5;
