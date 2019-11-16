@@ -4,7 +4,7 @@ import { IconRadio, IconSchool, IconMail, IconBooksApple, IconBooks, IconLaws } 
 import SNavigationItem from './components/SNavigationItem';
 import SNavigationProfile from './components/SNavigationProfile';
 import SNavigationInfo from './components/SNavigationInfo';
-import logo from '../../assets/images/Kremenchuk.png';
+import logo from '../../assets/images/Kremenchuk-mini.png';
 import Link from 'next/link';
 import { routes } from '../../constants';
 
