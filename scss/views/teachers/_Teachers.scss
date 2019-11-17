@@ -4,4 +4,12 @@
     @include flex-row(flex-start, stretch);
     flex-wrap: wrap;
   }
+  &__title {
+    display: none;
+    @include media {
+      display: block;
+      @include text($H800, 400);
+      margin-bottom: 32px;
+    }
+  }
 }

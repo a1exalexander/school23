@@ -6,13 +6,13 @@ const TeacherCard = ({ className = '' }) => {
 
   return (
     <li className={classNames("teacher-card", className)}>
-      <div className='uk-card uk-card-default'>
+      <div className='teacher-card__card uk-card uk-card-default'>
         <div className="teacher-card__image-wrapper uk-card-media-top">
             <img className='teachers__image' src="https://i.pravatar.cc/600" alt=""/>
         </div>
-        <div className="uk-card-body">
-            <h3 className="uk-card-title">Media Top</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+        <div className="uk-card-body teacher-card__body">
+            <h3 className="teacher-card__name">Ратушна Ольга Миколаївна</h3>
+            <p className="teacher-card__description">Учитель математики</p>
         </div>
       </div>
     </li>

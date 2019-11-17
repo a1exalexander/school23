@@ -1,10 +1,32 @@
-.teacher-card {
+$style: teacher-card;
+.#{$style} {
   $gap: 32px;
   flex: 1 1 100%;
   margin-bottom: $gap;
+  border-radius: 3px;
+  line-height: 1;
+  cursor: pointer;
+  @include media {
+    &:hover .#{$style}__card {
+      box-shadow: $SH3;
+    }
+  }
+  &__card {
+    box-shadow: $SH4;
+    border-radius: 3px;
+  }
   &__image-wrapper {
-    max-height: 220px;
+    border-radius: 3px 3px 0 0;
+    background-color: $N100;
+    height: 220px;
     overflow: hidden;
+  }
+  &__body {
+    padding: 24px;
+    background-color: $N0;
+    position: relative;
+    top: -6px;
+    border-radius: 6px 6px 3px 3px;
   }
   @include media(600px) {
     flex: 0 0 calc(50% - #{$gap});
@@ -23,5 +45,15 @@
   @include media($screen-retina) {
     flex: 1 1 calc(20% - #{$gap});
     max-width: calc(20% - #{$gap});
+  }
+  &__name {
+    @include text($H500, 500);
+    margin-bottom: 12px;
+  }
+  &__description {
+    @include text($H300, 400, $N100);
+    @include media {
+      font-size: $H400;
+    }
   }
 }

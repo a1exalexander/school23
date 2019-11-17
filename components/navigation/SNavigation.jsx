@@ -22,6 +22,8 @@ const SNavigation = () => {
         return title('Шкільні новини');
       case routes.ABOUT:
         return title('Про школу');
+      case routes.TEACHERS:
+          return title('Наші вчителі');
       default:
         return null;
     }
