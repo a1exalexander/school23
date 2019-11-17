@@ -7,7 +7,7 @@ import HomeBanner from '../components/views/home/HomeBanner';
 const Home = () => {
   const VideoLayer = () => {
     if (process.browser) {
-      window.innerWidth > 800 && (
+      return window.innerWidth > 800 && (
         <SVideo className="home__video is-desktop" videos={[{ src: '/23.mp4', type: 'video/mp4' }]} />
       )
     }
