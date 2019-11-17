@@ -51,7 +51,6 @@ const About = () => {
             id="test-filter"
             className="about__header-image animated fast fadeIn uk-background-cover uk-flex"
             uk-parallax="bgy: -50"
-            style={{ backgroundImage: `url('images/23_bg.jpg')` }}
           >
             <div className="about__header-inner">
               <h1 className="about__title animated slow delay-1s fadeIn">Крeменчуцька школа №23</h1>
@@ -75,7 +74,7 @@ const About = () => {
             </div>
           </div>
         </header>
-        <section className="about__section" uk-scrollspy="cls: uk-animation-slide-left; target: .about__frame; delay: 400; repeat: true">
+        <section className="about__section" uk-scrollspy="cls: uk-animation-slide-left; target: .about__frame; delay: 200; duration: 500;">
           { clipsAnime('about__clip--header') }
           <div className="about__frame">
             <div className="about__text about__text--center">
@@ -99,7 +98,7 @@ const About = () => {
           </div>
         </section>
         <AboutMainSlider className="about__slider" />
-        <section className="about__section" uk-scrollspy="cls: uk-animation-slide-right; target: .about__frame; delay: 400; repeat: true">
+        <section className="about__section" uk-scrollspy="cls: uk-animation-slide-right; target: .about__frame; delay: 200; duration: 500;">
           { clipsAnime('about__clip--section-small') }
           <div className="about__frame">
             <p className="about__text about__text--center">

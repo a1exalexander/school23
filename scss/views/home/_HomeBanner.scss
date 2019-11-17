@@ -6,7 +6,6 @@
   }
   &__title {
     @include text($H700, 400, $N0);
-    font-family: $logo-font;
     &:last-child {
       margin: 0;
     }

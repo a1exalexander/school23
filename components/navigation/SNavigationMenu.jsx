@@ -24,7 +24,7 @@ const SNavigationMenu = ({ inProp = false, onClose }) => {
                 <SNavigationItem href={routes.ABOUT} label="Про школу" className="nav-menu__item">
                   <IconSchool />
                 </SNavigationItem>
-                <SNavigationItem label="Учительська" className="nav-menu__item">
+                <SNavigationItem href={routes.TEACHERS} label="Учительська" className="nav-menu__item">
                   <IconBooksApple />
                 </SNavigationItem>
                 {/* <SNavigationItem label="Бібліотека" className="nav-menu__item">
