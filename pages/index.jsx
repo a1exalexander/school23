@@ -5,6 +5,14 @@ import SVideo from '../components/common/media/SVideo';
 import HomeBanner from '../components/views/home/HomeBanner';
 
 const Home = () => {
+  const VideoLayer = () => {
+    if (process.browser) {
+      window.innerWidth > 800 && (
+        <SVideo className="home__video is-desktop" videos={[{ src: '/23.mp4', type: 'video/mp4' }]} />
+      )
+    }
+    return null;
+  }
 
   return (
     <Page>
@@ -13,10 +21,7 @@ const Home = () => {
           <HomeBanner className="home__banner" />
         </div>
         <div className="home__layer"></div>
-        <SVideo
-          className="home__video"
-          videos={[{ src: '/23.mp4', type: 'video/mp4' }]}
-        />
+        {VideoLayer()}
         <p className="home__city animated delay-4s slow fadeIn">м. Кременчук</p>
       </div>
     </Page>

@@ -9,10 +9,10 @@ $border-radius: 4px;
   width: 100%;
   min-height: 100vh;
   padding: 68px 24px;
-  // background-image: url('/images/23_bg.jpg');
-  // background-position-x: 47%;
-  // background-size: cover;
-  // background-repeat: no-repeat;
+  background-image: url('/images/23_bg.jpg');
+  background-position-x: 47%;
+  background-size: cover;
+  background-repeat: no-repeat;
   background-color: $N00;
   @include media {
     padding: 32px;
