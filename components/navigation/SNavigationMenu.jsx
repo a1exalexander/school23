@@ -30,7 +30,7 @@ const SNavigationMenu = ({ inProp = false, onClose }) => {
                 {/* <SNavigationItem label="Бібліотека" className="nav-menu__item">
                   <IconBooks />
                 </SNavigationItem> */}
-                <SNavigationItem label="Нормативно-правові акти" className="nav-menu__item">
+                <SNavigationItem href={routes.LAW} label="Нормативно-правові акти" className="nav-menu__item">
                   <IconLaws />
                 </SNavigationItem>
                 <SNavigationItem label="Контактна інформація" className="nav-menu__item">

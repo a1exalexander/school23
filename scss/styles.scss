@@ -13,6 +13,7 @@
 @import './components/common/SButton';
 @import './components/common/SUp';
 @import './components/common/SInput';
+@import './components/common/SBadge';
 
 // Navigation
 @import './components/navigation/SNavigation';
@@ -42,3 +43,6 @@
 // Teachers
 @import './views/teachers/Teachers';
 @import './views/teachers/TeacherCard';
+
+// Law
+@import './views/law/Law';

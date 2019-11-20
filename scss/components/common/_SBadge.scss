@@ -23,21 +23,22 @@ $styles: s-badge;
   padding: 3px 7px 2px;
   @include flex-row(center, center);
   display: inline-flex;
-  box-shadow: $SH2;
+  box-shadow: none;
   cursor: default;
   @include transition(box-shadow, background-color);
   transition-duration: 0.5s;
   pointer-events: all;
   &__text {
-    font-size: $H9;
+    font-size: $H100;
     font-weight: 500;
     pointer-events: none;
   }
   @each $name in $names {
     &.#{$name} {
+      
       &:active {
         background-color: darken(map-get($bg-default, $name), 2%);
-        box-shadow: 0 0 6px 0 map-get($bg-default, $name);
+        box-shadow: 0 0 8px 0 rgba(map-get($bg-default, $name), 0.9);
       }
       background-color: map-get($bg-default, $name);
       color: map-get($color, $name);

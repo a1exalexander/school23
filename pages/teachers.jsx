@@ -1,8 +1,5 @@
-import React, { useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import classNames from 'classnames';
+import React from 'react';
 import { Page } from '../components';
-import Head from 'next/head';
 import TeacherCard from '../components/views/teachers/TeacherCard';
 
 const Teachers = () => {
@@ -13,11 +10,6 @@ const Teachers = () => {
 
   return (
     <Page title="Вчителі школи №23">
-      <Head>
-        <link rel="stylesheet" href="css/uikit.css" />
-        <script src="scripts/uikit.min.js"></script>
-        <script src="scripts/uikit-icons.min.js"></script>
-      </Head>
       <div className="teachers">
         <header className='teachers__header'>
           <h1 className='teachers__title'>Наші вчителі</h1>

@@ -4,29 +4,33 @@ $style: teacher-card;
   flex: 1 1 100%;
   margin-bottom: $gap;
   border-radius: 3px;
+  box-shadow: $SH4;
   line-height: 1;
   cursor: pointer;
+  @include transition(all);
+  @include flex-col(flex-start, stretch);
   @include media {
-    &:hover .#{$style}__card {
+    &:hover {
       box-shadow: $SH3;
     }
-  }
-  &__card {
-    box-shadow: $SH4;
-    border-radius: 3px;
   }
   &__image-wrapper {
     border-radius: 3px 3px 0 0;
     background-color: $N100;
     height: 220px;
-    overflow: hidden;
+    width: 100%;
+  }
+  &__image {
+    @include size(100%);
+    object-fit: cover;
+    object-position: center center;
   }
   &__body {
     padding: 24px;
     background-color: $N0;
     position: relative;
     top: -6px;
-    border-radius: 6px 6px 3px 3px;
+    border-radius: 0 0 3px 3px;
   }
   @include media(600px) {
     flex: 0 0 calc(50% - #{$gap});
