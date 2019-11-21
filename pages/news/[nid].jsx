@@ -1,8 +1,7 @@
 import React from 'react';
-import { Page } from '../../components';
+import { Page, SButton } from '../../components';
 import { useRouter } from 'next/router';
 import { SUp } from '../../components';
-import NButton from '../../components/common/buttons/SButton';
 import Link from 'next/link';
 import { routes } from '../../constants';
 import content from './test.json';
@@ -22,9 +21,9 @@ const NewsPost = () => {
       <header className="news-post__header">
         <Link href={routes.NEWS}>
             <a className="news-post__button-back is-desktop">
-              <NButton size="small">
+              <SButton size="small">
                 Переглянути усі новини
-              </NButton>
+              </SButton>
             </a>
           </Link>
         <div className="news-post__info">
@@ -35,9 +34,9 @@ const NewsPost = () => {
       <div className='news-post__bottom-bar'>
         <Link href={routes.NEWS}>
           <a>
-            <NButton size="big" fluid type="secondary">
+            <SButton size="big" fluid type="secondary">
               Переглянути усі новини
-            </NButton>
+            </SButton>
           </a>
         </Link>
       </div>

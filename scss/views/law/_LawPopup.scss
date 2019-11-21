@@ -1,0 +1,100 @@
+$style: law-popup;
+.#{$style} {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow: auto;
+  height: 100vh;
+  @include z-index(popup);
+  &__bg {
+    display: none;
+    @include media {
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      background: rgba(0,0,0,0.40);
+      @include transition;
+      &:active {
+        background: rgba(0,0,0,0.42);
+      }
+    }
+  }
+  &__wrapper {
+    min-height: 100%;
+    @include flex-col(center, center);
+    @include media {
+      padding: 24px;
+    }
+  }
+  &__card {
+    pointer-events: all;
+    border-radius: 3px;
+    background-color: $N0;
+    flex: 0 0;
+    width: 100vw;
+    min-height: 100vh;
+    padding: 32px;
+    position: relative;
+    @include media {
+      width: 90vw;
+      min-height: 90vh;
+    }
+  }
+  &__header {
+    background-color: $N20;
+    border-radius: 4px 4px 0 0;
+    padding: 26px 32px;
+    @include flex-row(space-between, center);
+  }
+  &__title {
+    @include text($H500, 400);
+  }
+  &__close-icon {
+    @include svg(17px, $N100);
+  }
+  &__close-button {
+    position: absolute;
+    @include position(24px, 24px, auto, auto);
+    cursor: pointer;
+    background-color: transparent;
+    display: none;
+    @include media {
+      display: block;
+      &:hover {
+        .#{$style}__close-icon {
+          fill: $N70;
+        }
+      }
+    }
+    &:active {
+      .#{$style}__close-icon {
+        fill: $N600;
+      }
+    }
+  }
+  &__bottom-btn {
+    position: fixed;
+    @include position(auto, 6px, 12px, 6px);
+    @include media {
+      display: none;
+    }
+  }
+  &.withButons {
+    .#{$style}__body {
+      padding: 24px 30px 32px;
+      border-bottom: 1px solid $N40;
+    }
+  }
+  &__buttons {
+    padding: 16px 32px;
+    @include flex-row(flex-end, center);
+    & > *:first-child {
+      margin-right: 24px;
+    }
+  }
+}

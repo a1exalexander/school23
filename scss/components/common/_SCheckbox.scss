@@ -6,7 +6,7 @@ $styles: s-checkbox;
   max-width: fit-content;
   &:hover {
     .#{$styles}__cell {
-      border-color: $C300;
+      border-color: $N600;
     }
   }
   &__input {
@@ -18,8 +18,8 @@ $styles: s-checkbox;
     visibility: hidden;
     &:checked + .#{$styles}__inner  {
       .#{$styles}__cell {
-        background-color: $C50;
-        border-color: $C300;
+        background-color: $N30;
+        border-color: $N600;
       }
       .#{$styles}__image {
         opacity: 1;
@@ -31,7 +31,7 @@ $styles: s-checkbox;
   &:focus {
     outline: none;
     .#{$styles}__cell {
-      border-color: $C300;
+      border-color: $N600;
     }
   }
   &__inner {
@@ -51,11 +51,11 @@ $styles: s-checkbox;
   }
   &__image {
     opacity: 0;
-    @include svg(8px, $C300);
+    @include svg(8px, $N600);
   }
   &__text {
     line-height: 1;
-    @include text($H20, 400, $N500);
+    @include text($H200, 400);
     cursor: pointer;
   }
 }

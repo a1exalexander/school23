@@ -24,6 +24,8 @@ const SNavigation = () => {
         return title('Про школу');
       case routes.TEACHERS:
           return title('Наші вчителі');
+      case routes.LAW:
+        return title('Нормативно-правові акти');
       default:
         return null;
     }

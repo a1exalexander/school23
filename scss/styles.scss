@@ -14,6 +14,8 @@
 @import './components/common/SUp';
 @import './components/common/SInput';
 @import './components/common/SBadge';
+@import './components/common/SCheckbox';
+@import './components/common/SRadioSlider';
 
 // Navigation
 @import './components/navigation/SNavigation';
@@ -46,3 +48,4 @@
 
 // Law
 @import './views/law/Law';
+@import './views/law/LawPopup';

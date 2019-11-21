@@ -2,6 +2,24 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-overflow-scrolling: touch;
+  @include media($screen-desktop) {
+    scroll-behavior: smooth;
+  }
+  scrollbar-color: $N600 transparent;
+  scrollbar-width: thin;
+  ::-webkit-scrollbar {
+    width: 2px;
+    background: $N40;
+  }
+  ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background: $N600;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    background-clip: content-box;
+  }
 }
 
 body {

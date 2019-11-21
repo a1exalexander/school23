@@ -1,8 +1,9 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { Page } from '../components';
-import SVideo from '../components/common/media/SVideo';
 import HomeBanner from '../components/views/home/HomeBanner';
+
+const SVideo = dynamic(() => import('../components/common/media/SVideo'), { ssr: false });
 
 const Home = () => {
   const VideoLayer = () => {

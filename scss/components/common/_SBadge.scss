@@ -32,6 +32,7 @@ $styles: s-badge;
     font-size: $H100;
     font-weight: 500;
     pointer-events: none;
+    white-space: nowrap;
   }
   @each $name in $names {
     &.#{$name} {

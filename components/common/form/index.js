@@ -1,7 +1,7 @@
-import SCheckbox from './NCheckbox';
-import SInput from './NInput';
-import SSwitch from './NSwitch';
+import SCheckbox from './SCheckbox';
+import SInput from './SInput';
+import SRadioSlider from './SRadioSlider';
 import handleEvents from './handleChange';
-import SSelect from './NSelect';
+// import SSelect from './SSelect';
 
-export { SCheckbox, SInput, SSwitch, SSelect, handleEvents };
+export { SCheckbox, SRadioSlider, SInput, handleEvents };

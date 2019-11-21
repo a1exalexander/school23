@@ -1,0 +1,140 @@
+$style: s-radio-slider;
+.#{$style} {
+  border-radius: 3px;
+  background-color: $N100;
+  padding: 2px;
+  @include flex-row(flex-start, stretch);
+  min-height: 32px;
+  line-height: 1;
+  width: fit-content;
+  position: relative;
+  &.fluid {
+    width: 100%;
+  }
+  &__badge {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    background-color: $N0;
+    border-radius: 3px;
+    z-index: 1;
+    width: 100%;
+    max-width: 0;
+    will-change: max-width, left;
+    @include transition(left, max-width);
+    transition-duration: 0.4s;
+  }
+}
+
+$style: s-radio-slider-tab;
+.#{$style} {
+  line-height: 1;
+  border-radius: 3px;
+  @include flex-row(stretch, stretch);
+  @include transition(all);
+  position: relative;
+  cursor: pointer;
+  &__wrapper {
+    position: relative;
+    &.dropdown:hover {
+      .#{$style}__dropdown {
+        visibility: visible;
+        opacity: 1;
+      }
+      .#{$style}__icon {
+        transform: rotateX(180deg);
+      }
+    }
+  } 
+  &__input {
+    position: absolute;
+    z-index: -1;
+    visibility: hidden;
+    opacity: 0;
+    left: 4px;
+    top: 4px;
+    &:checked + .#{$style}__link {
+      .#{$style}__label {
+        color: $N600;
+      }
+      .#{$style}__icon {
+        fill: $N600;
+      }
+    }
+  }
+  &__link {
+    @include flex-row(center, center);
+    padding: 8px 12px;
+    border-radius: 3px;
+    background-color: transparent;
+    @include transition(all);
+    position: relative;
+    z-index: 1;
+  }
+  &__label {
+    @include transition(all);
+    @include text($H200, 400, $N0);
+  }
+  &__dropdown {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    @include z-index(popover);
+    @include transition(all);
+    display: block;
+    max-width: 600px;
+    background-color: transparent;
+    padding-top: 12px;
+    margin-bottom: 32px;
+    &.right {
+      right: 0;
+      left: auto;
+    }
+    &.left {
+      right: auto;
+      left: 0;
+    }
+    &:hover {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  &__card {
+    position: relative;
+    background-color: $N0;
+    box-shadow: $SH4;
+    line-height: 1;
+    display: block;
+    border-radius: 3px;
+    width: max-content;
+    border: 1px solid $N40;
+    &:after, &:before {
+      bottom: 100%;
+      left: 36px;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+    }
+    &:after {
+      border-color: transparent;
+      border-bottom-color: $N0;
+      border-width: 6px;
+      margin-left: -6px;
+    }
+    &:before {
+      border-color: transparent;
+      border-bottom-color: $N40;
+      border-width: 7px;
+      margin-left: -7px;
+    }
+  } 
+  &__icon {
+    margin-left: 10px;
+    @include svg(8px, $N300);
+    @include transition(all);
+  }
+}
