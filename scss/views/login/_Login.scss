@@ -1,4 +1,4 @@
-$style: admin;
+$style: login;
 .#{$style} {
   @extend %container;
   &__title {
@@ -16,7 +16,16 @@ $style: admin;
       padding-top: 24px;
     }
   }
-  &__navigation {
-    margin-bottom: 32px;
+  &__loader {
+    justify-content: flex-start;
+  }
+  &__form {
+    max-width: 400px;
+  }
+  &__input {
+    margin-bottom: 12px;
+    &:last-of-type {
+      margin-bottom: 32px;
+    }
   }
 }

@@ -1,16 +1,35 @@
-import React from "react";
-import Meta from "./Meta";
+import React, { useEffect } from 'react';
+import Meta from './Meta';
 import '../scss/styles.scss';
-// import SNavigation from './navigation/SNavigation';
+import { connect } from 'react-redux';
+import { actions } from '../store/modules/auth';
+import firebase from '../firebase';
+import TheNotifications from './TheNotifications';
 
-const Page = ({ children, title }) => {
+const Page = ({ setAuthStatus, cleanAuth, userUpdate, children, title }) => {
+  useEffect(() => {
+    const unsubscribe = firebase.auth.onAuthStateChanged(async authUser => {
+      if (authUser) {
+        setAuthStatus(true);
+        userUpdate(authUser);
+      } else {
+        await cleanAuth();
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
-      <Meta title={title}/>
-      { children }
+      <Meta title={title} />
+      <TheNotifications />
+      {children}
     </>
   );
 };
 
-export default Page;
+export default connect(null, {
+  userUpdate: actions.userUpdate,
+  setAuthStatus: actions.setAuthStatus,
+  cleanAuth: actions.cleanAuth,
+})(Page);

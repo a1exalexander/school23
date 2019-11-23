@@ -1,31 +1,12 @@
-import { actionType } from "constant";
+import { actionType } from "../../../constants";
+import { utils } from '../../../firebase';
+import nookies from 'nookies';
 
 const initState = {
   loading: false,
   hasError: false,
-  user: {
-    id: 1,
-    name: "",
-    username: "",
-    email: "",
-    address: {
-      street: "",
-      suite: "",
-      city: "",
-      zipcode: "",
-      geo: {
-        lat: "",
-        lng: ""
-      }
-    },
-    phone: "",
-    website: "",
-    company: {
-      name: "",
-      catchPhrase: "",
-      bs: ""
-    }
-  }
+  status: !!nookies.get().ADMIN_TOKEN,
+  user: {...utils.getUser()}
 };
 
 const reducer = (state = { auth: {...initState } }, action) => {
@@ -49,6 +30,20 @@ const reducer = (state = { auth: {...initState } }, action) => {
         ...state.auth,
         loading: false,
         hasError: true,
+      }
+    case actionType.AUTH_STATUS:
+      return {
+        ...state.auth,
+        status: action.payload,
+      }
+    case actionType.AUTH_UPDATE:
+      return {
+        ...state.auth,
+        user: {...action.payload},
+      }
+    case actionType.AUTH_CLEAN:
+      return {
+        ...initState,
       }
     default:
       return state.auth;

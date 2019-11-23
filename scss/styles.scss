@@ -16,6 +16,9 @@
 @import './components/common/SBadge';
 @import './components/common/SCheckbox';
 @import './components/common/SRadioSlider';
+@import './components/common/SNotification';
+@import './components/TheNotifications';
+@import './components/common/SLoader';
 
 // Navigation
 @import './components/navigation/SNavigation';
@@ -49,3 +52,9 @@
 // Law
 @import './views/law/Law';
 @import './views/law/LawPopup';
+
+// Contacts
+@import './views/contacts/Contacts';
+
+// Login
+@import './views/login/Login';

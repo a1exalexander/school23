@@ -11,6 +11,7 @@ $style: law-popup;
   &__bg {
     display: none;
     @include media {
+      display: block;
       height: 100vh;
       position: fixed;
       top: 0;
@@ -42,7 +43,7 @@ $style: law-popup;
     position: relative;
     @include media {
       width: 90vw;
-      min-height: 90vh;
+      min-height: 80vh;
     }
   }
   &__header {

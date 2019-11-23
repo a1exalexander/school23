@@ -4,3 +4,6 @@ export const NEWS_POST = '/news/[nid]';
 export const ABOUT = '/about';
 export const TEACHERS = '/teachers';
 export const LAW = '/law';
+export const CONTACTS = '/contacts';
+export const ADMIN = '/admin';
+export const LOGIN = '/login';

@@ -26,6 +26,10 @@ const SNavigation = () => {
           return title('Наші вчителі');
       case routes.LAW:
         return title('НП акти');
+      case routes.CONTACTS:
+        return title('Контакти');
+      case routes.ADMIN:
+        return title('Кабінет адміна');
       default:
         return null;
     }

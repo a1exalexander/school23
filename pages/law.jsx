@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Page, SBadge, SRadioSlider } from '../components';
-import Link from 'next/link';
 import LawPopup from '../components/views/law/LawPopup';
 import { trancate } from '../utils';
 
@@ -28,7 +27,7 @@ const Teachers = () => {
           <span className='law__date'>від {'22.11.2019'}</span>
         </div>
         <p className='law__description is-desktop'>{trancate(text, 320)}</p>
-        <p className='law__description is-mobile'>{trancate(text, 120)}</p>
+        <p className='law__description is-mobile'>{trancate(text, 100)}</p>
       </li>
     );
   })
@@ -39,7 +38,7 @@ const Teachers = () => {
       <div className="law">
         <h1 className='law__title'>Нормативно-правові акти</h1>
         <div className="law__navigation">
-          <SRadioSlider onChange={toggleSlider} name='law' checked={state.radio} tabs={['Усі НП акти', 'Закони', 'Накази']}/>
+          <SRadioSlider className='mobile-fluid' onChange={toggleSlider} name='law' checked={state.radio} tabs={['Усі НП акти', 'Закони', 'Накази']}/>
         </div>
         <ul className='law__list'>
           { teachersList }

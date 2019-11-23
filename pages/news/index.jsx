@@ -2,8 +2,6 @@ import React from 'react';
 import NewsCard from '../../components/views/news/NewsCard';
 import { Page } from '../../components';
 import { IconSearch } from '../../components/common/icons';
-// import { TransitionGroup } from 'react-transition-group';
-import '../../scss/styles.scss';
 
 const Home = () => {
   const newsList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((item, idx) => {

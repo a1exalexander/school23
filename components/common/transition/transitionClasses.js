@@ -3,13 +3,21 @@ fade: {
     enterActive: 'animated faster fadeIn',
     exitActive: 'animated faster fadeOut'
 },
+notifications: {
+  enterActive: 'animated faster fadeInDown',
+  exitActive: 'animated fast fadeOut'
+},
 slideLeft: {
-    enterActive: 'animated faster slideInLeft',
-    exitActive: 'animated faster slideOutLeft'
+    enterActive: 'animated fast slideInLeft',
+    exitActive: 'animated fast slideOutLeft'
 },
 slideRight: {
-    enterActive: 'animated faster slideInLeft',
-    exitActive: 'animated faster slideOutLeft'
+    enterActive: 'animated fast slideInLeft',
+    exitActive: 'animated fast slideOutLeft'
+},
+drop: {
+  enterActive: 'animated rocket drop',
+  exitActive: 'animated rocket drop animate-reverse'
 }
 };
 

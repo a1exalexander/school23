@@ -4,14 +4,18 @@ import thunk from 'redux-thunk';
 import actionStringMiddleware from './middlewares/actionStringMiddleware';
 import actions from './actions';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+let composeEnhancers = compose;
+
+if (process.browser) {
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+}
 
 const middlewares = [thunk, actionStringMiddleware];
 
-const store = createStore(
+export const initializeStore = () => createStore(
   reducer,
   composeEnhancers(applyMiddleware(...middlewares)),
 );
 
 export { actions };
-export default store;
+export default initializeStore;

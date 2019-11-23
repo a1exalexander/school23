@@ -2,7 +2,8 @@ import React from 'react';
 import App from 'next/app';
 import SNavigation from '../components/navigation/SNavigation';
 import { STransitionSwitch } from '../components';
-
+import withReduxStore from '../lib/with-redux-store'
+import { Provider } from "react-redux";
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
   // every single page in your application. This disables the ability to
@@ -18,16 +19,18 @@ class MyApp extends App {
 
   render() {
 
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, reduxStore } = this.props;
     return (
       <>
-        <SNavigation />
-        <STransitionSwitch keyProp={this.props.router.route}>
-          <Component {...pageProps} />
-        </STransitionSwitch>
+        <Provider store={reduxStore}>
+          <SNavigation />
+          <STransitionSwitch keyProp={this.props.router.route}>
+            <Component {...pageProps} />
+          </STransitionSwitch>
+        </Provider>
       </>
     );
   }
 }
 
-export default MyApp;
+export default withReduxStore(MyApp);

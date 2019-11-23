@@ -1,0 +1,47 @@
+$style: contacts;
+.#{$style} {
+  @extend %container;
+  width: 100%;
+  &__title {
+    line-height: 1;
+    display: none;
+    @include media {
+      display: block;
+      @include text($H800, 400);
+      margin-bottom: 32px;
+    }
+  }
+  &__container {
+    width: 100%;
+    @include flex-col(flex-start, stretch);
+    padding-top: 24px;
+    @include media {
+      padding-top: 42px;
+      @include flex-row(flex-start, baseline);
+    }
+  }
+  &__content {
+    flex: 1 1 25vh;
+    @include text($H900, 400);
+    line-height: 1.6;
+    margin-bottom: 42px;
+    @include media {
+      margin-bottom: 0;
+      margin-right: 15%;
+    }
+    
+  }
+  &__info {
+    flex: 1 1;
+  }
+  &__caption {
+    @include text($H400, 400, $N200);
+    margin-bottom: 32px;
+    font-family: $head-font;
+  }
+  &__value {
+    @include text($H600, 400);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+}

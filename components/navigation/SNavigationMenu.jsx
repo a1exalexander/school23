@@ -33,7 +33,7 @@ const SNavigationMenu = ({ inProp = false, onClose }) => {
                 <SNavigationItem href={routes.LAW} label="Нормативно-правові акти" className="nav-menu__item">
                   <IconLaws />
                 </SNavigationItem>
-                <SNavigationItem label="Контактна інформація" className="nav-menu__item">
+                <SNavigationItem href={routes.CONTACTS} label="Контактна інформація" className="nav-menu__item">
                   <IconMail />
                 </SNavigationItem>
               </ul>

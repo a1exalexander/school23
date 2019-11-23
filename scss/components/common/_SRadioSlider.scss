@@ -3,12 +3,24 @@ $style: s-radio-slider;
   border-radius: 3px;
   background-color: $N100;
   padding: 2px;
-  @include flex-row(flex-start, stretch);
-  min-height: 32px;
+  @include flex-row(stretch, stretch);
+  min-height: 42px;
   line-height: 1;
   width: fit-content;
   position: relative;
+  @include media {
+    min-height: 32px;
+  }
+  &.mobile-fluid {
+    @include flex-row(flex-start, stretch);
+    width: 100%;
+    @include media {
+      @include flex-row(stretch, stretch);
+      width: fit-content;
+    }
+  }
   &.fluid {
+    @include flex-row(flex-start, stretch);
     width: 100%;
   }
   &__badge {
@@ -35,7 +47,10 @@ $style: s-radio-slider-tab;
   position: relative;
   cursor: pointer;
   &__wrapper {
+    @include flex-row(center, center);
+    flex: 1 1;
     position: relative;
+    cursor: pointer;
     &.dropdown:hover {
       .#{$style}__dropdown {
         visibility: visible;
@@ -64,6 +79,7 @@ $style: s-radio-slider-tab;
   }
   &__link {
     @include flex-row(center, center);
+    white-space: nowrap;
     padding: 8px 12px;
     border-radius: 3px;
     background-color: transparent;

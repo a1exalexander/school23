@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-const NButton = props => {
+const SButton = props => {
   const {
     label,
     className,
@@ -48,7 +48,7 @@ const NButton = props => {
   );
 };
 
-NButton.propTypes = {
+SButton.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
   type: PropTypes.string,
@@ -65,4 +65,4 @@ NButton.propTypes = {
   id: PropTypes.string
 };
 
-export default NButton;
+export default SButton;

@@ -1,0 +1,19 @@
+$style: the-notifications;
+
+.#{$style} {
+  background-color: transparent;
+  position: fixed;
+  pointer-events: none;
+  @include position(0, 0, auto, 0);
+  @include z-index(immortal);
+  width: 100%;
+  @include flex-col(flex-start, center);
+  padding-top: 24px;
+  .s-notification {
+    pointer-events: all;
+    margin-bottom: 12px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
