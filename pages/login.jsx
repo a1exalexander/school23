@@ -6,7 +6,6 @@ import actions from '../store/actions';
 import { routes } from '../constants';
 import checkAuth from '../middlewares/checkAuth';
 import Router from 'next/router';
-import nookies from 'nookies';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -24,8 +23,8 @@ function reducer(state, action) {
 const Login = ({ status, login }) => {
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
-    email: 'alexander.ratushnyi@gmail.com',
-    password: 'rov14088650'
+    email: '',
+    password: ''
   });
 
   const onSubmit = async (event) => {
@@ -40,7 +39,7 @@ const Login = ({ status, login }) => {
 
   useEffect(() => {
     if (status) {
-      Router.replace(routes.ADMIN)
+      Router.push(routes.ADMIN)
     }
   }, [])
 
