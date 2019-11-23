@@ -26,8 +26,8 @@ const Login = ({ logout, auth, login }) => {
   const [state, dispatch] = useReducer(reducer, {
     mounting: true,
     loading: false,
-    email: 'alexander.ratushnyi@gmail.com',
-    password: 'rov14088650'
+    email: '',
+    password: ''
   });
 
   const onSubmit = async (event) => {
