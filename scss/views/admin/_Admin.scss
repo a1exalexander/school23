@@ -1,13 +1,18 @@
 $style: admin;
 .#{$style} {
   @extend %container;
-  &__title {
+  padding-top: 28px;
+  &__header {
     line-height: 1;
+    @include flex-row(space-between, flex-end);
+    margin-bottom: 24px;
+  }
+  &__title {
     display: none;
     @include media {
       display: block;
+      margin-right: 32px;
       @include text($H800, 400);
-      margin-bottom: 32px;
     }
   }
   &__container {

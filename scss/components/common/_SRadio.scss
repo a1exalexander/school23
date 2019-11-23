@@ -1,0 +1,92 @@
+$style: s-radio;
+.#{$style} {
+  position: relative;
+  max-width: fit-content;
+  @include flex-row(stretch, stretch);
+  display: inline-flex;
+  line-height: 1;
+  cursor: pointer;
+  outline: none;
+  @include media {
+    &:hover {
+      .#{$style}__dot-wrapper {
+        box-shadow: 0 0 2px 2px rgba($C50, 0.5);
+        border-color: $N600;
+      }
+      .#{$style}__text {
+        color: $N400;
+      }
+    }
+  }
+  &:focus {
+    .#{$style}__dot-wrapper {
+      box-shadow: 0 0 2px 2px rgba($C50, 0.5);
+      border-color: $N600;
+    }
+    .#{$style}__text {
+      color: $N400;
+    }
+  }
+  &:active {
+    .#{$style}__text {
+      color: $N900;
+    }
+    .#{$style}__button .#{$style}__dot-wrapper .#{$style}__dot {
+      opacity: 0;
+    }
+  }
+  &__input {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    opacity: 0;
+    z-index: -1;
+    visibility: hidden;
+    outline: none;
+    &:checked + .#{$style}__button {
+      .#{$style}__dot-wrapper {
+        background-color: $N600;
+        border-color: $N600;
+        box-shadow: none;
+      }
+      .#{$style}__dot {
+        display: inline-block;
+      }
+      .#{$style}__text {
+        color: $N900;
+      }
+    }
+  }
+  &__button {
+    pointer-events: none;
+    background-color: transparent;
+    @include flex-row(flex-start, center);
+    outline: none;
+    border: none;
+  }
+  &__dot-wrapper {
+    @include size(16px);
+    margin-right: 8px;
+    border-radius: 50%;
+    border: 1px solid $N40;
+    background-color: $N0;
+    box-shadow: $SH1;
+    position: relative;
+    @include flex-row(center, center);
+    @include transition(all);
+  }
+  &__dot {
+    @include size(8px);
+    background-color: $N0;
+    border-radius: 50%;
+    will-change: display;
+    display: none;
+    position: absolute;
+  }
+  &__text {
+    line-height: 1.1;
+    @include text($H200, 400, $N200);
+    @include transition(color);
+    text-transform: capitalize;
+  }
+}

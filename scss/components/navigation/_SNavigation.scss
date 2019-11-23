@@ -132,12 +132,12 @@ $styles: s-navigation;
   }
   &__icon-description {
     @include svg(11px, $N0);
-    margin-right: 4px;
+    margin-right: 6px;
   }
   &__description-text {
-    @include text($H300, 400, $N0);
+    @include text($H300, 300, $N0);
+    font-family: $head-font;
     position: relative;
-    bottom: 1px;
   }
   &__title {
     @include text($H700, 400, $N0);

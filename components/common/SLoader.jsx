@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { STransitionSwitch } from '../index';
 import loaderGif from '../../assets/gif/copper.gif';
 
 const SLoader = ({ loading, fluid = false, className, children }) => {
@@ -15,7 +16,7 @@ const SLoader = ({ loading, fluid = false, className, children }) => {
     return loading && loader;
   }
 
-  return <Fragment>{loading ? loader : children}</Fragment>;
+  return <Fragment><STransitionSwitch keyProp={loading}>{loading ? loader : children}</STransitionSwitch></Fragment>;
 };
 
 SLoader.propTypes = {

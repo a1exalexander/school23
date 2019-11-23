@@ -21,7 +21,7 @@ const SRadioSlider = ({ tabs = [], name, onChange, fluid = false, checked, class
 
   useEffect(() => {
     setActiveTab();
-  }, []);
+  }, [tabs]);
 
   useEffect(() => {
     setActiveTab();

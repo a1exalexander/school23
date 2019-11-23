@@ -43,10 +43,10 @@ const SNavigation = () => {
     <nav className="s-navigation">
       <div className={classNames('s-navigation__top-bar', {'visible': !isHome, 'active': showMenu})}>
         <SNavigationButton onClick={() => setShowMenu(!showMenu)} className={classNames('s-navigation__button', {'active': showMenu})} />
-        {isHome && (<span className="s-navigation__description">
-          <IconArrowLeft className="s-navigation__icon-description" />{' '}
-          <span className='s-navigation__description-text'>Відкрити головне меню</span>
-        </span>)}
+        {isHome && (<div className="s-navigation__description">
+          <IconArrowLeft className="s-navigation__icon-description animated delay-2s fadeIn" />{' '}
+          <span className='s-navigation__description-text animated delay-2s fadeIn'>Відкрити головне меню</span>
+        </div>)}
         { menuTitle() }
       </div>
       <SNavigationMenu onClose={() => setShowMenu(false)} inProp={showMenu}/>

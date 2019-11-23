@@ -1,4 +1,23 @@
 $style: admin-post;
 .#{$style} {
-  
+  &__input {
+    margin-bottom: 24px;
+    .ql-toolbar.ql-snow {
+      border-radius: 3px 3px 0 0;
+      border-color: $N40;
+    }
+    .ql-container.ql-snow {
+      border-radius: 0 0 3px 3px;
+      border-color: $N40;
+    }
+  }
+  &__radio-group {
+    margin-bottom: 24px;
+    & > * {
+      margin-right: 24px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
 }

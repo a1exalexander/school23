@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
-import { ADMIN_NEWS, ADMIN_TEACHERS, ADMIN_CONTACTS, ADMIN_LAW } from '../constants';
-import { Page, SRadioSlider, STransitionSwitch } from '../components';
+import React, { useReducer, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { routes, ADMIN_NEWS, ADMIN_LAW, ADMIN_TEACHERS, ADMIN_CONTACTS } from '../constants';
+import { Page, SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import { connect } from 'react-redux';
-import { actions } from '../store/modules/auth';
+import actions from '../store/actions';
 import AdminPost from '../components/views/admin/AdminPost';
+import Router from 'next/router';
 
-const Admin = (props) => {
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'tab':
+      return { ...state, tab: action.payload };
+    case 'mounted':
+      return { ...state, mounting: false };
+    default:
+      throw new Error();
+  }
+}
 
-  const [state, setState] = useState(ADMIN_NEWS);
-
+const Admin = ({ auth, logout }) => {
+  const [state, dispatch] = useReducer(reducer, {
+    tab: ADMIN_NEWS,
+    mounting: true
+  });
   const rendred = () => {
     switch (state) {
       case ADMIN_NEWS:
@@ -16,25 +30,65 @@ const Admin = (props) => {
       default:
         return <AdminPost />;
     }
-  }
+  };
+
+  useEffect(() => {
+    dispatch({ type: 'mounted' });
+  }, []);
+
+  useEffect(() => {
+    if (!auth.status) {
+      Router.push(routes.HOME);
+    }
+  }, [auth.status]);
+
+  const onLogout = async () => {
+    const ok = await logout();
+    if (ok) Router.push(routes.HOME);
+  };
+
+  const onTabChange = payload => dispatch({ type: 'tab', payload });
 
   return (
     <Page title="Кабінет адміністратора">
       <div className="admin">
-        <h1 className='admin__title'>Кабінет адміністратора</h1>
-        <div className="admin__container">
-          <div className="admin__navigation">
-            <SRadioSlider className='mobile-fluid' onChange={setState} name='law' checked={state} tabs={[ADMIN_NEWS, ADMIN_LAW, ADMIN_TEACHERS, ADMIN_CONTACTS]}/>
-          </div>
-          <div className='admin__view'>
-            <STransitionSwitch keyProp={state}>
-              {rendred()}
-            </STransitionSwitch>
-          </div>
-        </div>
+        <SLoader fluid loading={state.mounting || !auth.status}>
+          <>
+            <div className="admin__header">
+              <h1 className="admin__title">Кабінет адміністратора</h1>
+              {auth.status && (
+                <SButton onClick={onLogout} type="transparent" label="Вийти">
+                  <span role="img" area-label="logout">
+                    🔌
+                  </span>
+                </SButton>
+              )}
+            </div>
+
+            <div className="admin__container">
+              <div className="admin__navigation">
+                <SRadioSlider
+                  className="mobile-fluid"
+                  onChange={onTabChange}
+                  name="law"
+                  checked={state.tab}
+                  tabs={[ADMIN_NEWS, ADMIN_LAW, ADMIN_TEACHERS, ADMIN_CONTACTS]}
+                />
+              </div>
+              <div className="admin__view">
+                <STransitionSwitch keyProp={state.tab}>{rendred()}</STransitionSwitch>
+              </div>
+            </div>
+          </>
+        </SLoader>
       </div>
     </Page>
-  )
-}
+  );
+};
 
-export default connect()(Admin);
+Admin.propTypes = {
+  logout: PropTypes.func,
+  auth: PropTypes.object
+};
+
+export default connect(({ auth }) => ({ auth }), { logout: actions.auth.logout })(Admin);

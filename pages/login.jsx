@@ -11,6 +11,8 @@ function reducer(state, action) {
   switch (action.type) {
     case 'loading':
       return { ...state, loading: action.payload };
+    case 'mounted':
+      return { ...state, mounting: false };
     case 'email':
       return { ...state, email: action.payload };
     case 'password':
@@ -20,11 +22,12 @@ function reducer(state, action) {
   }
 }
 
-const Login = ({ status, login }) => {
+const Login = ({ logout, auth, login }) => {
   const [state, dispatch] = useReducer(reducer, {
+    mounting: true,
     loading: false,
-    email: '',
-    password: ''
+    email: 'alexander.ratushnyi@gmail.com',
+    password: 'rov14088650'
   });
 
   const onSubmit = async (event) => {
@@ -38,10 +41,14 @@ const Login = ({ status, login }) => {
   const handleChange = type => payload => dispatch({ type, payload });
 
   useEffect(() => {
-    if (status) {
-      Router.push(routes.ADMIN)
-    }
+    dispatch({ type: 'mounted' })
   }, [])
+
+  useEffect(() => {
+    if (auth.status) {
+      Router.push(routes.ADMIN, routes.ADMIN)
+    }
+  }, [auth.status])
 
   const isNotAuth = (
     <div className="login__form">
@@ -55,7 +62,7 @@ const Login = ({ status, login }) => {
     <Page title="Авторизація">
       <div className="login">
         <h1 className="login__title">Авторизація</h1>
-        {status ? <SLoader className="login__loader" loading={true} /> : isNotAuth}
+        <SLoader fluid className="login__loader" loading={state.mounting || auth.status}>{isNotAuth}</SLoader>
       </div>
     </Page>
   );
@@ -70,7 +77,7 @@ Login.propTypes = {
 
 Login.getInitialProps = async (ctx) => {
   await checkAuth(ctx);
-  return { status: ctx.reduxStore.getState().auth.status }
+  return {};
 }
 
 export default connect(

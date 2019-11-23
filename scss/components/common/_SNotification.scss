@@ -18,8 +18,9 @@ $styles: s-notification;
   width: 100%;
   max-width: 270px;
   min-height: 42px;
-  padding: 6px 12px;
+  padding: 6px 24px;
   @include flex-row(flex-start, center);
+  cursor: pointer;
   &__text {
     font-size: $H200;
     color: $N900;

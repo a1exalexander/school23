@@ -13,7 +13,7 @@ const SButton = props => {
     type = 'primary',
     size = 'normal',
     fluid = false,
-    revert = false,
+    revert = true,
     style,
     id = '',
     name = ''

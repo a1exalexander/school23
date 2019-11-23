@@ -22,7 +22,7 @@ const NNotification = props => {
       default:
         return <span className='s-notification__icon' role="img" area-label='success'>🚀</span>;
       case "error":
-        return <span className='s-notification__icon' role="img" area-label='error'>🔥</span>
+        return <span className='s-notification__icon' role="img" area-label='error'>🖤</span>
       case "info":
         return <span className='s-notification__icon' role="img" area-label='info'>⚡</span>
     }
