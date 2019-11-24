@@ -1,5 +1,4 @@
 import React, { useReducer, useEffect } from 'react';
-import dynamic from 'next/dynamic';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { SInput, SButton, SRadio } from '../../index';

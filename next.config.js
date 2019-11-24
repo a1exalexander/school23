@@ -11,7 +11,6 @@ dotenvLoad();
 const withNextEnv = nextEnv();
 
 const nextConfig = {
-  distDir: 'build',
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.push({
       test: /\.js$/,
