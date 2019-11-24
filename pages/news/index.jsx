@@ -42,7 +42,7 @@ const News = ({ loading, news, hasNews, getNews }) => {
 };
 
 News.propTypes = {
-  news: PropTypes.array,
+  news: PropTypes.func,
   getNews: PropTypes.func,
   hasNews: PropTypes.bool,
   loading: PropTypes.bool,

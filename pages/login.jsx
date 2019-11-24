@@ -48,7 +48,7 @@ const Login = ({ logout, auth, login }) => {
     if (state.mounting && auth.status) {
       Router.push(routes.ADMIN)
     }
-  }, [auth.status])
+  }, [state.mounting, auth.status])
 
   const isNotAuth = (
     <div className="login__form">

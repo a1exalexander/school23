@@ -4,7 +4,7 @@ fade: {
     exitActive: 'animated faster fadeOut'
 },
 notifications: {
-  enterActive: 'animated faster fadeInDown',
+  enterActive: 'animated faster fadeInDownUp',
   exitActive: 'animated fast fadeOut'
 },
 slideLeft: {

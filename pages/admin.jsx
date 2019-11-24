@@ -1,12 +1,15 @@
 import React, { useReducer, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import PropTypes from 'prop-types';
 import { routes, ADMIN_NEWS, ADMIN_LAW, ADMIN_TEACHERS, ADMIN_CONTACTS } from '../constants';
 import { Page, SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import { connect } from 'react-redux';
 import actions from '../store/actions';
-import AdminPost from '../components/views/admin/AdminPost';
 import Router from 'next/router';
 import checkAuth from '../middlewares/checkAuth';
+import Head from 'next/head';
+
+const AdminPost = dynamic(() => import('../components/views/admin/AdminPost'), { ssr: false });
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -38,10 +41,10 @@ const Admin = ({ auth, logout }) => {
   }, []);
 
   useEffect(() => {
-    if (process.browser && !auth.status) {
+    if (state.mounting && !auth.status) {
       Router.push(routes.HOME);
     }
-  }, [auth.status]);
+  }, [state.mounting, auth.status]);
 
   const onLogout = async () => {
     const ok = await logout();

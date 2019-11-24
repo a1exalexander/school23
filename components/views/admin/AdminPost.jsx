@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -6,7 +6,12 @@ import { SInput, SButton, SRadio } from '../../index';
 import 'react-quill/dist/quill.snow.css';
 import actions from '../../../store/actions';
 import { db } from '../../../firebase';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import ReactQuill, { Quill } from 'react-quill';
+import ImageResize from 'quill-image-resize-module';
+import { ImageDrop } from 'quill-image-drop-module';
+
+Quill.register('modules/imageResize', ImageResize)
+Quill.register('modules/imageDrop', ImageDrop);
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -48,9 +53,10 @@ const AdminPost = ({ notify }) => {
     ['clean'] // remove formatting button
   ];
   const modules = {
-    toolbar: toolbarOptions
-  };
-
+    toolbar: toolbarOptions,
+    imageResize: {},
+    imageDrop: true,
+  }
   const formats = [
     'header',
     'bold',
@@ -109,6 +115,7 @@ const AdminPost = ({ notify }) => {
           ✎
         </span>
       </SButton>
+      <button onClick={() => notify('success', 'Пост успішно опублковано!')}>notify</button>
     </div>
   );
 };

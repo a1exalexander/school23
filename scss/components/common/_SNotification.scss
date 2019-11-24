@@ -16,11 +16,13 @@ $styles: s-notification;
   border-radius: 4px;
   box-shadow: $SH4;
   width: 100%;
-  max-width: 420px;
   min-height: 42px;
   padding: 6px 24px;
   @include flex-row(flex-start, center);
   cursor: pointer;
+  @include media {
+    max-width: 420px;
+  }
   &__text {
     font-size: $H200;
     color: $N900;

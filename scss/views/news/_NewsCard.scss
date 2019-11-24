@@ -9,6 +9,9 @@ $style: news-card;
   @include flex-col(stretch, stretch);
   overflow: hidden;
   @include transition(all);
+  &.announcement {
+    border: 1px solid $R100;
+  }
   &.image {
     color: $N0;
     .#{$style}__title {
