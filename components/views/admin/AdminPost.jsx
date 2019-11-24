@@ -10,7 +10,7 @@ import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module';
 import { ImageDrop } from 'quill-image-drop-module';
 
-Quill.register('modules/imageResize', ImageResize)
+Quill.register('modules/imageResize', ImageResize);
 Quill.register('modules/imageDrop', ImageDrop);
 
 const reducer = (state, action) => {
