@@ -1,20 +1,26 @@
 import moment from 'moment';
+import { isObject } from '../utils';
 
 const initPost = {
   title: '',
   text: '',
   type: '',
-  created: '',
-}
+  created: ''
+};
 
-export const genPost = (post) => {
+export const formatPost = post => {
+  const shallowPost = isObject(post) ? { ...post } : { id: '', ...initPost };
+  return shallowPost;
+};
+
+export const genPost = post => {
   const newPost = {};
   Object.keys(initPost).forEach(key => {
     newPost[key] = post[key] || initPost[key];
   });
   newPost.created = moment().unix();
   return newPost;
-}
+};
 
 export default class Post {
   constructor(newPost) {

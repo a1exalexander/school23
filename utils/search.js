@@ -6,7 +6,7 @@ const filterSearch = (query) => (el) => {
       return String(value).toLowerCase().indexOf(String(query).toLowerCase()) !== -1;
     })
   }
-  return String(el).toLowerCase().indexOf(String(query).toLowerCase()) !== -1;;
-} 
+  return String(el).toLowerCase().indexOf(String(query).toLowerCase()) !== -1;
+}
 
 export default filterSearch;

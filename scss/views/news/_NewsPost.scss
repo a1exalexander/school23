@@ -11,7 +11,7 @@ $style: news-post;
   }
   &__title {
     @include text($H700, 400);
-    margin-right: 24px;
+    margin-bottom: 24px;
   }
   &__description {
     @include text($H400, 400);

@@ -67,9 +67,7 @@ $style: news-card;
     position: relative;
     z-index: 1;
     flex: 1 1;
-    @include media {
-      padding-bottom: 0;
-    }
+    padding-bottom: 0;
   }
   &.image &__content {
     background: -moz-linear-gradient(top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */

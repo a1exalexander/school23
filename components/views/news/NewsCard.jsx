@@ -36,7 +36,7 @@ const NewsCard = ({ post, className, idx }) => {
             dangerouslySetInnerHTML={{ __html: trancate(post.text, idx ? 200 : 400) }}
           ></p>
         </div>
-        <div className="news-card__button-wrapper is-desktop">
+        <div className="news-card__button-wrapper">
           <Link href={`${routes.NEWS}/${post.id}`}>
             <a>
               <SButton type={hasImage ? 'white' : 'secondary'} className="news-card__button">
@@ -56,7 +56,8 @@ NewsCard.propTypes = {
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     title: PropTypes.string,
     text: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
+    created: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   })
 };
 

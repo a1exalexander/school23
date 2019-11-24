@@ -79,17 +79,25 @@ $style: s-radio-slider-tab;
   }
   &__link {
     @include flex-row(center, center);
-    white-space: nowrap;
-    padding: 8px 12px;
+    padding: 6px 8px;
     border-radius: 3px;
+    text-align: center;
     background-color: transparent;
     @include transition(all);
     position: relative;
     z-index: 1;
+    @include media {
+      white-space: nowrap;
+      padding: 8px 12px;
+    }
   }
   &__label {
     @include transition(all);
-    @include text($H200, 400, $N0);
+    @include text($H100, 500, $N0);
+    @include media {
+      font-size: $H200;
+      font-weight: 400;
+    }
   }
   &__dropdown {
     visibility: hidden;

@@ -57,11 +57,11 @@ const Admin = ({ auth, logout }) => {
           <>
             <div className="admin__header">
               <h1 className="admin__title">Кабінет адміністратора</h1>
-                <SButton onClick={onLogout} type="transparent" label="Вийти">
-                  <span role="img" area-label="logout">
-                    🔌
-                  </span>
-                </SButton>
+              <SButton onClick={onLogout} type="transparent" label="Вийти">
+                <span role="img" area-label="logout">
+                  🔌
+                </span>
+              </SButton>
             </div>
 
             <div className="admin__container">

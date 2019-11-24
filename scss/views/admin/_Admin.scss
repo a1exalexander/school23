@@ -1,7 +1,10 @@
 $style: admin;
 .#{$style} {
   @extend %container;
-  padding-top: 28px;
+  padding-top: 98px;
+  @include media {
+    padding-top: 28px;
+  }
   &__header {
     line-height: 1;
     @include flex-row(space-between, flex-end);

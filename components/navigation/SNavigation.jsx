@@ -30,6 +30,8 @@ const SNavigation = () => {
         return title('Контакти');
       case routes.ADMIN:
         return title('Кабінет адміна');
+      case routes.LOGIN:
+        return title('Авторизація');
       default:
         return null;
     }

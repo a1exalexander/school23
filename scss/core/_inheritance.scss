@@ -23,14 +23,16 @@
   width: 100%;
   border: 1px solid $N40;
   border-radius: 3px;
-  height: 32px;
+  height: 36px;
   padding: 0 12px;
   outline: none;
   box-shadow: none;
-  @include text($H200, 400, $N900);
+  @include text($H600, 300, $N900);
   @include transition(all);
   caret-color: $N300;
   @include media {
+    height: 32px;
+    font-size: $H200;
     &:hover:not(:focus) {
       border-color: $C75;
     }

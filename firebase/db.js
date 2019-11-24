@@ -44,3 +44,17 @@ export const getPosts = async () => {
     return false;
   }
 }
+
+export const getPost = async (id) => {
+  try {
+    const doc = await db.collection("news").doc(id).get();
+    if (!doc.exists) {
+      return false;
+    } else {
+      return doc.data();
+    }
+  } catch(err) {
+    console.log(err);
+    return false;
+  }
+}
