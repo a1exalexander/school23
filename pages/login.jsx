@@ -34,8 +34,9 @@ const Login = ({ logout, auth, login }) => {
     dispatch({ type: 'loading', payload: true })
     event.preventDefault();
     const { email, password } = state;
-    await login({ email, password });
+    const ok = await login({ email, password });
     dispatch({ type: 'loading', payload: false })
+    if (ok) Router.push(routes.ADMIN);
   };
 
   const handleChange = type => payload => dispatch({ type, payload });
@@ -46,7 +47,7 @@ const Login = ({ logout, auth, login }) => {
 
   useEffect(() => {
     if (state.mounting && auth.status) {
-      Router.push(routes.ADMIN)
+      Router.push(routes.ADMIN);
     }
   }, [state.mounting, auth.status])
 

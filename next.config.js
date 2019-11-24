@@ -2,6 +2,7 @@ const withSass = require('@zeit/next-sass');
 const withImages = require('next-images');
 const withCSS = require('@zeit/next-css');
 const compose = require('next-compose-plugins');
+const getPathsObject = require("./scripts/getPathsObject");
 // const dotEnvResult = require('dotenv').config();
 const nextEnv = require('next-env');
 const dotenvLoad = require('dotenv-load');
@@ -22,6 +23,13 @@ const nextConfig = {
     }))
     return config;
   },
+  exportPathMap: function() {
+    const fileObj = getPathsObject();
+    return {
+      ...fileObj,
+      "/": { page: "/" }
+    };
+  }
 };
 
 module.exports = compose([

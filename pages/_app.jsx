@@ -4,6 +4,10 @@ import SNavigation from '../components/navigation/SNavigation';
 import { STransitionSwitch } from '../components';
 import withReduxStore from '../lib/with-redux-store'
 import { Provider } from "react-redux";
+import Router from "next/router";
+import { compose } from 'redux'
+import withGA from "next-ga";
+
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
   // every single page in your application. This disables the ability to
@@ -33,4 +37,4 @@ class MyApp extends App {
   }
 }
 
-export default withReduxStore(MyApp);
+export default compose(withGA("UA-214935287-1", Router), withReduxStore)(MyApp);

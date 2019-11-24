@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run postexport && next build",
     "start": "next start",
     "test:e2e": "start-server-and-test dev http://localhost:3000 cypress:run",
     "cypress:run": "cypress run",
     "test:e2e:open": "start-server-and-test dev http://localhost:3000 cypress:open",
     "cypress:open": "cypress open",
-    "test": "env-cmd -f .env.test mocha"
+    "test": "env-cmd -f .env.test mocha",
+    "export": "next export",
+    "postexport": "node scripts/postExport.js"
   },
   "dependencies": {
     "@babel/register": "^7.7.0",
@@ -34,8 +36,10 @@
     "next-cookie": "^2.0.0",
     "next-cookies": "^2.0.2",
     "next-env": "^1.1.0",
+    "next-ga": "^2.3.4",
     "next-images": "^1.2.0",
     "next-redux-wrapper": "^4.0.1",
+    "nextjs-sitemap-generator": "^0.4.1",
     "node-sass": "^4.13.0",
     "nookies": "^2.0.8",
     "prop-types": "^15.7.2",
@@ -52,6 +56,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "rimraf": "^3.0.0",
     "start-server-and-test": "^1.10.6",
     "typed.js": "^2.0.11",
     "uikit": "^3.2.3",

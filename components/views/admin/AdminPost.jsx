@@ -114,7 +114,6 @@ const AdminPost = ({ notify }) => {
           ✎
         </span>
       </SButton>
-      <button onClick={() => notify('success', 'Пост успішно опублковано!')}>notify</button>
     </div>
   );
 };
