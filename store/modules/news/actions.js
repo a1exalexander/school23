@@ -1,62 +1,22 @@
-import { actionType, routes } from '../../../constants';
-import firebase, { auth, db, utils } from '../../../firebase';
+import { actionType } from '../../../constants';
+import { db } from '../../../firebase';
 import { actions as notifications } from '../notifications';
-import nookies from 'nookies';
+import moment from 'moment';
 
-export const userUpdate = (user) => {
-  return {
-    type: actionType.AUTH_UPDATE,
-    payload: utils.getUser(user),
-  }
-}
-
-export const setAuthStatus = (status = false) => {
-  return {
-    type: actionType.AUTH_STATUS,
-    payload: status,
-  }
-}
-
-export const login = ({ email, password, admin = false }) => async (dispatch, getState) => {
-  try {
-    dispatch(actionType.AUTH_REQUEST);
-    const { user } = await firebase.auth.signInWithEmailAndPassword(email, password);
-    const { token } = await user.getIdTokenResult();
-    nookies.set({}, 'ADMIN_TOKEN', token);
-    dispatch({ type: actionType.AUTH_SUCCESS, payload: userUpdate(user) });
-    dispatch(notifications.notify('success'));
-    return true;
-  } catch(err) {
+export const getNews = () => async (dispatch) => {
+  dispatch(actionType.NEWS_REQUEST);
+  const res = await db.getPosts();
+  if (res) {
+    const posts = res.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    posts.sort((a, b) => Number(b.created) - Number(a.created))
+    dispatch({ type: actionType.NEWS_UPDATE, payload: posts });
+    dispatch(actionType.NEWS_SUCCESS);
+  } else {
     dispatch(actionType.AUTH_FAILURE);
-    switch (err.code) {
-      case 'auth/user-not-found':
-        dispatch(notifications.notify('error', 'Дані введено не правильно'));
-        break;
-      case 'auth/invalid-email':
-        dispatch(notifications.notify('error', 'Імейл введено не правильно'));
-        break;
-      default:
-        dispatch(notifications.notify('error'));
-        break;
-    }
-    return false;
+    dispatch(notifications.notify('error', 'Помилка при завантаженні новин'));
   }
-
-}
-
-export const cleanAuth = () => {
-  nookies.destroy({}, 'ADMIN_TOKEN');
-  return {type: actionType.AUTH_CLEAN}
-}
-
-export const logout = () => async (dispatch) => {
-  try {
-    await firebase.auth.signOut();
-    dispatch(cleanAuth());
-    return true;
-  } catch(err) {
-    dispatch(notifications.notify('error'));
-    return false;
-  }
-
+  return;
 }

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import actions from '../store/actions';
 import AdminPost from '../components/views/admin/AdminPost';
 import Router from 'next/router';
+import checkAuth from '../middlewares/checkAuth';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,11 +34,11 @@ const Admin = ({ auth, logout }) => {
   };
 
   useEffect(() => {
-    dispatch({ type: 'mounted' });
+    if (process.browser) dispatch({ type: 'mounted' });
   }, []);
 
   useEffect(() => {
-    if (!auth.status) {
+    if (process.browser && !auth.status) {
       Router.push(routes.HOME);
     }
   }, [auth.status]);
@@ -56,13 +57,11 @@ const Admin = ({ auth, logout }) => {
           <>
             <div className="admin__header">
               <h1 className="admin__title">Кабінет адміністратора</h1>
-              {auth.status && (
                 <SButton onClick={onLogout} type="transparent" label="Вийти">
                   <span role="img" area-label="logout">
                     🔌
                   </span>
                 </SButton>
-              )}
             </div>
 
             <div className="admin__container">
@@ -90,5 +89,10 @@ Admin.propTypes = {
   logout: PropTypes.func,
   auth: PropTypes.object
 };
+
+Admin.getInitialProps = async (ctx) => {
+  await checkAuth(ctx);
+  return {};
+}
 
 export default connect(({ auth }) => ({ auth }), { logout: actions.auth.logout })(Admin);

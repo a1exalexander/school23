@@ -16,7 +16,7 @@ $styles: s-notification;
   border-radius: 4px;
   box-shadow: $SH4;
   width: 100%;
-  max-width: 270px;
+  max-width: 420px;
   min-height: 42px;
   padding: 6px 24px;
   @include flex-row(flex-start, center);
@@ -24,10 +24,10 @@ $styles: s-notification;
   &__text {
     font-size: $H200;
     color: $N900;
-    margin-left: 12px;
   }
   &__icon {
     font-size: 16px;
+    margin-right: 12px;
   }
 
   @each $name in $names {

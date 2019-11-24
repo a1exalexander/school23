@@ -5,7 +5,7 @@ import nookies from 'nookies';
 const initState = {
   loading: false,
   hasError: false,
-  status: !!nookies.get().ADMIN_TOKEN,
+  status: !!nookies.get({}).ADMIN_TOKEN,
   user: {...utils.getUser()}
 };
 

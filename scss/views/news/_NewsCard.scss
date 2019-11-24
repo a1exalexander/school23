@@ -34,11 +34,18 @@ $style: news-card;
     @include media {
       font-size: $H500;
     }
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+  }
+  &__info {
+    @include flex-row(flex-start, center);
+    margin-bottom: 16px;
+  }
+  &__badge {
+    margin-right: 8px;
   }
   &__date {
     @include text($H110, 400);
-    margin-bottom: 20px;
+    
   }
   &__text {
     @include text($H400, 300);

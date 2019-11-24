@@ -1,7 +1,11 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import dynamic from 'next/dynamic';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { SInput, SButton, SRadio } from '../../index';
 import 'react-quill/dist/quill.snow.css';
+import actions from '../../../store/actions';
+import { db } from '../../../firebase';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const reducer = (state, action) => {
@@ -12,13 +16,17 @@ const reducer = (state, action) => {
       return { ...state, text: action.payload };
     case 'type':
       return { ...state, type: action.payload };
+    case 'loading':
+      return { ...state, loading: action.payload };
+    case 'clean':
+      return { ...state, title: '', text: '' };
     default:
       throw new Error();
   }
 };
 
-const AdminPost = () => {
-  const [state, dispatch] = useReducer(reducer, { title: '', type: 'post', text: '' });
+const AdminPost = ({ notify }) => {
+  const [state, dispatch] = useReducer(reducer, { loading: false, title: '', type: 'post', text: '' });
 
   const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -61,13 +69,28 @@ const AdminPost = () => {
     dispatch({ type, payload });
   };
 
+  const isDisabled = [!!state.title, !!state.type, !!state.text].includes(false);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    onDispatch('loading')(true);
+    const res = await db.addPost(state);
+    if (res) {
+      notify('success', 'Пост успішно опублковано!');
+      onDispatch('clean')();
+    } else {
+      notify('error');
+    }
+    onDispatch('loading')(false);
+  }
+
   return (
     <div className="admin-post">
       <div className="admin-post__radio-group">
-        <SRadio onChange={onDispatch('type')} checked={state.type} value="post">
+        <SRadio name='post' onChange={onDispatch('type')} checked={state.type} value="post">
           Стаття
         </SRadio>
-        <SRadio onChange={onDispatch('type')} checked={state.type} value="announcement">
+        <SRadio name='post' onChange={onDispatch('type')} checked={state.type} value="announcement">
           Оголошення
         </SRadio>
       </div>
@@ -81,7 +104,7 @@ const AdminPost = () => {
         modules={modules}
         formats={formats}
       />
-      <SButton label="Опублікувати статтю">
+      <SButton loading={state.loading} onClick={onSubmit} disabled={isDisabled} label="Опублікувати статтю">
         <span role="img" area-label="post">
           ✎
         </span>
@@ -90,4 +113,8 @@ const AdminPost = () => {
   );
 };
 
-export default AdminPost;
+AdminPost.propTypes = {
+  notify: PropTypes.func,
+}
+
+export default connect(null, { notify: actions.notifications.notify })(AdminPost);

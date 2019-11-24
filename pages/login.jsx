@@ -45,7 +45,7 @@ const Login = ({ logout, auth, login }) => {
   }, [])
 
   useEffect(() => {
-    if (auth.status) {
+    if (process.browser && auth.status) {
       Router.push(routes.ADMIN, routes.ADMIN)
     }
   }, [auth.status])

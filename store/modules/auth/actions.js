@@ -23,8 +23,9 @@ export const login = ({ email, password, admin = false }) => async (dispatch, ge
     const { user } = await firebase.auth.signInWithEmailAndPassword(email, password);
     const { token } = await user.getIdTokenResult();
     nookies.set({}, 'ADMIN_TOKEN', token);
+    localStorage.setItem('ADMIN_TOKEN', token);
     dispatch({ type: actionType.AUTH_SUCCESS, payload: userUpdate(user) });
-    dispatch(notifications.notify('success'));
+    dispatch(notifications.notify('success', 'Успішна авторизація'));
     return true;
   } catch(err) {
     dispatch(actionType.AUTH_FAILURE);
@@ -41,11 +42,11 @@ export const login = ({ email, password, admin = false }) => async (dispatch, ge
     }
     return false;
   }
-
 }
 
 export const cleanAuth = () => {
   nookies.destroy({}, 'ADMIN_TOKEN');
+  localStorage.removeItem('ADMIN_TOKEN');
   return {type: actionType.AUTH_CLEAN}
 }
 

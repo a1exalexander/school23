@@ -8,3 +8,9 @@ export const AUTH_CLEAN = 'AUTH_CLEAN';
 // Notifications
 export const NOTIFICATIONS_UPDATE = 'NOTIFICATIONS_UPDATE';
 export const NOTIFICATIONS_CLEAN_ALL = 'NOTIFICATIONS_CLEAN_ALL';
+
+// NEWS
+export const NEWS_REQUEST = 'NEWS_REQUEST';
+export const NEWS_SUCCESS = 'NEWS_SUCCESS';
+export const NEWS_FAILURE = 'NEWS_FAILURE';
+export const NEWS_UPDATE = 'NEWS_UPDATE';

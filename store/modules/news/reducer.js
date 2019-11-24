@@ -1,52 +1,39 @@
 import { actionType } from "../../../constants";
-import { utils } from '../../../firebase';
-import nookies from 'nookies';
 
 const initState = {
   loading: false,
   hasError: false,
-  status: !!nookies.get().ADMIN_TOKEN,
-  user: {...utils.getUser()}
+  posts: [],
 };
 
-const reducer = (state = { auth: {...initState } }, action) => {
+const reducer = (state = { news: {...initState } }, action) => {
 
   switch (action.type) {
-    case actionType.AUTH_REQUEST:
+    case actionType.NEWS_REQUEST:
       return {
-        ...state.auth,
+        ...state.news,
         loading: true,
         hasError: false,
       };
-    case actionType.AUTH_SUCCESS:
+    case actionType.NEWS_SUCCESS:
       return {
-        ...state.auth,
+        ...state.news,
         loading: false,
         hasError: false,
-        user: { ...action.payload },
       };
-    case actionType.AUTH_FAILURE:
+    case actionType.NEWS_UPDATE:
       return {
-        ...state.auth,
+        ...state.news,
+        posts: [...action.payload],
+      }
+    case actionType.NEWS_FAILURE:
+      return {
+        ...state.news,
         loading: false,
         hasError: true,
       }
-    case actionType.AUTH_STATUS:
-      return {
-        ...state.auth,
-        status: action.payload,
-      }
-    case actionType.AUTH_UPDATE:
-      return {
-        ...state.auth,
-        user: {...action.payload},
-      }
-    case actionType.AUTH_CLEAN:
-      return {
-        ...initState,
-      }
     default:
-      return state.auth;
+      return state.news;
   }
 };
 

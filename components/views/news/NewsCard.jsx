@@ -1,32 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { SButton } from '../../index';
+import { SButton, SBadge } from '../../index';
 import { trancate } from '../../../utils';
+import moment from 'moment';
+import Link from 'next/link';
+import { routes } from '../../../constants';
 
-const text = `Вважається що термін «козаки», щодо руського населення Великого князівства Литовського, вперше було вжито 1492 року в листуванні великого князя з кримським ханом, який нарікав на похід киян та черкасців під Тягиню. Також на козаків він скаржився московському князеві наступного, 1493 року. Себто українське воїнство хан нарікав відомим собі (татарським/тюркським) словом «Qazaq» — «вільна людина», «авантюрист», «шукач пригод», «бурлака».`;
+const NewsCard = ({ post, className, idx }) => {
+  const postType = post.type === 'post' ? 'Стаття' : 'Оголошення';
+  const badgeColor = post.type === 'post' ? 'blue' : 'red';
 
-const NewsCard = ({ className, idx }) => {
+  const reImg = /<img([^>]*)>/gi;
+  const reSrc = /src\s*=\s*"[^">]+/;
+  const hasImage = reImg.test(post.text);
+  const imageSrc = hasImage && post.text.match(reSrc)[0].slice(5);
 
   return (
-    <div className={classNames('news-card', { image: !(idx % 2) }, className)}>
-      {!(idx % 2) && <img className='news-card__image' src='https://picsum.photos/1366/768' alt=""/>}
-      <div className='news-card__content'>
-        <h2 className='news-card__title'>Тестовий заголовок для для статті на українській мові.</h2>
-        <p className='news-card__date'>22.03.2019</p>
-        <p className="news-card__text is-mobile">{ trancate(text, idx ? 180 : 200) }</p>
-        <p className="news-card__text is-desktop">{ trancate(text, idx ? 200 : 400) }</p>
+      <div className={classNames('news-card', {image: hasImage}, className)}>
+        {hasImage && <img className="news-card__image" src={imageSrc} alt="" />}
+        <div className="news-card__content">
+          <h2 className="news-card__title">{post.title}</h2>
+          <div className="news-card__info">
+            <SBadge className="news-card__badge" color={badgeColor} label={postType} />
+            <span className="news-card__date">
+              {moment(post.created * 1000).format('DD.MM.YYYY')}
+            </span>
+          </div>
+          <p
+            className="news-card__text is-mobile"
+            dangerouslySetInnerHTML={{ __html: trancate(post.text, idx ? 180 : 200) }}
+          ></p>
+          <p
+            className="news-card__text is-desktop"
+            dangerouslySetInnerHTML={{ __html: trancate(post.text, idx ? 200 : 400) }}
+          ></p>
+        </div>
+        <div className="news-card__button-wrapper is-desktop">
+          <Link href={`${routes.NEWS}/${post.id}`}>
+            <a>
+              <SButton type={hasImage ? 'white' : 'secondary'} className="news-card__button">
+                Переглянути
+              </SButton>
+            </a>
+          </Link>
+        </div>
       </div>
-      <div className="news-card__button-wrapper is-desktop">
-        <SButton type={idx % 2 ? 'secondary' : 'white'} className='news-card__button'>Переглянути</SButton>
-      </div>
-    </div>
-  )
+  );
 };
 
 NewsCard.propTypes = {
   className: PropTypes.string,
   idx: PropTypes.number,
-}
+  post: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    title: PropTypes.string,
+    text: PropTypes.string,
+    type: PropTypes.string
+  })
+};
 
 export default NewsCard;
