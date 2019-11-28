@@ -9,8 +9,10 @@ import Page from './Page';
 import * as icons from './common/icons';
 import SVideo from './common/media/SVideo';
 import SLoader from './common/SLoader';
+import Empty from './common/Empty';
 
 export {
+  Empty,
   SRadio,
   SLoader,
   SNotification,

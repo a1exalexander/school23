@@ -20,6 +20,7 @@
 @import './components/TheNotifications';
 @import './components/common/SLoader';
 @import './components/common/SRadio';
+@import './components/common/Empty';
 
 // Navigation
 @import './components/navigation/SNavigation';
@@ -41,6 +42,7 @@
 // Admin
 @import './views/admin/Admin';
 @import './views/admin/AdminPost';
+@import './views/admin/AdminLaw';
 
 // About
 @import './views/about/About';

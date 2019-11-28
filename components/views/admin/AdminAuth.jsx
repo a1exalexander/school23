@@ -24,11 +24,6 @@ const AdminAuth = () => {
     firebase.auth.onAuthStateChanged(authUser => {
 
       if (authUser) {
-        authUser.getIdTokenResult()
-          .then(res => {
-            console.log(res.token)
-          })
-
         const user = {};
         ({
           displayName: user.displayName,
@@ -51,7 +46,6 @@ const AdminAuth = () => {
   const onSubmit = event => {
     event.preventDefault();
     const {email, password} = state;
-    console.log(state)
     auth
       .doSignInWithEmailAndPassword({email, password})
       .then(() => {

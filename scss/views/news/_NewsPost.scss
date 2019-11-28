@@ -21,8 +21,20 @@ $style: news-post;
   }
   &__button-back {
     margin-bottom: 24px;
+    margin-right: 32px;
+  }
+  &__button-edit {
+    margin-right: 12px;
+  }
+  &__popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 100vh;
   }
   &__container {
+    position: relative;
     margin-bottom: 32px;
     @include media {
       margin-bottom: 0;

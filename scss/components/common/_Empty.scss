@@ -1,0 +1,13 @@
+.empty {
+  @include flex-col(center, center);
+  flex: 1 1;
+  max-height: 60vh;
+  &__logo {
+    @include size(64px);
+    margin-bottom: 24px;
+  }
+  &__text {
+    @include text($H600, 300);
+    font-family: $head-font;
+  }
+}

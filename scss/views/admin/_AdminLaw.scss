@@ -1,0 +1,21 @@
+$style: admin-law;
+.#{$style} {
+  max-width: 800px;
+  &__input {
+    margin-bottom: 24px;
+    &--type {
+      max-width: 400px;
+    }
+    &--file {
+      margin-bottom: 32px;
+    }
+  }
+  &__file {
+    label {
+      font-family: $head-font;
+      font-size: $H200 !important;
+    }
+    max-width: 300px;
+    margin-bottom: 32px;
+  }
+}

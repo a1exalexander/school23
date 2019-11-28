@@ -28,6 +28,7 @@ export const login = ({ email, password, admin = false }) => async (dispatch, ge
     dispatch(notifications.notify('success', 'Успішна авторизація'));
     return true;
   } catch(err) {
+
     dispatch(actionType.AUTH_FAILURE);
     switch (err.code) {
       case 'auth/user-not-found':
@@ -40,6 +41,7 @@ export const login = ({ email, password, admin = false }) => async (dispatch, ge
         dispatch(notifications.notify('error'));
         break;
     }
+    dispatch(cleanAuth())
     return false;
   }
 }

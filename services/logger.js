@@ -4,7 +4,7 @@ import { getErrorMessage } from '../utils';
 const ENV_MODE = process.env.NODE_ENV === 'development';
 
 const onLogger = (name, msg, type) => {
-  if (!ENV_MODE) return;
+  if (!ENV_MODE && !process.browser) return;
   const newLogger = Logger.create(name);
   newLogger[type](msg);
 };

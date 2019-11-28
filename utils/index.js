@@ -37,4 +37,6 @@ export const getErrorMessage = (error = 'Somthing Wrong') => {
   return msg;
 };
 
+export const searchString = (str, query) => String(str).toLowerCase().indexOf(String(query).toLowerCase()) !== -1;
+
 export { filterSearch, trancate };

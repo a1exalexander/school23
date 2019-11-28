@@ -12,8 +12,12 @@ import { ImageDrop } from 'quill-image-drop-module';
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('modules/imageDrop', ImageDrop);
 
+const initState = { loading: false, title: '', type: 'post', text: '' };
+
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'init':
+      return { ...state, ...action.payload }
     case 'title':
       return { ...state, title: action.payload };
     case 'text':
@@ -29,8 +33,12 @@ const reducer = (state, action) => {
   }
 };
 
-const AdminPost = ({ notify }) => {
-  const [state, dispatch] = useReducer(reducer, { loading: false, title: '', type: 'post', text: '' });
+const AdminPost = ({ notify, isUpdate = false, onUpdate, post = initState }) => {
+  const [state, dispatch] = useReducer(reducer, {...initState});
+
+  useEffect(() => {
+    onDispatch('init')({ title: post.title, text: post.text, type: post.type });
+  }, [])
 
   const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -77,16 +85,22 @@ const AdminPost = ({ notify }) => {
   const isDisabled = [!!state.title, !!state.type, !!state.text].includes(false);
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    onDispatch('loading')(true);
-    const res = await db.addPost(state);
-    if (res) {
-      notify('success', 'Пост успішно опублковано!');
-      onDispatch('clean')();
+    const post = {title: state.title, text: state.text, type: state.type}
+    if (isUpdate) {
+      onDispatch('loading')(true);
+      onUpdate(post);
     } else {
-      notify('error');
+      e.preventDefault();
+      onDispatch('loading')(true);
+      const res = await db.addPost(post);
+      if (res) {
+        notify('success', 'Пост успішно опублковано!');
+        onDispatch('clean')();
+      } else {
+        notify('error');
+      }
+      onDispatch('loading')(false);
     }
-    onDispatch('loading')(false);
   }
 
   return (
@@ -120,6 +134,8 @@ const AdminPost = ({ notify }) => {
 
 AdminPost.propTypes = {
   notify: PropTypes.func,
+  isUpdate: PropTypes.bool,
+  onUpdate: PropTypes.func,
 }
 
 export default connect(null, { notify: actions.notifications.notify })(AdminPost);

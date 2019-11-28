@@ -14,3 +14,9 @@ export const NEWS_REQUEST = 'NEWS_REQUEST';
 export const NEWS_SUCCESS = 'NEWS_SUCCESS';
 export const NEWS_FAILURE = 'NEWS_FAILURE';
 export const NEWS_UPDATE = 'NEWS_UPDATE';
+
+// LAW
+export const LAW_REQUEST = 'LAW_REQUEST';
+export const LAW_SUCCESS = 'LAW_SUCCESS';
+export const LAW_FAILURE = 'LAW_FAILURE';
+export const LAW_UPDATE = 'LAW_UPDATE';

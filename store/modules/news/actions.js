@@ -15,7 +15,7 @@ export const getNews = () => async (dispatch) => {
     dispatch({ type: actionType.NEWS_UPDATE, payload: posts });
     dispatch(actionType.NEWS_SUCCESS);
   } else {
-    dispatch(actionType.AUTH_FAILURE);
+    dispatch(actionType.NEWS_FAILURE);
     dispatch(notifications.notify('error', 'Помилка при завантаженні новин'));
   }
   return;

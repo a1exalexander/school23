@@ -46,7 +46,7 @@ const Login = ({ logout, auth, login }) => {
   }, [])
 
   useEffect(() => {
-    if (state.mounting && auth.status) {
+    if (process.browser && !state.mounting && auth.status) {
       Router.push(routes.ADMIN);
     }
   }, [state.mounting, auth.status])

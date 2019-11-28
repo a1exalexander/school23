@@ -7,9 +7,9 @@ import { connect } from 'react-redux';
 import actions from '../store/actions';
 import Router from 'next/router';
 import checkAuth from '../middlewares/checkAuth';
-import Head from 'next/head';
 
 const AdminPost = dynamic(() => import('../components/views/admin/AdminPost'), { ssr: false });
+const AdminLaw = dynamic(() => import('../components/views/admin/AdminLaw'), { ssr: false });
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -27,10 +27,12 @@ const Admin = ({ auth, logout }) => {
     tab: ADMIN_NEWS,
     mounting: true
   });
-  const rendred = () => {
-    switch (state) {
+  const rendered = () => {
+    switch (state.tab) {
       case ADMIN_NEWS:
         return <AdminPost />;
+      case ADMIN_LAW:
+        return <AdminLaw />;
       default:
         return <AdminPost />;
     }
@@ -41,8 +43,8 @@ const Admin = ({ auth, logout }) => {
   }, []);
 
   useEffect(() => {
-    if (state.mounting && !auth.status) {
-      Router.push(routes.HOME);
+    if (process.browser && !state.mounting && !auth.status) {
+      Router.push(routes.LOGIN);
     }
   }, [state.mounting, auth.status]);
 
@@ -78,7 +80,7 @@ const Admin = ({ auth, logout }) => {
                 />
               </div>
               <div className="admin__view">
-                <STransitionSwitch keyProp={state.tab}>{rendred()}</STransitionSwitch>
+                <STransitionSwitch keyProp={state.tab}>{rendered()}</STransitionSwitch>
               </div>
             </div>
           </>

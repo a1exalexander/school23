@@ -1,5 +1,5 @@
 import validationService, { validate } from './validation';
 import logger from './logger';
-import http from './httpService';
+// import http from './httpService';
 
-export { validationService, validate, logger, http };
+export { validationService, validate, logger };

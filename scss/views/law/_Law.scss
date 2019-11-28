@@ -11,42 +11,29 @@ $style: law;
     }
   }
   &__item {
-    margin-bottom: 24px;
+    position: relative;
+    min-height: 78px;
+    // overflow: hidden;
+    @include flex-row(flex-start, center);
     &:last-child {
       margin-bottom: 0;
     }
-    padding-bottom: 12px;
-    border-bottom: 1px solid $N600;
+    padding: 12px 0;
+    border-bottom: 1px solid $N70;
   }
   &__name {
     @include text($H400, 500);
     line-height: 1.4;
     @include transition(all);
-  }
-  &__name-link {
     margin-bottom: 8px;
-    display: block;
-    @include media {
-      &:hover {
-        .#{$style}__name {
-          color: $N600;
-        }
-      }
-    }
-    &:active {
-      .#{$style}__name {
-        color: $N900;
-      }
-    }
   }
   &__badge {
-    margin-right: 12px;
+    margin-right: 24px;
   }
   &__date {
     @include text($H100, 400, $N200);
   }
   &__info {
-    margin-bottom: 8px;
     @include flex-row(flex-start, center);
   }
   &__description {
@@ -54,20 +41,76 @@ $style: law;
     padding-right: 12px;
     line-height: 1.4;
   }
-  &__navigation {
-    @include flex-row(flex-start, flex-end);
-    margin-bottom: 32px;
-    .s-badge {
-      position: relative;
-      top: -2px;
-      margin-right: 12px;
-    }
-  }
   &__list {
-    max-height: calc(100vh - 200px);
+    max-height: calc(360px);
     overflow-y: auto;
     border-radius: 3px;
     background-color: $N10;
     padding: 24px;
+  }
+  &__section {
+    margin-bottom: 32px;
+  }
+  &__caption {
+    @include text($H600, 500);
+    margin-bottom: 24px;
+  }
+  &__content-wrapper {
+    flex: 1 1;
+  }
+  &__link-wrapper {
+    padding: 12px;
+  }
+  &__link {
+    @include flex-row(center, center);
+  }
+  &__icon {
+    @include size(32px);
+  }
+  &__empty {
+    margin-top: 32px;
+    font-family: $head-font;
+    @include text($H500, 300, $N100);
+  }
+  &__button {
+    margin-right: 12px;
+  }
+  &__change-doc {
+    position: absolute;
+    @include position;
+    z-index: 100;
+    border-radius: 3px;
+    background-color: $N10;
+    top: 2px;
+    @include flex-row(stretch, stretch);
+    .filepond--root {
+      position: relative;
+      z-index: 101;
+      margin-right: 24px;
+      margin-bottom: 0;
+      min-width: 300px;
+      max-width: 300px;
+    }
+  }
+  &__back {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    z-index: 6;
+    @include size(26px, true);
+    background-color: $N0;
+    cursor: pointer;
+    @include flex-row(center, center);
+  }
+  &__icon-back {
+    @include svg(16px, $N900);
+  }
+  &__buttons-wrapper {
+    @include flex-col(space-between);
+    & > * {
+      &:first-child {
+        margin-bottom: 12px;
+      }
+    }
   }
 }
