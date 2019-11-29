@@ -11,7 +11,7 @@ const Meta = ({ title = 'School 23' }) => (
     <meta name="msapplication-TileColor" content="#da532c"></meta>
     <meta name="theme-color" content="#ffffff"></meta>
     <meta name="author" content="Alex Ratushnyi"></meta>
-    <meta name="description" content="Школа №23 м. Кременчук Полтавської області"></meta>
+    <meta name="description" content="Привіт! Це сайт Кременчуцької школи №23, Полтавської області. Відвідай наш сайт та дізнайся більше про нас"></meta>
     <meta  name="keywords" content="school 23, school 23 kremenchuk, 23 школа, кременчук, 23 школа кременчук, ЗОШ 23, ЗОШ 23 кременчук" />
     <title>{ title }</title>
   </Head>
