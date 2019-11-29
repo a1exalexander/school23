@@ -21,11 +21,11 @@ $styles: nav-info;
     font-size: $H500;
     font-weight: 500;
     margin-right: 12px;
-    flex: 0 0 76px;
+    flex: 0 0 50px;
     @include media {
       margin-right: 24px;
       font-size: $H800;
-      flex: 0 0 120px;
+      flex: 0 0 70px;
     }
   }
   &__text {
