@@ -137,13 +137,13 @@ $screen-retina: 1660px;
     100%{background-position:0% 81%}
   }
   @if $type == before {
-    background: linear-gradient(271deg, $P200, $P300);
-  } @else if $type == class {
-    background: linear-gradient(271deg, $G200, $G300);
+    background: linear-gradient(271deg, $P200, $P400);
+  } @else if $type == lesson {
+    background: linear-gradient(271deg, $G200, $G400);
   } @else if $type == break {
-    background: linear-gradient(271deg, $Y200, $Y300);
+    background: linear-gradient(271deg, $Y200, $Y400);
   } @else {
-    background: linear-gradient(271deg, $N200, $N300);
+    background: linear-gradient(271deg, $N100, $N600);
   }
   background-size: 400% 400%;
   -webkit-animation: AnimationBG 5s ease infinite;

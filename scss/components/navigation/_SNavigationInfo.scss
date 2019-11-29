@@ -1,6 +1,6 @@
-$names: 'before', 'class', 'break', 'after';
-$bg: ("before": $P300, "class": $G300, "break": $Y300, "after": $N600);
-$color: ("before": $N0, "class": $N0, "break": $N900, "after": $N0);
+$names: 'before', 'lesson', 'break', 'after';
+$bg: ("before": $P300, "lesson": $G300, "break": $Y300, "after": $N600);
+$color: ("before": $N0, "lesson": $N0, "break": $N900, "after": $N0);
 $styles: nav-info;
 
 .#{$styles} {
@@ -8,11 +8,10 @@ $styles: nav-info;
   @include flex-row(flex-start, center);
   margin-bottom: 24px;
   border-radius: 2px;
-  // box-shadow: 0 4px 8px 0 rgba($N900, 0.2);
+  box-shadow: $SH1;
   @each $name in $names {
     &.#{$name} {
       background-color: map-get($bg, $name);
-      box-shadow: 0 2px 6px 0 rgba($N900, 0.12);
       color: map-get($color, $name);
       @include AnimationBG($name);
     }
