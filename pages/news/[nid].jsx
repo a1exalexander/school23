@@ -18,7 +18,7 @@ const initPost = {
   title: '',
   text: '',
   type: '',
-  created: ''
+  created: '',
 }
 
 const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {

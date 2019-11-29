@@ -113,24 +113,18 @@ const Law = ({ laws, orders, isAuth, updateDoc, deleteDoc, acts, hasDocs, loadin
 
   const container = hasDocs ? (
     <>
-      {!!laws.length && (
-        <section className="law__section">
-          <h2 className="law__caption">Закони</h2>
-          <ul className="law__list">{renderList(laws)}</ul>
-        </section>
-      )}
-      {!!acts.length && (
-        <section className="law__section">
-          <h2 className="law__caption">Накази міністерства</h2>
-          <ul className="law__list">{renderList(orders)}</ul>
-        </section>
-      )}
-      {!!orders.length && (
-        <section className="law__section">
-          <h2 className="law__caption">Інші підзаконні акти</h2>
-          <ul className="law__list">{renderList(acts)}</ul>
-        </section>
-      )}
+      <section className="law__section">
+        <h2 className="law__caption">Закони</h2>
+        <ul className="law__list">{renderList(laws)}</ul>
+      </section>
+      <section className="law__section">
+        <h2 className="law__caption">Накази міністерства</h2>
+        <ul className="law__list">{renderList(orders)}</ul>
+      </section>
+      <section className="law__section">
+        <h2 className="law__caption">Інші підзаконні акти</h2>
+        <ul className="law__list">{renderList(acts)}</ul>
+      </section>
     </>
   ) : (
     <Empty />
