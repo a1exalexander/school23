@@ -10,8 +10,8 @@ $style: news-post;
     @include flex-row(flex-start, baseline);
   }
   &__title {
-    @include text($H700, 400);
-    margin-bottom: 24px;
+    @include text($H800, 500);
+    margin-bottom: 32px;
   }
   &__description {
     @include text($H400, 400);
@@ -39,12 +39,46 @@ $style: news-post;
   &__container {
     position: relative;
     margin-bottom: 32px;
-    @include media {
-      margin-bottom: 0;
+    
+    
+  }
+  &__content {
+    * {
+      list-style-position: inside;
+      color: $N900;
+    }
+    a {
+      color: $B300;
+    }
+    h1 {
+      font-size: $H800;
+    }
+    h2 {
+      font-size: $H700;
+    }
+    h3 {
+      font-size: $H600;
+    }
+    h4 {
+      font-size: $H500;
+    }
+    h5 {
+      font-size: $H400;
+    }
+    h6 {
+      font-size: $H300;
     }
     img {
       max-width: 100%;
       height: auto;
+      text-align: center;
+    }
+    @include media {
+      img {
+        max-width: 50%;
+        margin: 0 25%;
+      }
+      margin-bottom: 0;
     }
   }
   &__bottom-bar {

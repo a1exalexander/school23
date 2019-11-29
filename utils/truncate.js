@@ -5,7 +5,6 @@ const trancate = (text, length) => {
     return trancated;
   } else {
     const trancatedArray = trancated.split(' ');
-    trancatedArray.pop();
     return `${trancatedArray.join(' ')}...`;
   }
 };

@@ -35,7 +35,7 @@ const NewsCard = ({ post, className, idx }) => {
           ></p>
           <p
             className="news-card__text is-desktop"
-            dangerouslySetInnerHTML={{ __html: trancate(textWithoutImages, idx ? 200 : 400) }}
+            dangerouslySetInnerHTML={{ __html: trancate(textWithoutImages, idx ? 200 : 560) }}
           ></p>
         </div>
         <div className="news-card__button-wrapper">

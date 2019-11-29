@@ -71,6 +71,9 @@ $style: news-card;
     z-index: 1;
     flex: 1 1;
     padding-bottom: 0;
+    * {
+      list-style-position: inside;
+    }
   }
   &.image &__content {
     background: -moz-linear-gradient(top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */

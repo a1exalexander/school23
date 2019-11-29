@@ -119,7 +119,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
             </div>
           </STransition>
           <h1 className="news-post__title">{$post.title}</h1>
-          <div dangerouslySetInnerHTML={createMarkup()}></div>
+          <div className='news-post__content' dangerouslySetInnerHTML={createMarkup()}></div>
         </div>
         <div className="news-post__bottom-bar">
           <Link href={routes.NEWS}>
