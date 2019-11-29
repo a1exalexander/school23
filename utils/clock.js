@@ -68,13 +68,16 @@ const breaks = {
   },
   b8: {
     time: '16:05:00',
-    msg: 'Навчання на сьогодні закінчено'
+    msg: 'Завтра о 08:30 в школу'
   }
 };
 
 const more = time => moment().diff(moment(time, 'H:mm:ss'), 'seconds') >= 0;
 const less = time => moment().diff(moment(time, 'H:mm:ss'), 'seconds') < 0;
 const isTime = (a, b) => more(a) && less(b);
+
+const isWeekday = () => moment().format('dd') === 'сб';
+const nextWeekday = () => moment().add(1, 'day').format('dd') === 'сб';
 
 const getLesson = (msg) => ({msg, type: 'lesson'});
 const getBreak = (msg) => ({msg, type: 'break'});
@@ -114,8 +117,12 @@ const clock = () => {
       return getBreak(b7.msg);
     case isTime(l8.time, b8.time):
       return getLesson(l8.msg);
-    case isTime(b8, '24:00:00'):
+    case isTime(b8.time, '24:00:00') && !nextWeekday():
       return {msg: b8.msg, type: 'after'};
+    case nextWeekday():
+      return {msg: 'Завтра вихідний! 🔥', type: 'after'}
+    case isWeekday():
+      return {msg: `${moment().format('dddd')}, нарешті вихідний! 🚀`, type: 'after'}
     default:
       return {msg: `${moment('08:30:00', 'HH:mm:00').calendar()} в школу`, type: 'before'};
   }

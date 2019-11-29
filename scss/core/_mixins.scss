@@ -143,7 +143,7 @@ $screen-retina: 1660px;
   } @else if $type == break {
     background: linear-gradient(271deg, $Y200, $Y400);
   } @else {
-    background: linear-gradient(271deg, $N100, $N600);
+    background: linear-gradient(271deg, $B200, $B300);
   }
   background-size: 400% 400%;
   -webkit-animation: AnimationBG 5s ease infinite;

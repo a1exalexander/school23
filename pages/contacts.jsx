@@ -40,7 +40,7 @@ const Contacts = () => {
             </p>
             <p className='contacts__value'>school23@gmail.com</p>
             <p className='contacts__value'>77-44-55</p>
-            <p className='contacts__value'>39600, Україна, Полтавська область, м. Крменчук, вул. Олександрійська</p>
+            <p className='contacts__value'>39600, Україна, Полтавська область, м. Крменчук, вул. Олександрійська, 18</p>
           </div>
         </div>
       </div>
