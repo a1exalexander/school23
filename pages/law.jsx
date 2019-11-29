@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Page, SBadge, SLoader, Empty, SButton } from '../components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { IconDownLoadFile, IconClose } from '../components/common/icons';
+import { IconDownloadFile, IconClose } from '../components/common/icons';
 import { actions } from '../store/modules/law';
 import { getLaws, getOrders, getActs } from '../store/modules/law/getters';
 import { FilePond } from 'react-filepond';
@@ -96,7 +96,7 @@ const Law = ({ laws, orders, isAuth, updateDoc, deleteDoc, acts, hasDocs, loadin
         <li key={String(item.id)} className="law__item">
           <div className="law__link-wrapper">
             <a href={item.url} target="_blank" className="law__link">
-              <IconDownLoadFile className="law__icon" />
+              <IconDownloadFile className="law__icon" />
             </a>
           </div>
           <div className="law__content-wrapper">

@@ -12,7 +12,7 @@ import IconSearch from './IconSearch';
 import IconUp from './IconUp';
 import IconClose from './IconClose';
 import IconSchoolColor from './IconSchoolColor';
-import IconDownLoadFile from './IconDownLoadFile';
+import IconDownloadFile from './IconDownloadFile';
 import IconBox from './IconBox';
 
-export { IconBox, IconDownLoadFile, IconClose, IconSchoolColor, IconUp, IconSearch, IconHide, IconEye, IconCheck, IconMail, IconRadio, IconArrowLeft, IconSchool, IconBooksApple, IconBooks, IconLaws };
+export { IconBox, IconDownloadFile, IconClose, IconSchoolColor, IconUp, IconSearch, IconHide, IconEye, IconCheck, IconMail, IconRadio, IconArrowLeft, IconSchool, IconBooksApple, IconBooks, IconLaws };
