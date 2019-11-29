@@ -32,9 +32,13 @@ $style: news-post;
   }
   &__button-edit {
     margin-bottom: 18px;
+    margin-right: 24px;
     @include media {
       margin-right: 12px;
       margin-bottom: 0;
+    }
+    &:last-child {
+      margin-right: 0;
     }
   }
   &__popup {

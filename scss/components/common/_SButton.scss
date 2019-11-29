@@ -131,6 +131,7 @@ $styles: s-button;
     @include size(11px);
   }
   &.small {
+    width: max-content;
     @include media {
       padding: 4px 12px;
       svg:not(.#{$styles}__loading) {
