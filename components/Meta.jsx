@@ -1,5 +1,5 @@
 import Head from "next/head";
-const Meta = ({ title = 'School 23' }) => (
+const Meta = ({ title = 'Кременчуцька школа №23' }) => (
   <Head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charSet="utf-8" />
