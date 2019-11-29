@@ -131,10 +131,12 @@ $styles: s-button;
     @include size(11px);
   }
   &.small {
-    padding: 4px 12px;
-    svg:not(.#{$styles}__loading) {
-      @include transition(color, fill);
-      @include size(9px);
+    @include media {
+      padding: 4px 12px;
+      svg:not(.#{$styles}__loading) {
+        @include transition(color, fill);
+        @include size(9px);
+      }
     }
   }
   &.big {

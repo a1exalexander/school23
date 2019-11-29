@@ -68,7 +68,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
           <div className="news-post__row">
             <Link href={routes.NEWS}>
               <a>
-                <SButton className="news-post__button-back is-desktop" size="small">
+                <SButton className="news-post__button-back" size="small">
                   Переглянути усі новини
                 </SButton>
               </a>

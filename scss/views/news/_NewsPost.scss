@@ -9,6 +9,10 @@ $style: news-post;
   &__info {
     @include flex-row(flex-start, baseline);
   }
+  &__row {
+    // @include flex-row(flex-start, center);
+    margin-bottom: 24px;
+  }
   &__title {
     @include text($H800, 500);
     margin-bottom: 32px;
@@ -20,11 +24,18 @@ $style: news-post;
     }
   }
   &__button-back {
-    margin-bottom: 24px;
     margin-right: 32px;
+    display: none;
+    @include media {
+      display: inline-block;
+    }
   }
   &__button-edit {
-    margin-right: 12px;
+    margin-bottom: 18px;
+    @include media {
+      margin-right: 12px;
+      margin-bottom: 0;
+    }
   }
   &__popup {
     position: absolute;
