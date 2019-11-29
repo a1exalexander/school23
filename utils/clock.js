@@ -114,7 +114,7 @@ const clock = () => {
       return getBreak(b7.msg);
     case isTime(l8.time, b8.time):
       return getLesson(l8.msg);
-    case isTime(b8, '00:00:00'):
+    case isTime(b8, '24:00:00'):
       return {msg: b8.msg, type: 'after'};
     default:
       return {msg: `${moment('08:30:00', 'HH:mm:00').calendar()} в школу`, type: 'before'};
