@@ -21,7 +21,7 @@ const Teachers = ({ teachers, loading, fetchData, isEmpty }) => {
         <header className="teachers__header">
           <h1 className="teachers__title">Наші вчителі</h1>
         </header>
-        <SLoader fluid loading={loading}>
+        <SLoader className='teachers__loader' fluid loading={loading}>
           <ul className="teachers__list">{teachersList}</ul>
         </SLoader>
       </div>

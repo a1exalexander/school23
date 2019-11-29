@@ -3,6 +3,7 @@
   &__list {
     @include flex-row(flex-start, stretch);
     flex-wrap: wrap;
+    width: 100%;
   }
   &__title {
     display: none;

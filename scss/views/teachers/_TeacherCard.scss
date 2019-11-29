@@ -2,7 +2,7 @@ $style: teacher-card;
 .#{$style} {
   position: relative;
   $gap: 32px;
-  flex: 1 1 100%;
+  flex: 0 0 100%;
   margin-bottom: $gap;
   border-radius: 3px;
   box-shadow: $SH4;
