@@ -5,7 +5,9 @@ const trancate = (text, length) => {
     return trancated;
   } else {
     const trancatedArray = trancated.split(' ');
-    return `${trancatedArray.join(' ')}...`;
+    const lastChild = trancatedArray.length - 1;
+    trancatedArray.splice(lastChild, 1, `${trancatedArray[lastChild]}...`);
+    return trancatedArray.join(' ');
   }
 };
 
