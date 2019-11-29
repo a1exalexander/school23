@@ -10,6 +10,7 @@ import checkAuth from '../middlewares/checkAuth';
 
 const AdminPost = dynamic(() => import('../components/views/admin/AdminPost'), { ssr: false });
 const AdminLaw = dynamic(() => import('../components/views/admin/AdminLaw'), { ssr: false });
+const AdminTeachers = dynamic(() => import('../components/views/admin/AdminTeachers'), { ssr: false });
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,6 +34,8 @@ const Admin = ({ auth, logout }) => {
         return <AdminPost />;
       case ADMIN_LAW:
         return <AdminLaw />;
+      case ADMIN_TEACHERS:
+        return <AdminTeachers />;
       default:
         return <AdminPost />;
     }
@@ -43,10 +46,10 @@ const Admin = ({ auth, logout }) => {
   }, []);
 
   useEffect(() => {
-    if (process.browser && !state.mounting && !auth.status) {
+    if (![!!process.browser, !auth.loading, !state.mounting, !auth.status].includes(false)) {
       Router.push(routes.LOGIN);
     }
-  }, [state.mounting, auth.status]);
+  }, [state, auth]);
 
   const onLogout = async () => {
     const ok = await logout();
@@ -76,7 +79,7 @@ const Admin = ({ auth, logout }) => {
                   onChange={onTabChange}
                   name="law"
                   checked={state.tab}
-                  tabs={[ADMIN_NEWS, ADMIN_LAW, ADMIN_TEACHERS, ADMIN_CONTACTS]}
+                  tabs={[ADMIN_NEWS, ADMIN_LAW, ADMIN_TEACHERS]}
                 />
               </div>
               <div className="admin__view">

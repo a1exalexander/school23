@@ -3,7 +3,7 @@ import { utils } from '../../../firebase';
 import nookies from 'nookies';
 
 const initState = {
-  loading: false,
+  loading: true,
   hasError: false,
   status: !!nookies.get({}).ADMIN_TOKEN,
   user: {...utils.getUser()}

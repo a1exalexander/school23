@@ -20,12 +20,12 @@ const SRadioSlider = ({ tabs = [], name, onChange, fluid = false, checked, class
   };
 
   useEffect(() => {
-    setActiveTab();
-  }, [tabs]);
+    setTimeout(() => setActiveTab(), 100);
+  }, []);
 
   useEffect(() => {
     setActiveTab();
-  }, [checked]);
+  }, [tabs, checked]);
 
   return (
     <div className={classNames('s-radio-slider', className, { fluid })}>

@@ -1,38 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Page, SButton, STransitionSwitch, STransition, Empty } from '../../components';
+import { Page, SButton, STransition, Empty } from '../../components';
 import { SUp } from '../../components';
 import Link from 'next/link';
 import { routes } from '../../constants';
-import content from './test.json';
 import { db } from '../../firebase';
 import { formatPost } from '../../models/post';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
+import { actions } from '../../store/modules/notifications';
 
 const AdminPost = dynamic(() => import('../../components/views/admin/AdminPost'), { ssr: false });
 
-const NewsPost = ({ post, isAuth }) => {
+const initPost = {
+  id: '',
+  title: '',
+  text: '',
+  type: '',
+  created: ''
+}
+
+const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
+  const [$post, setPost] = useState(post);
   const [state, setState] = useState(false);
-  const [isEmpty, setEmpty] = useState(false);
+  const [isEmpty, setEmpty] = useState(isEmptyInit);
 
   const onUpdate = async updatedPost => {
     const newPost = { ...post, ...updatedPost };
     const res = await db.updatePost(post.id, newPost);
     if (res) {
+      window.scrollTo(0, 0);
       notify('success', 'Пост успішно оновлено!');
+      setPost(newPost);
+      setState(false);
     } else {
       notify('error', 'Помилка при оновленні!');
     }
-    setState(false);
-    location.reload();
   };
 
-  const removePost = async () => {};
+  const removePost = async () => {
+    const res = await db.deletePost(post.id);
+    if (res) {
+      notify('success', 'Пост успішно оновлено!');
+      setPost(initPost);
+      setEmpty(true)
+    } else {
+      notify('error', 'Помилка при оновленні!');
+    }
+  };
 
   const createMarkup = () => ({
-    __html: post.text
+    __html: $post.text
   });
 
   useEffect(() => {
@@ -42,7 +61,7 @@ const NewsPost = ({ post, isAuth }) => {
   }, []);
 
   return (
-    <Page title={post.title}>
+    <Page title={$post.title || 'Школа 23'}>
       <article className="news-post">
         <SUp />
         <header className="news-post__header">
@@ -56,14 +75,23 @@ const NewsPost = ({ post, isAuth }) => {
             </Link>
             {!isEmpty && isAuth && (
               <>
-                <SButton
+                { state ?
+                (<SButton
+                  onClick={() => setState(false)}
+                  type="white"
+                  className="news-post__button-edit"
+                  size="small"
+                >
+                  Назад
+                </SButton>) :
+                (<SButton
                   onClick={() => setState(true)}
-                  type="warn"
+                  type="white"
                   className="news-post__button-edit"
                   size="small"
                 >
                   Редагувати
-                </SButton>
+                </SButton>)}
                 <SButton
                   onClick={removePost}
                   type="danger"
@@ -78,7 +106,7 @@ const NewsPost = ({ post, isAuth }) => {
           {!isEmpty && (
             <div className="news-post__info">
               <span className="news-post__description">
-                Пост від {moment(post.created * 1000).format('DD.MM.YYYY')}
+                Пост від {moment($post.created * 1000).format('DD.MM.YYYY')}
               </span>
             </div>
           )}
@@ -90,7 +118,7 @@ const NewsPost = ({ post, isAuth }) => {
               <AdminPost isUpdate post={post} onUpdate={onUpdate} />
             </div>
           </STransition>
-          <h1 className="news-post__title">{post.title}</h1>
+          <h1 className="news-post__title">{$post.title}</h1>
           <div dangerouslySetInnerHTML={createMarkup()}></div>
         </div>
         <div className="news-post__bottom-bar">
@@ -115,12 +143,13 @@ NewsPost.propTypes = {
     type: PropTypes.string,
     created: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   }),
-  isAuth: PropTypes.bool
+  isAuth: PropTypes.bool,
+  notify: PropTypes.func,
 };
 
 NewsPost.getInitialProps = async ({ query }) => {
   const res = await db.getPost(query.nid);
-  return { post: { ...formatPost(res), id: query.nid } };
+  return { post: { ...formatPost(res) }, isEmptyInit: !res.id };
 };
 
-export default connect(({ auth: { status } }) => ({ isAuth: status }))(NewsPost);
+export default connect(({ auth: { status } }) => ({ isAuth: status }), { notify: actions.notify })(NewsPost);

@@ -1,5 +1,6 @@
 import filterSearch from './search';
 import trancate from './truncate';
+import clock from './clock';
 
 const $hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -38,5 +39,5 @@ export const getErrorMessage = (error = 'Somthing Wrong') => {
 };
 
 export const searchString = (str, query) => String(str).toLowerCase().indexOf(String(query).toLowerCase()) !== -1;
-
-export { filterSearch, trancate };
+export const generateFileName = (name) => `${Date.now()}-${name}`;
+export { filterSearch, trancate, clock };

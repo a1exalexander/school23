@@ -16,22 +16,22 @@ export const addPost = async (post) => {
 
 export const updatePost = async (id, post) => {
   try {
-    const ref = await db.collection("news").doc(id).update(post);
-    logger.info(ref, 'UPDATE POST');
-    return ref;
+    db.collection("news").doc(id).update(post);
+    logger.info('Success', 'UPDATE POST');
+    return true;
   } catch(err) {
     logger.error(err, 'UPDATE POST');
     return false;
   }
 }
 
-export const removePost = async (id) => {
+export const deletePost = async (id) => {
   try {
-    const ref = await db.collection("news").doc(id).delete();
-    logger.info(ref, 'REMOVE POST');
-    return ref;
+    db.collection("news").doc(id).delete();
+    logger.info('Success', 'DELETE POST');
+    return true;
   } catch(err) {
-    logger.error(err, 'REMOVE POST');
+    logger.error(err, 'DELETE POST');
     return false;
   }
 }
@@ -39,8 +39,12 @@ export const removePost = async (id) => {
 export const getPosts = async () => {
   try {
     const querySnapshot = await db.collection("news").get();
-    logger.info(querySnapshot, 'GET POSTS');
-    return querySnapshot;
+    const res = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    logger.info(res, 'GET POSTS');
+    return res;
   } catch(err) {
     logger.error(err, 'GET POSTS');
     return false;
@@ -53,7 +57,7 @@ export const getPost = async (id) => {
     if (!doc.exists) {
       return false;
     } else {
-      const res = doc.data();
+      const res = {...doc.data(), id};
       return res;
     }
   } catch(err) {
@@ -62,7 +66,7 @@ export const getPost = async (id) => {
   }
 }
 
-// Post
+// DOC
 export const addDocument = async (doc) => {
   try {
     const ref = await db.collection("docs").add(doc);
@@ -76,9 +80,8 @@ export const addDocument = async (doc) => {
 
 export const updateDocument = async (id, doc) => {
   try {
-    const ref = await db.collection("docs").doc(id).update(doc);
-    logger.info(ref, 'UPDATE DOC');
-    return ref;
+    db.collection("docs").doc(id).update(doc);
+    return true;
   } catch(err) {
     logger.error(err, 'UPDATE DOC');
     return false;
@@ -87,8 +90,8 @@ export const updateDocument = async (id, doc) => {
 
 export const removeDocument = async (id) => {
   try {
-    const ref = await db.collection("docs").doc(id).delete();
-    logger.info(ref, 'REMOVE DOC');
+    db.collection("docs").doc(id).delete();
+    logger.info('success', 'REMOVE DOC');
     return true;
   } catch(err) {
     logger.error(err, 'REMOVE DOC');
@@ -123,6 +126,54 @@ export const getDocument = async (id) => {
     }
   } catch(err) {
     logger.info(err, 'GET DOC');
+    return false;
+  }
+}
+
+// TEACHER
+export const addTeacher = async (doc) => {
+  try {
+    const ref = await db.collection("teachers").add(doc);
+    logger.info('Success', 'NEW TEACHER');
+    return ref;
+  } catch(err) {
+    logger.error(err, 'NEW DOC');
+    return false;
+  }
+}
+
+export const updateTeacher = async (id, doc) => {
+  try {
+    db.collection("teachers").doc(id).update(doc);
+    return true;
+  } catch(err) {
+    logger.error(err, 'UPDATE TEACHER');
+    return false;
+  }
+}
+
+export const removeTeacher = async (id) => {
+  try {
+    db.collection("teachers").doc(id).delete();
+    logger.info('Success', 'REMOVE TEACHER');
+    return true;
+  } catch(err) {
+    logger.error(err, 'REMOVE TEACHER');
+    return false;
+  }
+}
+
+export const getTeachers = async () => {
+  try {
+    const querySnapshot = await db.collection("teachers").get();
+    const docs = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    logger.info(docs, 'GET TEACHERS');
+    return docs;
+  } catch(err) {
+    logger.info(err, 'GET TEACHERS');
     return false;
   }
 }

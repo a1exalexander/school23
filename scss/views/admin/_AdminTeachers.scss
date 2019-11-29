@@ -1,0 +1,20 @@
+$style: admin-teachers;
+.#{$style} {
+  &__input {
+    margin-bottom: 24px;
+    &--file {
+      margin-bottom: 32px;
+    }
+  }
+  &__new {
+    max-width: 600px;
+    margin-bottom: 32px;
+  }
+  &__file {
+    max-width: 400px;
+    label {
+      font-family: $head-font;
+      font-size: $H200 !important;
+    }
+  }
+}

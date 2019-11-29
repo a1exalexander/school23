@@ -3758,6 +3758,16 @@ file-loader@4.2.0, file-loader@^4.0.0:
     loader-utils "^1.2.3"
     schema-utils "^2.0.0"
 
+filepond-plugin-image-exif-orientation@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-exif-orientation/-/filepond-plugin-image-exif-orientation-1.0.6.tgz#75920935a5da298884718bfd454f03362ad783e8"
+  integrity sha512-CxoZSa3tjZaoQrRAvsYgDuYhyQPtylnOJ5usbbH5qo/m4x/CbZpkrbFjWXr3MvdiKz3SV8d+CadsLbSXKgWKjA==
+
+filepond-plugin-image-preview@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-preview/-/filepond-plugin-image-preview-4.5.0.tgz#44bccdf1245c64437217db0e41ef1655e56a3c55"
+  integrity sha512-17SM6r0FozvoqbZMCWKrkyN87oDLh/xH1fp22DFFx3+phSM+dxLQXPMc8KP3j5u0yRoSzm3oZRGW8rQr3oA1Jw==
+
 filepond@^4.7.4:
   version "4.7.4"
   resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.7.4.tgz#29dfbf6f4629c6991591017277e2575b8b594411"

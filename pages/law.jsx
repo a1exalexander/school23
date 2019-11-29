@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { IconDownLoadFile, IconClose } from '../components/common/icons';
 import { actions } from '../store/modules/law';
 import { getLaws, getOrders, getActs } from '../store/modules/law/getters';
-import Head from 'next/head';
 import { FilePond } from 'react-filepond';
+import "filepond/dist/filepond.min.css";
 
 const Law = ({ laws, orders, isAuth, updateDoc, deleteDoc, acts, hasDocs, loading, fetchData }) => {
   const [state, setState] = useState({ loading, fileName: null, files: [] });

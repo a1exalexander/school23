@@ -7,12 +7,8 @@ export const getNews = () => async (dispatch) => {
   dispatch(actionType.NEWS_REQUEST);
   const res = await db.getPosts();
   if (res) {
-    const posts = res.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    posts.sort((a, b) => Number(b.created) - Number(a.created))
-    dispatch({ type: actionType.NEWS_UPDATE, payload: posts });
+    res.sort((a, b) => Number(b.created) - Number(a.created))
+    dispatch({ type: actionType.NEWS_UPDATE, payload: res });
     dispatch(actionType.NEWS_SUCCESS);
   } else {
     dispatch(actionType.NEWS_FAILURE);

@@ -6,13 +6,16 @@ import { actions } from '../store/modules/auth';
 import firebase from '../firebase';
 import TheNotifications from './TheNotifications';
 
-const Page = ({ setAuthStatus, cleanAuth, userUpdate, children, title }) => {
+const Page = ({ setAuthStatus, authRequest, authSuccess, authFailure, cleanAuth, userUpdate, children, title }) => {
   useEffect(() => {
     const unsubscribe = firebase.auth.onAuthStateChanged(async authUser => {
+      authRequest();
       if (authUser) {
         setAuthStatus(true);
         userUpdate(authUser);
+        authSuccess();
       } else {
+        authFailure();
         await cleanAuth();
       }
     });
@@ -29,6 +32,9 @@ const Page = ({ setAuthStatus, cleanAuth, userUpdate, children, title }) => {
 };
 
 export default connect(null, {
+  authRequest: actions.authRequest,
+  authSuccess: actions.authSuccess,
+  authFailure: actions.authFailure,
   userUpdate: actions.userUpdate,
   setAuthStatus: actions.setAuthStatus,
   cleanAuth: actions.cleanAuth,

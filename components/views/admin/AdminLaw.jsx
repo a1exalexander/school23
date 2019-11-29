@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { SInput, SButton } from '../../index';
 import actions from '../../../store/actions';
 import { storage, db } from '../../../firebase';
-import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
+import { FilePond } from "react-filepond";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -44,7 +44,7 @@ const AdminLaw = ({ notify }) => {
       fileName,
     })
     if (res) {
-      notify('success', 'Документ опублковано!');
+      notify('success', 'Документ опубліковано!');
       onDispatch('clean')();
     } else {
       notify('error');
