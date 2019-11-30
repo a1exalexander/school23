@@ -3,9 +3,9 @@ import dynamic from 'next/dynamic';
 import { Page } from '../components';
 import HomeBanner from '../components/views/home/HomeBanner';
 import checkAuth from '../middlewares/checkAuth';
-import SNavigationInfo from '../components/navigation/components/SNavigationInfo';
 
 const SVideo = dynamic(() => import('../components/common/media/SVideo'), { ssr: false });
+const SNavigationInfo = dynamic(() => import('../components/navigation/components/SNavigationInfo'), { ssr: false });
 
 const Home = () => {
 
