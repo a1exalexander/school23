@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { Page, SBadge, SLoader, Empty, SButton } from '../components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -111,31 +111,25 @@ const Law = ({ laws, orders, isAuth, updateDoc, deleteDoc, acts, hasDocs, loadin
     });
   };
 
-  const container = hasDocs ? (
-    <>
-      <section className="law__section">
-        <h2 className="law__caption">Закони</h2>
-        <ul className="law__list">{renderList(laws)}</ul>
-      </section>
-      <section className="law__section">
-        <h2 className="law__caption">Накази міністерства</h2>
-        <ul className="law__list">{renderList(orders)}</ul>
-      </section>
-      <section className="law__section">
-        <h2 className="law__caption">Інші підзаконні акти</h2>
-        <ul className="law__list">{renderList(acts)}</ul>
-      </section>
-    </>
-  ) : (
-    <Empty />
-  );
-
   return (
     <Page title="Нормативно-правові акти">
       <div className="law">
         <h1 className="law__title">Нормативно-правові акти</h1>
         <SLoader fluid loading={loading}>
-          {container}
+          <Fragment>
+            <section className="law__section">
+              <h2 className="law__caption">Закони</h2>
+              <ul className="law__list">{renderList(laws)}</ul>
+            </section>
+            <section className="law__section">
+              <h2 className="law__caption">Накази міністерства</h2>
+              <ul className="law__list">{renderList(orders)}</ul>
+            </section>
+            <section className="law__section">
+              <h2 className="law__caption">Інші підзаконні акти</h2>
+              <ul className="law__list">{renderList(acts)}</ul>
+            </section>
+          </Fragment>
         </SLoader>
       </div>
     </Page>
