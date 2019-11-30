@@ -44,8 +44,11 @@ $border-radius: 4px;
   &__line {
     position: relative;
     @include z-index(line);
+    @include flex-col(space-between, stretch);
+    height: 70vh;
     @include media($screen-desktop) {
       position: absolute;
+      height: auto;
       display: block;
       border-radius: $border-radius;
       @include position($top, $sizeX, $sizeY, $sizeX);
@@ -82,12 +85,23 @@ $border-radius: 4px;
   &__city {
     @include text($H600, 300, $N0);
     font-family: $head-font;
-    position: absolute;
-    @include z-index(line);
-    bottom: 102px;
+    margin-bottom: 24px;
+    // bottom: 102px;
     @include media {
-      bottom: 82px;
+      margin-bottom: 0;
+      position: absolute;
+      bottom: 80px;
       left: 120px;
+    }
+    @include media($screen-desktop) {
+      bottom: 60px;
+      left: 60px;
+    }
+  }
+  &__info {
+    margin-top: 24px;
+    @include media {
+      display: none;
     }
   }
 }

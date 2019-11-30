@@ -87,6 +87,12 @@ const clock = () => {
   const { b1, b2, b3, b4, b5, b6, b7, b8 } = breaks;
 
   switch (true) {
+    case isTime(b8.time, '24:00:00') && !nextWeekday():
+      return {msg: b8.msg, type: 'after'};
+    case nextWeekday():
+      return {msg: 'Завтра вихідний! 🔥', type: 'after'}
+    case isWeekday():
+      return {msg: `${moment().format('dddd')}, нарешті! 🚀`, type: 'after'}
     case isTime(l1.time, b1.time):
       return getLesson(l1.msg);
     case isTime(b1, l2):
@@ -117,12 +123,6 @@ const clock = () => {
       return getBreak(b7.msg);
     case isTime(l8.time, b8.time):
       return getLesson(l8.msg);
-    case isTime(b8.time, '24:00:00') && !nextWeekday():
-      return {msg: b8.msg, type: 'after'};
-    case nextWeekday():
-      return {msg: 'Завтра вихідний! 🔥', type: 'after'}
-    case isWeekday():
-      return {msg: `${moment().format('dddd')}, нарешті! 🚀`, type: 'after'}
     default:
       return {msg: `${moment('08:30:00', 'HH:mm:00').calendar()} в школу`, type: 'before'};
   }

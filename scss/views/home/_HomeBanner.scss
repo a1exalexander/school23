@@ -1,6 +1,6 @@
 .home-banner {
   @include flex-row(flex-start, center);
-  padding-top: 16vh;
+  padding-top: 14vh;
   @include media {
     padding-top: 0;
   }
@@ -13,11 +13,22 @@
       font-size: $H900;
     }
   }
+  &__logo-wrapper {
+    margin-right: 24px;
+  }
   &__logo {
     width: 60px;
-    margin-right: 24px;
     @include media {
       width: 70px;
+    }
+  }
+  &__container {
+    @include flex-row(flex-start, center);
+  }
+  &__clock {
+    margin-right: 24px;
+    .react-clock__face {
+      background-color: $N0;
     }
   }
 }

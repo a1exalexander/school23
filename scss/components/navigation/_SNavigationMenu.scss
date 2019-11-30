@@ -61,6 +61,9 @@
     width: auto;
     position: absolute;
     top: 18px;
-    right: 30px;
+    right: 24px;
+    @include media {
+      right: 30px;
+    }
   }
 }

@@ -3,10 +3,12 @@ import dynamic from 'next/dynamic';
 import { Page } from '../components';
 import HomeBanner from '../components/views/home/HomeBanner';
 import checkAuth from '../middlewares/checkAuth';
+import SNavigationInfo from '../components/navigation/components/SNavigationInfo';
 
 const SVideo = dynamic(() => import('../components/common/media/SVideo'), { ssr: false });
 
 const Home = () => {
+
   const VideoLayer = () => {
     if (process.browser) {
       return window.innerWidth > 800 && (
@@ -21,10 +23,13 @@ const Home = () => {
       <div className="home">
         <div className="home__line">
           <HomeBanner className="home__banner" />
+          <div className="home__inner animated delay-4s slow fadeIn">
+            <p className="home__city">м. Кременчук</p>
+            <SNavigationInfo className="home__info"/>
+          </div>
         </div>
-        <div className="home__layer"></div>
+          <div className="home__layer"></div>
         {VideoLayer()}
-        <p className="home__city animated delay-4s slow fadeIn">м. Кременчук</p>
       </div>
     </Page>
   );
