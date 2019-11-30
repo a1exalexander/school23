@@ -45,7 +45,7 @@ $border-radius: 4px;
     position: relative;
     @include z-index(line);
     @include flex-col(space-between, stretch);
-    height: 95%;
+    height: 98%;
     @include media($screen-desktop) {
       position: absolute;
       height: auto;
@@ -72,12 +72,17 @@ $border-radius: 4px;
       &:before {
         border-left-color: transparent;
         border-bottom-color: transparent;
-        width: 80%;
+        width: 70%;
         height: 40px;
         position: absolute;
         right: -$border-width;
         top: -$border-width;
         border-radius: 0 #{$border-radius} 0 0;
+      }
+    }
+    @include media($screen-fullhd) {
+      &:before {
+        width: 80%;
       }
     }
     

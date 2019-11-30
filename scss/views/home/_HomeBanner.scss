@@ -1,6 +1,6 @@
 .home-banner {
   @include flex-row(flex-start, center);
-  padding-top: 14vh;
+  padding-top: 10vh;
   @include media {
     padding-top: 0;
   }
