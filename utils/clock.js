@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-moment.locale('uk')
+moment.locale('uk');
 
 const lessons = {
   l1: {

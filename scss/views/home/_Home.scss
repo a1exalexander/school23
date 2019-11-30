@@ -7,7 +7,7 @@ $border-radius: 4px;
 .home {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   padding: 68px 24px;
   background-image: url('/images/23_bg.jpg');
   background-position-x: 47%;
@@ -45,7 +45,7 @@ $border-radius: 4px;
     position: relative;
     @include z-index(line);
     @include flex-col(space-between, stretch);
-    height: 70vh;
+    height: 100%;
     @include media($screen-desktop) {
       position: absolute;
       height: auto;
