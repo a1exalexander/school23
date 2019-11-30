@@ -76,8 +76,8 @@ const more = time => moment().diff(moment(time, 'H:mm:ss'), 'seconds') >= 0;
 const less = time => moment().diff(moment(time, 'H:mm:ss'), 'seconds') < 0;
 const isTime = (a, b) => more(a) && less(b);
 
-const isWeekday = () => moment().format('dd') === 'сб';
-const nextWeekday = () => moment().add(1, 'day').format('dd') === 'сб';
+const isWeekday = () => ['сб', 'нд'].includes(moment().format('dd'));
+const nextWeekday = () => ['сб', 'нд'].includes(moment().add(1, 'day').format('dd'));
 
 const getLesson = (msg) => ({msg, type: 'lesson'});
 const getBreak = (msg) => ({msg, type: 'break'});
