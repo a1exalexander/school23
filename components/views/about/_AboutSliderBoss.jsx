@@ -5,7 +5,7 @@ import image1 from '../../../assets/images/olga-r.png';
 import image2 from '../../../assets/images/DSC_0265_001.jpg';
 
 const AboutSliderBoss = ({ className = '' }) => {
-    return (
+    const slides = (
       <>
       <li>
         <img
