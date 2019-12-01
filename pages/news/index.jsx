@@ -33,7 +33,7 @@ const News = ({ loading, news, hasNews, getNews }) => {
             <IconSearch className="news__input-icon" />
           </label>
         </header>
-        <SLoader fluid loading={true || loading}>
+        <SLoader fluid loading={loading}>
           { hasNews ? <div className="news__grid">{newsList}</div> : <Empty /> }
         </SLoader>
       </div>
