@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NewsCard from '../../components/views/news/NewsCard';
 import { actions, getters } from '../../store/modules/news';
-import { Page, SLoader } from '../../components';
+import { Page, SLoader, Empty } from '../../components';
 import { IconSearch } from '../../components/common/icons';
 
 const News = ({ loading, news, hasNews, getNews }) => {
@@ -33,8 +33,8 @@ const News = ({ loading, news, hasNews, getNews }) => {
             <IconSearch className="news__input-icon" />
           </label>
         </header>
-        <SLoader fluid loading={!hasNews && loading}>
-          <div className="news__grid">{newsList}</div>
+        <SLoader fluid loading={true || loading}>
+          { hasNews ? <div className="news__grid">{newsList}</div> : <Empty /> }
         </SLoader>
       </div>
     </Page>
@@ -48,6 +48,6 @@ News.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default connect(({ news: { posts, loading } }) => ({ loading, hasNews: getters.hasNews(posts), news: getters.filteredNews(posts) }), {
+export default connect(({ news: { posts, loading } }) => ({ loading, hasNews: getters.hasNews(posts) && !loading, news: getters.filteredNews(posts) }), {
   getNews: actions.getNews
 })(News);
