@@ -12,7 +12,7 @@ const Meta = ({ title = 'Кременчуцька школа №23' }) => (
     <meta name="theme-color" content="#ffffff"></meta>
     <meta name="author" content="Alex Ratushnyi"></meta>
     <meta name="description" content="Привіт! Це сайт Кременчуцької школи №23, Полтавської області. Відвідай наш сайт та дізнайся більше про нас"></meta>
-    <meta  name="keywords" content="school 23, school 23 kremenchuk, 23 школа, кременчук, 23 школа кременчук, ЗОШ 23, ЗОШ 23 кременчук" />
+    <meta  name="keywords" content="23 школа кременчуг, school 23, school 23 kremenchuk, 23 школа, кременчук, 23 школа кременчук, ЗОШ 23, ЗОШ 23 кременчук" />
     <title>{ title }</title>
   </Head>
 );
