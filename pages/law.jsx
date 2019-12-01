@@ -29,7 +29,7 @@ const Law = ({ laws, orders, isAuth, updateDoc, deleteDoc, acts, hasDocs, loadin
   const setLoading = (b) => setState(ps => ({ ...ps, loading: b }))
 
   useEffect(() => {
-    if (process.browser) fetchData();
+    fetchData();
   }, []);
 
   const openChange = fileName => {
