@@ -110,11 +110,6 @@ const About = () => {
             </p>
           </div>
         </section>
-        <div className="about__slider">
-          { clipsAnime('about__clip--slider') }
-          <h2 className="about__heading">Директори школи</h2>
-          <AboutSliderBoss />
-        </div>
       </div>
     </Page>
   );

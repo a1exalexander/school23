@@ -15,13 +15,13 @@ const AboutMainSlider = ({ className = ''  }) => {
       >
         <ul className="uk-slideshow-items">
           <li>
-            <img src={image1} alt="" uk-cover="true" />
+            <img src={image1} alt="" className='uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left' uk-cover="true" />
           </li>
           <li>
-            <img src={image2} alt="" uk-cover="true" />
+            <img src={image2} alt="" className='uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left' uk-cover="true" />
           </li>
           <li>
-            <img src={image3} alt="" uk-cover="true" />
+            <img src={image3} alt="" className='uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left' uk-cover="true" />
           </li>
         </ul>
         <a
