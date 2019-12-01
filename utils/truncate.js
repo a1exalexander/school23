@@ -11,4 +11,14 @@ const trancate = (text, length) => {
   }
 };
 
+export const getContent = (content) => {
+  let html = content;
+  return html.replace(/<[^>]*>/g, " ");
+}
+// Gabi's elegant approach, but eliminating one unnecessary line of code:
+export const gabiContent = (content) => {
+  let html = content;
+  return html.innerText || html.textContent;
+}
+
 export default trancate;

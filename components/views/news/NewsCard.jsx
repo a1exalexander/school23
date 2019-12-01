@@ -6,6 +6,7 @@ import { trancate } from '../../../utils';
 import moment from 'moment';
 import Link from 'next/link';
 import { routes } from '../../../constants';
+import { gabiContent, getContent } from '../../../utils/truncate';
 
 const NewsCard = ({ post, className, idx }) => {
   const postType = post.type === 'post' ? 'Стаття' : 'Оголошення';
@@ -31,11 +32,11 @@ const NewsCard = ({ post, className, idx }) => {
           </div>
           <p
             className="news-card__text is-mobile"
-            dangerouslySetInnerHTML={{ __html: trancate(textWithoutImages, idx ? 180 : 200) }}
+            dangerouslySetInnerHTML={{ __html: trancate(getContent(textWithoutImages), idx ? 180 : 200) }}
           ></p>
           <p
             className="news-card__text is-desktop"
-            dangerouslySetInnerHTML={{ __html: trancate(textWithoutImages, idx ? 200 : 560) }}
+            dangerouslySetInnerHTML={{ __html: trancate(getContent(textWithoutImages), idx ? 220 : 560) }}
           ></p>
         </div>
         <div className="news-card__button-wrapper">
