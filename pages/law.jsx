@@ -1,4 +1,5 @@
 import React, { useEffect, useState, Fragment } from 'react';
+import classNames from 'classnames';
 import { Page, SBadge, SLoader, Empty, SButton } from '../components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -100,7 +101,7 @@ const Law = ({ laws, orders, isAuth, updateDoc, deleteDoc, acts, hasDocs, loadin
             </a>
           </div>
           <div className="law__content-wrapper">
-            <h2 className="law__name">{item.title}</h2>
+            <h2 className={classNames("law__name", {margin: isAuth})}>{item.title}</h2>
             <div className="law__info">
               <SBadge className="law__badge" color={getType(item.type)} label={item.type} />
               {adminBar(item)}
@@ -115,7 +116,7 @@ const Law = ({ laws, orders, isAuth, updateDoc, deleteDoc, acts, hasDocs, loadin
     <Page title="Нормативно-правові акти">
       <div className="law">
         <h1 className="law__title">Нормативно-правові акти</h1>
-        <SLoader fluid loading={!hasDocs || loading}>
+        <SLoader fluid loading={loading}>
           <Fragment>
             <section className="law__section">
               <h2 className="law__caption">Закони</h2>

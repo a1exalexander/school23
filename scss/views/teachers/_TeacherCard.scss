@@ -55,11 +55,14 @@ $style: teacher-card;
   &__name {
     @include text($H500, 500);
     margin-bottom: 12px;
+    @include media {
+      font-size: $H400;
+    }
   }
   &__description {
     @include text($H300, 400, $N100);
     @include media {
-      font-size: $H400;
+      font-size: $H200;
     }
   }
   &__delete {

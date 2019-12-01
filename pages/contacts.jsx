@@ -38,9 +38,12 @@ const Contacts = () => {
             <p className="contacts__caption">
               Контакти
             </p>
-            <p className='contacts__value'>school23@gmail.com</p>
-            <p className='contacts__value'>77-44-55</p>
-            <p className='contacts__value'>39600, Україна, Полтавська область, м. Крменчук, вул. Олександрійська, 18</p>
+            <a target='_blank' href='mailto:kremenchuk.school23@gmail.com' className='contacts__value'>school23@gmail.com</a>
+            <p className='contacts__value'>
+              <a target='_blank' href="tel:73-94-35" className="contacts__link">73-94-35</a>
+              <a target='_blank' href="tel:73-94-38" className="contacts__link">73-94-38</a>
+            </p>
+            <a title='Google map' href='https://goo.gl/maps/ABogqNDvyKcTHP3E7' target='_blank' className='contacts__value'>39600, Україна, Полтавська область, м. Крменчук, вул. Олександрійська, 18</a>
           </div>
         </div>
       </div>

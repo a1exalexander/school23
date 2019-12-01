@@ -54,7 +54,7 @@ const AdminLaw = ({ notify }) => {
 
   return (
     <div className="admin-law">
-      <SInput maxLength={20} className="admin-law__input admin-law__input--type" onChange={onDispatch('type')} value={state.type}>
+      <SInput className="admin-law__input admin-law__input--type" onChange={onDispatch('type')} value={state.type}>
         Тип нормативно-правового акту (Закон, Наказ МОН, Наказ УОН, Наказ, інше)
       </SInput>
       <SInput className="admin-law__input" onChange={onDispatch('title')} value={state.title}>

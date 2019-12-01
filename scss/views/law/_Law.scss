@@ -14,21 +14,31 @@ $style: law;
     position: relative;
     min-height: 78px;
     // overflow: hidden;
+    max-width: 100%;
     @include flex-row(flex-start, center);
     &:last-child {
       margin-bottom: 0;
     }
     padding: 12px 0;
-    border-bottom: 1px solid $N70;
+    border-bottom: 1px solid $N60;
   }
   &__name {
-    @include text($H400, 500);
+    @include text($H300, 500);
     line-height: 1.4;
     @include transition(all);
-    margin-bottom: 8px;
+    &.margin {
+      margin-bottom: 8px;
+    }
+    @include media {
+      margin-bottom: 8px;
+    }
   }
   &__badge {
     margin-right: 24px;
+    display: none;
+    @include media {
+      display: inline-flex;
+    }
   }
   &__date {
     @include text($H100, 400, $N200);
@@ -44,15 +54,17 @@ $style: law;
   &__list {
     max-height: calc(360px);
     overflow-y: auto;
-    border-radius: 3px;
-    background-color: $N10;
-    padding: 24px;
+    @include media {
+      padding: 24px;
+      background-color: $N10;
+      border-radius: 3px;
+    }
   }
   &__section {
     margin-bottom: 32px;
   }
   &__caption {
-    @include text($H600, 500);
+    @include text($H500, 500);
     margin-bottom: 24px;
   }
   &__content-wrapper {
