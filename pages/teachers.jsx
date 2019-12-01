@@ -21,9 +21,9 @@ const Teachers = ({ teachers, loading, fetchData, isEmpty }) => {
         <header className="teachers__header">
           <h1 className="teachers__title">Наші вчителі</h1>
         </header>
-        {isEmpty ? (<SLoader className='teachers__loader' fluid loading={isEmpty || loading}>
-          <ul className="teachers__list">{teachersList}</ul>
-        </SLoader>) : <Empty />}
+        <SLoader className='teachers__loader' fluid loading={loading}>
+          {isEmpty ? <Empty /> : <ul className="teachers__list">{teachersList}</ul>}
+        </SLoader>
       </div>
     </Page>
   );
@@ -36,6 +36,6 @@ Teachers.propTypes = {
   loading: PropTypes.bool
 };
 
-export default connect(({ teachers: { list, loading } }) => ({ loading, teachers: list, isEmpty: !!list.length && !loading }), {
+export default connect(({ teachers: { list, loading } }) => ({ loading, teachers: list, isEmpty: !list.length && !loading }), {
   fetchData: actions.fetchData
 })(Teachers);
