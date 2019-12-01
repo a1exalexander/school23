@@ -1,7 +1,7 @@
 import { actionType } from "../../../constants";
 
 const initState = {
-  loading: false,
+  loading: true,
   hasError: false,
   posts: [],
 };
