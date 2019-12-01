@@ -89,10 +89,10 @@ const clock = () => {
   switch (true) {
     case isTime(b8.time, '24:00:00') && !nextWeekday():
       return {msg: b8.msg, type: 'after'};
-    case nextWeekday():
-      return {msg: 'Завтра вихідний! 🔥', type: 'after'}
     case isWeekday():
       return {msg: `${moment().format('dddd')}, нарешті! 🚀`, type: 'after'}
+    case nextWeekday():
+      return {msg: 'Завтра вихідний! 🔥', type: 'after'}
     case isTime(l1.time, b1.time):
       return getLesson(l1.msg);
     case isTime(b1, l2):

@@ -16,7 +16,7 @@ const SLoader = ({ loading, fluid = false, className, children }) => {
     return loading && loader;
   }
 
-  return <Fragment><STransitionSwitch keyProp={loading}>{loading ? loader : children}</STransitionSwitch></Fragment>;
+  return <Fragment><STransitionSwitch timeout={400} keyProp={loading}>{loading ? loader : children}</STransitionSwitch></Fragment>;
 };
 
 SLoader.propTypes = {
