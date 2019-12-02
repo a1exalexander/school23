@@ -95,31 +95,31 @@ const clock = () => {
       return {msg: 'Завтра вихідний! 🔥', type: 'after'}
     case isTime(l1.time, b1.time):
       return getLesson(l1.msg);
-    case isTime(b1, l2):
+    case isTime(b1.time, l2.time):
       return getBreak(b1.msg);
     case isTime(l2.time, b2.time):
       return getLesson(l2.msg);
-    case isTime(b2, l3):
+    case isTime(b2.time, l3.time):
       return getBreak(b2.msg);
     case isTime(l3.time, b3.time):
       return getLesson(l3.msg);
-    case isTime(b3, l4):
+    case isTime(b3.time, l4.time):
       return getBreak(b3.msg);
     case isTime(l4.time, b4.time):
       return getLesson(l4.msg);
-    case isTime(b4, l5):
+    case isTime(b4.time, l5.time):
       return getBreak(b4.msg);
     case isTime(l5.time, b5.time):
       return getLesson(l5.msg);
-    case isTime(b5, l6):
+    case isTime(b5.time, l6.time):
       return getBreak(b5.msg);
     case isTime(l6.time, b6.time):
       return getLesson(l6.msg);
-    case isTime(b6, l7):
+    case isTime(b6.time, l7.time):
       return getBreak(b6.msg);
     case isTime(l7.time, b7.time):
       return getLesson(l7.msg);
-    case isTime(b7, l8):
+    case isTime(b7.time, l8.time):
       return getBreak(b7.msg);
     case isTime(l8.time, b8.time):
       return getLesson(l8.msg);
