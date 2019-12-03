@@ -2,6 +2,7 @@ $style: about;
 
 .#{$style} {
   min-height: 100vh;
+  padding-bottom: 72px;
   &__header {
     position: relative;
     z-index: 1;
@@ -165,6 +166,9 @@ $style: about;
           @include media {
             display: block;
           }
+        }
+        &:nth-child(4) {
+          display: none;
         }
     }
     &--slider {
