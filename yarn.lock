@@ -6283,6 +6283,11 @@ normalize-url@1.9.1:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
+now-env@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/now-env/-/now-env-3.2.0.tgz#33223dd000d7966e66c0d00779c28c7aa0f111c6"
+  integrity sha512-zCWAwdX1KTa2ZoEg6Rc8efym5V4I36sC52OXo9F3O4IaNrvd/o1z7ZjuwnevoQqLloIdQWHo3JYAcL12m+KsUQ==
+
 npm-bundled@^1.0.1:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.6.tgz#e7ba9aadcef962bb61248f91721cd932b3fe6bdd"

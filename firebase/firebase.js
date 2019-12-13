@@ -4,6 +4,7 @@ import "firebase/database";
 import "firebase/storage";
 import "firebase/firestore";
 import "firebase/analytics";
+import 'now-env';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,

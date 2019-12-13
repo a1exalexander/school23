@@ -72,6 +72,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "next-compose": "^0.0.2",
-    "next-compose-plugins": "^2.2.0"
+    "next-compose-plugins": "^2.2.0",
+    "now-env": "^3.2.0"
   }
 }
