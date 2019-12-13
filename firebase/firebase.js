@@ -1,9 +1,9 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
-import "firebase/storage";
-import "firebase/firestore";
-import "firebase/analytics";
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+import 'firebase/storage';
+import 'firebase/firestore';
+import 'firebase/analytics';
 import 'now-env';
 
 const config = {
