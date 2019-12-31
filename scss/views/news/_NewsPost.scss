@@ -14,7 +14,7 @@ $style: news-post;
     margin-bottom: 24px;
   }
   &__title {
-    @include text($H800, 500);
+    @include text($H700, 500, $N00);
     margin-bottom: 32px;
     text-align: center;
   }
@@ -58,37 +58,35 @@ $style: news-post;
     margin-bottom: 32px;
   }
   &__content, .ql-container {
-    font-size: $H500;
-    color: $N900;
+    font-size: $H300;
     padding: 12px;
     border-radius: 6px;
     ul, ol {
       list-style-position: inside;
     }
     h1, h2, h3, h4, h5, h6 {
-      color: $N900;
-      font-weight: 300 !important;
+      font-weight: 500;
       strong {
         font-weight: 500;
       }
     }
     h1 {
-      font-size: $H800;
-    }
-    h2 {
       font-size: $H700;
     }
-    h3 {
+    h2 {
       font-size: $H600;
     }
-    h4 {
+    h3 {
       font-size: $H500;
     }
-    h5 {
+    h4 {
       font-size: $H400;
     }
-    h6 {
+    h5 {
       font-size: $H300;
+    }
+    h6 {
+      font-size: $H200;
     }
     img {
       text-align: center;
