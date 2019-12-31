@@ -57,13 +57,20 @@ $style: news-post;
     position: relative;
     margin-bottom: 32px;
   }
-  &__content {
+  &__content, .ql-container {
     font-size: $H500;
     color: $N900;
     padding: 12px;
     border-radius: 6px;
     ul, ol {
       list-style-position: inside;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      color: $N900;
+      font-weight: 300 !important;
+      strong {
+        font-weight: 500;
+      }
     }
     h1 {
       font-size: $H800;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Page, SButton, STransition, Empty } from '../../components';
 import { SUp } from '../../components';
@@ -242,7 +243,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
             </a>
           </Link>
         </div>
-        {!isEmpty && <section className="news-post__comments">
+        {!isEmpty && !state && <section className="news-post__comments">
           <h3 className="news-post__heading">Коментарі</h3>
           {$post.comments.map(item => (
             <article key={item.id} className="media">
