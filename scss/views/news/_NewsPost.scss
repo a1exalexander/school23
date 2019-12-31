@@ -60,6 +60,8 @@ $style: news-post;
   &__content {
     font-size: $H500;
     color: $N900;
+    padding: 12px;
+    border-radius: 6px;
     ul, ol {
       list-style-position: inside;
     }
@@ -85,9 +87,12 @@ $style: news-post;
       text-align: center;
       max-width: 100%;
     }
+    .is-announcement {
+      padding: 24px;
+      border: 1px solid $R100;
+    }
     @include media {
       padding: 32px;
-      border-radius: 6px;
       box-shadow: $SH4;
       margin: 0 auto;
       max-width: 900px;

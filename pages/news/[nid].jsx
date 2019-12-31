@@ -35,6 +35,8 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
   const [reply, setReply] = useState(getReply());
   const [loading, setLoading] = useState({ comment: false, reply: false });
 
+  const isAnnouncement = post.type === 'announcement';
+
   const onUpdate = async updatedPost => {
     const fetchedPost = await db.getPost(post.id);
     const newPost = { ...fetchedPost, ...updatedPost };
@@ -229,7 +231,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
             </div>
           </STransition>
           <h1 className="news-post__title">{$post.title}</h1>
-          <div className="news-post__content" dangerouslySetInnerHTML={createMarkup()}></div>
+          <div className={classNames("news-post__content", {'is-announcement': isAnnouncement})} dangerouslySetInnerHTML={createMarkup()}></div>
         </div>
         <div className="news-post__bottom-bar">
           <Link href={routes.NEWS}>
