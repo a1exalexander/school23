@@ -1,12 +1,34 @@
 import moment from 'moment';
 import { isObject } from '../utils';
+import uuid from 'uuid';
 
-const initPost = {
+export const initPost = {
   title: '',
   text: '',
   type: '',
-  created: ''
+  delta: {
+    ops: []
+  },
+  created: '',
+  comments: [],
 };
+
+export const getReply = ({ targetName = '', target = '', name = '', text = '' } = {}) => ({
+  id: uuid(),
+  target,
+  targetName,
+  name,
+  text,
+  date: moment().format('DD.MM.YYYY HH:mm:ss'),
+})
+
+export const getComment = ({name = '', text = ''} = {}) => ({
+  id: uuid(),
+  name,
+  text,
+  date: moment().format('DD.MM.YYYY HH:mm:ss'),
+  reply: [],
+});
 
 export const formatPost = post => {
   const shallowPost = isObject(post) ? { ...post } : { id: '', ...initPost };

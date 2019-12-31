@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { genPost } from '../models/post';
+import { genPost, initPost } from '../models/post';
 import { logger } from '../services';
 
 // Post
@@ -40,6 +40,7 @@ export const getPosts = async () => {
   try {
     const querySnapshot = await db.collection("news").get();
     const res = querySnapshot.docs.map((doc) => ({
+      ...initPost,
       ...doc.data(),
       id: doc.id,
     }));
@@ -57,7 +58,7 @@ export const getPost = async (id) => {
     if (!doc.exists) {
       return false;
     } else {
-      const res = {...doc.data(), id};
+      const res = {...initPost, ...doc.data(), id};
       return res;
     }
   } catch(err) {

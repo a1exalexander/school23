@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { Component, useReducer, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { SInput, SButton, SRadio } from '../../index';
@@ -8,20 +8,67 @@ import { db } from '../../../firebase';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module';
 import { ImageDrop } from 'quill-image-drop-module';
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('modules/imageDrop', ImageDrop);
 
-const initState = { loading: false, title: '', type: 'post', text: '' };
+const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+  ['blockquote', 'code-block'],
+  ['link', 'image'],
+  [{ header: 1 }, { header: 2 }], // custom button values
+  [{ align: [] }],
+  [{ list: 'ordered' }, { list: 'bullet' }],
+  [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+  [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+  [{ direction: 'rtl' }], // text direction
+
+  [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+  [{ font: [] }],
+
+  ['clean'] // remove formatting button
+];
+const modules = {
+  toolbar: toolbarOptions,
+  imageResize: {},
+  imageDrop: true
+};
+const formats = [
+  'header',
+  'bold',
+  'font',
+  'italic',
+  'underline',
+  'size',
+  'background',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'direction',
+  'align',
+  'image',
+  'formula',
+  'code-block',
+  'color',
+];
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'init':
-      return { ...state, ...action.payload }
+      return { ...state, ...action.payload };
     case 'title':
       return { ...state, title: action.payload };
     case 'text':
       return { ...state, text: action.payload };
+    case 'delta':
+      return { ...state, delta: action.payload};
     case 'type':
       return { ...state, type: action.payload };
     case 'loading':
@@ -33,109 +80,121 @@ const reducer = (state, action) => {
   }
 };
 
-const AdminPost = ({ notify, isUpdate = false, onUpdate, post = initState }) => {
-  const [state, dispatch] = useReducer(reducer, {...initState});
+const initState = { loading: false, title: '', type: 'post', text: '', delta: { ops: [] } };
 
-  useEffect(() => {
-    onDispatch('init')({ title: post.title, text: post.text, type: post.type });
-  }, [])
+class AdminPost extends Component {
+  state = { ...initState };
 
-  const toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-    ['blockquote', 'code-block'],
-    ['link', 'image'],
-    [{ header: 1 }, { header: 2 }], // custom button values
-    [{ align: [] }],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-    [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-    [{ direction: 'rtl' }], // text direction
+  quillRef = null;
+  reactQuillRef = null;
 
-    [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-    [{ font: [] }],
-
-    ['clean'] // remove formatting button
-  ];
-  const modules = {
-    toolbar: toolbarOptions,
-    imageResize: {},
-    imageDrop: true,
-  }
-  const formats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'indent',
-    'link',
-    'image'
-  ];
-
-  const onDispatch = type => payload => {
-    dispatch({ type, payload });
+  _onDispatch = type => payload => {
+    this.setState(prevState => reducer(prevState, { type, payload }));
   };
 
-  const isDisabled = [!!state.title, !!state.type, !!state.text].includes(false);
+  componentDidMount() {
+    const { post = initState } = this.props;
+    this._onDispatch('init')({ title: post.title, delta: post.delta, text: post.text, type: post.type });
+  }
 
-  const onSubmit = async (e) => {
-    const post = {title: state.title, text: state.text, type: state.type}
-    if (isUpdate) {
-      onDispatch('loading')(true);
-      onUpdate(post);
-    } else {
-      e.preventDefault();
-      onDispatch('loading')(true);
-      const res = await db.addPost(post);
-      if (res) {
-        notify('success', 'Пост успішно опублковано!');
-        onDispatch('clean')();
-      } else {
-        notify('error');
-      }
-      onDispatch('loading')(false);
+  componentDidUpdate() {
+    this.attachQuillRefs()
+  }
+
+  attachQuillRefs = () => {
+    if (typeof this.reactQuillRef.getEditor !== 'function') return;
+    const editor = this.reactQuillRef.getEditor();
+    this.quillRef = this.reactQuillRef.makeUnprivilegedEditor(editor);
+  }
+
+  handleChange = (e) => {
+    if (this.quillRef) {
+      const delta = this.quillRef.getContents();
+      const cfg = { inlineStyles: true };
+      const converter = new QuillDeltaToHtmlConverter(delta.ops, cfg);
+      const text = converter.convert();
+      this.setState(prevState => {
+        return {
+          ...prevState,
+          text,
+          delta: {...delta},
+        }
+      })
     }
   }
 
-  return (
-    <div className="admin-post">
-      <div className="admin-post__radio-group">
-        <SRadio name='post' onChange={onDispatch('type')} checked={state.type} value="post">
-          Стаття
-        </SRadio>
-        <SRadio name='post' onChange={onDispatch('type')} checked={state.type} value="announcement">
-          Оголошення
-        </SRadio>
+  _onSubmit = async e => {
+    const { notify, isUpdate, onUpdate } = this.props;
+    const { state, _onDispatch } = this;
+    const post = { title: state.title, delta: state.delta, text: state.text, type: state.type };
+    if (isUpdate) {
+      _onDispatch('loading')(true);
+      onUpdate(post);
+    } else {
+      e.preventDefault();
+      _onDispatch('loading')(true);
+      const res = await db.addPost(post);
+      if (res) {
+        notify('success', 'Пост успішно опублковано!');
+        _onDispatch('clean')();
+      } else {
+        notify('error');
+      }
+      _onDispatch('loading')(false);
+    }
+  };
+
+  render() {
+    const { state, _onDispatch, handleChange, _onSubmit } = this;
+
+    const isDisabled = [!!state.title, !!state.type, !!state.text].includes(false);
+
+    return (
+      <div className="admin-post">
+        <div className="admin-post__radio-group">
+          <SRadio name="post" onChange={_onDispatch('type')} checked={state.type} value="post">
+            Стаття
+          </SRadio>
+          <SRadio
+            name="post"
+            onChange={_onDispatch('type')}
+            checked={state.type}
+            value="announcement"
+          >
+            Оголошення
+          </SRadio>
+        </div>
+        <SInput className="admin-post__input" onChange={_onDispatch('title')} value={state.title}>
+          Головний заголовок статті
+        </SInput>
+        <ReactQuill
+          ref={(el) => { this.reactQuillRef = el }}
+          className="admin-post__input"
+          value={state.delta}
+          onChange={handleChange}
+          modules={modules}
+          formats={formats}
+        />
+        <SButton
+          loading={state.loading}
+          onClick={_onSubmit}
+          disabled={isDisabled}
+          label="Опублікувати статтю"
+        >
+          <span role="img" area-label="post">
+            ✎
+          </span>
+        </SButton>
       </div>
-      <SInput className="admin-post__input" onChange={onDispatch('title')} value={state.title}>
-        Головний заголовок статті
-      </SInput>
-      <ReactQuill
-        className="admin-post__input"
-        value={state.text}
-        onChange={onDispatch('text')}
-        modules={modules}
-        formats={formats}
-      />
-      <SButton loading={state.loading} onClick={onSubmit} disabled={isDisabled} label="Опублікувати статтю">
-        <span role="img" area-label="post">
-          ✎
-        </span>
-      </SButton>
-    </div>
-  );
-};
+    );
+  }
+}
 
 AdminPost.propTypes = {
   notify: PropTypes.func,
   isUpdate: PropTypes.bool,
   onUpdate: PropTypes.func,
-}
+  post: PropTypes.object
+};
 
 export default connect(null, { notify: actions.notifications.notify })(AdminPost);

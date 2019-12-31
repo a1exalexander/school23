@@ -7,6 +7,9 @@ import { Provider } from "react-redux";
 import Router from "next/router";
 import { compose } from 'redux'
 import withGA from "next-ga";
+import '../scss/styles.scss';
+import '../plugins/bulma.css';
+
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for

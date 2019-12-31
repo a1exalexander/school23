@@ -16,6 +16,7 @@ $style: news-post;
   &__title {
     @include text($H800, 500);
     margin-bottom: 32px;
+    text-align: center;
   }
   &__description {
     @include text($H400, 400);
@@ -46,7 +47,8 @@ $style: news-post;
     top: 0;
     left: 0;
     right: 0;
-    min-height: 100%;
+    bottom: 0;
+    height: 100%;
     min-height: 100vh;
     background-color: $N0;
     padding-bottom: 32px;
@@ -54,16 +56,12 @@ $style: news-post;
   &__container {
     position: relative;
     margin-bottom: 32px;
-    
-    
   }
   &__content {
-    * {
+    font-size: $H500;
+    color: $N900;
+    ul, ol {
       list-style-position: inside;
-      color: $N900;
-    }
-    a {
-      color: $B300;
     }
     h1 {
       font-size: $H800;
@@ -84,16 +82,17 @@ $style: news-post;
       font-size: $H300;
     }
     img {
-      max-width: 100%;
-      height: auto;
       text-align: center;
+      max-width: 100%;
     }
     @include media {
-      img {
-        max-width: 50%;
-        margin: 0 25%;
-      }
-      margin-bottom: 0;
+      padding: 32px;
+      border-radius: 6px;
+      box-shadow: $SH4;
+      margin: 0 auto;
+      max-width: 900px;
+      text-align: justify;
+      margin-bottom: 32px;
     }
   }
   &__bottom-bar {
@@ -102,5 +101,38 @@ $style: news-post;
     @include media {
       display: none;
     }
+  }
+  &__comments {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+    font-size: $H300;
+    line-height: 1.5;
+    .media {
+      position: relative;
+    }
+    .delete {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+    }
+  }
+  &__heading {
+    font-size: $H400;
+    margin-bottom: 24px;
+  }
+  &__reply-form {
+    padding: 24px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  &__comment-text {
+    display: block;
+    padding: 12px 0;
+  }
+  &__commentator {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
   }
 }

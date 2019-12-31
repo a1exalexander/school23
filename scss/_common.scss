@@ -29,6 +29,14 @@ body, input, textarea {
   font-family: $base-font;
 }
 
+input, button, textarea {
+  font-size: $H200;
+  @include transition(all);
+  &::placeholder {
+    font-size: $H300;
+  }
+}
+
 a, button {
   font-family: $head-font;
 }
