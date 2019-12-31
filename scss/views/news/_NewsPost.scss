@@ -97,6 +97,7 @@ $style: news-post;
   }
   &__bottom-bar {
     position: fixed;
+    z-index: 2;
     @include position(auto, 6px, 12px, 6px);
     @include media {
       display: none;

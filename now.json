@@ -8,5 +8,17 @@
     "NEXT_STATIC_MESSAGING_SENDER_ID": "@next_static_messaging_sender_id",
     "NEXT_STATIC_APP_ID": "@next_static_app_id",
     "NEXT_STATIC_MEASUREMENT_ID": "@next_static_measurement_id"
+  },
+  "build": {
+    "env": {
+      "NEXT_STATIC_API_KEY": "@next_static_api_key",
+      "NEXT_STATIC_AUTH_DOMAIN": "@next_static_auth_domain",
+      "NEXT_STATIC_DATABASE_URL": "@next_static_database_url",
+      "NEXT_STATIC_PROJECT_ID": "@next_static_project_id",
+      "NEXT_STATIC_STORAGE_BUCKET": "@next_static_storage_bucket",
+      "NEXT_STATIC_MESSAGING_SENDER_ID": "@next_static_messaging_sender_id",
+      "NEXT_STATIC_APP_ID": "@next_static_app_id",
+      "NEXT_STATIC_MEASUREMENT_ID": "@next_static_measurement_id"
+    }
   }
 }

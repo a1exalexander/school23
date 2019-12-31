@@ -1,6 +1,6 @@
 $names: 'before', 'lesson', 'break', 'after';
 $bg: ("before": $P300, "lesson": $G300, "break": $Y300, "after": $B300);
-$color: ("before": $N0, "lesson": $N0, "break": $N900, "after": $N0);
+$color: ("before": $N0, "lesson": $N0, "break": $N0, "after": $N0);
 $styles: nav-info;
 
 .#{$styles} {

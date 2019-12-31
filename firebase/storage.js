@@ -35,7 +35,7 @@ export const getDocuments = async () => {
     const files = await Promise.all(res.items.map(async file => await getUrl(file)))
     return files;
   } catch(err) {
-    console.log(err);
+    logger.error(err, 'GET DOC');
     return false;
   }
 }
