@@ -6,8 +6,7 @@ import { trancate } from '../../../utils';
 import moment from 'moment';
 import Link from 'next/link';
 import { routes } from '../../../constants';
-import { gabiContent, getContent } from '../../../utils/truncate';
-import quill from 'quill';
+import { getContent } from '../../../utils/truncate';
 
 const NewsCard = ({ post, className, idx }) => {
   const postType = post.type === 'post' ? 'Стаття' : 'Оголошення';
