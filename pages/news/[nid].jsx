@@ -240,9 +240,8 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
             </a>
           </Link>
         </div>
-        <section className="news-post__comments">
+        {!isEmpty && <section className="news-post__comments">
           <h3 className="news-post__heading">Коментарі</h3>
-
           {$post.comments.map(item => (
             <article key={item.id} className="media">
              { isAuth && <a onClick={() => deleteComment(item.id)} class="delete"></a>}
@@ -316,7 +315,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
               </div>
             </div>
           </article>
-        </section>
+        </section>}
       </article>
     </Page>
   );
