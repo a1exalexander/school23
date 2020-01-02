@@ -91,9 +91,10 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
   };
 
   const sendComment = async newPost => {
-    const res = await db.updatePost(post.id, newPost);
+    const payload = {...newPost};
+    const res = await db.updatePost(post.id, payload);
     if (res) {
-      setPost(newPost);
+      setPost(payload);
       setComment(getComment());
       setReply(getReply());
     } else {
