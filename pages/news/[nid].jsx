@@ -292,7 +292,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
               <div className="field">
                 <p className="control">
                   <input
-                    className="input"
+                    className="input is-size-6-mobile"
                     value={comment.name}
                     onChange={handleChange(handleComment('name'))}
                     placeholder="Ім'я"
@@ -305,7 +305,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
                   <textarea
                     value={comment.text}
                     onChange={handleChange(handleComment('text'))}
-                    className="textarea"
+                    className="textarea is-size-6-mobile"
                     placeholder="Коментар..."
                   ></textarea>
                 </p>
