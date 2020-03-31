@@ -36,7 +36,7 @@
     "logplease": "^1.2.15",
     "mocha": "^6.2.2",
     "moment": "^2.24.0",
-    "next": "9.1.3",
+    "next": "9.3.2",
     "next-cookie": "^2.0.0",
     "next-cookies": "^2.0.2",
     "next-env": "^1.1.0",
