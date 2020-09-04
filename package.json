@@ -44,7 +44,7 @@
     "next-images": "^1.2.0",
     "next-redux-wrapper": "^4.0.1",
     "nextjs-sitemap-generator": "^0.4.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "nookies": "^2.0.8",
     "prop-types": "^15.7.2",
     "quill": "^1.3.7",
