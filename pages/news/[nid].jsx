@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic';
 import { actions } from '../../store/modules/notifications';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import '../../scss/views/news/_NewsPost.css';
-import { isObject, isString } from '../../utils';
+import { isObject } from '../../utils';
 
 const AdminPost = dynamic(() => import('../../components/views/admin/AdminPost'), { ssr: false });
 
@@ -90,7 +90,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
 
   return (
     <Page>
-      <Meta title={$post.title} description={description} ogType="article" />
+      <Meta title={$post.title} ogType="article" />
       <article className="news-post">
         <SUp />
         <header className="news-post__header">
