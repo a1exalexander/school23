@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { bool, string } from 'prop-types';
 import classNames from 'classnames';
 import { STransitionSwitch } from '../index';
 import loaderGif from '../../assets/gif/copper.gif';
 
-const SLoader = ({ loading, fluid = false, className, children }) => {
-
+const SLoader = ({ loading, fluid, full, className, children }) => {
   const loader = (
-    <div className={classNames('s-loader', { fluid }, className)}>
+    <div className={classNames('s-loader', { _fluid: fluid, _full: full }, className)}>
       <img alt="" src={loaderGif} className="s-loader__image" />
     </div>
   );
@@ -19,10 +18,17 @@ const SLoader = ({ loading, fluid = false, className, children }) => {
   return loading ? loader : children;
 };
 
+SLoader.defaultProps = {
+  fluid: false,
+  full: false,
+  className: '',
+};
+
 SLoader.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  fluid: PropTypes.bool,
-  className: PropTypes.string
+  loading: bool.isRequired,
+  fluid: bool,
+  className: string,
+  full: bool,
 };
 
 export default SLoader;

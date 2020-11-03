@@ -1,3 +1,4 @@
 User-agent: *
-Sitemap: https://school23.now.sh/sitemap_local.xml
-Disallow:
+Allow: /
+Host: https://school23.now.sh
+Sitemap: https://school23.now.sh/sitemap.xml

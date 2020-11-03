@@ -1,11 +1,14 @@
 .s-loader {
   flex: 0 0;
   padding: 0;
-  &.fluid {
+  &._fluid {
     @include flex-row(center, center);
     flex: 1 1;
     height: 80%;
     padding-bottom: 72px;
+  }
+  &._full {
+    height: 100vh;
   }
   &__image {
     flex: 0 0;

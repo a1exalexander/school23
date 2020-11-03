@@ -23,7 +23,7 @@ const Home = () => {
       <div className="home">
         <div className="home__line">
           <HomeBanner className="home__banner" />
-          <div className="home__inner animated delay-4s slow fadeIn">
+          <div className="home__inner animated delay-1s slow fadeIn">
             <p className="home__city">м. Кременчук</p>
             <SNavigationInfo className="home__info"/>
           </div>

@@ -1,5 +1,9 @@
-import Head from "next/head";
-const Meta = ({ title = 'Кременчуцька школа №23' }) => (
+import React from 'react';
+import Head from 'next/head';
+import { number, string } from 'prop-types';
+import { siteUrl } from '../next-sitemap';
+
+const Meta = ({ title, description, image, ogType, imageWidth, imageHeight }) => (
   <Head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charSet="utf-8" />
@@ -11,9 +15,37 @@ const Meta = ({ title = 'Кременчуцька школа №23' }) => (
     <meta name="msapplication-TileColor" content="#da532c"></meta>
     <meta name="theme-color" content="#ffffff"></meta>
     <meta name="author" content="Alex Ratushnyi"></meta>
-    <meta name="description" content="Привіт! Це сайт Кременчуцької школи №23, Полтавської області. Відвідай наш сайт та дізнайся більше про нас"></meta>
-    <meta  name="keywords" content="23 школа кременчуг, school 23, school 23 kremenchuk, 23 школа, кременчук, 23 школа кременчук, ЗОШ 23, ЗОШ 23 кременчук" />
-    <title>{ title }</title>
+    <meta name="description" content={description}></meta>
+    <meta
+      name="keywords"
+      content="23 школа кременчуг, school 23, school 23 kremenchuk, 23 школа, кременчук, 23 школа кременчук, ЗОШ 23, ЗОШ 23 кременчук"
+    />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}/images/${image}`} />
+    <meta property="og:image:width" content={imageWidth} />
+    <meta property="og:image:height" content={imageHeight} />
+    <meta property="og:type" content={ogType} />
+    <title>{title}</title>
   </Head>
 );
+
+Meta.defaultProps = {
+  title: 'Кременчуцька школа №23',
+  description: 'Привіт! Це сайт Кременчуцької школи №23, Полтавської області',
+  image: '23_bg.jpg',
+  ogType: 'website',
+  imageHeight: 883,
+  imageWidth: 1440,
+};
+
+Meta.propTypes = {
+  title: string,
+  description: string,
+  image: string,
+  ogType: string,
+  imageWidth: number,
+  imageHeight: number,
+};
+
 export default Meta;

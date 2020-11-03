@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run postexport && next build",
+    "build": "next build",
     "start": "next start",
     "test:e2e": "start-server-and-test dev http://localhost:3000 cypress:run",
     "cypress:run": "cypress run",
@@ -12,7 +12,7 @@
     "cypress:open": "cypress open",
     "test": "env-cmd -f .env.test mocha",
     "export": "next export",
-    "postexport": "node scripts/postExport.js"
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@babel/register": "^7.7.0",
@@ -46,6 +46,7 @@
     "nextjs-sitemap-generator": "^0.4.1",
     "node-sass": "^4.13.0",
     "nookies": "^2.0.8",
+    "npm-run-all": "^4.1.5",
     "prop-types": "^15.7.2",
     "quill": "^1.3.7",
     "quill-delta-to-html": "^0.11.0",
