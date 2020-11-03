@@ -4,6 +4,9 @@
     @include flex-row(flex-start, stretch);
     flex-wrap: wrap;
     width: 100%;
+    @include media(600px) {
+      margin: 0 -16px;
+    }
   }
   &__title {
     display: none;

@@ -7,7 +7,6 @@ $style: teacher-card;
   border-radius: 3px;
   box-shadow: $SH4;
   line-height: 1;
-  cursor: pointer;
   @include transition(all);
   @include flex-col(flex-start, stretch);
   @include media {
@@ -48,7 +47,7 @@ $style: teacher-card;
     max-width: calc(33% - #{$gap});
   }
   @include media($screen-fullhd) {
-    min-width: 200px;
+    min-width: 270px;
     flex: 1 1 calc(25% - #{$gap});
     max-width: calc(25% - #{$gap});
   }
@@ -59,12 +58,14 @@ $style: teacher-card;
   &__name {
     @include text($H500, 500);
     margin-bottom: 12px;
+    line-height: 1.3;
     @include media {
       font-size: $H400;
     }
   }
   &__description {
     @include text($H300, 400, $N100);
+    line-height: 1.5;
     @include media {
       font-size: $H200;
     }
