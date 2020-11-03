@@ -40,7 +40,7 @@ const Meta = ({ title, description, image, ogType, imageWidth, imageHeight }) =>
 Meta.defaultProps = {
   title: defaultTitle,
   description:
-    'Кременчуцька школа №23. | 39600, Україна, Полтавська область, м. Крменчук, вул. Олександрійська, 18',
+    'Кременчуцька школа №23. | 39600, Україна, Полтавська область, м. Кременчук, вул. Олександрійська, 18',
   image: '23_bg.jpg',
   ogType: 'website',
   imageHeight: 883,

@@ -43,7 +43,7 @@ const Contacts = () => {
               <a target='_blank' href="tel:73-94-35" className="contacts__link">73-94-35</a>
               <a target='_blank' href="tel:73-94-38" className="contacts__link">73-94-38</a>
             </p>
-            <a title='Google map' href='https://goo.gl/maps/ABogqNDvyKcTHP3E7' target='_blank' className='contacts__value'>39600, Україна, Полтавська область, м. Крменчук, вул. Олександрійська, 18</a>
+            <a title='Google map' href='https://goo.gl/maps/ABogqNDvyKcTHP3E7' target='_blank' className='contacts__value'>39600, Україна, Полтавська область, м. Кременчук, вул. Олександрійська, 18</a>
           </div>
         </div>
       </div>
