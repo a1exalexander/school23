@@ -4,10 +4,12 @@ import clock from './clock';
 
 const $hasOwnProperty = Object.prototype.hasOwnProperty;
 
+export const isBrowser = () => typeof window !== 'undefined';
+
 export const has = (obj, key) => {
   if (typeof obj !== 'object') return false;
   return $hasOwnProperty.call(obj, key);
-}
+};
 
 export const isObject = (el) => typeof el === 'object';
 export const isFunction = (el) => typeof el === 'function';
@@ -38,6 +40,7 @@ export const getErrorMessage = (error = 'Somthing Wrong') => {
   return msg;
 };
 
-export const searchString = (str, query) => String(str).toLowerCase().indexOf(String(query).toLowerCase()) !== -1;
+export const searchString = (str, query) =>
+  String(str).toLowerCase().indexOf(String(query).toLowerCase()) !== -1;
 export const generateFileName = (name) => `${Date.now()}-${name}`;
 export { filterSearch, trancate, clock };

@@ -4,18 +4,8 @@ $style: about;
   min-height: 100vh;
   padding-bottom: 72px;
   &__header {
-    position: relative;
-    z-index: 1;
-  }
-  &__header-inner {
-    height: 100%;
-    width: 100%;
-    @include flex-col(center, center);
+    padding: 120px 0;
     background-color: rgba(0, 0, 0, 0.4);
-    padding: 32px 8%;
-    @include media {
-      background-color: rgba(0, 0, 0, 0.3);
-    }
   }
   &__title {
     text-align: center;
@@ -24,12 +14,6 @@ $style: about;
     @include media {
       font-size: $H900;
     }
-  }
-  &__header-image {
-    height: 100vh;
-    min-height: 500px;
-    background-position: center bottom;
-    background-image: url('/images/23_bg.jpg');
   }
   &__section {
     position: relative;

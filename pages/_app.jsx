@@ -9,6 +9,7 @@ import { compose } from 'redux';
 import withGA from 'next-ga';
 import '../scss/styles.scss';
 import '../plugins/bulma.css';
+import { isBrowser } from '../utils';
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -16,43 +17,59 @@ class MyApp extends App {
   // perform automatic static optimization, causing every page in your app to
   // be server-side rendered.
   //
-  // static async getInitialProps(appContext) {
-  //   // calls page's `getInitialProps` and fills `appProps.pageProps`
-  //   const appProps = await App.getInitialProps(appContext);
-  //
-  //   return { ...appProps }
-  // }
+  static async getInitialProps(appContext) {
+    // calls page's `getInitialProps` and fills `appProps.pageProps`
+    const appProps = await App.getInitialProps(appContext);
+
+    return { ...appProps };
+  }
 
   state = {
+    onloadLoading: true,
     loading: false,
   };
 
   constructor() {
     super();
     Router.onRouteChangeStart = (url) => {
-      console.log('start loader');
       this.setState((prevState) => ({ ...prevState, loading: true }));
     };
 
     Router.onRouteChangeComplete = (url) => {
-      console.log('end loader');
       this.setState((prevState) => ({ ...prevState, loading: false }));
     };
 
     Router.onRouteChangeError = (err, url) => {
-      // an error occurred.
-      // some error logic
+      this.setState((prevState) => ({ ...prevState, loading: false }));
     };
+  }
+
+  componentDidMount() {
+    if (isBrowser()) {
+      window.onload = (event) => {
+        setTimeout(
+          () => this.setState((prevState) => ({ ...prevState, onloadLoading: false })),
+          1000
+        );
+      };
+    }
   }
 
   render() {
     const { Component, pageProps, reduxStore } = this.props;
+    const { onloadLoading } = this.state;
     return (
       <>
         <Provider store={reduxStore}>
-          <SNavigation />
+          {!onloadLoading && <SNavigation />}
           <STransitionSwitch keyProp={this.props.router.route}>
-            <SLoader fluid full loading={this.state.loading}>
+            <SLoader
+              dark={onloadLoading}
+              type={onloadLoading ? 'box' : 'infinity'}
+              fluid
+              full
+              loading={onloadLoading}
+            >
               <Component {...pageProps} />
             </SLoader>
           </STransitionSwitch>

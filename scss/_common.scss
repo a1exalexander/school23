@@ -25,11 +25,15 @@ body {
   min-height: 100vh;
 }
 
-body, input, textarea {
+body,
+input,
+textarea {
   font-family: $base-font;
 }
 
-input, button, textarea {
+input,
+button,
+textarea {
   font-size: $H200;
   @include transition(all);
   &::placeholder {
@@ -37,19 +41,30 @@ input, button, textarea {
   }
 }
 
-a, button {
+a,
+button {
   font-family: $head-font;
 }
 
-p, h1, h2, h3, h4, h5 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5 {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   font-family: $head-font;
 }
 
-button, a {
+button,
+a {
   text-decoration: none;
   outline: none;
   border: none;
@@ -57,8 +72,7 @@ button, a {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .is-mobile {
@@ -72,4 +86,13 @@ code {
   @include media {
     display: block;
   }
+}
+
+.container {
+  $offset: 64px;
+  max-width: calc(1366px + #{$offset} * 2);
+  width: 100%;
+  margin: 0 auto;
+  padding-left: $offset;
+  padding-right: $offset;
 }

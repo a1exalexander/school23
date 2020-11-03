@@ -1,6 +1,9 @@
 .s-loader {
   flex: 0 0;
   padding: 0;
+  &._dark {
+    background-color: $DARK;
+  }
   &._fluid {
     @include flex-row(center, center);
     flex: 1 1;
@@ -8,9 +11,309 @@
     padding-bottom: 72px;
   }
   &._full {
+    width: 100%;
     height: 100vh;
   }
   &__image {
     flex: 0 0;
   }
+  &__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+    span {
+      display: none;
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background-color: #05047a;
+    }
+    span:nth-child(1) {
+      display: block;
+      transform: skew(0deg, 20deg);
+      animation-name: box1;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: forwards;
+    }
+    span:nth-child(2) {
+      display: block;
+      transform: skew(0deg, 20deg);
+      animation-name: box2;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: forwards;
+    }
+    span:nth-child(3) {
+      display: block;
+      transform: skew(0deg, 20deg);
+      animation-name: box3;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: forwards;
+    }
+    span:nth-child(4) {
+      display: block;
+      transform: skew(0deg, 20deg);
+      animation-name: box4;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: forwards;
+    }
+    span::before {
+      position: absolute;
+      top: -15px;
+      left: 40px;
+      content: "";
+      display: block;
+      width: 30px;
+      height: 40px;
+      background-color: #fb555a;
+      transform: skew(0deg, -45deg);
+    }
+    span::after {
+      position: absolute;
+      top: -30px;
+      left: 15px;
+      content: "";
+      display: block;
+      width: 40px;
+      height: 30px;
+      background-color: #faaa4e;
+      transform: skew(-45deg, 0deg);
+    }
+  }
+}
+
+@keyframes box1 {
+	0% {
+		z-index: 0;
+		left: 0px;
+		top: 0px;
+	}
+	6% {
+		z-index: 1;
+		left: 40px;
+		top: 15px;
+	}
+	25% {
+		z-index: 1;
+		left: 40px;
+		top: 15px;
+	}
+	31% {
+		z-index: 2;
+		left: 80px;
+		top: 30px;
+	}
+	37% {
+		z-index: 3;
+		left: 50px;
+		top: 50px;
+	}
+	50% {
+		z-index: 3;
+		left: 50px;
+		top: 50px;
+	}
+	56% {
+		z-index: 2;
+		left: 10px;
+		top: 35px;
+	}
+	75% {
+		z-index: 2;
+		left: 10px;
+		top: 35px;
+	}
+	81% {
+		z-index: 1;
+		left: -30px;
+		top: 20px;
+	}
+	87% {
+		z-index: 0;
+		left: 0px;
+		top: 0px;
+	}
+	100% {
+		z-index: 0;
+		left: 0px;
+		top: 0px;
+	}
+}
+
+@keyframes box2 {
+	0% {
+		z-index: 1;
+		left: 40px;
+		top: 15px;
+	}
+	6% {
+		z-index: 2;
+		left: 80px;
+		top: 30px;
+	}
+	12% {
+		z-index: 3;
+		left: 50px;
+		top: 50px;
+	}
+	25% {
+		z-index: 3;
+		left: 50px;
+		top: 50px;
+	}
+	31% {
+		z-index: 2;
+		left: 10px;
+		top: 35px;
+	}
+	50% {
+		z-index: 2;
+		left: 10px;
+		top: 35px;
+	}
+	56% {
+		z-index: 1;
+		left: -30px;
+		top: 20px;
+	}
+	62% {
+		z-index: 0;
+		left: 0px;
+		top: 0px;
+	}
+	75% {
+		z-index: 0;
+		left: 0px;
+		top: 0px;
+	}
+	81% {
+		z-index: 1;
+		left: 40px;
+		top: 15px;
+	}
+	100% {
+		z-index: 1;
+		left: 40px;
+		top: 15px;
+	}
+}
+
+@keyframes box3 {
+	0% {
+		z-index: 3;
+		left: 50px;
+		top: 50px;
+	}
+	6% {
+		z-index: 2;
+		left: 10px;
+		top: 35px;
+	}
+	25% {
+		z-index: 2;
+		left: 10px;
+		top: 35px;
+	}
+	31% {
+		z-index: 1;
+		left: -30px;
+		top: 20px;
+	}
+	37% {
+		z-index: 0;
+		left: 0px;
+		top: 0px;
+	}
+	50% {
+		z-index: 0;
+		left: 0px;
+		top: 0px;
+	}
+	56% {
+		z-index: 1;
+		left: 40px;
+		top: 15px;
+	}
+	75% {
+		z-index: 1;
+		left: 40px;
+		top: 15px;
+	}
+	81% {
+		z-index: 2;
+		left: 80px;
+		top: 30px;
+	}
+	87% {
+		z-index: 3;
+		left: 50px;
+		top: 50px;
+	}
+	100% {
+		z-index: 3;
+		left: 50px;
+		top: 50px;
+	}
+}
+
+@keyframes box4 {
+	0% {
+		z-index: 2;
+		left: 10px;
+		top: 35px;
+	}
+	6% {
+		z-index: 1;
+		left: -30px;
+		top: 20px;
+	}
+	12% {
+		z-index: 0;
+		left: 0px;
+		top: 0px;
+	}
+	25% {
+		z-index: 0;
+		left: 0px;
+		top: 0px;
+	}
+	31% {
+		z-index: 1;
+		left: 40px;
+		top: 15px;
+	}
+	50% {
+		z-index: 1;
+		left: 40px;
+		top: 15px;
+	}
+	56% {
+		z-index: 2;
+		left: 80px;
+		top: 30px;
+	}
+	62% {
+		z-index: 3;
+		left: 50px;
+		top: 50px;
+	}
+	75% {
+		z-index: 3;
+		left: 50px;
+		top: 50px;
+	}
+	81% {
+		z-index: 2;
+		left: 10px;
+		top: 35px;
+	}
+	100% {
+		z-index: 2;
+		left: 10px;
+		top: 35px;
+	}
 }

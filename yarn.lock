@@ -7821,10 +7821,10 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-anime@^2.2.0:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/react-anime/-/react-anime-2.3.2.tgz#12782d75018ff7acd23977f170c1886ebdec3a52"
-  integrity sha512-Wh9p1EdU5NTc2lyemHlaGG0QKuUYhpeGbh1Auw14Be+vukIkbCIaBMOyFya0Q7SIjSPzTNNpIgnD3oIv8TXWiw==
+react-anime@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/react-anime/-/react-anime-3.0.3.tgz#7ebd88cf3c647cc3a76b8faec15152b98ca27a16"
+  integrity sha512-VQjEAMvbkFMZoLSH96z8tzMg96EhFsBXyv83LIJC5lbetYbka/koTBCSvR5f1LPspqbJUbJtN9rEHA6DhCsESw==
   dependencies:
     animejs "^3.1.0"
     lodash.isequal "^4.5.0"

@@ -55,7 +55,6 @@
     "quill-image-drop-module": "^1.0.3",
     "quill-image-resize-module": "^3.0.0",
     "react": "16.11.0",
-    "react-anime": "^2.2.0",
     "react-clock": "^2.4.0",
     "react-dom": "16.11.0",
     "react-filepond": "^7.0.1",
