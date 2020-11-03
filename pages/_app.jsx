@@ -69,7 +69,7 @@ class MyApp extends App {
   }
 
   componentDidUpdate() {
-    if (document.readyState === 'complete') {
+    if (isBrowser() && document && document.readyState === 'complete') {
       this.hideFirstLoading();
     }
   }
