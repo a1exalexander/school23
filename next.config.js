@@ -32,7 +32,7 @@ const nextConfig = {
       '/': { page: '/' },
     };
   },
-  images: { domains: ['localhost', 'firebasestorage.googleapis.com', 'https://school23.now.sh/'] },
+  images: { domains: ['localhost', 'firebasestorage.googleapis.com', 'https://school23.now.sh'] },
 };
 
 module.exports = compose([[withImages], [withSass], [withCSS], [withNextEnv]], nextConfig);
