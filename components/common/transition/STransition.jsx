@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 import PropTypes from "prop-types";
 import transitionClasses from './transitionClasses';
 
-const STransition = ({ appear = true, inProp, children, timeout = 200, name = 'fade' }) => {
+const STransition = ({ appear = true, inProp, children, timeout = 400, name = 'fade' }) => {
 
   return (
     <CSSTransition
