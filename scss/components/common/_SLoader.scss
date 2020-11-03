@@ -4,7 +4,8 @@
   position: fixed;
   width: 100vw;
   height: 100vh;
-  @include position;
+	@include position;
+	z-index: 1;
   &._dark {
     background-color: $DARK;
     z-index: 100;
