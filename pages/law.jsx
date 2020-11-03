@@ -116,7 +116,7 @@ const Law = ({ laws, orders, isAuth, updateDoc, deleteDoc, acts, hasDocs, loadin
     <Page title="Нормативно-правові акти">
       <div className="law">
         <h1 className="law__title">Нормативно-правові акти</h1>
-        <SLoader fluid loading={loading}>
+        <SLoader loading={loading}>
           <Fragment>
             <section className="law__section">
               <h2 className="law__caption">Закони</h2>

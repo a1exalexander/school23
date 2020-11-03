@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes, { bool, oneOf, string } from 'prop-types';
 import classNames from 'classnames';
 import loaderGif from '../../assets/gif/copper.gif';
+import { STransition } from './transition';
 
 const SLoader = ({ loading, fluid, full, className, children, type, dark }) => {
   const loader = (
@@ -18,11 +19,12 @@ const SLoader = ({ loading, fluid, full, className, children, type, dark }) => {
     </div>
   );
 
-  if (!children) {
-    return loading && loader;
-  }
-
-  return loading ? loader : children;
+  return (
+    <>
+      <STransition inProp={loading}>{loader}</STransition>
+      {children}
+    </>
+  );
 };
 
 SLoader.defaultProps = {
@@ -30,7 +32,7 @@ SLoader.defaultProps = {
   full: false,
   className: '',
   type: 'box',
-  dark: false
+  dark: false,
 };
 
 SLoader.propTypes = {
@@ -39,7 +41,7 @@ SLoader.propTypes = {
   className: string,
   full: bool,
   type: oneOf(['infinity', 'box']),
-  dark: bool
+  dark: bool,
 };
 
 export default SLoader;

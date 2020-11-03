@@ -158,7 +158,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
         <div className="news-post__bottom-bar">
           <Link href={routes.NEWS}>
             <a>
-              <SButton size="big" fluid type="secondary">
+              <SButton size="big" type="secondary">
                 Переглянути усі новини
               </SButton>
             </a>

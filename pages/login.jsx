@@ -63,7 +63,7 @@ const Login = ({ logout, auth, login }) => {
     <Page title="Авторизація">
       <div className="login">
         <h1 className="login__title">Авторизація</h1>
-        <SLoader fluid className="login__loader" loading={state.mounting || auth.status}>{isNotAuth}</SLoader>
+        <SLoader className="login__loader" loading={state.mounting || auth.status}>{isNotAuth}</SLoader>
       </div>
     </Page>
   );

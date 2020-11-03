@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
+import { func, string } from 'prop-types';
 
-const SNavigationItem = ({ href = '/', className, children, label }) => {
+const SNavigationItem = ({ href, className, children, label }) => {
   return (
     <li className={classNames('nav-item', className)}>
       <Link href={href}>
@@ -13,6 +14,18 @@ const SNavigationItem = ({ href = '/', className, children, label }) => {
       </Link>
     </li>
   );
+};
+
+SNavigationItem.defaultProps = {
+  href: '/',
+  className: '',
+  label: '',
+};
+
+SNavigationItem.propTypes = {
+  href: string,
+  className: string,
+  label: string,
 };
 
 export default SNavigationItem;

@@ -61,7 +61,7 @@ const Admin = ({ auth, logout }) => {
   return (
     <Page title="Кабінет адміністратора">
       <div className="admin">
-        <SLoader fluid loading={state.mounting || !auth.status}>
+        <SLoader loading={state.mounting || !auth.status}>
           <>
             <div className="admin__header">
               <h1 className="admin__title">Кабінет адміністратора</h1>

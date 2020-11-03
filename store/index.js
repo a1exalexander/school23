@@ -3,6 +3,7 @@ import reducer from './reducer';
 import thunk from 'redux-thunk';
 import actionStringMiddleware from './middlewares/actionStringMiddleware';
 import actions from './actions';
+import { createWrapper } from 'next-redux-wrapper';
 
 let composeEnhancers = compose;
 
@@ -12,10 +13,10 @@ if (process.browser) {
 
 const middlewares = [thunk, actionStringMiddleware];
 
-export const initializeStore = () => createStore(
-  reducer,
-  composeEnhancers(applyMiddleware(...middlewares)),
-);
+export const makeStore = (context) =>
+  createStore(reducer, composeEnhancers(applyMiddleware(...middlewares)));
+
+export const wrapper = createWrapper(makeStore, { debug: false });
 
 export { actions };
-export default initializeStore;
+export default wrapper;

@@ -2,7 +2,6 @@ import React from 'react';
 import App from 'next/app';
 import SNavigation from '../components/navigation/SNavigation';
 import { SLoader, STransitionSwitch } from '../components';
-import withReduxStore from '../lib/with-redux-store';
 import { Provider } from 'react-redux';
 import Router from 'next/router';
 import { compose } from 'redux';
@@ -10,6 +9,7 @@ import withGA from 'next-ga';
 import '../scss/styles.scss';
 import '../plugins/bulma.css';
 import { isBrowser } from '../utils';
+import { wrapper } from '../store';
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -17,12 +17,24 @@ class MyApp extends App {
   // perform automatic static optimization, causing every page in your app to
   // be server-side rendered.
   //
-  static async getInitialProps(appContext) {
-    // calls page's `getInitialProps` and fills `appProps.pageProps`
-    const appProps = await App.getInitialProps(appContext);
+  // static async getInitialProps(appContext) {
+  //   // calls page's `getInitialProps` and fills `appProps.pageProps`
+  //   const appProps = await App.getInitialProps(appContext);
 
-    return { ...appProps };
-  }
+  //   return { ...appProps };
+  // }
+
+  static getInitialProps = async ({ Component, ctx }) => {
+    // Keep in mind that this will be called twice on server, one for page and second for error page
+
+    return {
+      pageProps: {
+        // Call page-level getInitialProps
+        ...(Component && Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
+        // Some custom thing for all pages
+      },
+    };
+  };
 
   state = {
     onloadLoading: true,
@@ -63,27 +75,22 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps, reduxStore } = this.props;
-    const { onloadLoading } = this.state;
+    const { Component, pageProps } = this.props;
+    const { onloadLoading, loading } = this.state;
     return (
       <>
-        <Provider store={reduxStore}>
-          {!onloadLoading && <SNavigation />}
+        {!onloadLoading && <SNavigation />}
+        <SLoader
+          dark={onloadLoading}
+          loading={onloadLoading || loading}
+        >
           <STransitionSwitch keyProp={this.props.router.route}>
-            <SLoader
-              dark={onloadLoading}
-              type={onloadLoading ? 'box' : 'infinity'}
-              fluid
-              full
-              loading={onloadLoading}
-            >
-              <Component {...pageProps} />
-            </SLoader>
+            <Component {...pageProps} />
           </STransitionSwitch>
-        </Provider>
+        </SLoader>
       </>
     );
   }
 }
 
-export default compose(withGA('UA-214935287-1', Router), withReduxStore)(MyApp);
+export default compose(withGA('UA-214935287-1', Router), wrapper.withRedux)(MyApp);

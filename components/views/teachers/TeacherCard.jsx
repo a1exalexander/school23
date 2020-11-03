@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Image from 'next/image';
-import PropTypes from 'prop-types';
+import { bool, func, object, string } from 'prop-types';
 import classNames from 'classnames';
 import SButton from '../../common/buttons/SButton';
 import { actions } from '../../../store/modules/teachers';
@@ -29,7 +29,13 @@ const TeacherCard = ({ teacher, isAuth, deleteTeacher, className = '' }) => {
         </SButton>
       )}
       <div className="teacher-card__image-wrapper">
-        <Image unsized loading="eager" className="teacher-card__image" src={teacher.url} alt={teacher.name} />
+        <Image
+          unsized
+          loading="eager"
+          className="teacher-card__image"
+          src={teacher.url}
+          alt={teacher.name}
+        />
       </div>
       <div className="teacher-card__body">
         <h3 className="teacher-card__name">{teacher.name}</h3>
@@ -40,10 +46,10 @@ const TeacherCard = ({ teacher, isAuth, deleteTeacher, className = '' }) => {
 };
 
 TeacherCard.propTypes = {
-  className: PropTypes.string,
-  teacher: PropTypes.object,
-  deleteTeacher: PropTypes.func,
-  isAuth: PropTypes.isAuth,
+  className: string,
+  teacher: object,
+  deleteTeacher: func,
+  isAuth: bool,
 };
 export default connect(({ auth: { status } }) => ({ isAuth: status }), {
   deleteTeacher: actions.deleteTeacher,

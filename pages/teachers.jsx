@@ -20,8 +20,8 @@ const Teachers = ({ teachers, loading, fetchData, isEmpty }) => {
         <header className="teachers__header">
           <h1 className="teachers__title">Наші вчителі</h1>
         </header>
-        <SLoader className="teachers__loader" fluid loading={loading}>
-          {isEmpty ? <Empty /> : <ul className="teachers__list">{teachersList}</ul>}
+        <SLoader className="teachers__loader" loading={loading && !isEmpty}>
+          {!isEmpty || loading ? <ul className="teachers__list">{teachersList}</ul> : <Empty />}
         </SLoader>
       </div>
     </Page>
@@ -39,7 +39,7 @@ export default connect(
   ({ teachers: { list, loading } }) => ({
     loading,
     teachers: list,
-    isEmpty: !list.length && !loading,
+    isEmpty: !list.length,
   }),
   {
     fetchData: actions.fetchData,

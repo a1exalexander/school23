@@ -30,6 +30,8 @@ const nextConfig = {
     return {
       ...fileObj,
       '/': { page: '/' },
+      '/index': { page: '/' },
+      '/news/index': { page: '/news' },
     };
   },
   images: { domains: ['localhost', 'firebasestorage.googleapis.com', 'https://school23.now.sh'] },
