@@ -1087,6 +1087,11 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@corex/deepmerge@^2.4.24":
+  version "2.4.24"
+  resolved "https://registry.yarnpkg.com/@corex/deepmerge/-/deepmerge-2.4.24.tgz#d02aa2bf1a5c7f3847d4227d6700419450909f63"
+  integrity sha512-TBYXnhxYU9kqDhUXm/rgDRRAxHVpX8Y3ZX+zmTmQuhRF9p7orsrx+P/lVXS7PcPnOFFVE3ZvyE5MIYFipecy8g==
+
 "@cypress/listr-verbose-renderer@0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@cypress/listr-verbose-renderer/-/listr-verbose-renderer-0.4.1.tgz#a77492f4b11dcc7c446a34b3e28721afd33c642a"
@@ -6570,6 +6575,13 @@ next-redux-wrapper@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/next-redux-wrapper/-/next-redux-wrapper-4.0.1.tgz#70f2d83b5bd0fb07ec19e6e70bea6b179d295fd7"
   integrity sha512-aj9s4VT062hvrU8k2OQevf6iffHSIXpDXtIA8xbLzfpP94h3w7vZCmAJmbmfq3rXignqJT3KG44GODwsCQmdsA==
+
+next-sitemap@^1.2.22:
+  version "1.2.22"
+  resolved "https://registry.yarnpkg.com/next-sitemap/-/next-sitemap-1.2.22.tgz#69880ac6189f40ece23425f99c3cb185299607eb"
+  integrity sha512-4Ch6vJrc8krxM+6CyKMPYGMGTSA4eHbtFfHept5lbzoZrmPLi9Nr2guVuMljaJfMHvNribb/D6UhKvz3CqMLfA==
+  dependencies:
+    "@corex/deepmerge" "^2.4.24"
 
 next-tick@~1.0.0:
   version "1.0.0"
