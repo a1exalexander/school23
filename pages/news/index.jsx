@@ -23,7 +23,7 @@ const News = ({ loading, news, hasNews, getNews }) => {
   }, []);
 
   return (
-    <Page title="Новини 23 школи">
+    <Page title="Новини">
       <div className="news">
         <header className="news__header">
           <h1 className="news__title">Шкільні новини</h1>

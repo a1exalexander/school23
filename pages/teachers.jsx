@@ -6,22 +6,21 @@ import TeacherCard from '../components/views/teachers/TeacherCard';
 import { actions } from '../store/modules/teachers';
 
 const Teachers = ({ teachers, loading, fetchData, isEmpty }) => {
-
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
   const teachersList = teachers.map((item) => {
     return <TeacherCard teacher={item} key={item.id} />;
   });
 
   return (
-    <Page title="Вчителі школи №23">
+    <Page title="Учительська">
       <div className="teachers">
         <header className="teachers__header">
           <h1 className="teachers__title">Наші вчителі</h1>
         </header>
-        <SLoader className='teachers__loader' fluid loading={loading}>
+        <SLoader className="teachers__loader" fluid loading={loading}>
           {isEmpty ? <Empty /> : <ul className="teachers__list">{teachersList}</ul>}
         </SLoader>
       </div>
@@ -33,9 +32,16 @@ Teachers.propTypes = {
   teachers: PropTypes.array,
   fetchData: PropTypes.func,
   isEmpty: PropTypes.bool,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
 };
 
-export default connect(({ teachers: { list, loading } }) => ({ loading, teachers: list, isEmpty: !list.length && !loading }), {
-  fetchData: actions.fetchData
-})(Teachers);
+export default connect(
+  ({ teachers: { list, loading } }) => ({
+    loading,
+    teachers: list,
+    isEmpty: !list.length && !loading,
+  }),
+  {
+    fetchData: actions.fetchData,
+  }
+)(Teachers);
