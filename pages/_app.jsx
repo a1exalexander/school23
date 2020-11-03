@@ -57,7 +57,7 @@ class MyApp extends App {
   }
 
   hideFirstLoading() {
-    this.setState((prevState) => ({ ...prevState, onloadLoading: false }));
+    setTimeout(() => this.setState((prevState) => ({ ...prevState, onloadLoading: false })), 1000);
   }
 
   componentDidMount() {
@@ -80,7 +80,10 @@ class MyApp extends App {
     return (
       <>
         {!onloadLoading && <SNavigation />}
-        <SLoader dark={onloadLoading} loading={onloadLoading || loading}>
+        <SLoader
+          dark={onloadLoading}
+          loading={onloadLoading || loading}
+        >
           <STransitionSwitch keyProp={this.props.router.route}>
             <Component {...pageProps} />
           </STransitionSwitch>
