@@ -21,6 +21,8 @@ const Meta = ({ title, description, image, ogType, imageWidth, imageHeight }) =>
       content="23 школа кременчуг, school 23, school 23 kremenchuk, 23 школа, кременчук, 23 школа кременчук, ЗОШ 23, ЗОШ 23 кременчук"
     />
     <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:url" content={siteUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image:width" content={imageWidth} />

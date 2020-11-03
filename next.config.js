@@ -2,7 +2,7 @@ const withSass = require('@zeit/next-sass');
 const withImages = require('next-images');
 const withCSS = require('@zeit/next-css');
 const compose = require('next-compose-plugins');
-const getPathsObject = require("./scripts/getPathsObject");
+const getPathsObject = require('./scripts/getPathsObject');
 // const dotEnvResult = require('dotenv').config();
 const nextEnv = require('next-env');
 const dotenvLoad = require('dotenv-load');
@@ -18,20 +18,21 @@ const nextConfig = {
       exclude: /node_modules(?!\/quill-image-drop-module|quill-image-resize-module|quill-image-rotate-module)/,
       loader: 'babel-loader',
     });
-    config.plugins.push(new webpack.ProvidePlugin({
-      'window.Quill': 'quill'
-    }))
+    config.plugins.push(
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill',
+      })
+    );
     return config;
   },
-  exportPathMap: function() {
+  exportPathMap: function () {
     const fileObj = getPathsObject();
     return {
       ...fileObj,
-      "/": { page: "/" }
+      '/': { page: '/' },
     };
-  }
+  },
+  images: { domains: ['localhost', 'firebasestorage.googleapis.com', 'https://school23.now.sh/'] },
 };
 
-module.exports = compose([
-  [withImages], [withSass], [withCSS], [withNextEnv]
-], nextConfig);
+module.exports = compose([[withImages], [withSass], [withCSS], [withNextEnv]], nextConfig);

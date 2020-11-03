@@ -44,14 +44,21 @@ class MyApp extends App {
     };
   }
 
+  hideFirstLoading() {
+    setTimeout(() => this.setState((prevState) => ({ ...prevState, onloadLoading: false })), 1000);
+  }
+
   componentDidMount() {
     if (isBrowser()) {
       window.onload = (event) => {
-        setTimeout(
-          () => this.setState((prevState) => ({ ...prevState, onloadLoading: false })),
-          1000
-        );
+        this.hideFirstLoading();
       };
+    }
+  }
+
+  componentDidUpdate() {
+    if (document.readyState === 'complete') {
+      this.hideFirstLoading();
     }
   }
 
