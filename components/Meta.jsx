@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { number, string } from 'prop-types';
 import { siteUrl } from '../next-sitemap';
 
-const defaultTitle = 'Кременчуцька школа №23';
+const defaultTitle = 'Кременчуцька гімназія №23';
 
 const Meta = ({ title, description, image, ogType, imageWidth, imageHeight }) => {
   const formatedTitle = `${title}${title !== defaultTitle ? ` | ${defaultTitle}` : ''}`;
@@ -22,7 +22,7 @@ const Meta = ({ title, description, image, ogType, imageWidth, imageHeight }) =>
       <meta name="description" content={description}></meta>
       <meta
         name="keywords"
-        content="23 школа кременчуг, school 23, school 23 kremenchuk, 23 школа, кременчук, 23 школа кременчук, ЗОШ 23, ЗОШ 23 кременчук"
+        content="гимназия 23, гімназія 23, 23 школа кременчуг, school 23, school 23 kremenchuk, 23 школа, кременчук, 23 школа кременчук, ЗОШ 23, ЗОШ 23 кременчук"
       />
       <meta property="og:type" content={ogType} />
       <meta property="og:locale" content="uk_UA" />
@@ -40,7 +40,7 @@ const Meta = ({ title, description, image, ogType, imageWidth, imageHeight }) =>
 Meta.defaultProps = {
   title: defaultTitle,
   description:
-    'Кременчуцька школа №23. | 39600, Україна, Полтавська область, м. Кременчук, вул. Олександрійська, 18',
+    'Кременчуцька гімназія №23. 39600, Україна, Полтавська область, м. Кременчук, вул. Олександрійська, 18 | Школа 23',
   image: '23_bg.jpg',
   ogType: 'website',
   imageHeight: 883,

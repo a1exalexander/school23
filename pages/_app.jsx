@@ -22,6 +22,7 @@ class MyApp extends App {
   state = {
     onloadLoading: true,
     loading: false,
+    readyState: 'not ready',
   };
 
   constructor() {
@@ -51,9 +52,13 @@ class MyApp extends App {
     }
   }
 
-  componentDidUpdate() {
-    if (isBrowser() && document && document.readyState === 'complete') {
-      this.hideFirstLoading();
+  componentDidUpdate(prevProp, prevState) {
+    const readyState = isBrowser() && document && document.readyState;
+    if (prevState.readyState !== readyState) {
+      this.setState((state) => ({ ...state, readyState }));
+      if (readyState === 'complete') {
+        this.hideFirstLoading();
+      }
     }
   }
 

@@ -11,7 +11,7 @@ const HomeBanner = ({ className = ''  }) => {
       </div>
       <div className="home-banner__inner">
         <p className="home-banner__title animated slower delay-1s fadeIn">Привіт!</p>
-        <h1 className="home-banner__title animated slower delay-2s fadeIn">Ми - школа №23</h1>
+        <h1 className="home-banner__title animated slower delay-2s fadeIn">Ми - Кременчуцька гімназія №23</h1>
       </div>
     </div>
   );

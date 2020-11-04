@@ -7,7 +7,7 @@ const About = () => {
       <div className="about">
         <header className="about__header">
           <div className="container">
-            <h1 className="about__title animated slow delay-1s fadeIn">Крeменчуцька школа №23</h1>
+            <h1 className="about__title animated slow delay-1s fadeIn">Крeменчуцька гімназія №23</h1>
             <p className="about__text animated delay-2s slow fadeIn about__text--light about__text--center">
               Наша школа – навчальний заклад з давньою історією, в якому приємно не лише вчитись, а
               й здобувати гарні, міцні , дорогоцінні знання. Навчальний заклад відкриє чарівний світ

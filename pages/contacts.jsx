@@ -29,7 +29,7 @@ const Contacts = () => {
           <div className="contacts__content">
             <div id="typed-strings">
               <p>^1000 Привіт ^1000</p>
-              <p>Ми Кременчуцька школа №23 ^1000</p>
+              <p>Ми Кременчуцька гімназія №23 ^1000</p>
               <p>Давайте робити чудові справи разом ^1000</p>
             </div>
             <span id="typed"></span>
