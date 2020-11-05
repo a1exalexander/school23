@@ -3,10 +3,11 @@
   margin: 0;
   padding: 0;
   -webkit-overflow-scrolling: touch;
-  scrollbar-color: $N600 transparent;
+  scrollbar-color: $N600, 00;
   scrollbar-width: thin;
   ::-webkit-scrollbar {
     width: 2px;
+    height: 2px;
     background: $N40;
   }
   ::-webkit-scrollbar-thumb {
@@ -15,6 +16,7 @@
   }
   ::-webkit-scrollbar-track {
     background: transparent;
+    height: 2px;
     background-clip: content-box;
   }
 }
@@ -74,8 +76,7 @@ a {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-
-.is-mobile {
+Ï .is-mobile {
   @include media {
     display: none;
   }

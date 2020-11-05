@@ -1,5 +1,7 @@
 @import '~filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 @import '~filepond/dist/filepond.min.css';
+@import './antd';
+
 @import './core/fonts';
 // Plugins
 @import './plugins/animate';
@@ -58,3 +60,5 @@
 
 // Login
 @import './views/login/Login';
+
+@import './views/schedule/Schedule';

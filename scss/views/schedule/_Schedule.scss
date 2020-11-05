@@ -1,0 +1,21 @@
+$style: Schedule;
+
+.#{$style} {
+  min-height: 100vh;
+  line-height: 1;
+  &__header {
+    padding: 92px 24px;
+    @include flex-row(flex-start, flex-end);
+    @include media {
+      padding: 35px 8%;
+    }
+  }
+  &__title {
+    padding-left: 12px;
+    display: none;
+    @include media {
+      display: block;
+      @include text($H700, 400);
+    }
+  }
+}

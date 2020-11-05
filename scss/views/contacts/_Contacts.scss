@@ -2,12 +2,14 @@ $style: contacts;
 .#{$style} {
   @extend %container;
   width: 100%;
+  line-height: 1;
   &__title {
     line-height: 1;
     display: none;
+    padding-left: 12px;
     @include media {
       display: block;
-      @include text($H800, 400);
+      @include text($H700, 400);
       margin-bottom: 32px;
     }
   }

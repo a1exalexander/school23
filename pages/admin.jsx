@@ -52,7 +52,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
       router.push(routes.LOGIN);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, auth]);
+  }, [state, auth, isAuth]);
 
   const onLogout = async () => {
     const ok = await logout();
