@@ -74,22 +74,21 @@
   }
 }
 
-
 $z-index: (
-  immortal : 100,
-  activeMenu : 26,
-  menu : 25,
-  menuLayer : 24,
-  popup2 : 20,
-  popup : 15,
-  drawer : 12,
-  navigation : 10,
-  popover : 5,
-  dropdown : 3,
-  line : 2,
-  wrapper : 1,
-  default : 0,
-  under : -1,
+  immortal: 100,
+  activeMenu: 26,
+  menu: 25,
+  menuLayer: 24,
+  popup2: 20,
+  popup: 15,
+  drawer: 12,
+  navigation: 10,
+  popover: 5,
+  dropdown: 3,
+  line: 2,
+  wrapper: 1,
+  default: 0,
+  under: -1
 );
 
 @mixin z-index($key: default) {
@@ -122,19 +121,37 @@ $screen-retina: 1660px;
 
 @mixin AnimationBG($type) {
   @-webkit-keyframes AnimationBG {
-    0%{background-position:0% 81%}
-    50%{background-position:100% 20%}
-    100%{background-position:0% 81%}
+    0% {
+      background-position: 0% 81%;
+    }
+    50% {
+      background-position: 100% 20%;
+    }
+    100% {
+      background-position: 0% 81%;
+    }
   }
   @-moz-keyframes AnimationBG {
-    0%{background-position:0% 81%}
-    50%{background-position:100% 20%}
-    100%{background-position:0% 81%}
+    0% {
+      background-position: 0% 81%;
+    }
+    50% {
+      background-position: 100% 20%;
+    }
+    100% {
+      background-position: 0% 81%;
+    }
   }
   @keyframes AnimationBG {
-    0%{background-position:0% 81%}
-    50%{background-position:100% 20%}
-    100%{background-position:0% 81%}
+    0% {
+      background-position: 0% 81%;
+    }
+    50% {
+      background-position: 100% 20%;
+    }
+    100% {
+      background-position: 0% 81%;
+    }
   }
   @if $type == before {
     background: linear-gradient(271deg, $P200, $P400);
@@ -149,6 +166,29 @@ $screen-retina: 1660px;
   -webkit-animation: AnimationBG 5s ease infinite;
   -moz-animation: AnimationBG 5s ease infinite;
   animation: AnimationBG 5s ease infinite;
+}
+
+@mixin padding-hack($padding: 50%, $size: contain, $dev: false) {
+  position: relative;
+  height: 0;
+  padding-bottom: $padding;
+  @if $dev {
+    background-color: red;
+  }
+  img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    object-fit: $size;
+    @if $dev {
+      object-fit: contain;
+    }
+  }
 }
 
 @mixin is-desktop($display: block) {

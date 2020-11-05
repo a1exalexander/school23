@@ -19,14 +19,26 @@ import ImageResize from 'quill-image-resize-module';
 import { ImageDrop } from 'quill-image-drop-module';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import Router from 'next/router';
+import { FilePond, registerPlugin } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import { SInput, SButton, SRadio } from '../../index';
 import actions from '../../../store/actions';
-import { db } from '../../../firebase';
+import { db, storage } from '../../../firebase';
 import { routes } from '../../../constants';
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('modules/imageDrop', ImageDrop);
 Quill.register('modules/imageCompress', ImageCompress);
+
+registerPlugin(
+  FilePondPluginImageExifOrientation,
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateType
+);
 
 const toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -84,6 +96,8 @@ const reducer = (state, action) => {
       return { ...state, type: action.payload };
     case 'loading':
       return { ...state, loading: action.payload };
+    case 'images':
+      return { ...state, images: [...action.payload] };
     case 'clean':
       return { ...state, title: '', text: '' };
     default:
@@ -97,7 +111,8 @@ const initState = {
   text: '',
   type: 'post',
   delta: { ops: [] },
-  modules: {}
+  modules: {},
+  images: []
 };
 
 class AdminPostEditor extends PureComponent {
@@ -165,11 +180,16 @@ class AdminPostEditor extends PureComponent {
 
   _onSubmit = async (e) => {
     const { notify, isUpdate, onUpdate, type } = this.props;
-    const { state, onDispatch } = this;
-    const post = { title: state.title, delta: state.delta, text: state.text };
+    const {
+      state,
+      state: { images },
+      onDispatch
+    } = this;
+    const post = { title: state.title, delta: state.delta, text: state.text, images: [] };
     let http = 'addPost';
     let messageSuccess = 'Пост успішно опублковано!';
     let route = routes.NEWS;
+
     if (type === 'page') {
       http = 'addPublicInfo';
       messageSuccess = 'Сторінку успішно опублковано!';
@@ -178,12 +198,20 @@ class AdminPostEditor extends PureComponent {
     if (type === 'post') {
       post.type = state.type;
     }
+    onDispatch('loading')(true);
+    if (images.length) {
+      const savedImages = await Promise.all(
+        images.map(async (file) => {
+          const image = await storage.addPostImage(file);
+          return image;
+        })
+      );
+      post.images = [...savedImages];
+    }
     if (isUpdate) {
-      onDispatch('loading')(true);
       onUpdate(post);
     } else {
       e.preventDefault();
-      onDispatch('loading')(true);
       const res = await db[http](post);
       if (res) {
         notify('success', messageSuccess);
@@ -192,8 +220,8 @@ class AdminPostEditor extends PureComponent {
       } else {
         notify('error', 'Упс! Щось сталося( Мабуть картинка занадто важка');
       }
-      onDispatch('loading')(false);
     }
+    onDispatch('loading')(false);
   };
 
   render() {
@@ -221,6 +249,15 @@ class AdminPostEditor extends PureComponent {
         <SInput className="admin-post__input" onChange={onDispatch('title')} value={state.title}>
           Головний заголовок статті
         </SInput>
+        <FilePond
+          className="admin-post__images"
+          files={state.images}
+          allowMultiple
+          acceptedFileTypes={['image/png', 'image/jpg', 'image/jpeg']}
+          maxFiles={10}
+          onupdatefiles={onDispatch('images')}
+          labelIdle={`Перетягни фото сюди або <br/><span class="filepond--label-action"> обери файлы </span>`}
+        />
         <ReactQuill
           ref={(el) => {
             this.reactQuillRef = el;

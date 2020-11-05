@@ -1,6 +1,19 @@
 $style: admin-post;
 .#{$style} {
   padding-bottom: 72px;
+  .filepond--item {
+    width: calc(25% - 0.5em);
+  }
+  .filepond--root {
+    width: 100%;
+    overflow: hidden;
+    @include flex-row(center, center);
+  }
+  &__images {
+    width: 100%;
+    
+    @include flex-row(center, center);
+  }
   &__input {
     margin-bottom: 24px;
     .ql-toolbar.ql-snow {

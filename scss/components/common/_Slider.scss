@@ -1,0 +1,46 @@
+$style: Slider;
+@mixin padding-hack($padding: 50%, $size: contain, $dev: false) {
+  position: relative;
+  height: 0;
+  padding-bottom: $padding;
+  @if $dev {
+    background-color: red;
+  }
+  img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    object-fit: $size;
+    @if $dev {
+      object-fit: contain;
+    }
+  }
+}
+.#{$style} {
+  .slick-arrow::before,
+  .slick-arrow::after {
+    color: $N900;
+  }
+  div {
+    box-shadow: none !important;
+  }
+  .slick-slide {
+    border-radius: 6px;
+    & > div {
+      display: flex !important;
+      box-shadow: none !important;
+      & > div {
+        display: inline-flex !important;
+        @include padding-hack(60%, contain);
+        @include media {
+          @include padding-hack(40%, contain);
+        }
+      }
+    }
+  }
+}

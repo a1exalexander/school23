@@ -25,6 +25,7 @@ import { SButton, SUp } from '../common/buttons';
 import { STransition } from '../common/transition';
 
 const AdminControls = dynamic(() => import('./components/AdminControls'), { ssr: false });
+const Slider = dynamic(() => import('../common/Slider'), { ssr: false });
 
 const Post = ({
   post,
@@ -64,10 +65,13 @@ const Post = ({
   }, []);
 
   const date = `Від ${moment(post?.created * 1000).format('DD MMMM, YYYY')}`;
+  const hasImages = Array.isArray(post?.images) && !!post?.images.length;
 
   return (
     <Page>
-      <Meta title={post?.title} ogType="article" />
+      <Meta title={post?.title} ogType="article">
+        <script src="https://kit.fontawesome.com/144e77a10a.js" crossOrigin="anonymous" />
+      </Meta>
       <article className={classNames('post', className)}>
         <SUp />
         <header className="post__header">
@@ -94,6 +98,7 @@ const Post = ({
             <div className="post__popup">{children}</div>
           </STransition>
           <h1 className="post__title">{post?.title}</h1>
+          {hasImages && !isEditorVisible && <Slider slides={post?.images} />}
           <div
             className={classNames('post__content', {
               'is-announcement': post?.type === 'announcement'

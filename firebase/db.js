@@ -43,7 +43,7 @@ export const getPosts = async () => {
     const res = querySnapshot.docs.map((doc) => ({
       ...postModel,
       ...doc.data(),
-      id: doc.id,
+      id: doc.id
     }));
     logger.info(res, 'GET POSTS');
     return res;
@@ -58,10 +58,9 @@ export const getPost = async (id) => {
     const doc = await db.collection('news').doc(id).get();
     if (!doc.exists) {
       return false;
-    } else {
-      const res = { ...postModel, ...doc.data(), id };
-      return res;
     }
+    const res = { ...postModel, ...doc.data(), id };
+    return res;
   } catch (err) {
     logger.error(err, 'GET POST');
     return false;
@@ -108,7 +107,7 @@ export const getAllPublicInfo = async () => {
     const res = querySnapshot.docs.map((doc) => ({
       ...publicInfoModel,
       ...doc.data(),
-      id: doc.id,
+      id: doc.id
     }));
     logger.info(res, 'GET PUBLIC INFO');
     return res;
@@ -123,10 +122,9 @@ export const getPublicInfo = async (id) => {
     const doc = await db.collection('publicInfo').doc(id).get();
     if (!doc.exists) {
       return false;
-    } else {
-      const res = { ...publicInfoModel, ...doc.data(), id };
-      return res;
     }
+    const res = { ...publicInfoModel, ...doc.data(), id };
+    return res;
   } catch (err) {
     logger.error(err, 'GET PUBLIC INFO');
     return false;
