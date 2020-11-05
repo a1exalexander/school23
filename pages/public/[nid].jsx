@@ -122,7 +122,7 @@ const PublicInfoPage = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
           {!isEmpty && (
             <div className="news-post__info">
               <span className="news-post__description">
-                Пост від {moment($post.created * 1000).format('DD.MM.YYYY')}
+                Від {moment($post.created * 1000).format('DD MMMM, YYYY')}
               </span>
             </div>
           )}
