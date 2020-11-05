@@ -7,8 +7,6 @@ import { routes, ADMIN_NEWS, ADMIN_PUBLIC_INFO } from '../constants';
 import { Page, SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import actions from '../store/actions';
 import checkAuth from '../middlewares/checkAuth';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-import 'filepond/dist/filepond.min.css';
 
 const AdminPostEditor = dynamic(() => import('../components/views/admin/AdminPostEditor'), {
   ssr: false

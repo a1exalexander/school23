@@ -225,7 +225,11 @@ class AdminPostEditor extends Component {
   render() {
     const { state, onDispatch, handleChange, _onSubmit, props } = this;
 
-    const isDisabled = [!!state.title, !!state.type, !!state.text].includes(false);
+    const isDisabled = [
+      !!state.title,
+      props.type !== 'post' || !!state.type,
+      !!state.text
+    ].includes(false);
 
     return (
       <div className="admin-post">
