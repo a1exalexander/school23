@@ -10,9 +10,6 @@ import { useSelector } from 'react-redux';
 
 const SNavigationMenu = ({ inProp = false, onClose }) => {
   const isAdmin = useSelector((state) => state.auth.status);
-  useEffect(() => {
-      console.log('isAdmin', isAdmin);
-  })
   return (
     <Fragment>
       <STransition inProp={inProp} name="slideLeft">
