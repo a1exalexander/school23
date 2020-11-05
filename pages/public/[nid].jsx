@@ -46,7 +46,7 @@ const PublicInfoPage = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
       setState(false);
       window.scrollTo(0, 0);
     } else {
-      notify('error', 'Помилка при оновленні!');
+      notify('error', 'Помилка при оновленні! Мабуть картинка занадто важка');
     }
   };
 

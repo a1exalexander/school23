@@ -143,7 +143,7 @@ class AdminPublicInfo extends Component {
         _onDispatch('clean')();
         Router.push(routes.PUBLIC_INFO);
       } else {
-        notify('error');
+        notify('error', 'Упс! Щось сталося( Мабуть картинка занадто важка');
       }
       _onDispatch('loading')(false);
     }
