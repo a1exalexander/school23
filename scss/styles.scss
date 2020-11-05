@@ -21,6 +21,8 @@
 @import './components/common/SLoader';
 @import './components/common/SRadio';
 @import './components/common/Empty';
+@import './components/post/Post';
+@import './components/post/_Post.css'; 
 
 // Navigation
 @import './components/navigation/SNavigation';
@@ -37,12 +39,10 @@
 // News
 @import './views/news/News';
 @import './views/news/NewsCard';
-@import './views/news/NewsPost';
 
 // Public Info
 @import './views/public/Public';
 @import './views/public/PublicCard';
-@import './views/public/PublicPost';
 
 // Admin
 @import './views/admin/Admin';

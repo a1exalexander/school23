@@ -1,12 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
+import { string } from 'prop-types';
 import { IconUp } from '../icons';
 import ScrollUpButton from 'react-scroll-up-button';
 
-const SUp = ({ className = '' }) => {
+export const SUp = ({ className = '' }) => {
   return (
-    <ScrollUpButton ContainerClassName="s-up" TransitionClassName="s-up__transition-up">
+    <ScrollUpButton
+      ContainerClassName={classNames('s-up', className)}
+      TransitionClassName="s-up__transition-up"
+    >
       <>
         <div className="s-up__button">
           <IconUp className="s-up__icon" />
@@ -17,9 +20,12 @@ const SUp = ({ className = '' }) => {
   );
 };
 
+SUp.defaultTypes = {
+  className: '',
+};
+
 SUp.propTypes = {
-  className: PropTypes.string,
-  onClick: PropTypes.func
+  className: string,
 };
 
 export default SUp;

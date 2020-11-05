@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { isObject } from '../utils';
 
-export const initPublicInfo = {
+export const publicInfoModel = {
   title: '',
   text: '',
   delta: {
@@ -11,14 +11,14 @@ export const initPublicInfo = {
 };
 
 export const formatPublicIbfo = (post) => {
-  const shallowPost = isObject(post) ? { ...post } : { id: '', ...initPublicInfo };
+  const shallowPost = isObject(post) ? { ...post } : { id: '', ...publicInfoModel };
   return shallowPost;
 };
 
 export const genPublicInfo = (post) => {
   const newPost = {};
-  Object.keys(initPublicInfo).forEach((key) => {
-    newPost[key] = post[key] || initPublicInfo[key];
+  Object.keys(publicInfoModel).forEach((key) => {
+    newPost[key] = post[key] || publicInfoModel[key];
   });
   newPost.created = moment().unix();
   return newPost;
@@ -27,7 +27,7 @@ export const genPublicInfo = (post) => {
 export default class PublicInfo {
   constructor(newPost) {
     Object.keys(post).forEach((key) => {
-      this[key] = newPost[key] || initPublicInfo[key];
+      this[key] = newPost[key] || publicInfoModel[key];
     });
   }
 }

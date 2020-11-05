@@ -15,18 +15,21 @@ import {
 import { connect } from 'react-redux';
 import { routes } from '../../constants';
 import { db } from '../../firebase';
-import { formatPost, postModel } from '../../models/post';
+import { formatPost } from '../../models/post';
 import { actions } from '../../store/modules/notifications';
+import { publicInfoModel } from '../../models/publicInfo';
 import Post from '../../components/Post';
 
-const AdminPost = dynamic(() => import('../../components/views/admin/AdminPost'), { ssr: false });
+const AdminPublicInfo = dynamic(() => import('../../components/views/admin/AdminPublicInfo'), {
+  ssr: false
+});
 
 const initPost = {
-  ...postModel,
+  ...publicInfoModel,
   id: ''
 };
 
-const NewsPost = ({ post, isEmptyInit, notify }) => {
+const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
   const [$post, setPost] = useState(post);
   const [isEditorVisible, setEditorVisible] = useState(false);
   const [isEmpty, setEmpty] = useState(isEmptyInit);
@@ -34,24 +37,24 @@ const NewsPost = ({ post, isEmptyInit, notify }) => {
   const router = useRouter();
 
   const onUpdate = async (updatedPost) => {
-    const fetchedPost = await db.getPost(post.id);
+    const fetchedPost = await db.getPublicInfo(post.id);
     const newPost = { ...fetchedPost, ...updatedPost };
-    const res = await db.updatePost(post.id, newPost);
+    const res = await db.updatePublicInfo(post.id, newPost);
     if (res) {
-      window.scrollTo(0, 0);
-      notify('success', 'Пост успішно оновлено!');
+      notify('success', 'Сторінку успішно оновлено!');
       setPost(newPost);
       setEditorVisible(false);
+      window.scrollTo(0, 0);
     } else {
       notify('error', 'Помилка при оновленні! Мабуть картинка занадто важка');
     }
   };
 
   const onRemove = async () => {
-    const res = await db.deletePost(post.id);
+    const res = await db.deletePublicInfo(post.id);
     if (res) {
-      notify('success', 'Пост видалено!');
-      router.push({ pathname: routes.NEWS });
+      notify('success', 'Сторінку видалено!');
+      router.push({ pathname: routes.PUBLIC_INFO });
     } else {
       notify('error', 'Помилка при видаленні!');
     }
@@ -59,6 +62,7 @@ const NewsPost = ({ post, isEmptyInit, notify }) => {
 
   return (
     <Post
+      className="_pure"
       post={$post}
       isEmpty={isEmpty}
       isEditorVisible={isEditorVisible}
@@ -66,36 +70,34 @@ const NewsPost = ({ post, isEmptyInit, notify }) => {
       onEmptyChange={setEmpty}
       onEditorVisibleChange={setEditorVisible}
     >
-      <AdminPost isUpdate post={$post} onUpdate={onUpdate} />
+      <AdminPublicInfo isUpdate post={$post} onUpdate={onUpdate} />
     </Post>
   );
 };
 
-NewsPost.defaultProps = {
+PublicInfoPage.defaultProps = {
   post: initPost,
-  notify: () => undefined,
-  isEmptyInit: true
+  isEmptyInit: true,
+  notify: () => undefined
 };
 
-NewsPost.propTypes = {
+PublicInfoPage.propTypes = {
   post: shape({
     id: oneOfType([number, string]),
     title: string,
     text: string,
-    type: string,
     dalta: shape({
       ops: arrayOf(oneOfType([object, string, number, bool]))
     }),
-    created: oneOfType([string, instanceOf(Date), number]),
-    images: arrayOf(shape({ id: string, src: string }))
+    created: oneOfType([string, instanceOf(Date), number])
   }),
-  notify: func,
-  isEmptyInit: bool
+  isEmptyInit: bool,
+  notify: func
 };
 
-NewsPost.getInitialProps = async ({ query }) => {
-  const res = await db.getPost(query.nid);
+PublicInfoPage.getInitialProps = async ({ query }) => {
+  const res = await db.getPublicInfo(query.pid);
   return { post: { ...formatPost(res) }, isEmptyInit: !res.id };
 };
 
-export default connect(null, { notify: actions.notify })(NewsPost);
+export default connect(null, { notify: actions.notify })(PublicInfoPage);

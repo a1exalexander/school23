@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
+import { bool, func, node, number, object, string } from 'prop-types';
 
-const SButton = props => {
+export const SButton = (props) => {
   const {
     label,
     className,
@@ -16,7 +16,7 @@ const SButton = props => {
     revert = true,
     style,
     id = '',
-    name = ''
+    name = '',
   } = props;
 
   const withIcon = label && children;
@@ -49,20 +49,21 @@ const SButton = props => {
 };
 
 SButton.propTypes = {
-  label: PropTypes.string,
-  className: PropTypes.string,
-  type: PropTypes.string,
-  onClick: PropTypes.func,
-  size: PropTypes.string,
-  loading: PropTypes.bool,
-  disabled: PropTypes.bool,
-  fluid: PropTypes.bool,
-  revert: PropTypes.bool,
-  link: PropTypes.bool,
-  svgSize: PropTypes.number,
-  style: PropTypes.object,
-  name: PropTypes.string,
-  id: PropTypes.string
+  label: string,
+  className: string,
+  type: string,
+  onClick: func,
+  size: string,
+  loading: bool,
+  disabled: bool,
+  fluid: bool,
+  revert: bool,
+  link: bool,
+  svgSize: number,
+  style: object,
+  name: string,
+  id: string,
+  children: node,
 };
 
 export default SButton;

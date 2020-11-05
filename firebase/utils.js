@@ -1,18 +1,20 @@
 const initialUser = {
   displayName: '',
   email: '',
-  emailVerified: '',
+  emailVerified: null,
   photoURL: '',
-  isAnonymous: '',
+  isAnonymous: null,
   uid: '',
   admin: false,
-  providerData: [],
-}
+  providerData: []
+};
 export const getUser = (propUser = initialUser, admin = false) => {
   const user = {};
   Object.keys(initialUser).forEach((key) => {
     user[key] = propUser[key];
-  })
+  });
   user.admin = admin;
   return user;
-}
+};
+
+export default getUser;

@@ -1,7 +1,7 @@
 import { db } from './firebase';
-import { genPost, initPost } from '../models/post';
+import { genPost, postModel } from '../models/post';
+import { genPublicInfo, publicInfoModel } from '../models/publicInfo';
 import { logger } from '../services';
-import { genPublicInfo, initPublicInfo } from '../models/publicInfo';
 
 // Post
 export const addPost = async (post) => {
@@ -41,7 +41,7 @@ export const getPosts = async () => {
   try {
     const querySnapshot = await db.collection('news').get();
     const res = querySnapshot.docs.map((doc) => ({
-      ...initPost,
+      ...postModel,
       ...doc.data(),
       id: doc.id,
     }));
@@ -59,7 +59,7 @@ export const getPost = async (id) => {
     if (!doc.exists) {
       return false;
     } else {
-      const res = { ...initPost, ...doc.data(), id };
+      const res = { ...postModel, ...doc.data(), id };
       return res;
     }
   } catch (err) {
@@ -106,7 +106,7 @@ export const getAllPublicInfo = async () => {
   try {
     const querySnapshot = await db.collection('publicInfo').get();
     const res = querySnapshot.docs.map((doc) => ({
-      ...initPublicInfo,
+      ...publicInfoModel,
       ...doc.data(),
       id: doc.id,
     }));
@@ -124,7 +124,7 @@ export const getPublicInfo = async (id) => {
     if (!doc.exists) {
       return false;
     } else {
-      const res = { ...initPublicInfo, ...doc.data(), id };
+      const res = { ...publicInfoModel, ...doc.data(), id };
       return res;
     }
   } catch (err) {

@@ -1,4 +1,4 @@
-.news-post__content p:has(img) {
+.post__content p:has(img) {
   padding: 0 !important;
   padding-left: 0 !important;
 }

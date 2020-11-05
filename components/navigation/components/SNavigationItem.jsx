@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
-import { func, string } from 'prop-types';
+import { node, string } from 'prop-types';
 
-const SNavigationItem = ({ href, className, children, label }) => {
+export const SNavigationItem = ({ href, className, children, label }) => {
   return (
     <li className={classNames('nav-item', className)}>
       <Link href={href}>
@@ -26,6 +26,7 @@ SNavigationItem.propTypes = {
   href: string,
   className: string,
   label: string,
+  children: node
 };
 
 export default SNavigationItem;

@@ -5,7 +5,7 @@ import { siteUrl } from '../next-sitemap';
 
 const defaultTitle = 'Кременчуцька гімназія №23';
 
-const Meta = ({ title, description, image, ogType, imageWidth, imageHeight }) => {
+export const Meta = ({ title, description, image, ogType, imageWidth, imageHeight }) => {
   const formatedTitle = `${title}${title !== defaultTitle ? ` | ${defaultTitle}` : ''}`;
   return (
     <Head>

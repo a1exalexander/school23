@@ -1,22 +1,17 @@
 import React, { useReducer, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import PropTypes from 'prop-types';
-import {
-  routes,
-  ADMIN_NEWS,
-  ADMIN_LAW,
-  ADMIN_TEACHERS,
-  ADMIN_CONTACTS,
-  ADMIN_PUBLIC_INFO,
-} from '../constants';
-import { Page, SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
+import { arrayOf, bool, func, number, object, oneOfType, shape, string } from 'prop-types';
 import { connect } from 'react-redux';
+import { useRouter } from 'next/router';
+import { routes, ADMIN_NEWS, ADMIN_PUBLIC_INFO } from '../constants';
+import { Page, SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import actions from '../store/actions';
 import checkAuth from '../middlewares/checkAuth';
-import { useRouter } from 'next/router';
 
 const AdminPost = dynamic(() => import('../components/views/admin/AdminPost'), { ssr: false });
-const AdminPublicInfo = dynamic(() => import('../components/views/admin/AdminPublicInfo'), { ssr: false });
+const AdminPublicInfo = dynamic(() => import('../components/views/admin/AdminPublicInfo'), {
+  ssr: false
+});
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -32,7 +27,7 @@ const reducer = (state, action) => {
 const Admin = ({ auth, isAuthServer, logout }) => {
   const [state, dispatch] = useReducer(reducer, {
     tab: ADMIN_NEWS,
-    mounting: true,
+    mounting: true
   });
   const rendered = () => {
     switch (state.tab) {
@@ -57,7 +52,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
     if (![!!process.browser, !auth.loading, !state.mounting, !isAuth].includes(false)) {
       router.push(routes.LOGIN);
     }
-  }, [state, auth]);
+  }, [state, auth, isAuth, router]);
 
   const onLogout = async () => {
     const ok = await logout();
@@ -78,7 +73,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
                 <div className="admin__header">
                   <h1 className="admin__title">Кабінет адміністратора</h1>
                   <SButton onClick={onLogout} type="transparent" label="Вийти">
-                    <span role="img" area-label="logout">
+                    <span role="img" aria-label="logout">
                       🔌
                     </span>
                   </SButton>
@@ -107,9 +102,30 @@ const Admin = ({ auth, isAuthServer, logout }) => {
   );
 };
 
+Admin.defaultProps = {
+  logout: () => undefined,
+  auth: object,
+  isAuthServer: false
+};
+
 Admin.propTypes = {
-  logout: PropTypes.func,
-  auth: PropTypes.object,
+  logout: func,
+  auth: shape({
+    loading: bool,
+    hasError: bool,
+    status: bool,
+    user: shape({
+      displayName: string,
+      email: string,
+      emailVerified: bool,
+      photoURL: string,
+      isAnonymous: bool,
+      uid: string,
+      admin: false,
+      providerData: arrayOf(oneOfType([object, string, number]))
+    })
+  }),
+  isAuthServer: bool
 };
 
 Admin.getInitialProps = async (ctx) => {

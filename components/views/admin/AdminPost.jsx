@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { SInput, SButton, SRadio } from '../../index';
+import {
+  arrayOf,
+  bool,
+  func,
+  instanceOf,
+  number,
+  object,
+  oneOfType,
+  shape,
+  string
+} from 'prop-types';
 import 'react-quill/dist/quill.snow.css';
-import actions from '../../../store/actions';
-import { db } from '../../../firebase';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module';
 import { ImageDrop } from 'quill-image-drop-module';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import Router from 'next/router';
+import { SInput, SButton, SRadio } from '../../index';
+import actions from '../../../store/actions';
+import { db } from '../../../firebase';
 import { routes } from '../../../constants';
 
 Quill.register('modules/imageResize', ImageResize);
@@ -32,7 +42,7 @@ const toolbarOptions = [
   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
   [{ font: [] }],
 
-  ['clean'], // remove formatting button,
+  ['clean'] // remove formatting button,
   // [
   //   {
   //     handlers: {
@@ -44,7 +54,7 @@ const toolbarOptions = [
 const modules = {
   toolbar: toolbarOptions,
   imageResize: {},
-  imageDrop: true,
+  imageDrop: true
 };
 const formats = [
   'header',
@@ -65,7 +75,7 @@ const formats = [
   'image',
   'formula',
   'code-block',
-  'color',
+  'color'
 ];
 
 const reducer = (state, action) => {
@@ -92,22 +102,20 @@ const reducer = (state, action) => {
 const initState = { loading: false, title: '', type: 'post', text: '', delta: { ops: [] } };
 
 class AdminPost extends Component {
-  state = { ...initState };
-
-  quillRef = null;
-  reactQuillRef = null;
-
-  _onDispatch = (type) => (payload) => {
-    this.setState((prevState) => reducer(prevState, { type, payload }));
-  };
+  constructor() {
+    super();
+    this.state = { ...initState };
+    this.quillRef = null;
+    this.reactQuillRef = null;
+  }
 
   componentDidMount() {
     const { post = initState } = this.props;
-    this._onDispatch('init')({
+    this.onDispatch('init')({
       title: post.title,
       delta: post.delta,
       text: post.text,
-      type: post.type,
+      type: post.type
     });
   }
 
@@ -115,13 +123,17 @@ class AdminPost extends Component {
     this.attachQuillRefs();
   }
 
+  onDispatch = (type) => (payload) => {
+    this.setState((prevState) => reducer(prevState, { type, payload }));
+  };
+
   attachQuillRefs = () => {
     if (typeof this.reactQuillRef.getEditor !== 'function') return;
     const editor = this.reactQuillRef.getEditor();
     this.quillRef = this.reactQuillRef.makeUnprivilegedEditor(editor);
   };
 
-  handleChange = (e) => {
+  handleChange = () => {
     if (this.quillRef) {
       const delta = this.quillRef.getContents();
       const cfg = {};
@@ -131,7 +143,7 @@ class AdminPost extends Component {
         return {
           ...prevState,
           text,
-          delta: { ...delta },
+          delta: { ...delta }
         };
       });
     }
@@ -139,47 +151,47 @@ class AdminPost extends Component {
 
   _onSubmit = async (e) => {
     const { notify, isUpdate, onUpdate } = this.props;
-    const { state, _onDispatch } = this;
+    const { state, onDispatch } = this;
     const post = { title: state.title, delta: state.delta, text: state.text, type: state.type };
     if (isUpdate) {
-      _onDispatch('loading')(true);
+      onDispatch('loading')(true);
       onUpdate(post);
     } else {
       e.preventDefault();
-      _onDispatch('loading')(true);
+      onDispatch('loading')(true);
       const res = await db.addPost(post);
       if (res) {
         notify('success', 'Пост успішно опублковано!');
-        _onDispatch('clean')();
+        onDispatch('clean')();
         Router.push(routes.NEWS);
       } else {
         notify('error');
       }
-      _onDispatch('loading')(false);
+      onDispatch('loading')(false);
     }
   };
 
   render() {
-    const { state, _onDispatch, handleChange, _onSubmit } = this;
+    const { state, onDispatch, handleChange, _onSubmit } = this;
 
     const isDisabled = [!!state.title, !!state.type, !!state.text].includes(false);
 
     return (
       <div className="admin-post">
         <div className="admin-post__radio-group">
-          <SRadio name="post" onChange={_onDispatch('type')} checked={state.type} value="post">
+          <SRadio name="post" onChange={onDispatch('type')} checked={state.type} value="post">
             Стаття
           </SRadio>
           <SRadio
             name="post"
-            onChange={_onDispatch('type')}
+            onChange={onDispatch('type')}
             checked={state.type}
             value="announcement"
           >
             Оголошення
           </SRadio>
         </div>
-        <SInput className="admin-post__input" onChange={_onDispatch('title')} value={state.title}>
+        <SInput className="admin-post__input" onChange={onDispatch('title')} value={state.title}>
           Головний заголовок статті
         </SInput>
         <ReactQuill
@@ -207,11 +219,28 @@ class AdminPost extends Component {
   }
 }
 
+AdminPost.defaultProps = {
+  notify: func,
+  isUpdate: false,
+  onUpdate: () => undefined,
+  post: undefined
+};
+
 AdminPost.propTypes = {
-  notify: PropTypes.func,
-  isUpdate: PropTypes.bool,
-  onUpdate: PropTypes.func,
-  post: PropTypes.object,
+  notify: func,
+  isUpdate: bool,
+  onUpdate: func,
+  post: shape({
+    id: oneOfType([number, string]),
+    title: string,
+    text: string,
+    type: string,
+    dalta: shape({
+      ops: arrayOf(oneOfType([object, string, number, bool]))
+    }),
+    created: oneOfType([string, instanceOf(Date), number]),
+    images: arrayOf(shape({ id: string, src: string }))
+  })
 };
 
 export default connect(null, { notify: actions.notifications.notify })(AdminPost);

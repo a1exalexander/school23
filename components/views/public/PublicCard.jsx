@@ -1,11 +1,9 @@
 import React from 'react';
 import { number, oneOfType, shape, string } from 'prop-types';
 import classNames from 'classnames';
-import { SButton } from '../../index';
 import moment from 'moment';
 import Link from 'next/link';
 import { routes } from '../../../constants';
-import { IconBooksApple } from '../../common/icons';
 
 export const PublicCard = ({ post, className }) => {
   const reImg = /<img([^>]*)>/gi;

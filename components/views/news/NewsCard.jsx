@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { number, oneOfType, shape, string } from 'prop-types';
+import { number, oneOfType, shape, string } from 'prop-types';
 import classNames from 'classnames';
 import { SButton, SBadge } from '../../index';
 import { trancate } from '../../../utils';

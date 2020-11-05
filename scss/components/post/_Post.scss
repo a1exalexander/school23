@@ -1,10 +1,15 @@
-$style: public-post;
+$style: post;
 .#{$style} {
   @extend %container;
   line-height: 1.5;
+  &._pure {
+    .#{$style}__content {
+      box-shadow: none;
+    }
+  }
   &__header {
     line-height: 1;
-    margin-bottom: 24px;
+    margin-bottom: 42px;
   }
   &__info {
     @include flex-row(flex-start, baseline);
@@ -54,10 +59,13 @@ $style: public-post;
     padding-bottom: 32px;
   }
   &__container {
+    @include flex-col(flex-start, stretch);
+    flex-grow: 1;
     position: relative;
     margin-bottom: 32px;
   }
   &__content, .ql-container {
+    flex-grow: 1;
     font-size: $H300;
     padding: 12px;
     border-radius: 6px;
@@ -89,10 +97,12 @@ $style: public-post;
       font-size: $H200;
     }
     img {
+      display: block;
       text-align: center;
       max-width: 100%;
       height: auto;
-      max-height: 80vh;
+      max-height: 70vh;
+      margin: 0 auto;
     }
     .is-announcement {
       padding: 24px;
