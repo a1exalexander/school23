@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { STransition, SButton } from '../index';
-import { IconRadio, IconSchool, IconMail, IconBooksApple, IconLaws } from '../common/icons';
+import { IconRadio, IconSchool, IconMail } from '../common/icons';
 import SNavigationItem from './components/SNavigationItem';
 import SNavigationInfo from './components/SNavigationInfo';
 import logo from '../../assets/images/Kremenchuk-mini.png';
@@ -10,6 +10,9 @@ import { useSelector } from 'react-redux';
 
 const SNavigationMenu = ({ inProp = false, onClose }) => {
   const isAdmin = useSelector((state) => state.auth.status);
+  useEffect(() => {
+      console.log('isAdmin', isAdmin);
+  })
   return (
     <Fragment>
       <STransition inProp={inProp} name="slideLeft">
@@ -21,22 +24,12 @@ const SNavigationMenu = ({ inProp = false, onClose }) => {
                 <SNavigationItem href={routes.NEWS} label="Новини" className="nav-menu__item">
                   <IconRadio />
                 </SNavigationItem>
-                <SNavigationItem href={routes.ABOUT} label="Про школу" className="nav-menu__item">
+                <SNavigationItem
+                  href={routes.PUBLIC_INFO}
+                  label="Публічна Інформація"
+                  className="nav-menu__item"
+                >
                   <IconSchool />
-                </SNavigationItem>
-                <SNavigationItem
-                  href={routes.TEACHERS}
-                  label="Учительська"
-                  className="nav-menu__item"
-                >
-                  <IconBooksApple />
-                </SNavigationItem>
-                <SNavigationItem
-                  href={routes.LAW}
-                  label="Нормативно-правові акти"
-                  className="nav-menu__item"
-                >
-                  <IconLaws />
                 </SNavigationItem>
                 <SNavigationItem
                   href={routes.CONTACTS}

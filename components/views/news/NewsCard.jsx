@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { number, oneOfType, shape, string } from 'prop-types';
 import classNames from 'classnames';
 import { SButton, SBadge } from '../../index';
 import { trancate } from '../../../utils';
@@ -20,48 +20,58 @@ const NewsCard = ({ post, className, idx }) => {
   const textWithoutImages = post.text.replace(/<img([^>]*)>/gi, '');
 
   return (
-      <div className={classNames('news-card', {'with-image': hasImage, announcement: isAnnouncement}, className)}>
-        {hasImage && <img className="news-card__image" src={imageSrc} alt="" />}
-        <div className="news-card__content">
-          <h2 className="news-card__title">{post.title}</h2>
-          <div className="news-card__info">
-            <SBadge className="news-card__badge" color={badgeColor} label={postType} />
-            <span className="news-card__date">
-              {moment(post.created * 1000).format('DD.MM.YYYY')}
-            </span>
-          </div>
-          <p
-            className="news-card__text is-mobile"
-            dangerouslySetInnerHTML={{ __html: trancate(getContent(textWithoutImages), idx ? 180 : 200) }}
-          ></p>
-          <p
-            className="news-card__text is-desktop"
-            dangerouslySetInnerHTML={{ __html: trancate(getContent(textWithoutImages), idx ? 200 : 540) }}
-          ></p>
+    <div
+      className={classNames(
+        'news-card',
+        { 'with-image': hasImage, announcement: isAnnouncement },
+        className
+      )}
+    >
+      {hasImage && <img className="news-card__image" src={imageSrc} alt="" />}
+      <div className="news-card__content">
+        <h2 className="news-card__title">{post.title}</h2>
+        <div className="news-card__info">
+          <SBadge className="news-card__badge" color={badgeColor} label={postType} />
+          <span className="news-card__date">
+            {moment(post.created * 1000).format('DD.MM.YYYY')}
+          </span>
         </div>
-        <div className="news-card__button-wrapper">
-          <Link href={`${routes.NEWS}/${post.id}`}>
-            <a>
-              <SButton type={hasImage ? 'white' : 'secondary'} className="news-card__button">
-                Переглянути
-              </SButton>
-            </a>
-          </Link>
-        </div>
+        <p
+          className="news-card__text is-mobile"
+          dangerouslySetInnerHTML={{
+            __html: trancate(getContent(textWithoutImages), idx ? 180 : 200),
+          }}
+        ></p>
+        <p
+          className="news-card__text is-desktop"
+          dangerouslySetInnerHTML={{
+            __html: trancate(getContent(textWithoutImages), idx ? 180 : 530),
+          }}
+        ></p>
       </div>
+      <div className="news-card__button-wrapper">
+        <Link href={{ pathname: routes.NEWS_POST, query: { nid: post.id } }}>
+          <a>
+            <SButton type={hasImage ? 'white' : 'secondary'} className="news-card__button">
+              Переглянути
+            </SButton>
+          </a>
+        </Link>
+      </div>
+    </div>
   );
 };
 
 NewsCard.propTypes = {
-  className: PropTypes.string,
-  idx: PropTypes.number,
-  post: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    title: PropTypes.string,
-    text: PropTypes.string,
-    type: PropTypes.string,
-    created: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  })
+  className: string,
+  idx: number,
+  post: shape({
+    id: oneOfType([number, string]),
+    title: string,
+    text: string,
+    type: string,
+    created: oneOfType([number, string]),
+  }),
 };
 
 export default NewsCard;

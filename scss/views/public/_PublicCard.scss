@@ -1,0 +1,50 @@
+$style: public-card;
+.#{$style} {
+  position: relative;
+  background-color: $P50;
+  border-radius: 4px;
+  line-height: 1.4;
+  box-shadow: $SH4;
+  padding: 12px 24px;
+  @include flex-row(space-between, stretch);
+  @include transition(all);
+  @include media($screen-desktop) {
+    &:hover {
+      box-shadow: 0 0.4em 0.9em -0.1em rgba(0,0,0,.1);
+    }
+  }
+  &:active {
+    box-shadow: 0 0.2em 0.6em -0.1em rgba(0,0,0,.1);
+  }
+  &__title {
+    @include text($H600, 500);
+    margin-bottom: 8px;
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+  &__date {
+    @include text($H110, 400);
+    text-transform: capitalize;
+  }
+  &__col {
+    flex-grow: 1;
+    margin-right: 24px;
+  }
+  &__image-wrapper {
+    width: 80px;
+    position: relative;
+    @include flex-row(flex-end, center);
+  }
+  &__image {
+    position: absolute;
+    @include size(100%);
+    object-fit: contain;
+    flex-shrink: 0;
+    height: 100%;
+    width: auto;
+  }
+}

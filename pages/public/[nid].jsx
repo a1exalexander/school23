@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { bool, func, number, oneOfType, shape, string } from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Page, SButton, STransition, Empty, Meta } from '../../components';
@@ -15,7 +15,9 @@ import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import '../../scss/views/news/_NewsPost.css';
 import { useRouter } from 'next/router';
 
-const AdminPost = dynamic(() => import('../../components/views/admin/AdminPost'), { ssr: false });
+const AdminPublicInfo = dynamic(() => import('../../components/views/admin/AdminPublicInfo'), {
+  ssr: false,
+});
 
 const initPost = {
   id: '',
@@ -24,28 +26,25 @@ const initPost = {
   dalta: {
     ops: [],
   },
-  type: '',
   created: '',
 };
 
-const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
+const PublicInfoPage = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
   const [$post, setPost] = useState(post);
   const [state, setState] = useState(false);
   const [isEmpty, setEmpty] = useState(isEmptyInit);
 
-  const isAnnouncement = post.type === 'announcement';
-
   const router = useRouter();
 
   const onUpdate = async (updatedPost) => {
-    const fetchedPost = await db.getPost(post.id);
+    const fetchedPost = await db.getPublicInfo(post.id);
     const newPost = { ...fetchedPost, ...updatedPost };
-    const res = await db.updatePost(post.id, newPost);
+    const res = await db.updatePublicInfo(post.id, newPost);
     if (res) {
-      window.scrollTo(0, 0);
-      notify('success', 'Пост успішно оновлено!');
+      notify('success', 'Сторінку успішно оновлено!');
       setPost(newPost);
       setState(false);
+      window.scrollTo(0, 0);
     } else {
       notify('error', 'Помилка при оновленні!');
     }
@@ -58,10 +57,10 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
   };
 
   const removePost = async () => {
-    const res = await db.deletePost(post.id);
+    const res = await db.deletePublicInfo(post.id);
     if (res) {
-      notify('success', 'Пост видалено!');
-      router.push({ pathname: routes.NEWS });
+      notify('success', 'Сторінку видалено!');
+      router.push({ pathname: routes.PUBLIC_INFO });
     } else {
       notify('error', 'Помилка при видаленні!');
     }
@@ -87,6 +86,7 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
             <SButton onClick={() => router.back()} className="news-post__button-back" size="small">
               Певернутись назад
             </SButton>
+
             {!isEmpty && isAuth && (
               <>
                 {$post.delta && state ? (
@@ -131,12 +131,12 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
           {isEmpty && <Empty text="Поста не існує" />}
           <STransition inProp={!!$post.delta && !!isAuth && !!state}>
             <div className="news-post__popup">
-              <AdminPost isUpdate post={post} onUpdate={onUpdate} />
+              <AdminPublicInfo isUpdate post={post} onUpdate={onUpdate} />
             </div>
           </STransition>
           <h1 className="news-post__title">{$post.title}</h1>
           <div
-            className={classNames('news-post__content', { 'is-announcement': isAnnouncement })}
+            className={classNames('news-post__content')}
             dangerouslySetInnerHTML={createMarkup()}
           ></div>
         </div>
@@ -154,23 +154,23 @@ const NewsPost = ({ post = initPost, isAuth, isEmptyInit, notify }) => {
   );
 };
 
-NewsPost.propTypes = {
-  post: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    title: PropTypes.string,
-    text: PropTypes.string,
-    type: PropTypes.string,
-    created: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+PublicInfoPage.propTypes = {
+  post: shape({
+    id: oneOfType([number, string]),
+    title: string,
+    text: string,
+    type: string,
+    created: oneOfType([number, string]),
   }),
-  isAuth: PropTypes.bool,
-  notify: PropTypes.func,
+  isAuth: bool,
+  notify: func,
 };
 
-NewsPost.getInitialProps = async ({ query }) => {
-  const res = await db.getPost(query.nid);
+PublicInfoPage.getInitialProps = async ({ query }) => {
+  const res = await db.getPublicInfo(query.pid);
   return { post: { ...formatPost(res) }, isEmptyInit: !res.id };
 };
 
 export default connect(({ auth: { status } }) => ({ isAuth: status }), { notify: actions.notify })(
-  NewsPost
+  PublicInfoPage
 );

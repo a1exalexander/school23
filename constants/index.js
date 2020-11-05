@@ -3,8 +3,7 @@ import * as actionType from './actions';
 import * as messages from './messages';
 
 export const ADMIN_NEWS = 'Новини';
-export const ADMIN_LAW = 'НП Акти';
-export const ADMIN_TEACHERS = 'Учительська';
 export const ADMIN_CONTACTS = 'Контакти';
+export const ADMIN_PUBLIC_INFO = 'Публічна Інформація';
 
-export { routes, messages, actionType }
+export { routes, messages, actionType };

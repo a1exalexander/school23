@@ -1,44 +1,45 @@
 import { db } from './firebase';
 import { genPost, initPost } from '../models/post';
 import { logger } from '../services';
+import { genPublicInfo, initPublicInfo } from '../models/publicInfo';
 
 // Post
 export const addPost = async (post) => {
   try {
-    const ref = await db.collection("news").add(genPost(post));
+    const ref = await db.collection('news').add(genPost(post));
     logger.info(ref, 'NEW POST');
     return ref;
-  } catch(err) {
+  } catch (err) {
     logger.error(err, 'NEW POST');
     return false;
   }
-}
+};
 
 export const updatePost = async (id, post) => {
   try {
-    db.collection("news").doc(id).update(post);
+    db.collection('news').doc(id).update(post);
     logger.info('Success', 'UPDATE POST');
     return true;
-  } catch(err) {
+  } catch (err) {
     logger.error(err, 'UPDATE POST');
     return false;
   }
-}
+};
 
 export const deletePost = async (id) => {
   try {
-    db.collection("news").doc(id).delete();
+    db.collection('news').doc(id).delete();
     logger.info('Success', 'DELETE POST');
     return true;
-  } catch(err) {
+  } catch (err) {
     logger.error(err, 'DELETE POST');
     return false;
   }
-}
+};
 
 export const getPosts = async () => {
   try {
-    const querySnapshot = await db.collection("news").get();
+    const querySnapshot = await db.collection('news').get();
     const res = querySnapshot.docs.map((doc) => ({
       ...initPost,
       ...doc.data(),
@@ -46,135 +47,88 @@ export const getPosts = async () => {
     }));
     logger.info(res, 'GET POSTS');
     return res;
-  } catch(err) {
+  } catch (err) {
     logger.error(err, 'GET POSTS');
     return false;
   }
-}
+};
 
 export const getPost = async (id) => {
   try {
-    const doc = await db.collection("news").doc(id).get();
+    const doc = await db.collection('news').doc(id).get();
     if (!doc.exists) {
       return false;
     } else {
-      const res = {...initPost, ...doc.data(), id};
+      const res = { ...initPost, ...doc.data(), id };
       return res;
     }
-  } catch(err) {
+  } catch (err) {
     logger.error(err, 'GET POST');
     return false;
   }
-}
+};
 
-// DOC
-export const addDocument = async (doc) => {
+// Post
+export const addPublicInfo = async (post) => {
   try {
-    const ref = await db.collection("docs").add(doc);
-    logger.info(ref, 'NEW DOC');
+    const ref = await db.collection('publicInfo').add(genPublicInfo(post));
+    logger.info(ref, 'NEW PUBLIC INFO');
     return ref;
-  } catch(err) {
-    logger.error(err, 'NEW DOC');
+  } catch (err) {
+    logger.error(err, 'NEW PUBLIC INFO');
     return false;
   }
-}
+};
 
-export const updateDocument = async (id, doc) => {
+export const updatePublicInfo = async (id, post) => {
   try {
-    db.collection("docs").doc(id).update(doc);
+    db.collection('publicInfo').doc(id).update(post);
+    logger.info('Success', 'UPDATE PUBLIC INFO');
     return true;
-  } catch(err) {
-    logger.error(err, 'UPDATE DOC');
+  } catch (err) {
+    logger.error(err, 'UPDATE PUBLIC INFO');
     return false;
   }
-}
+};
 
-export const removeDocument = async (id) => {
+export const deletePublicInfo = async (id) => {
   try {
-    db.collection("docs").doc(id).delete();
-    logger.info('success', 'REMOVE DOC');
+    db.collection('publicInfo').doc(id).delete();
+    logger.info('Success', 'DELETE PUBLIC INFO');
     return true;
-  } catch(err) {
-    logger.error(err, 'REMOVE DOC');
+  } catch (err) {
+    logger.error(err, 'DELETE PUBLIC INFO');
     return false;
   }
-}
+};
 
-export const getDocuments = async () => {
+export const getAllPublicInfo = async () => {
   try {
-    const querySnapshot = await db.collection("docs").get();
-    const docs = querySnapshot.docs.map((doc) => ({
+    const querySnapshot = await db.collection('publicInfo').get();
+    const res = querySnapshot.docs.map((doc) => ({
+      ...initPublicInfo,
       ...doc.data(),
       id: doc.id,
     }));
-    logger.info(docs, 'GET DOCS');
-    return docs;
-  } catch(err) {
-    logger.info(err, 'GET DOCS');
+    logger.info(res, 'GET PUBLIC INFO');
+    return res;
+  } catch (err) {
+    logger.error(err, 'GET PUBLIC INFO');
     return false;
   }
-}
+};
 
-export const getDocument = async (id) => {
+export const getPublicInfo = async (id) => {
   try {
-    const doc = await db.collection("docs").doc(id).get();
+    const doc = await db.collection('publicInfo').doc(id).get();
     if (!doc.exists) {
       return false;
     } else {
-      const res = doc.data();
-      logger.info(res, 'GET DOC');
+      const res = { ...initPublicInfo, ...doc.data(), id };
       return res;
     }
-  } catch(err) {
-    logger.info(err, 'GET DOC');
+  } catch (err) {
+    logger.error(err, 'GET PUBLIC INFO');
     return false;
   }
-}
-
-// TEACHER
-export const addTeacher = async (doc) => {
-  try {
-    const ref = await db.collection("teachers").add(doc);
-    logger.info('Success', 'NEW TEACHER');
-    return ref;
-  } catch(err) {
-    logger.error(err, 'NEW DOC');
-    return false;
-  }
-}
-
-export const updateTeacher = async (id, doc) => {
-  try {
-    db.collection("teachers").doc(id).update(doc);
-    return true;
-  } catch(err) {
-    logger.error(err, 'UPDATE TEACHER');
-    return false;
-  }
-}
-
-export const removeTeacher = async (id) => {
-  try {
-    db.collection("teachers").doc(id).delete();
-    logger.info('Success', 'REMOVE TEACHER');
-    return true;
-  } catch(err) {
-    logger.error(err, 'REMOVE TEACHER');
-    return false;
-  }
-}
-
-export const getTeachers = async () => {
-  try {
-    const querySnapshot = await db.collection("teachers").get();
-    const docs = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    logger.info(docs, 'GET TEACHERS');
-    return docs;
-  } catch(err) {
-    logger.info(err, 'GET TEACHERS');
-    return false;
-  }
-}
+};

@@ -1,7 +1,6 @@
 import { actionType } from '../../../constants';
 import { db } from '../../../firebase';
 import { actions as notifications } from '../notifications';
-import moment from 'moment';
 
 export const getNews = () => async (dispatch) => {
   dispatch(actionType.NEWS_REQUEST);

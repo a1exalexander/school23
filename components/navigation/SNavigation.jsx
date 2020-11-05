@@ -16,7 +16,7 @@ const SNavigation = () => {
   useEffect(() => {
     const listener = () => {
       setShowMenu(false);
-    }
+    };
     Router.events.on('routeChangeStart', listener);
     return () => {
       Router.events.off('routeChangeStart', listener);
@@ -29,12 +29,10 @@ const SNavigation = () => {
         return title('Шкільні новини');
       case routes.NEWS_POST:
         return title('Шкільні новини');
-      case routes.ABOUT:
-        return title('Про школу');
-      case routes.TEACHERS:
-        return title('Наші вчителі');
-      case routes.LAW:
-        return title('НП акти');
+      case routes.PUBLIC_INFO:
+        return title('Публічна Інформація');
+      case routes.PUBLIC_INFO_POST:
+        return title('Публічна Інформація');
       case routes.CONTACTS:
         return title('Контакти');
       case routes.ADMIN:

@@ -2,14 +2,14 @@ import { actionType } from "../../../constants";
 import { utils } from '../../../firebase';
 import nookies from 'nookies';
 
-const initState = {
+const getInitState = () => ({
   loading: true,
   hasError: false,
   status: !!nookies.get({}).ADMIN_TOKEN,
   user: {...utils.getUser()}
-};
+});
 
-const reducer = (state = { auth: {...initState } }, action) => {
+const reducer = (state = { auth: {...getInitState() } }, action) => {
 
   switch (action.type) {
     case actionType.AUTH_REQUEST:
@@ -43,7 +43,7 @@ const reducer = (state = { auth: {...initState } }, action) => {
       }
     case actionType.AUTH_CLEAN:
       return {
-        ...initState,
+        ...getInitState(),
       }
     default:
       return state.auth;

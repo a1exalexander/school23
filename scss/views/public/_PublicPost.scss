@@ -1,4 +1,4 @@
-$style: news-post;
+$style: public-post;
 .#{$style} {
   @extend %container;
   line-height: 1.5;
@@ -89,13 +89,10 @@ $style: news-post;
       font-size: $H200;
     }
     img {
-      display: block;
-      margin-right: auto;
-      margin-left: auto;
       text-align: center;
       max-width: 100%;
       height: auto;
-      max-height: 70vh;
+      max-height: 80vh;
     }
     .is-announcement {
       padding: 24px;

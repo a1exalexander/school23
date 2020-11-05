@@ -39,22 +39,16 @@
 @import './views/news/NewsCard';
 @import './views/news/NewsPost';
 
+// Public Info
+@import './views/public/Public';
+@import './views/public/PublicCard';
+@import './views/public/PublicPost';
+
 // Admin
 @import './views/admin/Admin';
 @import './views/admin/AdminPost';
 @import './views/admin/AdminLaw';
 @import './views/admin/AdminTeachers';
-// About
-@import './views/about/About';
-@import './views/about/AboutSliderBoss';
-
-// Teachers
-@import './views/teachers/Teachers';
-@import './views/teachers/TeacherCard';
-
-// Law
-@import './views/law/Law';
-@import './views/law/LawPopup';
 
 // Contacts
 @import './views/contacts/Contacts';

@@ -59,6 +59,7 @@ export const logout = () => async dispatch => {
   try {
     await firebase.auth.signOut();
     dispatch(cleanAuth());
+    dispatch(setAuthStatus(false));
     return true;
   } catch (err) {
     dispatch(notifications.notify('error'));

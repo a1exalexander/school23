@@ -1,0 +1,52 @@
+$style: public;
+.#{$style} {
+  @extend %container;
+  background-color: $N0;
+  line-height: 1;
+  &__title {
+    display: none;
+    @include media {
+      display: block;
+      padding-left: 12px;
+      @include text($H700, 400);
+      margin-right: 24px;
+    }
+  }
+  &__header {
+    @include flex-row(flex-start, flex-end);
+    margin-bottom: 32px;
+  }
+  &__grid {
+    // margin: 0 auto;
+    // width: 100%;
+    // max-width: 900px;
+    margin: 0 -12px;
+    @include flex-col(flex-start, stretch);
+  }
+  &__card {
+    margin-bottom: 24px;
+    min-height: 42px;
+    width: 100%;
+    cursor: pointer;
+  }
+  &__input-wrapper {
+    @include flex-row(flex-start, center);
+  }
+  &__input-icon {
+    @include svg(16px, $N100);
+    margin-right: 6px;
+    order: -1;
+  }
+  &__input {
+    border: none;
+    outline: none;
+    @include text($H600, 300);
+    @include transition(all);
+    &::placeholder {
+      @include text($H600, 300, $N60)
+    }
+    &:focus + .#{$style}__input-icon {
+      fill: $N900;
+    }
+  }
+}

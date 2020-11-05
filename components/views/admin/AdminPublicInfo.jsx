@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { SInput, SButton, SRadio } from '../../index';
+import { bool, func, object } from 'prop-types';
+import { SInput, SButton } from '../../index';
 import 'react-quill/dist/quill.snow.css';
 import actions from '../../../store/actions';
 import { db } from '../../../firebase';
@@ -32,14 +32,7 @@ const toolbarOptions = [
   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
   [{ font: [] }],
 
-  ['clean'], // remove formatting button,
-  // [
-  //   {
-  //     handlers: {
-  //       image: this.imageHandler,
-  //     },
-  //   },
-  // ],
+  ['clean'], // remove formatting button
 ];
 const modules = {
   toolbar: toolbarOptions,
@@ -78,8 +71,6 @@ const reducer = (state, action) => {
       return { ...state, text: action.payload };
     case 'delta':
       return { ...state, delta: action.payload };
-    case 'type':
-      return { ...state, type: action.payload };
     case 'loading':
       return { ...state, loading: action.payload };
     case 'clean':
@@ -89,9 +80,9 @@ const reducer = (state, action) => {
   }
 };
 
-const initState = { loading: false, title: '', type: 'post', text: '', delta: { ops: [] } };
+const initState = { loading: false, title: '', text: '', delta: { ops: [] } };
 
-class AdminPost extends Component {
+class AdminPublicInfo extends Component {
   state = { ...initState };
 
   quillRef = null;
@@ -107,7 +98,6 @@ class AdminPost extends Component {
       title: post.title,
       delta: post.delta,
       text: post.text,
-      type: post.type,
     });
   }
 
@@ -140,18 +130,18 @@ class AdminPost extends Component {
   _onSubmit = async (e) => {
     const { notify, isUpdate, onUpdate } = this.props;
     const { state, _onDispatch } = this;
-    const post = { title: state.title, delta: state.delta, text: state.text, type: state.type };
+    const post = { title: state.title, delta: state.delta, text: state.text };
     if (isUpdate) {
       _onDispatch('loading')(true);
       onUpdate(post);
     } else {
       e.preventDefault();
       _onDispatch('loading')(true);
-      const res = await db.addPost(post);
+      const res = await db.addPublicInfo(post);
       if (res) {
-        notify('success', 'Пост успішно опублковано!');
+        notify('success', 'Сторінку успішно опублковано!');
         _onDispatch('clean')();
-        Router.push(routes.NEWS);
+        Router.push(routes.PUBLIC_INFO);
       } else {
         notify('error');
       }
@@ -162,25 +152,12 @@ class AdminPost extends Component {
   render() {
     const { state, _onDispatch, handleChange, _onSubmit } = this;
 
-    const isDisabled = [!!state.title, !!state.type, !!state.text].includes(false);
+    const isDisabled = [!!state.title, !!state.text].includes(false);
 
     return (
       <div className="admin-post">
-        <div className="admin-post__radio-group">
-          <SRadio name="post" onChange={_onDispatch('type')} checked={state.type} value="post">
-            Стаття
-          </SRadio>
-          <SRadio
-            name="post"
-            onChange={_onDispatch('type')}
-            checked={state.type}
-            value="announcement"
-          >
-            Оголошення
-          </SRadio>
-        </div>
         <SInput className="admin-post__input" onChange={_onDispatch('title')} value={state.title}>
-          Головний заголовок статті
+          Заголовок сторінки
         </SInput>
         <ReactQuill
           ref={(el) => {
@@ -207,11 +184,11 @@ class AdminPost extends Component {
   }
 }
 
-AdminPost.propTypes = {
-  notify: PropTypes.func,
-  isUpdate: PropTypes.bool,
-  onUpdate: PropTypes.func,
-  post: PropTypes.object,
+AdminPublicInfo.propTypes = {
+  notify: func,
+  isUpdate: bool,
+  onUpdate: func,
+  post: object,
 };
 
-export default connect(null, { notify: actions.notifications.notify })(AdminPost);
+export default connect(null, { notify: actions.notifications.notify })(AdminPublicInfo);
