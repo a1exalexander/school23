@@ -19,7 +19,9 @@ import { formatPost, postModel } from '../../models/post';
 import { actions } from '../../store/modules/notifications';
 import Post from '../../components/Post';
 
-const AdminPost = dynamic(() => import('../../components/views/admin/AdminPost'), { ssr: false });
+const AdminPostEditor = dynamic(() => import('../../components/views/admin/AdminPostEditor'), {
+  ssr: false
+});
 
 const initPost = {
   ...postModel,
@@ -66,7 +68,7 @@ const NewsPost = ({ post, isEmptyInit, notify }) => {
       onEmptyChange={setEmpty}
       onEditorVisibleChange={setEditorVisible}
     >
-      <AdminPost isUpdate post={$post} onUpdate={onUpdate} />
+      <AdminPostEditor isUpdate post={$post} onUpdate={onUpdate} />
     </Post>
   );
 };

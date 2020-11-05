@@ -8,8 +8,7 @@ import { Page, SRadioSlider, STransitionSwitch, SButton, SLoader } from '../comp
 import actions from '../store/actions';
 import checkAuth from '../middlewares/checkAuth';
 
-const AdminPost = dynamic(() => import('../components/views/admin/AdminPost'), { ssr: false });
-const AdminPublicInfo = dynamic(() => import('../components/views/admin/AdminPublicInfo'), {
+const AdminPostEditor = dynamic(() => import('../components/views/admin/AdminPostEditor'), {
   ssr: false
 });
 
@@ -32,11 +31,11 @@ const Admin = ({ auth, isAuthServer, logout }) => {
   const rendered = () => {
     switch (state.tab) {
       case ADMIN_NEWS:
-        return <AdminPost />;
+        return <AdminPostEditor type="post" />;
       case ADMIN_PUBLIC_INFO:
-        return <AdminPublicInfo />;
+        return <AdminPostEditor type="page" />;
       default:
-        return <AdminPost />;
+        return <AdminPostEditor />;
     }
   };
 

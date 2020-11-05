@@ -37,14 +37,14 @@ AdminControls.defaultProps = {
   visible: false,
   active: false,
   onRemove: () => undefined,
-  onEditorVisibleChange: () => undefined,
+  onEditorVisibleChange: () => undefined
 };
 
 AdminControls.propTypes = {
   visible: bool,
   active: bool,
   onRemove: func,
-  onEditorVisibleChange: func,
+  onEditorVisibleChange: func
 };
 
 export default AdminControls;

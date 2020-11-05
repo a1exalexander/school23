@@ -20,7 +20,7 @@ import { actions } from '../../store/modules/notifications';
 import { publicInfoModel } from '../../models/publicInfo';
 import Post from '../../components/Post';
 
-const AdminPublicInfo = dynamic(() => import('../../components/views/admin/AdminPublicInfo'), {
+const AdminPostEditor = dynamic(() => import('../../components/views/admin/AdminPostEditor'), {
   ssr: false
 });
 
@@ -70,7 +70,7 @@ const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
       onEmptyChange={setEmpty}
       onEditorVisibleChange={setEditorVisible}
     >
-      <AdminPublicInfo isUpdate post={$post} onUpdate={onUpdate} />
+      <AdminPostEditor isUpdate post={$post} onUpdate={onUpdate} type="page" />
     </Post>
   );
 };

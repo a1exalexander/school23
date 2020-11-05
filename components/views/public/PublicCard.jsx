@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { number, oneOfType, shape, string } from 'prop-types';
 import classNames from 'classnames';
@@ -31,7 +32,7 @@ export const PublicCard = ({ post, className }) => {
 };
 
 PublicCard.defaultProps = {
-  className: '',
+  className: ''
 };
 
 PublicCard.propTypes = {
@@ -40,6 +41,8 @@ PublicCard.propTypes = {
     id: oneOfType([number, string]),
     title: string,
     text: string,
-    created: oneOfType([number, string]),
-  }).isRequired,
+    created: oneOfType([number, string])
+  }).isRequired
 };
+
+export default PublicCard;

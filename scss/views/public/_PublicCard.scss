@@ -35,6 +35,8 @@ $style: public-card;
     margin-right: 24px;
   }
   &__image-wrapper {
+    border-radius: 4px;
+    overflow: hidden;
     width: 80px;
     position: relative;
     @include flex-row(flex-end, center);
@@ -46,5 +48,6 @@ $style: public-card;
     flex-shrink: 0;
     height: 100%;
     width: auto;
+    border-radius: 4px;
   }
 }

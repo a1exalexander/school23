@@ -1,6 +1,6 @@
+/* eslint-disable react/no-danger */
 import React, { useEffect } from 'react';
 import {
-  any,
   arrayOf,
   bool,
   func,
@@ -8,11 +8,14 @@ import {
   node,
   number,
   object,
-  oneOf,
   oneOfType,
   shape,
-  string,
+  string
 } from 'prop-types';
+import moment from 'moment';
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Meta } from '../Meta';
@@ -20,10 +23,6 @@ import Page from '../Page';
 import { Empty } from '../common/Empty';
 import { SButton, SUp } from '../common/buttons';
 import { STransition } from '../common/transition';
-import moment from 'moment';
-import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
-import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
 
 const AdminControls = dynamic(() => import('./components/AdminControls'), { ssr: false });
 
@@ -36,7 +35,7 @@ const Post = ({
   children,
   isEditorVisible,
   onEmptyChange,
-  onEditorVisibleChange,
+  onEditorVisibleChange
 }) => {
   const router = useRouter();
 
@@ -49,10 +48,10 @@ const Post = ({
   const createMarkup = () => {
     if (!post)
       return {
-        __html: '',
+        __html: ''
       };
     return {
-      __html: post.text || getText(post.delta),
+      __html: post.text || getText(post.delta)
     };
   };
 
@@ -61,25 +60,31 @@ const Post = ({
     if (process && process.browser && !post?.id) {
       onEmptyChange(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const date = `Від ${moment(post?.created * 1000).format('DD MMMM, YYYY')}`;
 
   return (
     <Page>
       <Meta title={post?.title} ogType="article" />
-      <article className={classNames("post", className)}>
+      <article className={classNames('post', className)}>
         <SUp />
         <header className="post__header">
           <div className="post__row">
             <SButton onClick={() => router.back()} className="post__button-back" size="small">
               Певернутись назад
             </SButton>
-            <AdminControls visible={!isEmpty && isAuth} active={post?.delta && isEditorVisible} onEditorVisibleChange={onEditorVisibleChange} onRemove={onRemove} />
+            <AdminControls
+              visible={!isEmpty && isAuth}
+              active={post?.delta && isEditorVisible}
+              onEditorVisibleChange={onEditorVisibleChange}
+              onRemove={onRemove}
+            />
           </div>
           {!isEmpty && (
             <div className="post__info">
-              <span className="post__description">
-                Від {moment(post?.created * 1000).format('DD MMMM, YYYY')}
-              </span>
+              <span className="post__description">{date}</span>
             </div>
           )}
         </header>
@@ -91,10 +96,10 @@ const Post = ({
           <h1 className="post__title">{post?.title}</h1>
           <div
             className={classNames('post__content', {
-              'is-announcement': post?.type === 'announcement',
+              'is-announcement': post?.type === 'announcement'
             })}
             dangerouslySetInnerHTML={createMarkup()}
-          ></div>
+          />
         </div>
       </article>
     </Page>
@@ -110,7 +115,7 @@ Post.defaultProps = {
   isEditorVisible: false,
   onEmptyChange: () => undefined,
   onRemove: () => undefined,
-  onEditorVisibleChange: () => undefined,
+  onEditorVisibleChange: () => undefined
 };
 
 Post.propTypes = {
@@ -122,9 +127,9 @@ Post.propTypes = {
       title: string,
       text: string,
       dalta: shape({
-        ops: arrayOf(object),
+        ops: arrayOf(oneOfType([object, string, number, bool]))
       }),
-      created: oneOfType([string, instanceOf(Date), number]),
+      created: oneOfType([string, instanceOf(Date), number])
     }),
     shape({
       id: oneOfType([string, number]),
@@ -132,18 +137,18 @@ Post.propTypes = {
       type: string,
       text: string,
       dalta: shape({
-        ops: arrayOf(object),
+        ops: arrayOf(oneOfType([object, string, number, bool]))
       }),
       created: oneOfType([string, instanceOf(Date), number]),
-      images: arrayOf(shape({ id: string, src: string })),
-    }),
+      images: arrayOf(shape({ id: string, src: string }))
+    })
   ]),
   isEditorVisible: bool,
   children: node,
   isEmpty: bool,
   onEmptyChange: func,
   onRemove: func,
-  onEditorVisibleChange: func,
+  onEditorVisibleChange: func
 };
 
 export default connect(({ auth: { status } }) => ({ isAuth: status }))(Post);
