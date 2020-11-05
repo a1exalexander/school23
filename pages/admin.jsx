@@ -7,6 +7,8 @@ import { routes, ADMIN_NEWS, ADMIN_PUBLIC_INFO } from '../constants';
 import { Page, SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import actions from '../store/actions';
 import checkAuth from '../middlewares/checkAuth';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond/dist/filepond.min.css';
 
 const AdminPostEditor = dynamic(() => import('../components/views/admin/AdminPostEditor'), {
   ssr: false
@@ -28,7 +30,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
     tab: ADMIN_NEWS,
     mounting: true
   });
-  const rendered = () => {
+  const renderEditor = () => {
     switch (state.tab) {
       case ADMIN_NEWS:
         return <AdminPostEditor type="post" />;
@@ -51,7 +53,8 @@ const Admin = ({ auth, isAuthServer, logout }) => {
     if (![!!process.browser, !auth.loading, !state.mounting, !isAuth].includes(false)) {
       router.push(routes.LOGIN);
     }
-  }, [state, auth, isAuth, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, auth]);
 
   const onLogout = async () => {
     const ok = await logout();
@@ -89,7 +92,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
                     />
                   </div>
                   <div className="admin__view">
-                    <STransitionSwitch keyProp={state.tab}>{rendered()}</STransitionSwitch>
+                    <STransitionSwitch keyProp={state.tab}>{renderEditor()}</STransitionSwitch>
                   </div>
                 </div>
               </>

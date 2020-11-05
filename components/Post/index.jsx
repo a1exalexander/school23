@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/no-danger */
 import React, { useEffect } from 'react';
 import {
@@ -46,6 +47,13 @@ const Post = ({
     return converter.convert();
   };
 
+  const handleRemove = () => {
+    const ok = window?.confirm('Точно видаляти?');
+
+    if (!ok) return;
+    onRemove();
+  };
+
   const createMarkup = () => {
     if (!post)
       return {
@@ -83,7 +91,7 @@ const Post = ({
               visible={!isEmpty && isAuth}
               active={post?.delta && isEditorVisible}
               onEditorVisibleChange={onEditorVisibleChange}
-              onRemove={onRemove}
+              onRemove={handleRemove}
             />
           </div>
           {!isEmpty && (

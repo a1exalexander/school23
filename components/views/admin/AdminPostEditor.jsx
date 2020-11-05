@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   arrayOf,
@@ -20,11 +20,9 @@ import { ImageDrop } from 'quill-image-drop-module';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import Router from 'next/router';
 import { FilePond, registerPlugin } from 'react-filepond';
-import 'filepond/dist/filepond.min.css';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import { SInput, SButton, SRadio } from '../../index';
 import actions from '../../../store/actions';
 import { db, storage } from '../../../firebase';
@@ -115,7 +113,7 @@ const initState = {
   images: []
 };
 
-class AdminPostEditor extends PureComponent {
+class AdminPostEditor extends Component {
   modules = {
     toolbar: toolbarOptions,
     imageResize: {},
