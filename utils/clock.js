@@ -72,15 +72,16 @@ const breaks = {
   }
 };
 
-const more = time => moment().diff(moment(time, 'H:mm:ss'), 'seconds') >= 0;
-const less = time => moment().diff(moment(time, 'H:mm:ss'), 'seconds') < 0;
+const more = (time) => moment().diff(moment(time, 'H:mm:ss'), 'seconds') >= 0;
+const less = (time) => moment().diff(moment(time, 'H:mm:ss'), 'seconds') < 0;
 const isTime = (a, b) => more(a) && less(b);
 
 const isWeekday = () => ['сб', 'нд'].includes(moment().format('dd'));
-const nextWeekday = () => ['сб', 'нд'].includes(moment().add(1, 'day').format('dd'));
+const nextWeekday = () =>
+  ['пт'].includes(moment().format('dd')) && !isTime(lessons.l1.time, breaks.b8.time);
 
-const getLesson = (msg) => ({msg, type: 'lesson'});
-const getBreak = (msg) => ({msg, type: 'break'});
+const getLesson = (msg) => ({ msg, type: 'lesson' });
+const getBreak = (msg) => ({ msg, type: 'break' });
 
 const clock = () => {
   const { l1, l2, l3, l4, l5, l6, l7, l8 } = lessons;
@@ -88,11 +89,11 @@ const clock = () => {
 
   switch (true) {
     case isTime(b8.time, '24:00:00') && !nextWeekday():
-      return {msg: b8.msg, type: 'after'};
+      return { msg: b8.msg, type: 'after' };
     case isWeekday():
-      return {msg: `${moment().format('dddd')}, нарешті! 🚀`, type: 'after'}
+      return { msg: `${moment().format('dddd')}, нарешті! 🚀`, type: 'after' };
     case nextWeekday():
-      return {msg: 'Завтра вихідний! 🔥', type: 'after'}
+      return { msg: 'Завтра вихідний! 🔥', type: 'after' };
     case isTime(l1.time, b1.time):
       return getLesson(l1.msg);
     case isTime(b1.time, l2.time):
@@ -124,7 +125,7 @@ const clock = () => {
     case isTime(l8.time, b8.time):
       return getLesson(l8.msg);
     default:
-      return {msg: `${moment('08:30:00', 'HH:mm:00').calendar()} в школу`, type: 'before'};
+      return { msg: `${moment('08:30:00', 'HH:mm:00').calendar()} в школу`, type: 'before' };
   }
 };
 
