@@ -26,14 +26,21 @@ $style: Slider;
   .slick-arrow::after {
     color: $N900;
   }
-  div {
-    box-shadow: none !important;
+  // .slick-slider {
+  //   box-shadow: $SH4;
+  // }
+  // div {
+    // box-shadow: none !important;
+  // }
+  div[class^='makeStyles-card-'] {
+    box-shadow: $SH4;
   }
   .slick-slide {
+    // background-color: $P50;
     border-radius: 6px;
     & > div {
       display: flex !important;
-      box-shadow: none !important;
+      // box-shadow: $SH2 !important;
       & > div {
         display: inline-flex !important;
         @include padding-hack(60%, contain);
