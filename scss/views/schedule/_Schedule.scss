@@ -5,7 +5,7 @@ $style: Schedule;
   line-height: 1;
   &__header {
     padding: 92px 24px;
-    @include flex-row(flex-start, flex-end);
+    // @include flex-row(flex-start, flex-end);
     @include media {
       padding: 35px 8%;
     }
@@ -13,9 +13,22 @@ $style: Schedule;
   &__title {
     padding-left: 12px;
     display: none;
+    margin-bottom: 24px;
     @include media {
       display: block;
       @include text($H700, 400);
+    }
+  }
+  &__description {
+    @include text($H300, 400);
+    padding-left: 12px;
+  }
+  table {
+    tr {
+      td:nth-child(1),
+      td:nth-child(2) {
+        background-color: $P20;
+      }
     }
   }
 }

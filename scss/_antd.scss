@@ -26936,18 +26936,18 @@ textarea.ant-mentions {
   margin: -8px -8px -8px 25px;
 }
 .ant-table-small .ant-table-thead > tr > th {
-  background-color: #fafafa;
+  background-color: $P100;
 }
 .ant-table-small .ant-table-selection-column {
   width: 46px;
   min-width: 46px;
 }
 .ant-table.ant-table-bordered > .ant-table-title {
-  border: 1px solid #f0f0f0;
+  border: 1px solid $N900;
   border-bottom: 0;
 }
 .ant-table.ant-table-bordered > .ant-table-container {
-  border: 1px solid #f0f0f0;
+  border: 1px solid $N900;
   border-right: 0;
   border-bottom: 0;
 }
@@ -26963,12 +26963,12 @@ textarea.ant-mentions {
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > td,
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > td,
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > td {
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid $N900;
 }
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr:not(:last-child) > th,
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > thead > tr:not(:last-child) > th,
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > thead > tr:not(:last-child) > th {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid $N900;
 }
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr > .ant-table-cell-fix-right-first::after,
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > thead > tr > .ant-table-cell-fix-right-first::after,
@@ -26979,7 +26979,7 @@ textarea.ant-mentions {
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > .ant-table-cell-fix-right-first::after,
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > .ant-table-cell-fix-right-first::after,
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > .ant-table-cell-fix-right-first::after {
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid $N900;
 }
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > td > .ant-table-expanded-row-fixed,
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tbody > tr > td > .ant-table-expanded-row-fixed,
@@ -26993,7 +26993,7 @@ textarea.ant-mentions {
   top: 0;
   right: 1px;
   bottom: 0;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid $N900;
   content: '';
 }
 .ant-table.ant-table-bordered.ant-table-scroll-horizontal > .ant-table-container > .ant-table-body > table > tbody > tr.ant-table-expanded-row > td,
@@ -27009,7 +27009,7 @@ textarea.ant-mentions {
   margin: -8px -9px;
 }
 .ant-table.ant-table-bordered > .ant-table-footer {
-  border: 1px solid #f0f0f0;
+  border: 1px solid $N900;
   border-top: 0;
 }
 .ant-table-cell .ant-table-container:first-child {
@@ -27092,8 +27092,8 @@ textarea.ant-mentions {
   color: rgba(0, 0, 0, 0.85);
   font-weight: 500;
   text-align: left;
-  background: #fafafa;
-  border-bottom: 1px solid #f0f0f0;
+  background: $P50;
+  border-bottom: 1px solid $N900;
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease;
 }
@@ -27104,7 +27104,7 @@ textarea.ant-mentions {
   border-bottom: 0;
 }
 .ant-table-tbody > tr > td {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid $N900;
   -webkit-transition: background 0.3s;
   transition: background 0.3s;
 }
@@ -27123,14 +27123,14 @@ textarea.ant-mentions {
 }
 .ant-table-tbody > tr.ant-table-row-selected > td {
   background: #e6f7ff;
-  border-color: rgba(0, 0, 0, 0.03);
+  border-color: $N900;
 }
 .ant-table-tbody > tr.ant-table-row-selected:hover > td {
   background: #dcf4ff;
 }
 .ant-table tfoot > tr > th,
 .ant-table tfoot > tr > td {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid $N900;
 }
 .ant-table-pagination.ant-pagination {
   margin: 16px 0;
@@ -28141,7 +28141,7 @@ tr.ant-table-expanded-row .ant-descriptions-view table {
   background: #fafafa;
 }
 .ant-transfer-customize-list .ant-table-wrapper .ant-table-small > .ant-table-content .ant-table-row:last-child td {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid $N900;
 }
 .ant-transfer-customize-list .ant-table-wrapper .ant-table-small .ant-table-body {
   margin: 0;

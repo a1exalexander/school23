@@ -1,6 +1,5 @@
 @import '~filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 @import '~filepond/dist/filepond.min.css';
-@import './antd';
 
 @import './core/fonts';
 // Plugins
@@ -10,6 +9,7 @@
 @import './core/mixins';
 @import './core/inheritance';
 
+@import './antd';
 @import './common';
 
 // Components
