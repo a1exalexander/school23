@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Head from 'next/head';
 import { node, number, string } from 'prop-types';
@@ -9,6 +10,25 @@ export const Meta = ({ title, description, image, ogType, imageWidth, imageHeigh
   const formatedTitle = `${title}${title !== defaultTitle ? ` | ${defaultTitle}` : ''}`;
   return (
     <Head>
+      {process.env.NODE_ENV === 'production' && (
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function (h, o, t, j, a, r) {
+      h.hj =
+        h.hj ||
+        function () {
+          (h.hj.q = h.hj.q || []).push(arguments);
+        };
+      h._hjSettings = { hjid: 2083064, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script');
+      r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=')`
+          }}
+        />
+      )}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta charSet="utf-8" />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
