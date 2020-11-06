@@ -2,6 +2,13 @@ $style: contacts;
 .#{$style} {
   @extend %container;
   width: 100%;
+  #typed {
+    white-space: pre-line;
+  }
+  &__message {
+    display: inline-block;
+    margin-bottom: 24px;
+  }
   &__title {
     line-height: 1;
     display: none;

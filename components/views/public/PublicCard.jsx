@@ -18,7 +18,7 @@ export const PublicCard = ({ post, className }) => {
           <h2 className="public-card__title">{post.title}</h2>
 
           <span className="public-card__date">
-            {moment(post.created * 1000).format('DD MMMM, YYYY hh:mm')}
+            {moment(post.created * 1000).format('DD MMMM, YYYY')}
           </span>
         </div>
         {hasImage && (
