@@ -5,6 +5,7 @@ $container: 900px;
   line-height: 1.5;
   font-size: 14px;
   &._pure {
+    .#{$style}__container,
     .#{$style}__content {
       box-shadow: none;
     }
