@@ -110,7 +110,8 @@ const initState = {
   type: 'post',
   delta: { ops: [] },
   modules: {},
-  images: []
+  images: [],
+  oldImages: []
 };
 
 class AdminPostEditor extends Component {
@@ -140,10 +141,15 @@ class AdminPostEditor extends Component {
       title: post.title,
       delta: post.delta,
       text: post.text,
-      type: post.type
+      type: post.type,
+      oldImages: post.images
     };
     this.onDispatch('init')(payload);
-    this.setState((prevState) => ({ ...prevState, ...payload, modules: this.modules }));
+    this.setState((prevState) => ({
+      ...prevState,
+      ...payload,
+      modules: this.modules
+    }));
   }
 
   componentDidUpdate() {
@@ -180,10 +186,15 @@ class AdminPostEditor extends Component {
     const { notify, isUpdate, onUpdate, type } = this.props;
     const {
       state,
-      state: { images },
+      state: { images, oldImages },
       onDispatch
     } = this;
-    const post = { title: state.title, delta: state.delta, text: state.text, images: [] };
+    const post = {
+      title: state.title,
+      delta: state.delta,
+      text: state.text,
+      images: [...oldImages]
+    };
     let http = 'addPost';
     let messageSuccess = 'Пост успішно опублковано!';
     let route = routes.NEWS;
@@ -204,7 +215,7 @@ class AdminPostEditor extends Component {
           return image;
         })
       );
-      post.images = [...savedImages];
+      post.images = [...oldImages, ...savedImages];
     }
     if (isUpdate) {
       onUpdate(post);
@@ -220,6 +231,16 @@ class AdminPostEditor extends Component {
       }
     }
     onDispatch('loading')(false);
+  };
+
+  onRemoveImage = (removingId) => {
+    const { oldImages = [] } = this.state;
+    const shallowCopy = [...oldImages];
+    const idx = shallowCopy.findIndex(({ id }) => id === removingId);
+    if (idx >= 0) {
+      shallowCopy.splice(idx, 1);
+      this.setState((prevState) => ({ ...prevState, oldImages: shallowCopy }));
+    }
   };
 
   render() {
@@ -260,6 +281,23 @@ class AdminPostEditor extends Component {
           onupdatefiles={onDispatch('images')}
           labelIdle={`Перетягни фото сюди або <br/><span class="filepond--label-action"> обери файлы </span>`}
         />
+        {state?.oldImages?.length && (
+          <ul className="admin-post__images-old">
+            {state?.oldImages?.map(({ id, src }) => (
+              <li key={id} className="admin-post__old-image-item">
+                <SButton
+                  onClick={() => this.onRemoveImage(id)}
+                  className="admin-post__images-remove-btn"
+                  type="danger"
+                  size="small"
+                >
+                  Remove
+                </SButton>
+                <img src={src} alt="" />
+              </li>
+            ))}
+          </ul>
+        )}
         <ReactQuill
           ref={(el) => {
             this.reactQuillRef = el;

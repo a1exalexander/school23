@@ -2,7 +2,7 @@ $style: post;
 $container: 900px;
 .#{$style} {
   @extend %container;
-  line-height: 1.5;
+  line-height: 1.4;
   &._pure {
     .#{$style}__content {
       box-shadow: none;
@@ -21,7 +21,7 @@ $container: 900px;
   }
   &__title {
     align-self: center;
-    @include text($H800, 500, $N00);
+    @include text($H700, 500, $N00);
     margin-bottom: 32px;
     text-align: center;
     max-width: $container;
@@ -91,23 +91,26 @@ $container: 900px;
         font-weight: 500;
       }
     }
+    p {
+      line-height: 1.6;
+    }
     h1 {
-      font-size: $H700;
+      font-size: 19px;
     }
     h2 {
-      font-size: $H600;
+      font-size: 18px;
     }
     h3 {
-      font-size: $H500;
+      font-size: 17px;
     }
     h4 {
-      font-size: $H400;
+      font-size: 16px;
     }
     h5 {
-      font-size: $H300;
+      font-size: 15px;
     }
     h6 {
-      font-size: $H200;
+      font-size: 14px;
     }
     img {
       display: block;

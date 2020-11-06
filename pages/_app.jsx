@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import App from 'next/app';
 import Router from 'next/router';
@@ -25,26 +26,48 @@ class MyApp extends App {
     readyState: 'not ready'
   };
 
+  _ismounted = false;
+
   constructor() {
     super();
     Router.onRouteChangeStart = () => {
-      this.setState((prevState) => ({ ...prevState, loading: true }));
+      if (this._ismounted) {
+        this.showLoader();
+        setTimeout(() => this.showLoader(), 500);
+      }
     };
 
     Router.onRouteChangeComplete = () => {
-      this.setState((prevState) => ({ ...prevState, loading: false }));
+      if (this._ismounted) {
+        this.hideLoader();
+        setTimeout(() => this.hideLoader(), 500);
+      }
     };
 
     Router.onRouteChangeError = () => {
-      this.setState((prevState) => ({ ...prevState, loading: false }));
+      if (this._ismounted) {
+        this.hideLoader();
+        setTimeout(() => this.hideLoader(), 500);
+      }
     };
   }
 
+  showLoader() {
+    this.setState((prevState) => ({ ...prevState, loading: true }));
+  }
+
+  hideLoader() {
+    this.setState((prevState) => ({ ...prevState, loading: false }));
+  }
+
   hideFirstLoading() {
-    this.setState((prevState) => ({ ...prevState, onloadLoading: false }));
+    if (this._ismounted) {
+      this.setState((prevState) => ({ ...prevState, onloadLoading: false }));
+    }
   }
 
   componentDidMount() {
+    this._ismounted = true;
     if (isBrowser()) {
       window.onload = () => {
         this.hideFirstLoading();
@@ -53,6 +76,10 @@ class MyApp extends App {
     } else {
       setTimeout(() => this.hideFirstLoading(), 5000);
     }
+  }
+
+  componentWillUnmount() {
+    this._ismounted = false;
   }
 
   componentDidUpdate(prevProp, prevState) {

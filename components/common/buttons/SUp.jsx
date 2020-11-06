@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import { string } from 'prop-types';
-import { IconUp } from '../icons';
 import ScrollUpButton from 'react-scroll-up-button';
+import { IconUp } from '../icons';
 
 export const SUp = ({ className = '' }) => {
   return (
@@ -14,18 +14,17 @@ export const SUp = ({ className = '' }) => {
         <div className="s-up__button">
           <IconUp className="s-up__icon" />
         </div>
-        <span className="s-up__text">Up</span>
       </>
     </ScrollUpButton>
   );
 };
 
-SUp.defaultTypes = {
-  className: '',
+SUp.defaultProps = {
+  className: ''
 };
 
 SUp.propTypes = {
-  className: string,
+  className: string
 };
 
 export default SUp;

@@ -54,6 +54,9 @@ $style: news;
       }
       &:first-child {
         flex: 1 1 calc(100% - 24px);
+        .news-card__text {
+          max-width: 70%;
+        }
       }
     }
     @include media($screen-hd) {

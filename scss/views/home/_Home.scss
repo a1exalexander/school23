@@ -3,6 +3,7 @@ $sizeY: 38px;
 $top: 42px;
 $border-width: 1px;
 $border-radius: 4px;
+$border-color: rgb(189, 189, 189);
 
 .home {
   position: fixed;
@@ -54,13 +55,13 @@ $border-radius: 4px;
       display: block;
       border-radius: $border-radius;
       @include position($top, $sizeX, $sizeY, $sizeX);
-      border: $border-width solid white;
+      border: $border-width solid $border-color;
       border-top-color: transparent;
       border-left-color: transparent;
       &:after,
       &:before {
         content: '';
-        border: $border-width solid white;
+        border: $border-width solid $border-color;
         display: block;
       }
       &:after {

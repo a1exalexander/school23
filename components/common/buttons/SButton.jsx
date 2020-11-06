@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { bool, func, node, number, object, string } from 'prop-types';
+import { objectOf, bool, func, node, number, object, oneOfType, string } from 'prop-types';
 
 export const SButton = (props) => {
   const {
@@ -8,21 +8,22 @@ export const SButton = (props) => {
     className,
     children,
     onClick,
-    disabled = false,
-    loading = false,
-    type = 'primary',
-    size = 'normal',
-    fluid = false,
-    revert = true,
+    disabled,
+    loading,
+    type,
+    size,
+    fluid,
+    revert,
     style,
-    id = '',
-    name = '',
+    id,
+    name
   } = props;
 
   const withIcon = label && children;
 
   return (
     <button
+      type="button"
       id={id}
       name={name}
       onClick={onClick}
@@ -42,10 +43,26 @@ export const SButton = (props) => {
       </span>
       {withIcon && !revert ? children : null}
       <svg className="s-button__loading" focusable="false" viewBox="0 0 20 20">
-        <circle cx="10" cy="10" r="9"></circle>
+        <circle cx="10" cy="10" r="9" />
       </svg>
     </button>
   );
+};
+
+SButton.defaultProps = {
+  label: undefined,
+  className: undefined,
+  type: 'primary',
+  onClick: undefined,
+  size: 'normal',
+  loading: false,
+  disabled: false,
+  fluid: false,
+  revert: true,
+  style: undefined,
+  name: undefined,
+  id: undefined,
+  children: undefined
 };
 
 SButton.propTypes = {
@@ -58,12 +75,10 @@ SButton.propTypes = {
   disabled: bool,
   fluid: bool,
   revert: bool,
-  link: bool,
-  svgSize: number,
-  style: object,
+  style: objectOf(oneOfType([object, string, number])),
   name: string,
   id: string,
-  children: node,
+  children: node
 };
 
 export default SButton;
