@@ -17,7 +17,6 @@ $container: 900px;
     @include flex-row(flex-start, baseline);
   }
   &__row {
-    // @include flex-row(flex-start, center);
     margin-bottom: 24px;
   }
   &__title {
@@ -68,6 +67,8 @@ $container: 900px;
     position: relative;
     margin-bottom: 32px;
     white-space: pre-wrap;
+    box-shadow: $SH4;
+    border-radius: 4px;
     // text-align: center;
   }
   &__content,
