@@ -9,8 +9,10 @@ import { routes } from '../../../constants';
 export const PublicCard = ({ post, className }) => {
   const reImg = /<img([^>]*)>/gi;
   const reSrc = /src\s*=\s*"[^">]+/;
-  const hasImage = reImg.test(post.text);
-  const imageSrc = hasImage && post.text.match(reSrc)[0].slice(5);
+  const firstImage = post?.images?.[0];
+  const hasImage = reImg.test(post?.text) || firstImage;
+  const imageSrc = hasImage && (firstImage?.src || post?.text.match(reSrc)[0].slice(5));
+
   return (
     <Link href={{ pathname: routes.PUBLIC_INFO_POST, query: { pid: post.id } }}>
       <a className={classNames('public-card', className)}>

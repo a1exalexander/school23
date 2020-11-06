@@ -3,7 +3,6 @@ import Typed from 'typed.js';
 import { Page } from '../components';
 
 const options = {
-  // stringsElement: '#typed-strings',
   strings: [
     '^500 <span class="contacts__message">Привіт!</span> \n ^500 <span class="contacts__message">Ми Кременчуцька гімназія №23</span> \n ^500 <span>Давайте робити чудові справи разом ☀️</span> ^500'
   ],

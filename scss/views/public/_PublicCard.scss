@@ -5,6 +5,7 @@ $style: public-card;
   border-radius: 4px;
   line-height: 1.4;
   box-shadow: $SH4;
+  min-height: 84px;
   padding: 12px 24px;
   @include flex-row(space-between, stretch);
   @include transition(all);
@@ -33,21 +34,24 @@ $style: public-card;
   &__col {
     flex-grow: 1;
     margin-right: 24px;
+    @include flex-col(space-between);
   }
   &__image-wrapper {
     border-radius: 4px;
     overflow: hidden;
-    width: 80px;
+    width: 100px;
+    height: 60px;
     position: relative;
     @include flex-row(flex-end, center);
   }
   &__image {
+    flex-shrink: 0;
     position: absolute;
     @include size(100%);
-    object-fit: contain;
+    object-fit: cover;
     flex-shrink: 0;
     height: 100%;
-    width: auto;
+    width: 100%;
     border-radius: 4px;
   }
 }
