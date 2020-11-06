@@ -14,20 +14,24 @@ $style: public;
   }
   &__header {
     @include flex-row(flex-start, flex-end);
-    margin-bottom: 32px;
+    margin-bottom: 46px;
   }
   &__grid {
-    // margin: 0 auto;
-    // width: 100%;
-    // max-width: 900px;
-    margin: 0 -12px;
-    @include flex-col(flex-start, stretch);
+    @include flex-row(flex-start, stretch);
+    flex-wrap: wrap;
+    margin: 0 -24px;
   }
   &__card {
     margin-bottom: 24px;
     min-height: 42px;
-    width: 100%;
+    flex-basis: 100%;
     cursor: pointer;
+    margin-left: 12px;
+    margin-right: 12px;
+    @include media {
+      flex: 1 1 calc(50% - 24px);
+      
+    }
   }
   &__input-wrapper {
     @include flex-row(flex-start, center);
@@ -43,7 +47,7 @@ $style: public;
     @include text($H600, 300);
     @include transition(all);
     &::placeholder {
-      @include text($H600, 300, $N60)
+      @include text($H600, 300, $N60);
     }
     &:focus + .#{$style}__input-icon {
       fill: $N900;

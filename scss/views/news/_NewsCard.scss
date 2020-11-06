@@ -54,6 +54,7 @@ $style: news-card;
   &__text {
     @include text($H400, 400);
     line-height: 1.4;
+    max-width: 700px;
     @include media {
       line-height: 1.5 ;
       font-size: $H400;

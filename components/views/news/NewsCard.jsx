@@ -51,7 +51,7 @@ const NewsCard = ({ post, className, idx }) => {
           <p
             className="news-card__text is-desktop"
             dangerouslySetInnerHTML={{
-              __html: trancate(getContent(textWithoutImages), idx ? 100 : 300)
+              __html: trancate(getContent(textWithoutImages), idx ? 120 : 240)
             }}
           />
         </div>

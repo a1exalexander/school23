@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PublicCard } from '../../components/views/public/PublicCard';
@@ -5,10 +6,10 @@ import { Page, SLoader, Empty } from '../../components';
 import { IconSearch } from '../../components/common/icons';
 import { getters, actions } from '../../store/modules/public';
 
-const Public = ({}) => {
+const Public = () => {
   const [state, setState] = useState('');
 
-  const { loading, pages = [] } = useSelector((state) => state.publicInfo || {});
+  const { loading, pages = [] } = useSelector((store) => store.publicInfo || {});
 
   const dispatch = useDispatch();
 
@@ -19,7 +20,7 @@ const Public = ({}) => {
 
   useEffect(() => {
     dispatch(actions.getPublicInfo());
-  }, []);
+  }, [dispatch]);
 
   const filteredPages = useMemo(() => getters.filteredPages(pages)(state), [pages, state]);
 

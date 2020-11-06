@@ -17,8 +17,11 @@ $style: news;
     margin-bottom: 32px;
   }
   &__grid {
+    width: 100%;
     @include flex-row(flex-start, stretch);
     flex-wrap: wrap; 
+    max-width: 1240px;
+    margin: 0 auto;
   }
   &__card {
     margin-bottom: 24px;
