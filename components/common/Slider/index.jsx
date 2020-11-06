@@ -1,5 +1,6 @@
 import React from 'react';
 import Carousel from 'react-slick';
+import classNames from 'classnames';
 import { arrayOf, oneOfType, shape, string } from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import GridContainer from './components/GridContainer';
@@ -10,7 +11,7 @@ import './styles/_plugin-react-slick.scss';
 
 const useStyles = makeStyles(carouselStyle);
 
-export default function Slider({ slides }) {
+export default function Slider({ slides, className }) {
   const classes = useStyles();
 
   const renderSlides = () => {
@@ -32,7 +33,7 @@ export default function Slider({ slides }) {
   };
 
   return (
-    <div className="Slider" id="carousel">
+    <div className={classNames('Slider', className)} id="carousel">
       <div className={classes.container}>
         <GridContainer>
           <GridItem xs={12} sm={12} md={12} className={classes.marginAuto}>
@@ -49,9 +50,11 @@ export default function Slider({ slides }) {
 }
 
 Slider.defaultProps = {
-  slides: undefined
+  slides: undefined,
+  className: undefined
 };
 
 Slider.propTypes = {
+  className: string,
   slides: arrayOf(oneOfType([string, shape({ id: string, title: string, src: string })]))
 };

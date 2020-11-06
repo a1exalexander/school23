@@ -105,10 +105,14 @@ const Post = ({
           <STransition inProp={!!post?.delta && !!isAuth && !!isEditorVisible}>
             <div className="post__popup">{children}</div>
           </STransition>
-          <h1 className="post__title">{post?.title}</h1>
-          {hasImages && !isEditorVisible && <Slider slides={post?.images} />}
+          <div className="post__title-wrapper">
+            <h1 className="post__title">{post?.title}</h1>
+          </div>
+          {hasImages && !isEditorVisible && (
+            <Slider className="post__slider" slides={post?.images} />
+          )}
           <div
-            className={classNames('post__content', {
+            className={classNames('post__content ql-editor', {
               'is-announcement': post?.type === 'announcement'
             })}
             dangerouslySetInnerHTML={createMarkup()}

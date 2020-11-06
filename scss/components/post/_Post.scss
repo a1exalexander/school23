@@ -2,7 +2,6 @@ $style: post;
 $container: 900px;
 .#{$style} {
   @extend %container;
-  line-height: 1.5;
   font-size: 14px;
   &._pure {
     .#{$style}__container,
@@ -12,7 +11,7 @@ $container: 900px;
   }
   &__header {
     line-height: 1;
-    margin-bottom: 42px;
+    margin-bottom: 24px;
   }
   &__info {
     @include flex-row(flex-start, baseline);
@@ -20,12 +19,23 @@ $container: 900px;
   &__row {
     margin-bottom: 24px;
   }
+  &__title-wrapper {
+    width: 100%;
+    text-align: center;
+    align-self: center;
+    margin-bottom: 32px;
+    padding: 32px 24px;
+    background-color: rgba($P50, 0.5);
+    max-width: $container;
+    border-radius: 4px;
+  }
   &__title {
     align-self: center;
-    @include text($H800, 500, $N00);
-    margin-bottom: 32px;
+    @include text($H700, 500, $N900);
     text-align: center;
-    max-width: $container;
+    max-width: $container - 200px;
+    
+    margin: 0 auto;
   }
   &__description {
     @include text($H400, 400);
@@ -67,18 +77,40 @@ $container: 900px;
     flex-grow: 1;
     position: relative;
     margin-bottom: 32px;
-    white-space: pre-wrap;
-    box-shadow: $SH4;
     border-radius: 4px;
+    padding: 32px;
     // text-align: center;
+  }
+  &__slider {
+    padding: 0 32px;
   }
   &__content,
   .ql-container {
+    // box-shadow: $SH4;
     flex-grow: 1;
-    padding: 12px;
+    padding: 42px 32px;
     border-radius: 6px;
     max-width: $container;
     margin: 0 auto;
+    blockquote {
+      border-radius: 4px;
+      background: #f9f9f9;
+      border-left: 10px solid #ccc;
+      margin: 12px 0;
+      padding: 12px;
+      quotes: '\201C''\201D''\2018''\2019';
+    }
+    blockquote:before {
+      color: #ccc;
+      content: open-quote;
+      font-size: 4em;
+      line-height: 0.1em;
+      margin-right: 0.25em;
+      vertical-align: -0.4em;
+    }
+    blockquote p {
+      display: inline;
+    }
     ul,
     ol {
       list-style-position: inside;
