@@ -12,7 +12,6 @@ import {
   shape,
   string
 } from 'prop-types';
-import 'react-quill/dist/quill.snow.css';
 import ImageCompress from 'quill-image-compress';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module';
@@ -186,7 +185,7 @@ class AdminPostEditor extends Component {
     const { notify, isUpdate, onUpdate, type } = this.props;
     const {
       state,
-      state: { images, oldImages },
+      state: { images, oldImages = [] },
       onDispatch
     } = this;
     const post = {

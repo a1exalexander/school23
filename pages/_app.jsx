@@ -8,6 +8,8 @@ import SNavigation from '../components/navigation/SNavigation';
 import { SLoader, STransitionSwitch } from '../components';
 import { isBrowser } from '../utils';
 import { wrapper } from '../store';
+import 'react-quill/dist/quill.core.css';
+import 'react-quill/dist/quill.snow.css';
 import '../plugins/bulma.css';
 import '../scss/styles.scss';
 
