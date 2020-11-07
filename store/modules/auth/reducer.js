@@ -42,7 +42,8 @@ const reducer = (state = { auth: { ...getInitState() } }, action) => {
       };
     case actionType.AUTH_CLEAN:
       return {
-        ...getInitState()
+        ...getInitState(),
+        loading: false
       };
     default:
       return state.auth;

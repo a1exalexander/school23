@@ -16,14 +16,15 @@ export const SButton = (props) => {
     revert,
     style,
     id,
-    name
+    name,
+    buttonType
   } = props;
 
   const withIcon = label && children;
 
   return (
     <button
-      type="button"
+      type={buttonType}
       id={id}
       name={name}
       onClick={onClick}
@@ -62,7 +63,8 @@ SButton.defaultProps = {
   style: undefined,
   name: undefined,
   id: undefined,
-  children: undefined
+  children: undefined,
+  buttonType: 'button'
 };
 
 SButton.propTypes = {
@@ -78,7 +80,8 @@ SButton.propTypes = {
   style: objectOf(oneOfType([object, string, number])),
   name: string,
   id: string,
-  children: node
+  children: node,
+  buttonType: string
 };
 
 export default SButton;

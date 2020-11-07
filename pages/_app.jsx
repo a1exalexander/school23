@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 import App from 'next/app';
+import { connect } from 'react-redux';
 import Router from 'next/router';
 import { compose } from 'redux';
 import withGA from 'next-ga';
@@ -12,6 +13,8 @@ import 'react-quill/dist/quill.core.css';
 import 'react-quill/dist/quill.snow.css';
 import '../plugins/bulma.css';
 import '../scss/styles.scss';
+import { actions } from '../store/modules/auth';
+import { firebase } from '../firebase';
 
 class MyApp extends App {
   static getInitialProps = async ({ Component, ctx }) => {
@@ -56,6 +59,7 @@ class MyApp extends App {
 
   showLoader() {
     this.setState((prevState) => ({ ...prevState, loading: true }));
+    this.hideFirstLoading();
   }
 
   hideLoader() {
@@ -69,6 +73,14 @@ class MyApp extends App {
   }
 
   componentDidMount() {
+    const {
+      setAuthStatus,
+      authRequest,
+      authSuccess,
+      authFailure,
+      cleanAuth,
+      userUpdate
+    } = this.props;
     this._ismounted = true;
     if (isBrowser()) {
       window.onload = () => {
@@ -78,6 +90,19 @@ class MyApp extends App {
     } else {
       setTimeout(() => this.hideFirstLoading(), 5000);
     }
+
+    const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
+      authRequest();
+      if (authUser) {
+        setAuthStatus(true);
+        userUpdate(authUser);
+        authSuccess();
+      } else {
+        authFailure();
+        await cleanAuth();
+      }
+    });
+    return () => unsubscribe();
   }
 
   componentWillUnmount() {
@@ -112,4 +137,15 @@ class MyApp extends App {
   }
 }
 
-export default compose(withGA('UA-214935287-1', Router), wrapper.withRedux)(MyApp);
+export default compose(
+  withGA('UA-214935287-1', Router),
+  wrapper.withRedux,
+  connect(null, {
+    authRequest: actions.authRequest,
+    authSuccess: actions.authSuccess,
+    authFailure: actions.authFailure,
+    userUpdate: actions.userUpdate,
+    setAuthStatus: actions.setAuthStatus,
+    cleanAuth: actions.cleanAuth
+  })
+)(MyApp);

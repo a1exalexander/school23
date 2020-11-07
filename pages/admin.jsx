@@ -2,11 +2,13 @@ import React, { useReducer, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { arrayOf, bool, func, number, object, oneOfType, shape, string } from 'prop-types';
 import { connect } from 'react-redux';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { routes, ADMIN_NEWS, ADMIN_PUBLIC_INFO } from '../constants';
-import { Page, SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
+import { SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
+import Page from '../components/Page';
 import actions from '../store/actions';
 import checkAuth from '../middlewares/checkAuth';
+import { isBrowser } from '../utils';
 
 const AdminPostEditor = dynamic(() => import('../components/views/admin/AdminPostEditor'), {
   ssr: false
@@ -44,15 +46,13 @@ const Admin = ({ auth, isAuthServer, logout }) => {
   const isAuth = isAuthServer || auth.status;
 
   useEffect(() => {
-    if (process.browser) dispatch({ type: 'mounted' });
-  }, []);
-
-  useEffect(() => {
-    if (![!!process.browser, !auth.loading, !state.mounting, !isAuth].includes(false)) {
-      router.push(routes.LOGIN);
+    if (isBrowser()) {
+      dispatch({ type: 'mounted' });
+      if (!isAuth) {
+        router.push(routes.LOGIN);
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, auth]);
+  }, [isAuth]);
 
   const onLogout = async () => {
     const ok = await logout();
@@ -65,39 +65,37 @@ const Admin = ({ auth, isAuthServer, logout }) => {
 
   return (
     <Page title="Кабінет адміністратора">
-      <SLoader loading={auth.loading || !isAuth}>
-        {isAuth && (
-          <div className="admin">
-            <SLoader loading={state.mounting || !isAuth}>
-              <>
-                <div className="admin__header">
-                  <h1 className="admin__title">Кабінет адміністратора</h1>
-                  <SButton onClick={onLogout} type="transparent" label="Вийти">
-                    <span role="img" aria-label="logout">
-                      🔌
-                    </span>
-                  </SButton>
-                </div>
+      {isAuth && (
+        <div className="admin">
+          <SLoader loading={state.mounting}>
+            <>
+              <div className="admin__header">
+                <h1 className="admin__title">Кабінет адміністратора</h1>
+                <SButton onClick={onLogout} type="transparent" label="Вийти">
+                  <span role="img" aria-label="logout">
+                    🔌
+                  </span>
+                </SButton>
+              </div>
 
-                <div className="admin__container">
-                  <div className="admin__navigation">
-                    <SRadioSlider
-                      className="mobile-fluid"
-                      onChange={onTabChange}
-                      name="law"
-                      checked={state.tab}
-                      tabs={[ADMIN_NEWS, ADMIN_PUBLIC_INFO]}
-                    />
-                  </div>
-                  <div className="admin__view">
-                    <STransitionSwitch keyProp={state.tab}>{renderEditor()}</STransitionSwitch>
-                  </div>
+              <div className="admin__container">
+                <div className="admin__navigation">
+                  <SRadioSlider
+                    className="mobile-fluid"
+                    onChange={onTabChange}
+                    name="law"
+                    checked={state.tab}
+                    tabs={[ADMIN_NEWS, ADMIN_PUBLIC_INFO]}
+                  />
                 </div>
-              </>
-            </SLoader>
-          </div>
-        )}
-      </SLoader>
+                <div className="admin__view">
+                  <STransitionSwitch keyProp={state.tab}>{renderEditor()}</STransitionSwitch>
+                </div>
+              </div>
+            </>
+          </SLoader>
+        </div>
+      )}
     </Page>
   );
 };

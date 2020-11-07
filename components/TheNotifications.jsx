@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { actions } from '../store/modules/notifications';
-import { SNotification, transitionClasses } from './index';
+import { transitionClasses } from './index';
+import SNotification from './common/SNotification';
 
 const TheNotifications = ({ removeNotification, notifications }) => {
   return (
@@ -14,7 +15,7 @@ const TheNotifications = ({ removeNotification, notifications }) => {
             <CSSTransition
               key={id}
               timeout={{ enter: 200, exit: 400 }}
-              classNames={transitionClasses['notifications']}
+              classNames={transitionClasses.notifications}
             >
               <SNotification onClick={() => removeNotification(id)} message={message} type={type} />
             </CSSTransition>
@@ -23,6 +24,11 @@ const TheNotifications = ({ removeNotification, notifications }) => {
       </TransitionGroup>
     </div>
   );
+};
+
+TheNotifications.defaultProps = {
+  removeNotification: () => undefined,
+  notifications: []
 };
 
 TheNotifications.propTypes = {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Typed from 'typed.js';
-import { Page } from '../components';
+import Page from '../components/Page';
 
 const options = {
   strings: [

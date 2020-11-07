@@ -1,37 +1,36 @@
-import { actionType } from "../../../constants";
+import { actionType } from '../../../constants';
 
 const initState = {
   loading: true,
   hasError: false,
-  pages: [],
+  pages: []
 };
 
-const reducer = (state = { publicInfo: {...initState } }, action) => {
-
+const reducer = (state = { publicInfo: { ...initState } }, action) => {
   switch (action.type) {
     case actionType.PUBLIC_INFO_REQUEST:
       return {
         ...state.publicInfo,
         loading: true,
-        hasError: false,
+        hasError: false
       };
     case actionType.PUBLIC_INFO_SUCCESS:
       return {
         ...state.publicInfo,
         loading: false,
-        hasError: false,
+        hasError: false
       };
     case actionType.PUBLIC_INFO_UPDATE:
       return {
         ...state.publicInfo,
-        pages: [...action.payload],
-      }
+        pages: [...action.payload]
+      };
     case actionType.PUBLIC_INFO_FAILURE:
       return {
         ...state.publicInfo,
         loading: false,
-        hasError: true,
-      }
+        hasError: true
+      };
     default:
       return state.publicInfo;
   }

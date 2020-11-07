@@ -2,9 +2,10 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PublicCard } from '../../components/views/public/PublicCard';
-import { Page, SLoader, Empty } from '../../components';
+import { SLoader, Empty } from '../../components';
 import { IconSearch } from '../../components/common/icons';
 import { getters, actions } from '../../store/modules/public';
+import Page from '../../components/Page';
 
 const Public = () => {
   const [state, setState] = useState('');

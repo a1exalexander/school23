@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NewsCard from '../../components/views/news/NewsCard';
 import { actions, getters } from '../../store/modules/news';
-import { Page, SLoader, Empty } from '../../components';
+import { SLoader, Empty } from '../../components';
+import Page from '../../components/Page';
 import { IconSearch } from '../../components/common/icons';
 
 const News = ({ loading, news, hasNews, getNews }) => {
@@ -50,16 +51,16 @@ News.propTypes = {
   news: PropTypes.func,
   getNews: PropTypes.func,
   hasNews: PropTypes.bool,
-  loading: PropTypes.bool,
+  loading: PropTypes.bool
 };
 
 export default connect(
   ({ news: { posts, loading } }) => ({
     loading,
     hasNews: getters.hasNews(posts),
-    news: getters.filteredNews(posts),
+    news: getters.filteredNews(posts)
   }),
   {
-    getNews: actions.getNews,
+    getNews: actions.getNews
   }
 )(News);

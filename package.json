@@ -12,7 +12,9 @@
     "cypress:open": "cypress open",
     "test": "env-cmd -f .env.test mocha",
     "export": "next export",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "lint": "eslint --ext .js,.jsx .",
+    "lint:fix": "eslint --fix --ext .js,.jsx ."
   },
   "dependencies": {
     "@babel/register": "^7.7.0",

@@ -1,11 +1,13 @@
 import React, { useReducer, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Page, SInput, SButton, SLoader } from '../components';
+import PropTypes, { bool, number, object, oneOfType, string } from 'prop-types';
+import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
+import { SInput, SButton, SLoader } from '../components';
+import Page from '../components/Page';
 import actions from '../store/actions';
 import { routes } from '../constants';
 import checkAuth from '../middlewares/checkAuth';
-import Router from 'next/router';
+import { isBrowser } from '../utils';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -22,7 +24,7 @@ function reducer(state, action) {
   }
 }
 
-const Login = ({ logout, auth, login }) => {
+const Login = ({ isAuthServer, auth, login }) => {
   const [state, dispatch] = useReducer(reducer, {
     mounting: true,
     loading: false,
@@ -30,61 +32,91 @@ const Login = ({ logout, auth, login }) => {
     password: ''
   });
 
+  const router = useRouter();
+
   const onSubmit = async (event) => {
-    dispatch({ type: 'loading', payload: true })
-    event.preventDefault();
+    if (event) event.preventDefault();
+    dispatch({ type: 'loading', payload: true });
     const { email, password } = state;
     const ok = await login({ email, password });
-    dispatch({ type: 'loading', payload: false })
-    if (ok) Router.push(routes.ADMIN);
+    dispatch({ type: 'loading', payload: false });
+    if (ok) router.push(routes.ADMIN);
   };
 
-  const handleChange = type => payload => dispatch({ type, payload });
+  const handleChange = (type) => (payload) => dispatch({ type, payload });
 
   useEffect(() => {
-    dispatch({ type: 'mounted' })
-  }, [])
+    dispatch({ type: 'mounted' });
+  }, []);
+
+  const isAuth = isAuthServer || auth.status;
 
   useEffect(() => {
-    if (![!!process.browser, !auth.loading, !state.mounting, !auth.status].includes(false)) {
-      Router.push(routes.ADMIN);
+    if (isBrowser() && isAuth) {
+      router.push(routes.ADMIN);
     }
-  }, [state.mounting, auth.status])
+  }, []);
 
   const isNotAuth = (
-    <div className="login__form">
-      <SInput className="login__input" autoComplete='off' required onChange={handleChange('email')} value={state.email} validator="email">Імейл</SInput>
-      <SInput className="login__input" autoComplete='off' required onChange={handleChange('password')} value={state.password} type="password">Пароль</SInput>
-      <SButton loading={state.loading} onClick={onSubmit} label='Увійти'/>
-    </div>
-  )
+    <form className="login__form" onSubmit={onSubmit}>
+      <SInput
+        className="login__input"
+        autoComplete="on"
+        required
+        onChange={handleChange('email')}
+        value={state.email}
+        validator="email"
+      >
+        Імейл
+      </SInput>
+      <SInput
+        className="login__input"
+        autoComplete="on"
+        required
+        onChange={handleChange('password')}
+        value={state.password}
+        type="password"
+      >
+        Пароль
+      </SInput>
+      <SButton buttonType="submit" loading={state.loading} label="Увійти" />
+    </form>
+  );
 
   return (
     <Page title="Авторизація">
-      <div className="login">
-        <h1 className="login__title">Авторизація</h1>
-        <SLoader className="login__loader" loading={state.mounting || auth.status}>{isNotAuth}</SLoader>
-      </div>
+      {!isAuth && (
+        <div className="login">
+          <h1 className="login__title">Авторизація</h1>
+          <SLoader className="login__loader" loading={state.loading}>
+            {isNotAuth}
+          </SLoader>
+        </div>
+      )}
     </Page>
   );
 };
 
+Login.defaultProps = {
+  auth: undefined,
+  login: () => undefined,
+  status: false,
+  isAuthServer: false
+};
+
 Login.propTypes = {
-  auth: PropTypes.object,
+  auth: PropTypes.objectOf(oneOfType([string, number, bool, object])),
   login: PropTypes.func,
-  logout: PropTypes.func,
   status: PropTypes.bool,
-}
+  isAuthServer: PropTypes.bool
+};
 
 Login.getInitialProps = async (ctx) => {
-  await checkAuth(ctx);
-  return {};
-}
+  const isAuthServer = await checkAuth(ctx);
+  return { isAuthServer };
+};
 
-export default connect(
-  ({ auth }) => ({ auth }),
-  {
-    login: actions.auth.login,
-    logout: actions.auth.logout,
-  }
-)(Login);
+export default connect(({ auth }) => ({ auth }), {
+  login: actions.auth.login,
+  logout: actions.auth.logout
+})(Login);
