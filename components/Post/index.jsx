@@ -23,7 +23,7 @@ import { Meta } from '../Meta';
 import Page from '../Page';
 import { Empty } from '../common/Empty';
 import { SButton, SUp } from '../common/buttons';
-import { STransition } from '../common/transition';
+import { STransitionSwitch } from '../common/transition';
 
 const AdminControls = dynamic(() => import('./components/AdminControls'), { ssr: false });
 const Slider = dynamic(() => import('../common/Slider'), { ssr: false });
@@ -74,6 +74,7 @@ const Post = ({
 
   const date = `Від ${moment(post?.created * 1000).format('DD MMMM, YYYY')}`;
   const hasImages = Array.isArray(post?.images) && !!post?.images.length;
+  const editMode = !!post?.delta && !!isAuth && !!isEditorVisible;
 
   return (
     <Page>
@@ -100,24 +101,30 @@ const Post = ({
             </div>
           )}
         </header>
-        <div className="post__container">
-          {isEmpty && <Empty text="Поста не існує" />}
-          <STransition inProp={!!post?.delta && !!isAuth && !!isEditorVisible}>
-            <div className="post__popup">{children}</div>
-          </STransition>
-          <div className="post__title-wrapper">
-            <h1 className="post__title">{post?.title}</h1>
-          </div>
-          {hasImages && !isEditorVisible && (
-            <Slider className="post__slider" slides={post?.images} />
+        <STransitionSwitch keyProp={editMode}>
+          {editMode ? (
+            <div className="post__container">
+              <div className="post__popup">{children}</div>
+            </div>
+          ) : (
+            <div className="post__container">
+              {isEmpty && <Empty text="Поста не існує" />}
+
+              <div className="post__title-wrapper">
+                <h1 className="post__title">{post?.title}</h1>
+              </div>
+              {hasImages && !isEditorVisible && (
+                <Slider className="post__slider" slides={post?.images} />
+              )}
+              <div
+                className={classNames('post__content ql-editor', {
+                  'is-announcement': post?.type === 'announcement'
+                })}
+                dangerouslySetInnerHTML={createMarkup()}
+              />
+            </div>
           )}
-          <div
-            className={classNames('post__content ql-editor', {
-              'is-announcement': post?.type === 'announcement'
-            })}
-            dangerouslySetInnerHTML={createMarkup()}
-          />
-        </div>
+        </STransitionSwitch>
       </article>
     </Page>
   );
