@@ -1,13 +1,12 @@
 import { STransitionSwitch, STransition, transitionClasses } from './common/transition';
-import SButton from './common/buttons/SButton';
-import SUp from './common/buttons/SUp';
+import { SUp, SButton } from './common/buttons';
 import { SRadio, SInput, SRadioSlider, SCheckbox } from './common/form';
 import SBadge from './common/SBadge';
-import Meta from './Meta';
+import { Meta } from './Meta';
 import * as icons from './common/icons';
 import SVideo from './common/media/SVideo';
 import SLoader from './common/SLoader';
-import Empty from './common/Empty';
+import { Empty } from './common/Empty';
 
 export {
   Empty,

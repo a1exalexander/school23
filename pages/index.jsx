@@ -35,7 +35,7 @@ const Home = () => {
             <SNavigationInfo className="home__info" />
           </div>
         </div>
-        <div className="home__layer"></div>
+        <div className="home__layer" />
         {VideoLayer()}
       </div>
     </Page>

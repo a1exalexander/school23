@@ -55,6 +55,7 @@ const Login = ({ isAuthServer, auth, login }) => {
     if (isBrowser() && isAuth) {
       router.push(routes.ADMIN);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isNotAuth = (

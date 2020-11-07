@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -21,6 +22,7 @@ const News = ({ loading, news, hasNews, getNews }) => {
 
   useEffect(() => {
     getNews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -45,6 +47,13 @@ const News = ({ loading, news, hasNews, getNews }) => {
       </div>
     </Page>
   );
+};
+
+News.defaultProps = {
+  news: () => [],
+  getNews: () => [],
+  hasNews: false,
+  loading: false
 };
 
 News.propTypes = {

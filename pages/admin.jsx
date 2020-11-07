@@ -2,7 +2,7 @@ import React, { useReducer, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { arrayOf, bool, func, number, object, oneOfType, shape, string } from 'prop-types';
 import { connect } from 'react-redux';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { routes, ADMIN_NEWS, ADMIN_PUBLIC_INFO } from '../constants';
 import { SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import Page from '../components/Page';
@@ -52,6 +52,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
         router.push(routes.LOGIN);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
 
   const onLogout = async () => {

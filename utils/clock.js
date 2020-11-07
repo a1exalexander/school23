@@ -88,7 +88,7 @@ const clock = () => {
   const { b1, b2, b3, b4, b5, b6, b7, b8 } = breaks;
 
   switch (true) {
-    case isTime(b8.time, '24:00:00') && !nextWeekday():
+    case isTime(b8.time, '24:00:00') && !nextWeekday() && moment().format('dd') !== 'сб':
       return { msg: b8.msg, type: 'after' };
     case isWeekday():
       return { msg: `${moment().format('dddd')}, нарешті! 🚀`, type: 'after' };
