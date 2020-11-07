@@ -38,7 +38,7 @@ export default function Slider({ slides, className }) {
         <GridContainer>
           <GridItem xs={12} sm={10} md={10} className={classes.marginAuto}>
             <Card>
-              <Carousel dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay={false}>
+              <Carousel dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay>
                 {renderSlides()}
               </Carousel>
             </Card>
