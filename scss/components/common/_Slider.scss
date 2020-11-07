@@ -22,31 +22,70 @@ $style: Slider;
   }
 }
 .#{$style} {
+  max-width: 100%;
+  margin-bottom: 12px;
+  .slick-arrow {
+    background-color: rgba($N0, 0.5) !important;
+    opacity: 0.7 !important;
+    @include media {
+      opacity: 1 !important;
+      width: 42px !important;
+      background-color: transparent !important;
+    }
+  }
+  div[class*='makeStyles-grid-'] {
+    margin-left: -24px;
+    margin-right: -24px;
+    @include media {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+  }
+  div[class*='makeStyles-card-'] {
+    margin: 0 !important;  
+  }
+  div[class*='makeStyles-container-'],
+  div[class*='makeStyles-grid-'] {
+    padding: 0 !important;
+    @include media {
+      padding: 0 15px !important;
+    }
+  }
+  @include media {
+    .slick-next {
+      right: -42px;
+    }
+    .slick-prev {
+      left: -42px;
+    }
+  }
+
   .slick-arrow::before,
   .slick-arrow::after {
     color: $N900;
   }
-  // .slick-slider {
-  //   box-shadow: $SH4;
-  // }
-  // div {
-    // box-shadow: none !important;
-  // }
-  div[class^='makeStyles-card-'] {
-    box-shadow: $SH4;
+  div {
+    box-shadow: none;
+  }
+  .slick-dots {
+    display: none !important;
+    @include media {
+      display: block !important;
+    }
   }
   .slick-slide {
-    // background-color: $P50;
     border-radius: 6px;
     & > div {
       display: flex !important;
-      // box-shadow: $SH2 !important;
-      & > div {
+      div {
         display: inline-flex !important;
-        @include padding-hack(60%, contain);
+        @include padding-hack(55%, contain);
         @include media {
-          @include padding-hack(40%, contain);
+          @include padding-hack(55%, contain);
         }
+      }
+      img {
+        border-radius: 4px !important;
       }
     }
   }

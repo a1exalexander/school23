@@ -36,9 +36,9 @@ export default function Slider({ slides, className }) {
     <div className={classNames('Slider', className)} id="carousel">
       <div className={classes.container}>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={12} className={classes.marginAuto}>
+          <GridItem xs={12} sm={10} md={10} className={classes.marginAuto}>
             <Card>
-              <Carousel dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay>
+              <Carousel dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay={false}>
                 {renderSlides()}
               </Carousel>
             </Card>
