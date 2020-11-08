@@ -6,10 +6,11 @@ export const postModel = {
   text: '',
   type: '',
   delta: {
-    ops: [],
+    ops: []
   },
   created: '',
-  images: []
+  images: [],
+  iframe: ''
 };
 
 export const formatPost = (post) => {

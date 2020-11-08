@@ -120,6 +120,14 @@ const Post = ({
                 })}
                 dangerouslySetInnerHTML={createMarkup()}
               />
+              {post?.iframe && String(post?.iframe).trim() && (
+                <iframe
+                  className="post__iframe"
+                  title={post?.title}
+                  src={post?.iframe}
+                  frameBorder="0"
+                />
+              )}
             </div>
           )}
         </STransitionSwitch>

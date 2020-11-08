@@ -5,9 +5,11 @@ export const publicInfoModel = {
   title: '',
   text: '',
   delta: {
-    ops: [],
+    ops: []
   },
   created: '',
+  images: [],
+  iframe: ''
 };
 
 export const formatPublicIbfo = (post) => {

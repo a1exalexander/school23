@@ -85,6 +85,8 @@ const reducer = (state, action) => {
       return { ...state, ...action.payload };
     case 'title':
       return { ...state, title: action.payload };
+    case 'iframe':
+      return { ...state, iframe: action.payload };
     case 'text':
       return { ...state, text: action.payload };
     case 'delta':
@@ -110,7 +112,8 @@ const initState = {
   delta: { ops: [] },
   modules: {},
   images: [],
-  oldImages: []
+  oldImages: [],
+  iframe: ''
 };
 
 class AdminPostEditor extends Component {
@@ -137,11 +140,12 @@ class AdminPostEditor extends Component {
   componentDidMount() {
     const { post = initState } = this.props;
     const payload = {
-      title: post.title,
-      delta: post.delta,
-      text: post.text,
-      type: post.type,
-      oldImages: post.images
+      title: post?.title,
+      delta: post?.delta,
+      text: post?.text,
+      type: post?.type,
+      iframe: post?.iframe,
+      oldImages: post?.images
     };
     this.onDispatch('init')(payload);
     this.setState((prevState) => ({
@@ -192,6 +196,7 @@ class AdminPostEditor extends Component {
       title: state.title,
       delta: state.delta,
       text: state.text,
+      iframe: state.iframe,
       images: [...oldImages]
     };
     let http = 'addPost';
@@ -248,7 +253,7 @@ class AdminPostEditor extends Component {
     const isDisabled = [
       !!state.title,
       props.type !== 'post' || !!state.type,
-      !!state.text
+      !!state.text || !!state?.images?.length || !!state?.iframe
     ].includes(false);
 
     return (
@@ -270,6 +275,9 @@ class AdminPostEditor extends Component {
         )}
         <SInput className="admin-post__input" onChange={onDispatch('title')} value={state.title}>
           Головний заголовок статті
+        </SInput>
+        <SInput className="admin-post__input" onChange={onDispatch('iframe')} value={state.iframe}>
+          Посилання на сайт, який буде інтегровано на сторінці
         </SInput>
         <FilePond
           className="admin-post__images"
