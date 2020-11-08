@@ -28,7 +28,7 @@ export const genPublicInfo = (post) => {
 
 export default class PublicInfo {
   constructor(newPost) {
-    Object.keys(post).forEach((key) => {
+    Object.keys(publicInfoModel).forEach((key) => {
       this[key] = newPost[key] || publicInfoModel[key];
     });
   }

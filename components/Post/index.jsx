@@ -114,12 +114,14 @@ const Post = ({
               {hasImages && !isEditorVisible && (
                 <Slider className="post__slider" slides={post?.images} />
               )}
-              <div
-                className={classNames('post__content ql-editor', {
-                  'is-announcement': post?.type === 'announcement'
-                })}
-                dangerouslySetInnerHTML={createMarkup()}
-              />
+              {post?.text && !String(post?.iframe).trim() && (
+                <div
+                  className={classNames('post__content ql-editor', {
+                    'is-announcement': post?.type === 'announcement'
+                  })}
+                  dangerouslySetInnerHTML={createMarkup()}
+                />
+              )}
               {post?.iframe && String(post?.iframe).trim() && (
                 <iframe
                   className="post__iframe"

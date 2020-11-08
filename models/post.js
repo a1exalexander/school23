@@ -29,7 +29,7 @@ export const genPost = (post) => {
 
 export default class Post {
   constructor(newPost) {
-    Object.keys(post).forEach((key) => {
+    Object.keys(postModel).forEach((key) => {
       this[key] = newPost[key] || postModel[key];
     });
   }
