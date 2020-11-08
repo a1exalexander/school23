@@ -103,9 +103,7 @@ const Post = ({
         </header>
         <STransitionSwitch keyProp={editMode}>
           {editMode ? (
-            <div className="post__container">
-              <div className="post__popup">{children}</div>
-            </div>
+            <div className="post__container">{children}</div>
           ) : (
             <div className="post__container">
               {isEmpty && <Empty text="Поста не існує" />}
