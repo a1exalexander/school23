@@ -288,7 +288,7 @@ class AdminPostEditor extends Component {
           onupdatefiles={onDispatch('images')}
           labelIdle={`Перетягни фото сюди або <br/><span class="filepond--label-action"> обери файлы </span>`}
         />
-        {state?.oldImages?.length && (
+        {!!state?.oldImages?.length && (
           <ul className="admin-post__images-old">
             {state?.oldImages?.map(({ id, src }) => (
               <li key={id} className="admin-post__old-image-item">
