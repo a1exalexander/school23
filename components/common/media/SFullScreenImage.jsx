@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { func, string } from 'prop-types';
 import { IconClose } from '../icons';
 import { STransition } from '../transition';
+import { isBrowser } from '../../../utils';
 
 export const SFullScreenImage = ({ src, alt, onClose }) => {
+  useEffect(() => {
+    if (isBrowser()) {
+      if (src) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'visible';
+      }
+    }
+  }, [src]);
+
   return (
     <STransition inProp={!!src}>
       <div className="SFullScreenImage">
