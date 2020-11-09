@@ -1,0 +1,39 @@
+$style: SFullScreenImage;
+
+.#{$style} {
+  position: fixed;
+  @include position;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: $N0;
+  &__image {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+  }
+  &__btn {
+    cursor: pointer;
+    @include size(48px);
+    border-radius: 4px;
+    background-color: $P50;
+    box-shadow: $SH4;
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    @include flex-row(center, center);
+    @include transition(box-shadow, background-color);
+    @include media {
+      &:hover {
+        box-shadow: none;
+      }
+    }
+    &:active {
+      box-shadow: none;
+      background-color: $P100;
+    }
+  }
+  &__icon {
+    @include svg(24px, $N900);
+  }
+}

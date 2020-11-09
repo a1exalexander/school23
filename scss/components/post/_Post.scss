@@ -93,6 +93,10 @@ $container: 800px;
   }
   &__content,
   .ql-container {
+    text-indent: 32px;
+    color: $N900;
+    font-family: $base-font;
+    text-align: justify;
     flex-grow: 1;
     border-radius: 6px;
     margin-bottom: 32px;

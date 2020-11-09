@@ -24,6 +24,9 @@ $style: Slider;
 .#{$style} {
   max-width: 100%;
   margin-bottom: 12px;
+  &__slide {
+    cursor: pointer;
+  }
   .slick-arrow {
     background-color: rgba($N0, 0.5) !important;
     opacity: 0.7 !important;
