@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -22,14 +23,24 @@ import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import { Picker } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
+import OutsideClickHandler from 'react-outside-click-handler';
 import { SInput, SButton, SRadio } from '../../index';
 import actions from '../../../store/actions';
 import { db, storage } from '../../../firebase';
 import { routes } from '../../../constants';
+import { ascii } from '../../../utils/string';
+import { STransition } from '../../common/transition';
 
-Quill.register('modules/imageResize', ImageResize);
-Quill.register('modules/imageDrop', ImageDrop);
-Quill.register('modules/imageCompress', ImageCompress);
+Quill.register(
+  {
+    'modules/imageResize': ImageResize,
+    'modules/imageDrop': ImageDrop,
+    'modules/imageCompress': ImageCompress
+  },
+  true
+);
 
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -108,7 +119,8 @@ const initState = {
   modules: {},
   images: [],
   oldImages: [],
-  iframe: ''
+  iframe: '',
+  emoji: false
 };
 
 class AdminPostEditor extends Component {
@@ -154,6 +166,12 @@ class AdminPostEditor extends Component {
     this.attachQuillRefs();
   }
 
+  toggleEmoji = (boolean) => {
+    const { emoji } = this.state;
+    const result = boolean ?? !emoji;
+    this.setState((prevState) => ({ ...prevState, emoji: result }));
+  };
+
   onDispatch = (type) => (payload) => {
     this.setState((prevState) => reducer(prevState, { type, payload }));
   };
@@ -177,6 +195,31 @@ class AdminPostEditor extends Component {
           delta: { ...delta }
         };
       });
+    }
+  };
+
+  onEmojiChange = (emoji) => {
+    const icon = emoji?.native || emoji?.unified;
+    const { delta } = this.state;
+    const deltaLength = delta?.ops?.length;
+    const lastIdx = deltaLength - 1;
+    if (lastIdx >= 0) {
+      const lastItem = delta?.ops[lastIdx];
+      const shallowCopy = [...delta?.ops];
+      const lastInsertCharIdx = lastItem?.insert?.length - 1;
+      const lastInsertChar = lastItem?.insert[lastInsertCharIdx];
+      let result = `${lastItem?.insert}${icon}`;
+      if ([8629, 10].includes(ascii(lastInsertChar))) {
+        result = `${lastItem?.insert?.slice(0, -1)}${icon}`;
+      }
+      shallowCopy.splice(lastIdx, 1, { ...lastItem, insert: result });
+      this.setState((prevState) => ({
+        ...prevState,
+        delta: {
+          ...delta,
+          ops: shallowCopy
+        }
+      }));
     }
   };
 
@@ -310,6 +353,39 @@ class AdminPostEditor extends Component {
           modules={state.modules}
           formats={formats}
         />
+        <div className="admin-post__emoji-wrapper">
+          <SButton
+            className="admin-post__emoji-btn"
+            type="transparent"
+            onClick={() => {
+              if (!state.emoji) {
+                this.toggleEmoji(true);
+              }
+            }}
+          >
+            Emoji{' '}
+            <span role="img" aria-label="img">
+              🔥
+            </span>
+          </SButton>
+
+          <STransition inProp={state.emoji}>
+            <OutsideClickHandler
+              onOutsideClick={() => {
+                if (state.emoji) {
+                  setTimeout(() => this.toggleEmoji(false), 100);
+                }
+              }}
+            >
+              <Picker
+                style={{
+                  backgroundColor: 'white'
+                }}
+                onSelect={this.onEmojiChange}
+              />
+            </OutsideClickHandler>
+          </STransition>
+        </div>
         <SButton
           className="admin-post__submit"
           loading={state.loading}

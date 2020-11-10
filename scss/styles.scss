@@ -1,8 +1,10 @@
 @import '~filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 @import '~filepond/dist/filepond.min.css';
+
 @import './core/fonts';
 // Plugins
 @import './plugins/animate';
+@import './plugins/quill-emoji';
 
 @import './core/vars';
 @import './core/mixins';

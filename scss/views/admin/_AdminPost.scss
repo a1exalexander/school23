@@ -1,6 +1,9 @@
 $style: admin-post;
 .#{$style} {
   padding-bottom: 72px;
+  .ql-container {
+    font-size: 15px;
+  }
   .filepond--item {
     width: calc(25% - 0.5em);
   }
@@ -40,7 +43,6 @@ $style: admin-post;
     z-index: 2;
   }
   &__input {
-    margin-bottom: 24px;
     .ql-toolbar.ql-snow {
       border-radius: 3px 3px 0 0;
       border-color: $N40;
@@ -83,5 +85,31 @@ $style: admin-post;
     font-family: $head-font;
     @include text($H600, 700);
     margin-bottom: 24px;
+  }
+  &__emoji-wrapper {
+    z-index: 2;
+    position: relative;
+    margin-bottom: 24px;
+    padding: 24px 0;
+
+    & > div {
+      @include flex-col(flex-start, center);
+      margin: 0 -24px;
+      @include media($screen-tablet-small) {
+        margin: 0;
+        align-items: flex-start;
+      }
+    }
+    @include media($screen-tablet-small) {
+      padding: 0;
+    }
+  }
+  &__emoji {
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+  &__emoji-btn {
+    margin-bottom: 12px;
   }
 }
