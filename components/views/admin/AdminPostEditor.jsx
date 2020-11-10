@@ -311,6 +311,7 @@ class AdminPostEditor extends Component {
           formats={formats}
         />
         <SButton
+          className="admin-post__submit"
           loading={state.loading}
           onClick={_onSubmit}
           disabled={isDisabled}

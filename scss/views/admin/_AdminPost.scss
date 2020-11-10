@@ -12,7 +12,6 @@ $style: admin-post;
   &__images {
     width: 100%;
     @include flex-row(center, center);
-    
   }
   &__images-old {
     margin-bottom: 32px;
@@ -75,5 +74,14 @@ $style: admin-post;
         margin-right: 0;
       }
     }
+  }
+  &__submit {
+    margin-bottom: 32px;
+  }
+  &__preview-title {
+    text-align: center;
+    font-family: $head-font;
+    @include text($H600, 700);
+    margin-bottom: 24px;
   }
 }

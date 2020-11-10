@@ -14,7 +14,6 @@ import {
   string
 } from 'prop-types';
 import moment from 'moment';
-import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import classNames from 'classnames';
@@ -24,6 +23,7 @@ import Page from '../Page';
 import { Empty } from '../common/Empty';
 import { SButton, SUp } from '../common/buttons';
 import { STransitionSwitch } from '../common/transition';
+import { SEditorPreview } from '../common/SEditorPreview';
 
 const AdminControls = dynamic(() => import('./components/AdminControls'), { ssr: false });
 const Slider = dynamic(() => import('../common/Slider'), { ssr: false });
@@ -41,27 +41,11 @@ const Post = ({
 }) => {
   const router = useRouter();
 
-  const getText = (delta = { ops: [] }) => {
-    const cfg = { inlineStyles: true };
-    const converter = new QuillDeltaToHtmlConverter(delta.ops, cfg);
-    return converter.convert();
-  };
-
   const handleRemove = () => {
     const ok = window?.confirm('Точно видаляти?');
 
     if (!ok) return;
     onRemove();
-  };
-
-  const createMarkup = () => {
-    if (!post)
-      return {
-        __html: ''
-      };
-    return {
-      __html: post.text || getText(post.delta)
-    };
   };
 
   useEffect(() => {
@@ -114,12 +98,11 @@ const Post = ({
               {hasImages && !isEditorVisible && (
                 <Slider className="post__slider" slides={post?.images} />
               )}
-              {post?.text && !String(post?.iframe).trim() && (
-                <div
-                  className={classNames('post__content ql-editor', {
-                    'is-announcement': post?.type === 'announcement'
-                  })}
-                  dangerouslySetInnerHTML={createMarkup()}
+              {post?.text && (
+                <SEditorPreview
+                  className="post__content"
+                  content={post?.text || post?.delta}
+                  postType={post?.type}
                 />
               )}
               {post?.iframe && String(post?.iframe).trim() && (
