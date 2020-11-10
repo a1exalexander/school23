@@ -4,7 +4,7 @@ import Page from '../components/Page';
 
 const options = {
   strings: [
-    '^500 <span class="contacts__message">Привіт!</span> \n ^500 <span class="contacts__message">Ми Кременчуцька гімназія №23</span> \n ^500 <span>Давайте робити чудові справи разом ☀️</span> ^500'
+    '^500 <span class="contacts__message">Привіт!</span>\n ^500 <span class="contacts__message">Ми Кременчуцька гімназія №23</span>\n ^500 <span>Давайте робити добрі справи разом!☀️</span>'
   ],
   typeSpeed: 40,
   smartBackspace: false
