@@ -1,7 +1,6 @@
 $style: post;
 $container: 800px;
 .#{$style} {
-  @extend %container;
   font-size: 14px;
   &._pure {
     .#{$style}__container,

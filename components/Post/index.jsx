@@ -19,7 +19,7 @@ import dynamic from 'next/dynamic';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Meta } from '../Meta';
-import Page from '../Page';
+import { Page } from '../Page';
 import { Empty } from '../common/Empty';
 import { SButton, SUp } from '../common/buttons';
 import { STransitionSwitch } from '../common/transition';
@@ -61,11 +61,11 @@ const Post = ({
   const editMode = !!post?.delta && !!isAuth && !!isEditorVisible;
 
   return (
-    <Page>
+    <Page className={classNames('post', className)}>
       <Meta title={post?.title} ogType="article">
         <script src="https://kit.fontawesome.com/144e77a10a.js" crossOrigin="anonymous" />
       </Meta>
-      <article className={classNames('post', className)}>
+      <article>
         <SUp />
         <header className="post__header">
           <div className="post__row">

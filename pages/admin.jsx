@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import { routes, ADMIN_NEWS, ADMIN_PUBLIC_INFO } from '../constants';
 import { SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
-import Page from '../components/Page';
+import { Page } from '../components/Page';
 import actions from '../store/actions';
 import checkAuth from '../middlewares/checkAuth';
 import { isBrowser } from '../utils';
+import { Header } from '../components/Header';
 
 const AdminPostEditor = dynamic(() => import('../components/views/admin/AdminPostEditor'), {
   ssr: false
@@ -65,37 +66,34 @@ const Admin = ({ auth, isAuthServer, logout }) => {
   const onTabChange = (payload) => dispatch({ type: 'tab', payload });
 
   return (
-    <Page title="Кабінет адміністратора">
+    <Page title="Кабінет адміністратора" className="admin">
       {isAuth && (
-        <div className="admin">
-          <SLoader loading={state.mounting}>
-            <>
-              <div className="admin__header">
-                <h1 className="admin__title">Кабінет адміністратора</h1>
-                <SButton onClick={onLogout} type="transparent" label="Вийти">
-                  <span role="img" aria-label="logout">
-                    🔌
-                  </span>
-                </SButton>
-              </div>
+        <SLoader loading={state.mounting}>
+          <>
+            <Header title="Кабінет адміністратора" className="admin__header">
+              <SButton onClick={onLogout} type="transparent" label="Вийти">
+                <span role="img" aria-label="logout">
+                  🔌
+                </span>
+              </SButton>
+            </Header>
 
-              <div className="admin__container">
-                <div className="admin__navigation">
-                  <SRadioSlider
-                    className="mobile-fluid"
-                    onChange={onTabChange}
-                    name="law"
-                    checked={state.tab}
-                    tabs={[ADMIN_NEWS, ADMIN_PUBLIC_INFO]}
-                  />
-                </div>
-                <div className="admin__view">
-                  <STransitionSwitch keyProp={state.tab}>{renderEditor()}</STransitionSwitch>
-                </div>
+            <div className="admin__container">
+              <div className="admin__navigation">
+                <SRadioSlider
+                  className="mobile-fluid"
+                  onChange={onTabChange}
+                  name="law"
+                  checked={state.tab}
+                  tabs={[ADMIN_NEWS, ADMIN_PUBLIC_INFO]}
+                />
               </div>
-            </>
-          </SLoader>
-        </div>
+              <div className="admin__view">
+                <STransitionSwitch keyProp={state.tab}>{renderEditor()}</STransitionSwitch>
+              </div>
+            </div>
+          </>
+        </SLoader>
       )}
     </Page>
   );

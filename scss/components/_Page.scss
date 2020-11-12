@@ -1,0 +1,11 @@
+$style: Page;
+
+.#{$style} {
+  min-height: 100vh;
+  padding: 92px 24px;
+  background-color: $N0;
+  @include flex-col(stretch, stretch);
+  @include media {
+    padding: 35px 8%;
+  }
+}

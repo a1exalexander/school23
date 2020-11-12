@@ -3,11 +3,12 @@ import PropTypes, { bool, number, object, oneOfType, string } from 'prop-types';
 import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
 import { SInput, SButton, SLoader } from '../components';
-import Page from '../components/Page';
+import { Page } from '../components/Page';
 import actions from '../store/actions';
 import { routes } from '../constants';
 import checkAuth from '../middlewares/checkAuth';
 import { isBrowser } from '../utils';
+import { Header } from '../components/Header';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -58,7 +59,7 @@ const Login = ({ isAuthServer, auth, login }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isNotAuth = (
+  const renderForm = () => (
     <form className="login__form" onSubmit={onSubmit}>
       <SInput
         className="login__input"
@@ -85,15 +86,11 @@ const Login = ({ isAuthServer, auth, login }) => {
   );
 
   return (
-    <Page title="Авторизація">
-      {!isAuth && (
-        <div className="login">
-          <h1 className="login__title">Авторизація</h1>
-          <SLoader className="login__loader" loading={state.loading}>
-            {isNotAuth}
-          </SLoader>
-        </div>
-      )}
+    <Page title="Авторизація" className="login">
+      <Header title="Авторизація" />
+      <SLoader className="login__loader" loading={state.loading}>
+        {renderForm()}
+      </SLoader>
     </Page>
   );
 };

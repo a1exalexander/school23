@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import NewsCard from '../../components/views/news/NewsCard';
 import { actions, getters } from '../../store/modules/news';
 import { SLoader, Empty } from '../../components';
-import Page from '../../components/Page';
+import { Page } from '../../components/Page';
 import { IconSearch } from '../../components/common/icons';
+import { Header } from '../../components/Header';
 
 const News = ({ loading, news, hasNews, getNews }) => {
   const [state, setState] = useState('');
@@ -26,25 +27,28 @@ const News = ({ loading, news, hasNews, getNews }) => {
   }, []);
 
   return (
-    <Page title="Новини">
-      <div className="news">
-        <header className="news__header">
-          <h1 className="news__title">Шкільні новини</h1>
-          <label className="news__input-wrapper">
-            <input
-              value={state}
-              onChange={handleChange}
-              className="news__input"
-              placeholder="Пошук новин..."
-              type="text"
-            />
-            <IconSearch className="news__input-icon" />
-          </label>
-        </header>
-        <SLoader loading={loading}>
-          {hasNews || loading ? <div className="news__grid">{newsList}</div> : <Empty />}
-        </SLoader>
-      </div>
+    <Page title="Новини" className="news">
+      <Header title="Шкільні новини">
+        <label className="news__input-wrapper">
+          <input
+            value={state}
+            onChange={handleChange}
+            className="news__input"
+            placeholder="Пошук новин..."
+            type="text"
+          />
+          <IconSearch className="news__input-icon" />
+        </label>
+      </Header>
+      <SLoader loading={loading}>
+        {hasNews || loading ? (
+          <div className="news__grid-wrapper">
+            <div className="news__grid">{newsList}</div>
+          </div>
+        ) : (
+          <Empty />
+        )}
+      </SLoader>
     </Page>
   );
 };

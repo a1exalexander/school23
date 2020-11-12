@@ -1,26 +1,29 @@
 import { node, string } from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import { Meta } from './Meta';
 import TheNotifications from './TheNotifications';
 
-const Page = ({ children, title }) => {
+export const Page = ({ children, title, className }) => {
   return (
     <>
       <Meta title={title} />
       <TheNotifications />
-      {children}
+      <div className={classNames('Page', className)}>{children}</div>
     </>
   );
 };
 
 Page.defaultProps = {
   children: undefined,
-  title: undefined
+  title: undefined,
+  className: undefined
 };
 
 Page.propTypes = {
   children: node,
-  title: string
+  title: string,
+  className: string
 };
 
 export default Page;

@@ -8,7 +8,6 @@ $style: admin;
   &__header {
     line-height: 1;
     @include flex-row(space-between, flex-end);
-    margin-bottom: 24px;
   }
   &__title {
     display: none;
