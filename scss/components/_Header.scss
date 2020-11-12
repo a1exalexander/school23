@@ -6,6 +6,9 @@ $style: Header;
   @include media($screen-tablet) {
     padding: 0 0 42px;
   }
+  @include media {
+    min-height: 64px;
+  }
   &__title {
     display: none;
     @include media {

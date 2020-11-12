@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { arrayOf, bool, func, number, object, oneOfType, shape, string } from 'prop-types';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
-import { routes, ADMIN_NEWS, ADMIN_PUBLIC_INFO } from '../constants';
+import { routes, ADMIN_NEWS, ADMIN_PUBLIC_INFO, ADMIN_SCHOOL_CANTEEN } from '../constants';
 import { SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import { Page } from '../components/Page';
 import actions from '../store/actions';
@@ -37,6 +37,8 @@ const Admin = ({ auth, isAuthServer, logout }) => {
         return <AdminPostEditor type="post" />;
       case ADMIN_PUBLIC_INFO:
         return <AdminPostEditor type="page" />;
+      case ADMIN_SCHOOL_CANTEEN:
+        return <AdminPostEditor type="canteen" />;
       default:
         return <AdminPostEditor />;
     }
@@ -85,7 +87,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
                   onChange={onTabChange}
                   name="law"
                   checked={state.tab}
-                  tabs={[ADMIN_NEWS, ADMIN_PUBLIC_INFO]}
+                  tabs={[ADMIN_NEWS, ADMIN_PUBLIC_INFO, ADMIN_SCHOOL_CANTEEN]}
                 />
               </div>
               <div className="admin__view">
