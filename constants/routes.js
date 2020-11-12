@@ -6,3 +6,4 @@ export const PUBLIC_INFO_POST = '/public/[pid]';
 export const CONTACTS = '/contacts';
 export const ADMIN = '/admin';
 export const LOGIN = '/login';
+export const SCHOOL_CANTEEN = '/school-canteen';

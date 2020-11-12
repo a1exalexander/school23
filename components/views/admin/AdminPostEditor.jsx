@@ -17,8 +17,12 @@ import ImageCompress from 'quill-image-compress';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module';
 import { ImageDrop } from 'quill-image-drop-module';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import uk from 'date-fns/locale/uk';
+import 'react-datepicker/dist/react-datepicker.min.css';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import Router from 'next/router';
+import Link from 'next/link';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
@@ -32,6 +36,8 @@ import { db, storage } from '../../../firebase';
 import { routes } from '../../../constants';
 import { ascii } from '../../../utils/string';
 import { STransition } from '../../common/transition';
+
+registerLocale('uk', uk);
 
 Quill.register(
   {
@@ -120,7 +126,8 @@ const initState = {
   images: [],
   oldImages: [],
   iframe: '',
-  emoji: false
+  emoji: false,
+  date: new Date()
 };
 
 class AdminPostEditor extends Component {
@@ -166,6 +173,10 @@ class AdminPostEditor extends Component {
     this.attachQuillRefs();
   }
 
+  onDateChange = (date) => {
+    this.setState((prevState) => ({ ...prevState, date }));
+  };
+
   toggleEmoji = (boolean) => {
     const { emoji } = this.state;
     const result = boolean ?? !emoji;
@@ -177,7 +188,7 @@ class AdminPostEditor extends Component {
   };
 
   attachQuillRefs = () => {
-    if (typeof this.reactQuillRef.getEditor !== 'function') return;
+    if (typeof this?.reactQuillRef?.getEditor !== 'function') return;
     const editor = this.reactQuillRef.getEditor();
     this.quillRef = this.reactQuillRef.makeUnprivilegedEditor(editor);
   };
@@ -187,7 +198,8 @@ class AdminPostEditor extends Component {
       const delta = this.quillRef.getContents();
       const cfg = {};
       const converter = new QuillDeltaToHtmlConverter(delta.ops, cfg);
-      const text = converter.convert();
+      const conerted = converter.convert();
+      const text = conerted.replace(/(<([^>]+)>)/gi, '').trim();
       this.setState((prevState) => {
         return {
           ...prevState,
@@ -232,23 +244,33 @@ class AdminPostEditor extends Component {
     } = this;
     const post = {
       title: state.title,
-      delta: state.delta,
-      text: state.text,
-      iframe: state.iframe,
       images: [...oldImages]
     };
     let http = 'addPost';
     let messageSuccess = 'Пост успішно опублковано!';
     let route = routes.NEWS;
+    if (type !== 'canteen') {
+      post.delta = state.delta;
+      post.text = state.text;
+      post.iframe = state.iframe;
+    }
 
+    if (type === 'post') {
+      post.type = state.type;
+    }
     if (type === 'page') {
       http = 'addPublicInfo';
       messageSuccess = 'Сторінку успішно опублковано!';
       route = routes.PUBLIC_INFO;
     }
-    if (type === 'post') {
-      post.type = state.type;
+
+    if (type === 'canteen') {
+      http = 'addFood';
+      messageSuccess = 'Меню успішно опублковано!';
+      route = routes.SCHOOL_CANTEEN;
+      post.date = state.date;
     }
+
     onDispatch('loading')(true);
     if (images.length) {
       const savedImages = await Promise.all(
@@ -288,14 +310,28 @@ class AdminPostEditor extends Component {
   render() {
     const { state, onDispatch, handleChange, _onSubmit, props } = this;
 
-    const isDisabled = [
-      !!state.title,
-      props.type !== 'post' || !!state.type,
-      !!state.text || !!state?.images?.length || !!state?.iframe
-    ].includes(false);
+    const isDisabled = () => {
+      const { type } = props;
+      switch (type) {
+        case 'canteen':
+          return !state.date || !state.images?.length;
+        default:
+          return !(state.title && (!!state.images?.length || !!state.text?.trim()));
+      }
+    };
 
     return (
       <div className="admin-post">
+        <Link href="https://getemoji.com/">
+          <a target="_blank">
+            <SButton href="" type="warning" className="admin-post__link">
+              <span role="img" aria-label="emoji" style={{ marginRight: 8 }}>
+                🚀
+              </span>
+              Get Emoji
+            </SButton>
+          </a>
+        </Link>
         {props.type === 'post' && (
           <div className="admin-post__radio-group">
             <SRadio name="post" onChange={onDispatch('type')} checked={state.type} value="post">
@@ -312,11 +348,29 @@ class AdminPostEditor extends Component {
           </div>
         )}
         <SInput className="admin-post__input" onChange={onDispatch('title')} value={state.title}>
-          Головний заголовок статті
+          {props.type !== 'canteen' ? 'Головний заголовок статті' : "Коментар (Не обов'язково)"}
         </SInput>
-        <SInput className="admin-post__input" onChange={onDispatch('iframe')} value={state.iframe}>
-          Посилання на сайт, який буде інтегровано на сторінці
-        </SInput>
+        {props.type !== 'canteen' && (
+          <SInput
+            className="admin-post__input"
+            onChange={onDispatch('iframe')}
+            value={state.iframe}
+          >
+            Посилання на сайт, який буде інтегровано на сторінці
+          </SInput>
+        )}
+        {props.type === 'canteen' && (
+          <div className="admin-post__input-wrapper">
+            <span className="admin-post__label">Дата призначення</span>
+            <DatePicker
+              dateFormat="dd MMMM yyyy"
+              locale="uk"
+              className="admin-post__datepicker"
+              selected={state.date}
+              onChange={this.onDateChange}
+            />
+          </div>
+        )}
         <FilePond
           className="admin-post__images"
           files={state.images}
@@ -343,54 +397,58 @@ class AdminPostEditor extends Component {
             ))}
           </ul>
         )}
-        <ReactQuill
-          ref={(el) => {
-            this.reactQuillRef = el;
-          }}
-          className="admin-post__input"
-          value={state.delta}
-          onChange={handleChange}
-          modules={state.modules}
-          formats={formats}
-        />
-        <div className="admin-post__emoji-wrapper">
-          <SButton
-            className="admin-post__emoji-btn"
-            type="transparent"
-            onClick={() => {
-              if (!state.emoji) {
-                this.toggleEmoji(true);
-              }
+        {props.type !== 'canteen' && (
+          <ReactQuill
+            ref={(el) => {
+              this.reactQuillRef = el;
             }}
-          >
-            Emoji{' '}
-            <span role="img" aria-label="img">
-              🔥
-            </span>
-          </SButton>
-
-          <STransition inProp={state.emoji}>
-            <OutsideClickHandler
-              onOutsideClick={() => {
-                if (state.emoji) {
-                  setTimeout(() => this.toggleEmoji(false), 100);
+            className="admin-post__input"
+            value={state.delta}
+            onChange={handleChange}
+            modules={state.modules}
+            formats={formats}
+          />
+        )}
+        {props.type !== 'canteen' && (
+          <div className="admin-post__emoji-wrapper">
+            <SButton
+              className="admin-post__emoji-btn"
+              type="transparent"
+              onClick={() => {
+                if (!state.emoji) {
+                  this.toggleEmoji(true);
                 }
               }}
             >
-              <Picker
-                style={{
-                  backgroundColor: 'white'
+              <span role="img" aria-label="img" style={{ marginRight: 8 }}>
+                🔥
+              </span>
+              Emoji
+            </SButton>
+
+            <STransition inProp={state.emoji}>
+              <OutsideClickHandler
+                onOutsideClick={() => {
+                  if (state.emoji) {
+                    setTimeout(() => this.toggleEmoji(false), 100);
+                  }
                 }}
-                onSelect={this.onEmojiChange}
-              />
-            </OutsideClickHandler>
-          </STransition>
-        </div>
+              >
+                <Picker
+                  style={{
+                    backgroundColor: 'white'
+                  }}
+                  onSelect={this.onEmojiChange}
+                />
+              </OutsideClickHandler>
+            </STransition>
+          </div>
+        )}
         <SButton
           className="admin-post__submit"
           loading={state.loading}
           onClick={_onSubmit}
-          disabled={isDisabled}
+          disabled={isDisabled()}
           label="Опублікувати статтю"
         >
           <span role="img" area-label="post">
@@ -411,7 +469,7 @@ AdminPostEditor.defaultProps = {
 };
 
 AdminPostEditor.propTypes = {
-  type: oneOf(['post', 'page']),
+  type: oneOf(['post', 'page', 'canteen']),
   notify: func,
   isUpdate: bool,
   onUpdate: func,

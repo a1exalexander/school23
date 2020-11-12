@@ -51,6 +51,7 @@ $style: admin-post;
       border-radius: 0 0 3px 3px;
       border-color: $N40;
     }
+    margin-bottom: 24px;
   }
   .ql-container {
     max-width: 900px;
@@ -111,5 +112,18 @@ $style: admin-post;
   }
   &__emoji-btn {
     margin-bottom: 12px;
+  }
+  &__datepicker {
+    @extend %input;
+  }
+  &__input-wrapper {
+    margin-bottom: 24px;
+    @include flex-col;
+  }
+  &__label {
+    @extend %label;
+  }
+  &__link {
+    margin-bottom: 24px;
   }
 }

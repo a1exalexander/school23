@@ -2,6 +2,7 @@ import { db } from './firebase';
 import { genPost, postModel } from '../models/post';
 import { genPublicInfo, publicInfoModel } from '../models/publicInfo';
 import { logger } from '../services';
+import { foodModel, genFood } from '../models/food';
 
 // Post
 export const addPost = async (post) => {
@@ -127,6 +128,45 @@ export const getPublicInfo = async (id) => {
     return res;
   } catch (err) {
     logger.error(err, 'GET PUBLIC INFO');
+    return false;
+  }
+};
+
+// Post
+export const addFood = async (post) => {
+  try {
+    const ref = await db.collection('food').add(genFood(post));
+    logger.info(ref, 'NEW FOOD');
+    return ref;
+  } catch (err) {
+    logger.error(err, 'NEW FOOD');
+    return false;
+  }
+};
+
+export const deleteFood = async (id) => {
+  try {
+    db.collection('food').doc(id).delete();
+    logger.info('Success', 'DELETE FOOD');
+    return true;
+  } catch (err) {
+    logger.error(err, 'DELETE FOOD');
+    return false;
+  }
+};
+
+export const getFood = async () => {
+  try {
+    const querySnapshot = await db.collection('food').get();
+    const res = querySnapshot.docs.map((doc) => ({
+      ...foodModel,
+      ...doc.data(),
+      id: doc.id
+    }));
+    logger.info(res, 'GET FOOD');
+    return res;
+  } catch (err) {
+    logger.error(err, 'GET FOOD');
     return false;
   }
 };
