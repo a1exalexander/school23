@@ -26,7 +26,7 @@ const AdminControls = ({ visible, active, onRemove, onEditorVisibleChange }) => 
           </SButton>
         )}
         <SButton onClick={onRemove} type="danger" className="post__button-edit" size="small">
-          Видалиити
+          Видалити
         </SButton>
       </>
     )

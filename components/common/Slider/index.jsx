@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Carousel from 'react-slick';
 import classNames from 'classnames';
-import { arrayOf, oneOfType, shape, string } from 'prop-types';
+import { arrayOf, oneOfType, shape, string, bool } from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import GridContainer from './components/GridContainer';
 import GridItem from './components/GridItem';
@@ -13,7 +13,7 @@ import { SFullScreenImage } from '../media/SFullScreenImage';
 
 const useStyles = makeStyles(carouselStyle);
 
-export default function Slider({ slides, className }) {
+export default function Slider({ slides, className, autoplay, title }) {
   const classes = useStyles();
   const [fullImage, setFullImage] = useState();
 
@@ -31,6 +31,11 @@ export default function Slider({ slides, className }) {
           key={slide?.id || slide?.title || String(idx)}
         >
           <img src={slide?.src || slide} alt={slide?.title || 'image'} className="slick-image" />
+          {title && (
+            <div className="slick-caption">
+              <h4>{title}</h4>
+            </div>
+          )}
         </div>
       );
     });
@@ -43,7 +48,14 @@ export default function Slider({ slides, className }) {
         <GridContainer>
           <GridItem xs={12} sm={10} md={10} className={classes.marginAuto}>
             <Card>
-              <Carousel dots infinite speed={500} slidesToShow={1} slidesToScroll={1} autoplay>
+              <Carousel
+                dots
+                infinite
+                speed={500}
+                slidesToShow={1}
+                slidesToScroll={1}
+                autoplay={autoplay}
+              >
                 {renderSlides()}
               </Carousel>
             </Card>
@@ -56,10 +68,14 @@ export default function Slider({ slides, className }) {
 
 Slider.defaultProps = {
   slides: undefined,
-  className: undefined
+  className: undefined,
+  autoplay: true,
+  title: undefined
 };
 
 Slider.propTypes = {
   className: string,
+  autoplay: bool,
+  title: string,
   slides: arrayOf(oneOfType([string, shape({ id: string, title: string, src: string })]))
 };

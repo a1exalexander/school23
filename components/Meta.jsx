@@ -52,6 +52,7 @@ export const Meta = ({ title, description, image, ogType, imageWidth, imageHeigh
       <meta property="og:image:width" content={imageWidth} />
       <meta property="og:image:height" content={imageHeight} />
       <meta property="og:image" content={`${siteUrl}/images/${image}`} />
+      <script src="https://kit.fontawesome.com/144e77a10a.js" crossOrigin="anonymous" />
       <title>{formatedTitle}</title>
       {children}
     </Head>

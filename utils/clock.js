@@ -72,8 +72,8 @@ const breaks = {
   }
 };
 
-const more = (time) => moment().diff(moment(time, 'H:mm:ss'), 'seconds') >= 0;
-const less = (time) => moment().diff(moment(time, 'H:mm:ss'), 'seconds') < 0;
+export const more = (time) => moment().diff(moment(time, 'H:mm:ss'), 'seconds') >= 0;
+export const less = (time) => moment().diff(moment(time, 'H:mm:ss'), 'seconds') < 0;
 const isTime = (a, b) => more(a) && less(b);
 
 const isWeekday = () => ['сб', 'нд'].includes(moment().format('dd'));

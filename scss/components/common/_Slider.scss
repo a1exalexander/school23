@@ -45,7 +45,7 @@ $style: Slider;
     }
   }
   div[class*='makeStyles-card-'] {
-    margin: 0 !important;  
+    margin: 0 !important;
   }
   div[class*='makeStyles-container-'],
   div[class*='makeStyles-grid-'] {
@@ -67,7 +67,7 @@ $style: Slider;
   .slick-arrow::after {
     color: $N900;
   }
-  div {
+  div:not(.slick-caption) {
     box-shadow: none;
   }
   .slick-dots {
@@ -78,9 +78,9 @@ $style: Slider;
   }
   .slick-slide {
     border-radius: 6px;
-    & > div {
+    & > div:not(.slick-caption) {
       display: flex !important;
-      div {
+      div:not(.slick-caption) {
         display: inline-flex !important;
         @include padding-hack(55%, contain);
         @include media {
@@ -91,5 +91,11 @@ $style: Slider;
         border-radius: 4px !important;
       }
     }
+  }
+  div.slick-caption {
+    top: 0;
+    bottom: 0;
+    @include flex-col(center, center);
+    display: flex !important;
   }
 }

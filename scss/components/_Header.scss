@@ -1,7 +1,6 @@
 $style: Header;
 
 .#{$style} {
-  padding: 0 0 42px;
   @include flex-row(flex-start, center);
   @include media($screen-tablet) {
     padding: 0 0 42px;

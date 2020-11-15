@@ -1,17 +1,18 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
+import { Router, useRouter } from 'next/router';
 import SNavigationButton from './components/SNavigationButton';
 import IconArrowLeft from '../common/icons/IconArrowLeft';
 import SNavigationMenu from './SNavigationMenu';
-import classNames from 'classnames';
 import { routes } from '../../constants';
-import { Router, useRouter } from 'next/router';
 
 const SNavigation = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { route } = useRouter();
   const isHome = ['/'].includes(route);
 
-  const title = (title) => <h1 className="s-navigation__title">{title}</h1>;
+  const title = (txt) => <h1 className="s-navigation__title">{txt}</h1>;
 
   useEffect(() => {
     const listener = () => {
@@ -39,6 +40,8 @@ const SNavigation = () => {
         return title('Кабінет адміна');
       case routes.LOGIN:
         return title('Авторизація');
+      case routes.SCHOOL_CANTEEN:
+        return title('Шкільна їдальня');
       default:
         return null;
     }

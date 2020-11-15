@@ -20,7 +20,7 @@ $styles: s-badge;
   max-width: fit-content;
   max-height: 20px;
   border-radius: 2px;
-  padding: 3px 7px 2px;
+  padding: 3px 7px;
   @include flex-row(center, center);
   display: inline-flex;
   box-shadow: none;
@@ -28,6 +28,12 @@ $styles: s-badge;
   @include transition(box-shadow, background-color);
   transition-duration: 0.5s;
   pointer-events: all;
+  &.large {
+    padding: 6px 12px 7px;
+    .#{$styles}__text {
+      font-size: $H200;
+    }
+  }
   &__text {
     font-size: $H100;
     font-weight: 500;

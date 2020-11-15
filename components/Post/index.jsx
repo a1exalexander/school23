@@ -62,9 +62,7 @@ const Post = ({
 
   return (
     <Page className={classNames('post', className)}>
-      <Meta title={post?.title} ogType="article">
-        <script src="https://kit.fontawesome.com/144e77a10a.js" crossOrigin="anonymous" />
-      </Meta>
+      <Meta title={post?.title} ogType="article" />
       <article>
         <SUp />
         <header className="post__header">

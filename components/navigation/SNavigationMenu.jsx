@@ -1,18 +1,22 @@
-import React, { Fragment } from 'react';
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React from 'react';
+import { bool, func } from 'prop-types';
+import { useSelector } from 'react-redux';
+import Link from 'next/link';
 import { STransition, SButton } from '../index';
-import { IconRadio, IconSchool, IconMail } from '../common/icons';
-import SNavigationItem from './components/SNavigationItem';
+import { IconRadio, IconSchool, IconMail, IconBooksApple } from '../common/icons';
+import { SNavigationItem } from './components/SNavigationItem';
 import SNavigationInfo from './components/SNavigationInfo';
 import logo from '../../assets/images/Kremenchuk-mini.png';
-import Link from 'next/link';
+
 import { routes } from '../../constants';
-import { useSelector } from 'react-redux';
-import { bool, func } from 'prop-types';
 
 const SNavigationMenu = ({ inProp, onClose }) => {
   const isAdmin = useSelector((state) => state.auth.status);
   return (
-    <Fragment>
+    <>
       <STransition inProp={inProp} name="slideLeft">
         <div className="nav-menu">
           <div className="nav-menu__inner">
@@ -28,6 +32,13 @@ const SNavigationMenu = ({ inProp, onClose }) => {
                   className="nav-menu__item"
                 >
                   <IconSchool />
+                </SNavigationItem>
+                <SNavigationItem
+                  href={routes.SCHOOL_CANTEEN}
+                  label="Шкільна їдальня"
+                  className="nav-menu__item"
+                >
+                  <IconBooksApple />
                 </SNavigationItem>
                 <SNavigationItem
                   href={routes.CONTACTS}
@@ -66,23 +77,23 @@ const SNavigationMenu = ({ inProp, onClose }) => {
         inProp={inProp}
         timeout={{
           enter: 400,
-          exit: 200,
+          exit: 200
         }}
       >
-        <div className="nav-menu__layer" onClick={onClose}></div>
+        <div role="button" className="nav-menu__layer" onClick={onClose} />
       </STransition>
-    </Fragment>
+    </>
   );
 };
 
-SNavigationMenu.propTypes = {
+SNavigationMenu.defaultProps = {
   inProp: false,
-  onClose: () => undefined,
+  onClose: () => undefined
 };
 
 SNavigationMenu.propTypes = {
   inProp: bool,
-  onClose: func,
+  onClose: func
 };
 
 export default SNavigationMenu;
