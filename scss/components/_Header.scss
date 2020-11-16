@@ -5,6 +5,12 @@ $style: Header;
   @include media($screen-tablet) {
     padding: 0 0 42px;
   }
+  &._mobile-pb {
+    padding: 0 0 42px;
+    @include media($screen-tablet) {
+      padding: 0 0 42px;
+    }
+  }
   @include media {
     min-height: 64px;
   }

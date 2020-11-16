@@ -28,7 +28,7 @@ const Public = () => {
 
   return (
     <Page title="Публічна Інформація" className="public">
-      <Header title="Публічна Інформація">
+      <Header title="Публічна Інформація" className="_mobile-pb">
         <label className="public__input-wrapper">
           <input
             value={state}

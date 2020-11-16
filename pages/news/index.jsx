@@ -28,7 +28,7 @@ const News = ({ loading, news, hasNews, getNews }) => {
 
   return (
     <Page title="Новини" className="news">
-      <Header title="Шкільні новини">
+      <Header title="Шкільні новини" className="_mobile-pb">
         <label className="news__input-wrapper">
           <input
             value={state}
