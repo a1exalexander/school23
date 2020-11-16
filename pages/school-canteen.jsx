@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
@@ -54,12 +55,15 @@ export const SchoolCanteenPage = () => {
   };
 
   const onRemove = async (id) => {
-    const res = await db.deleteFood(id);
-    if (res) {
-      await fetchData();
-      notify('success', 'Пост видалено!');
-    } else {
-      notify('error', 'Помилка при видаленні!');
+    const ok = window?.confirm('Точно видаляти?');
+    if (ok) {
+      const res = await db.deleteFood(id);
+      if (res) {
+        await fetchData();
+        notify('success', 'Пост видалено!');
+      } else {
+        notify('error', 'Помилка при видаленні!');
+      }
     }
   };
 
