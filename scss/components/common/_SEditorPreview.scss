@@ -29,9 +29,11 @@ $style: SEditorPreview;
   blockquote p {
     display: inline;
   }
-  ul,
-  ol {
-    list-style-position: inside;
+  ul {
+    li:not(.ql-direction-rtl)::before {
+      margin-left: -57px;
+      margin-right: 32px;
+    }
   }
   h1,
   h2,

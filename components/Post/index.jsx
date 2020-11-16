@@ -99,7 +99,7 @@ const Post = ({
               {post?.text && (
                 <SEditorPreview
                   className="post__content"
-                  content={post?.text || post?.delta}
+                  content={post?.delta || post?.text}
                   postType={post?.type}
                 />
               )}
