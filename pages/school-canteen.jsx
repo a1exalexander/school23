@@ -28,11 +28,15 @@ export const SchoolCanteenPage = () => {
   }, []);
 
   const getDateString = (date) => {
-    return moment(date.toDate()).calendar({
+    return moment(date.toDate()).calendar(null, {
       lastDay: '[Учора]',
       sameDay: '[Сьогодні]',
       nextDay: '[Завтра]',
-      lastWeek: '[Минулого] dddd',
+      lastWeek: () => {
+        if (['ср', 'пт', 'сб', 'нд'].includes(moment(date.toDate()).format('dd')))
+          return `[Минулої] dddd`;
+        return `[Минулого] dddd`;
+      },
       nextWeek: 'dddd',
       sameElse: 'L'
     });
