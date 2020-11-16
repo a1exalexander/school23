@@ -98,4 +98,8 @@ $style: Slider;
     @include flex-col(center, center);
     display: flex !important;
   }
+  &__card {
+    max-width: 900px;
+    margin: 0 auto;
+  }
 }
