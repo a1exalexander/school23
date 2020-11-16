@@ -28,7 +28,7 @@ $style: SchoolCanteenPage;
   }
   &__badge {
     position: absolute;
-    top: 40px;
+    top: 30px;
     left: 12px;
     z-index: 2;
     @include transition(opacity);
@@ -36,6 +36,7 @@ $style: SchoolCanteenPage;
       left: 24px;
     }
     @include media($screen-tablet-small) {
+      top: 40px;
       left: 32px;
     }
     @include media(600px) {
@@ -74,7 +75,7 @@ $style: SchoolCanteenPage;
   }
   &__remove-btn {
     position: absolute;
-    top: 40px;
+    top: 30px;
     right: 12px;
     z-index: 2;
     @include transition(opacity);
@@ -82,6 +83,7 @@ $style: SchoolCanteenPage;
       right: 24px;
     }
     @include media($screen-tablet-small) {
+      top: 40px;
       right: 32px;
     }
     @include media(600px) {
