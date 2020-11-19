@@ -19,7 +19,10 @@ export const SchoolCanteenPage = () => {
   const fetchData = async () => {
     setLoading(true);
     const res = await db.getFood();
-    setFood(res);
+    const sorted = res.sort(
+      (a, b) => moment(b.date.toDate()).unix() - moment(a.date.toDate()).unix()
+    );
+    setFood(sorted);
     setLoading(false);
   };
 

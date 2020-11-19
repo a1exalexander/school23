@@ -1,13 +1,19 @@
 $style: SchoolCanteenPage;
 
 .#{$style} {
+  &__grid {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
   &__card {
     border-radius: 4px;
     position: relative;
-    padding: 12px 0;
+    padding: 20px 0;
     max-width: 1200px;
     margin: 0 auto 12px;
     @include media {
+      padding: 12px 0;
       margin-bottom: 24px;
     }
     &:hover {
@@ -40,37 +46,19 @@ $style: SchoolCanteenPage;
       left: 32px;
     }
     @include media(600px) {
+      left: 40px;
+    }
+    @include media(1090px) {
+      left: 50px;
+    }
+    @include media(1120px) {
+      left: 60px;
+    }
+    @include media(1150px) {
+      left: 70px;
+    }
+    @include media(1170px) {
       left: 80px;
-    }
-    @include media(640px) {
-      left: 100px;
-    }
-    @include media(680px) {
-      left: 120px;
-    }
-    @include media(740px) {
-      left: 140px;
-    }
-    @include media($screen-tablet) {
-      left: 90px;
-    }
-    @include media(920px) {
-      left: 150px;
-    }
-    @include media(960px) {
-      left: 160px;
-    }
-    @include media(990px) {
-      left: 130px;
-    }
-    @include media(1124px) {
-      left: 140px;
-    }
-    @include media(1180px) {
-      left: 150px;
-    }
-    @include media(1366px) {
-      left: 180px;
     }
   }
   &__remove-btn {
@@ -87,37 +75,19 @@ $style: SchoolCanteenPage;
       right: 32px;
     }
     @include media(600px) {
+      right: 40px;
+    }
+    @include media(1090px) {
+      right: 50px;
+    }
+    @include media(1120px) {
+      right: 60px;
+    }
+    @include media(1150px) {
+      right: 70px;
+    }
+    @include media(1170px) {
       right: 80px;
-    }
-    @include media(640px) {
-      right: 100px;
-    }
-    @include media(680px) {
-      right: 120px;
-    }
-    @include media(740px) {
-      right: 140px;
-    }
-    @include media($screen-tablet) {
-      right: 90px;
-    }
-    @include media(920px) {
-      right: 150px;
-    }
-    @include media(960px) {
-      right: 160px;
-    }
-    @include media(990px) {
-      right: 130px;
-    }
-    @include media(1124px) {
-      right: 140px;
-    }
-    @include media(1180px) {
-      right: 150px;
-    }
-    @include media(1366px) {
-      right: 180px;
     }
   }
   &__slider {
