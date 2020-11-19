@@ -36,6 +36,7 @@ import { db, storage } from '../../../firebase';
 import { routes } from '../../../constants';
 import { ascii } from '../../../utils/string';
 import { STransition } from '../../common/transition';
+import { isObject, isString } from '../../../utils';
 
 registerLocale('uk', uk);
 
@@ -281,6 +282,7 @@ class AdminPostEditor extends Component {
       );
       post.images = [...oldImages, ...savedImages];
     }
+    post.images = (post?.images || []).filter((image) => isObject(image) || isString(image));
     if (isUpdate) {
       onUpdate(post);
     } else {
