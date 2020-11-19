@@ -3,6 +3,18 @@ import { genPost, postModel } from '../models/post';
 import { genPublicInfo, publicInfoModel } from '../models/publicInfo';
 import { logger } from '../services';
 import { foodModel, genFood } from '../models/food';
+import { isObject } from '../utils';
+
+const arrayWithFilteredImages = (data) => {
+  return (data || []).map((item) => {
+    return { ...item, images: item?.images.filter((image) => isObject(image)) };
+  });
+};
+
+const objectWithFilteredImages = (data) => ({
+  ...data,
+  images: (data?.images || []).filter((image) => isObject(image))
+});
 
 // Post
 export const addPost = async (post) => {
@@ -47,7 +59,7 @@ export const getPosts = async () => {
       id: doc.id
     }));
     logger.info(res, 'GET POSTS');
-    return res;
+    return arrayWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET POSTS');
     return false;
@@ -61,7 +73,7 @@ export const getPost = async (id) => {
       return false;
     }
     const res = { ...postModel, ...doc.data(), id };
-    return res;
+    return objectWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET POST');
     return false;
@@ -111,7 +123,7 @@ export const getAllPublicInfo = async () => {
       id: doc.id
     }));
     logger.info(res, 'GET PUBLIC INFO');
-    return res;
+    return arrayWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET PUBLIC INFO');
     return false;
@@ -125,7 +137,7 @@ export const getPublicInfo = async (id) => {
       return false;
     }
     const res = { ...publicInfoModel, ...doc.data(), id };
-    return res;
+    return objectWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET PUBLIC INFO');
     return false;
@@ -164,7 +176,7 @@ export const getFood = async () => {
       id: doc.id
     }));
     logger.info(res, 'GET FOOD');
-    return res;
+    return arrayWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET FOOD');
     return false;
