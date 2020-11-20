@@ -38,6 +38,7 @@ $styles: nav-info;
     }
     @include media {
       font-size: $H500;
+      white-space: nowrap;
     }
   }
   &__clock {

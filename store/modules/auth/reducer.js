@@ -1,11 +1,11 @@
-import nookies from 'nookies';
+// import nookies from 'nookies';
 import { actionType } from '../../../constants';
 import { utils } from '../../../firebase';
 
 const getInitState = () => ({
   loading: true,
   hasError: false,
-  status: !!nookies.get({}).ADMIN_TOKEN,
+  status: false,
   user: { ...utils.getUser() }
 });
 

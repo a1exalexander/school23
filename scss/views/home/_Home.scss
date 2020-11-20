@@ -109,7 +109,14 @@ $border-color: rgb(189, 189, 189);
   &__info {
     margin-top: 24px;
     @include media {
-      display: none;
+      position: absolute;
+      margin: 0;
+      bottom: 80px;
+      right: 120px;
+    }
+    @include media($screen-desktop) {
+      bottom: 60px;
+      right: 60px;
     }
   }
 }

@@ -1,13 +1,13 @@
-import { actionType, routes } from '../../../constants';
-import firebase, { auth, db, utils } from '../../../firebase';
-import { actions as notifications } from '../notifications';
 import nookies from 'nookies';
+import { actionType } from '../../../constants';
+import { utils, firebase } from '../../../firebase';
+import { actions as notifications } from '../notifications';
 
 export const authRequest = () => ({ type: actionType.AUTH_REQUEST });
 export const authSuccess = () => ({ type: actionType.AUTH_SUCCESS });
 export const authFailure = () => ({ type: actionType.AUTH_FAILURE });
 
-export const userUpdate = user => {
+export const userUpdate = (user) => {
   return {
     type: actionType.AUTH_UPDATE,
     payload: utils.getUser(user)
@@ -21,7 +21,13 @@ export const setAuthStatus = (status = false) => {
   };
 };
 
-export const login = ({ email, password, admin = false }) => async (dispatch, getState) => {
+export const cleanAuth = () => {
+  nookies.destroy({}, 'ADMIN_TOKEN');
+  localStorage.removeItem('ADMIN_TOKEN');
+  return { type: actionType.AUTH_CLEAN };
+};
+
+export const login = ({ email, password }) => async (dispatch) => {
   try {
     dispatch(actionType.AUTH_REQUEST);
     const { user } = await firebase.auth.signInWithEmailAndPassword(email, password);
@@ -49,13 +55,7 @@ export const login = ({ email, password, admin = false }) => async (dispatch, ge
   }
 };
 
-export const cleanAuth = () => {
-  nookies.destroy({}, 'ADMIN_TOKEN');
-  localStorage.removeItem('ADMIN_TOKEN');
-  return { type: actionType.AUTH_CLEAN };
-};
-
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch) => {
   try {
     await firebase.auth.signOut();
     dispatch(cleanAuth());
