@@ -118,7 +118,7 @@ $styles: s-button;
   display: inline-flex;
   @include transition(color, fill, border-color, background-color, opacity, transform);
   border-radius: 3px;
-  padding: 9px 18px;
+  padding: 12px 18px;
   width: 100%;
   border: 1px solid transparent;
   font-size: $H200;
@@ -129,6 +129,15 @@ $styles: s-button;
   svg:not(.#{$styles}__loading) {
     @include transition(stroke, color, fill);
     @include size(11px);
+  }
+  @include media($screen-tablet-small) {
+    width: auto;
+    &.fluid {
+      width: 100%;
+    }
+  }
+  @include media {
+    padding: 9px 18px;
   }
   &.small {
     width: auto;
@@ -146,12 +155,6 @@ $styles: s-button;
     svg:not(.#{$styles}__loading) {
       @include transition(color, fill);
       @include size(14px);
-    }
-  }
-  @include media {
-    width: auto;
-    &.fluid {
-      width: 100%;
     }
   }
   &__text {

@@ -1,0 +1,40 @@
+$style: AdminClockEditor;
+
+.#{$style} {
+  &__btns {
+    @include flex-row(flex-start, center);
+    margin-bottom: 24px;
+  }
+  &__btn {
+    &:not(:last-of-type) {
+      margin-right: 24px;
+    }
+  }
+  &__title {
+    @include text($H500, 500, $N900);
+    margin-bottom: 24px;
+  }
+  &__item {
+    @include flex-row(flex-start, center);
+    border-bottom: 1px solid $N40;
+  }
+  &__row {
+    @include flex-row(flex-start, center);
+  }
+  &__label {
+    padding: 16px 0;
+    min-width: 90px;
+    @include text($H200, 400, $N900);
+    border-right: 1px solid $N40;
+  }
+  &__input {
+    width: 40px;
+    margin: 0 12px;
+    input {
+      text-align: center;
+    }
+    input::placeholder {
+      font-size: $H100;
+    }
+  }
+}

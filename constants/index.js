@@ -6,5 +6,6 @@ export const ADMIN_NEWS = 'Новини';
 export const ADMIN_CONTACTS = 'Контакти';
 export const ADMIN_PUBLIC_INFO = 'Публічна Інформація';
 export const ADMIN_SCHOOL_CANTEEN = 'Шкільна їдальня';
+export const ADMIN_CLOCK = 'Годинник';
 
 export { routes, messages, actionType };

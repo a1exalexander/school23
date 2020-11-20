@@ -16,7 +16,7 @@ const NInput = (props) => {
     children,
     value,
     onChange,
-    type: inputType = 'text',
+    type: inputType,
     validator,
     required = false,
     extra = '',
@@ -116,7 +116,7 @@ NInput.defaultProps = {
   readOnly: false,
   children: undefined,
   onChange: () => undefined,
-  type: undefined
+  type: 'text'
 };
 
 NInput.propTypes = {

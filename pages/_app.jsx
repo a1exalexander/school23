@@ -14,7 +14,9 @@ import 'react-quill/dist/quill.snow.css';
 import '../plugins/bulma.css';
 import '../scss/styles.scss';
 import { actions } from '../store/modules/auth';
+import { actions as clockActions } from '../store/modules/clock';
 import { firebase } from '../firebase';
+import { actionType } from '../constants';
 
 class MyApp extends App {
   static getInitialProps = async ({ Component, ctx }) => {
@@ -91,6 +93,8 @@ class MyApp extends App {
       setTimeout(() => this.hideFirstLoading(), 5000);
     }
 
+    this.props.getClock();
+
     const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
       authRequest();
       if (authUser) {
@@ -146,6 +150,7 @@ export default compose(
     authFailure: actions.authFailure,
     userUpdate: actions.userUpdate,
     setAuthStatus: actions.setAuthStatus,
-    cleanAuth: actions.cleanAuth
+    cleanAuth: actions.cleanAuth,
+    getClock: clockActions[actionType.CLOCK_REQUEST]
   })
 )(MyApp);

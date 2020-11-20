@@ -3,6 +3,12 @@ $styles: s-input;
 .#{$styles} {
   display: block;
   line-height: 1;
+  box-shadow: none;
+  padding: 0;
+  height: auto;
+  outline: none;
+  border-radius: 3px;
+  background-color: transparent;
   &__inner {
     position: relative;
     @include flex-row(stretch, center);

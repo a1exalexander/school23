@@ -4,6 +4,7 @@ import { genPublicInfo, publicInfoModel } from '../models/publicInfo';
 import { logger } from '../services';
 import { foodModel, genFood } from '../models/food';
 import { isObject } from '../utils';
+import { clockModel } from '../models/clock';
 
 const arrayWithFilteredImages = (data) => {
   return (data || []).map((item) => {
@@ -144,7 +145,7 @@ export const getPublicInfo = async (id) => {
   }
 };
 
-// Post
+// Food
 export const addFood = async (post) => {
   try {
     const ref = await db.collection('food').add(genFood(post));
@@ -179,6 +180,33 @@ export const getFood = async () => {
     return arrayWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET FOOD');
+    return false;
+  }
+};
+
+// Clock
+
+export const getClock = async () => {
+  try {
+    const doc = await db.collection('clock').doc('time').get();
+    if (!doc.exists) {
+      return false;
+    }
+    const res = { ...clockModel, ...doc.data() };
+    return res;
+  } catch (err) {
+    logger.error(err, 'GET CLOCK');
+    return false;
+  }
+};
+
+export const saveClock = async (data) => {
+  try {
+    db.collection('clock').doc('time').update(data);
+    logger.info('Success', 'UPDATE CLOCK');
+    return true;
+  } catch (err) {
+    logger.error(err, 'UPDATE CLOCK');
     return false;
   }
 };

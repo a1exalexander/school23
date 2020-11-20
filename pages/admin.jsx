@@ -3,7 +3,13 @@ import dynamic from 'next/dynamic';
 import { arrayOf, bool, func, number, object, oneOfType, shape, string } from 'prop-types';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
-import { routes, ADMIN_NEWS, ADMIN_PUBLIC_INFO, ADMIN_SCHOOL_CANTEEN } from '../constants';
+import {
+  routes,
+  ADMIN_NEWS,
+  ADMIN_PUBLIC_INFO,
+  ADMIN_SCHOOL_CANTEEN,
+  ADMIN_CLOCK
+} from '../constants';
 import { SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import { Page } from '../components/Page';
 import actions from '../store/actions';
@@ -12,6 +18,10 @@ import { isBrowser } from '../utils';
 import { Header } from '../components/Header';
 
 const AdminPostEditor = dynamic(() => import('../components/views/admin/AdminPostEditor'), {
+  ssr: false
+});
+
+const AdminClockEditor = dynamic(() => import('../components/views/admin/AdminClockEditor'), {
   ssr: false
 });
 
@@ -39,6 +49,8 @@ const Admin = ({ auth, isAuthServer, logout }) => {
         return <AdminPostEditor type="page" />;
       case ADMIN_SCHOOL_CANTEEN:
         return <AdminPostEditor type="canteen" />;
+      case ADMIN_CLOCK:
+        return <AdminClockEditor />;
       default:
         return <AdminPostEditor />;
     }
@@ -87,7 +99,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
                   onChange={onTabChange}
                   name="law"
                   checked={state.tab}
-                  tabs={[ADMIN_NEWS, ADMIN_PUBLIC_INFO, ADMIN_SCHOOL_CANTEEN]}
+                  tabs={[ADMIN_NEWS, ADMIN_PUBLIC_INFO, ADMIN_SCHOOL_CANTEEN, ADMIN_CLOCK]}
                 />
               </div>
               <div className="admin__view">

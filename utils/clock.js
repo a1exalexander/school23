@@ -2,93 +2,92 @@ import moment from 'moment';
 
 moment.locale('uk');
 
-const lessons = {
+const timeModel = {
   l1: {
-    time: '8:30:00',
+    time: '8:30',
     msg: 'Перший урок'
   },
   l2: {
-    time: '9:25:00',
+    time: '9:25',
     msg: 'Другий урок'
   },
   l3: {
-    time: '10:30:00',
+    time: '10:30',
     msg: 'Третій урок'
   },
   l4: {
-    time: '11:30:00',
+    time: '11:30',
     msg: 'Четвертий урок'
   },
   l5: {
-    time: '12:35:00',
+    time: '12:35',
     msg: `П'ятий урок`
   },
   l6: {
-    time: '13:30:00',
+    time: '13:30',
     msg: 'Шостий урок'
   },
   l7: {
-    time: '14:25:00',
+    time: '14:25',
     msg: 'Сьомий урок'
   },
   l8: {
-    time: '15:20:00',
+    time: '15:20',
     msg: 'Восьмий урок'
-  }
-};
-
-const breaks = {
+  },
   b1: {
-    time: '9:15:00',
+    time: '9:15',
     msg: 'Перерва перед 2-м уроком'
   },
   b2: {
-    time: '10:10:00',
+    time: '10:10',
     msg: 'Перерва перед 3-м уроком'
   },
   b3: {
-    time: '11:15:00',
+    time: '11:15',
     msg: 'Перерва перед 4-м уроком'
   },
   b4: {
-    time: '12:15:00',
+    time: '12:15',
     msg: `Перерва перед 5-м уроком`
   },
   b5: {
-    time: '13:20:00',
+    time: '13:20',
     msg: `Перерва перед 6-м уроком`
   },
   b6: {
-    time: '14:15:00',
+    time: '14:15',
     msg: 'Остання перерва'
   },
   b7: {
-    time: '15:10:00',
+    time: '15:10',
     msg: 'Навчання закінчено'
   },
   b8: {
-    time: '16:05:00',
+    time: '16:05',
     msg: 'Завтра о 08:30 в школу'
   }
 };
 
-export const more = (time) => moment().diff(moment(time, 'H:mm:ss'), 'seconds') >= 0;
-export const less = (time) => moment().diff(moment(time, 'H:mm:ss'), 'seconds') < 0;
+export const more = (time) => moment().diff(moment(time, 'H:mm'), 'seconds') >= 0;
+export const less = (time) => moment().diff(moment(time, 'H:mm'), 'seconds') < 0;
 const isTime = (a, b) => more(a) && less(b);
 
 const isWeekday = () => ['сб', 'нд'].includes(moment().format('dd'));
-const nextWeekday = () =>
-  ['пт'].includes(moment().format('dd')) && !isTime(lessons.l1.time, breaks.b8.time);
-
 const getLesson = (msg) => ({ msg, type: 'lesson' });
 const getBreak = (msg) => ({ msg, type: 'break' });
 
-const clock = () => {
-  const { l1, l2, l3, l4, l5, l6, l7, l8 } = lessons;
-  const { b1, b2, b3, b4, b5, b6, b7, b8 } = breaks;
+const clock = (state) => {
+  const shallowTime = { ...timeModel };
+  Object.entries(timeModel).forEach(([key, value]) => {
+    shallowTime[key] = { ...value, time: state[key] };
+  });
+  const { l1, l2, l3, l4, l5, l6, l7, l8, b1, b2, b3, b4, b5, b6, b7, b8 } = shallowTime;
+
+  const nextWeekday = () => ['пт'].includes(moment().format('dd')) && !isTime(l1.time, b8.time);
 
   switch (true) {
-    case isTime(b8.time, '24:00:00') && !nextWeekday() && moment().format('dd') !== 'сб':
+    case isTime(b8.time, '24:00') && !nextWeekday() && moment().format('dd') !== 'сб':
       return { msg: b8.msg, type: 'after' };
     case isWeekday():
       return { msg: `${moment().format('dddd')}, нарешті! 🚀`, type: 'after' };
@@ -125,7 +124,7 @@ const clock = () => {
     case isTime(l8.time, b8.time):
       return getLesson(l8.msg);
     default:
-      return { msg: `${moment('08:30:00', 'HH:mm:00').calendar()} в школу`, type: 'before' };
+      return { msg: `${moment('08:30', 'HH:mm').calendar()} в школу`, type: 'before' };
   }
 };
 
