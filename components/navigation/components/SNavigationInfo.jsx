@@ -18,10 +18,14 @@ const SNavigationInfo = ({ className = '' }) => {
   const { time: stateTime } = useSelector((storeState) => storeState.clock);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const doClock = () => {
       setTime(setCurrentTime());
       setState(clock(stateTime));
       setDate(new Date());
+    };
+    doClock();
+    const timer = setInterval(() => {
+      doClock();
     }, 1000);
     return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
