@@ -139,6 +139,7 @@ Admin.propTypes = {
 
 Admin.getInitialProps = async (ctx) => {
   await checkAuth(ctx);
+  return {};
 };
 
 export default connect(({ auth }) => ({ auth }), { logout: actions.auth.logout })(Admin);
