@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { arrayOf, bool, func, number, object, oneOfType, shape, string } from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import {
   routes,
@@ -40,6 +40,8 @@ const Admin = ({ auth, logout }) => {
     tab: ADMIN_NEWS,
     mounting: true
   });
+
+  const { user } = useSelector((state) => state?.auth);
   const renderEditor = () => {
     switch (state.tab) {
       case ADMIN_NEWS:
@@ -90,7 +92,7 @@ const Admin = ({ auth, logout }) => {
                 </span>
               </SButton>
             </Header>
-
+            <h3 className="admin__email">{user?.email}</h3>
             <div className="admin__container">
               <div className="admin__navigation">
                 <SRadioSlider

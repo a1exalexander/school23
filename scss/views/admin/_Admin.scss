@@ -18,6 +18,9 @@ $style: admin;
       @include text($H800, 400);
     }
   }
+  &__email {
+    @include text($H300, 500);
+  }
   &__container {
     padding-top: 12px;
     @include media {
