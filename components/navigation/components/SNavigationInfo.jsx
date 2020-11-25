@@ -4,14 +4,14 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
 import { clock } from '../../../utils';
-import { clockModel } from '../../../models/clock';
+import { STransition } from '../../common/transition';
 
 const Clock = dynamic(() => import('react-clock'), { ssr: false });
 
 const SNavigationInfo = ({ className = '' }) => {
   const setCurrentTime = () => moment().format('HH:mm');
 
-  const [state, setState] = useState({ ...clock(clockModel) });
+  const [state, setState] = useState();
   const [time, setTime] = useState(setCurrentTime());
   const [date, setDate] = useState(new Date());
 
@@ -19,9 +19,11 @@ const SNavigationInfo = ({ className = '' }) => {
 
   useEffect(() => {
     const doClock = () => {
-      setTime(setCurrentTime());
-      setState(clock(stateTime));
-      setDate(new Date());
+      if (stateTime) {
+        setTime(setCurrentTime());
+        setState(clock(stateTime));
+        setDate(new Date());
+      }
     };
     doClock();
     const timer = setInterval(() => {
@@ -32,19 +34,21 @@ const SNavigationInfo = ({ className = '' }) => {
   }, [stateTime]);
 
   return (
-    <div className={classNames('nav-info', state.type, className)}>
-      <span className="nav-info__time">{time}</span>
-      <Clock
-        className="nav-info__clock"
-        size={28}
-        hourHandWidth={2}
-        secondHandLength={90}
-        renderHourMarks={false}
-        renderMinuteMarks={false}
-        value={date}
-      />
-      <span className="nav-info__text">{state.msg}</span>
-    </div>
+    <STransition inProp={!!state}>
+      <div className={classNames('nav-info', state?.type, className)}>
+        <span className="nav-info__time">{time}</span>
+        <Clock
+          className="nav-info__clock"
+          size={28}
+          hourHandWidth={2}
+          secondHandLength={90}
+          renderHourMarks={false}
+          renderMinuteMarks={false}
+          value={date}
+        />
+        <span className="nav-info__text">{state?.msg}</span>
+      </div>
+    </STransition>
   );
 };
 

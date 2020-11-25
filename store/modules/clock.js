@@ -1,11 +1,10 @@
 import { actionType } from '../../constants';
 import { db } from '../../firebase';
-import { clockModel } from '../../models/clock';
 
 const initState = {
   loading: false,
   hasError: false,
-  time: { ...clockModel }
+  time: null
 };
 
 export const clockReducer = (state = { clock: { ...initState } }, action) => {
