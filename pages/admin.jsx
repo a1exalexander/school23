@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { arrayOf, bool, func, number, object, oneOfType, shape, string } from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import {
   routes,
@@ -15,6 +15,7 @@ import { Page } from '../components/Page';
 import actions from '../store/actions';
 import { isBrowser } from '../utils';
 import { Header } from '../components/Header';
+import checkAuth from '../middlewares/checkAuth';
 
 const AdminPostEditor = dynamic(() => import('../components/views/admin/AdminPostEditor'), {
   ssr: false
@@ -35,13 +36,12 @@ const reducer = (state, action) => {
   }
 };
 
-const Admin = ({ auth, logout }) => {
+const Admin = ({ auth, isAuthServer, logout }) => {
   const [state, dispatch] = useReducer(reducer, {
     tab: ADMIN_NEWS,
     mounting: true
   });
 
-  const { user } = useSelector((state) => state?.auth);
   const renderEditor = () => {
     switch (state.tab) {
       case ADMIN_NEWS:
@@ -59,7 +59,7 @@ const Admin = ({ auth, logout }) => {
 
   const router = useRouter();
 
-  const isAuth = auth.status;
+  const isAuth = isAuthServer || auth.status;
 
   useEffect(() => {
     if (isBrowser()) {
@@ -92,7 +92,7 @@ const Admin = ({ auth, logout }) => {
                 </span>
               </SButton>
             </Header>
-            <h3 className="admin__email">{user?.email}</h3>
+            <h3 className="admin__email">{auth?.user?.email}</h3>
             <div className="admin__container">
               <div className="admin__navigation">
                 <SRadioSlider
@@ -116,7 +116,8 @@ const Admin = ({ auth, logout }) => {
 
 Admin.defaultProps = {
   logout: () => undefined,
-  auth: object
+  auth: object,
+  isAuthServer: false
 };
 
 Admin.propTypes = {
@@ -135,7 +136,13 @@ Admin.propTypes = {
       admin: false,
       providerData: arrayOf(oneOfType([object, string, number]))
     })
-  })
+  }),
+  isAuthServer: bool
+};
+
+Admin.getInitialProps = async (ctx) => {
+  const isAuthServer = await checkAuth(ctx);
+  return { isAuthServer };
 };
 
 export default connect(({ auth }) => ({ auth }), { logout: actions.auth.logout })(Admin);
