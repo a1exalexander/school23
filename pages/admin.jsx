@@ -13,7 +13,6 @@ import {
 import { SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import { Page } from '../components/Page';
 import actions from '../store/actions';
-import checkAuth from '../middlewares/checkAuth';
 import { isBrowser } from '../utils';
 import { Header } from '../components/Header';
 
@@ -135,11 +134,6 @@ Admin.propTypes = {
       providerData: arrayOf(oneOfType([object, string, number]))
     })
   })
-};
-
-Admin.getInitialProps = async (ctx) => {
-  await checkAuth(ctx);
-  return {};
 };
 
 export default connect(({ auth }) => ({ auth }), { logout: actions.auth.logout })(Admin);

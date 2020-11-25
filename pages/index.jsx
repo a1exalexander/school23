@@ -2,7 +2,6 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { Page } from '../components/Page';
 import HomeBanner from '../components/views/home/HomeBanner';
-import checkAuth from '../middlewares/checkAuth';
 
 const SVideo = dynamic(() => import('../components/common/media/SVideo'), { ssr: false });
 const SNavigationInfo = dynamic(
@@ -38,11 +37,6 @@ const Home = () => {
       {VideoLayer()}
     </Page>
   );
-};
-
-Home.getInitialProps = async (ctx) => {
-  await checkAuth(ctx);
-  return {};
 };
 
 export default Home;

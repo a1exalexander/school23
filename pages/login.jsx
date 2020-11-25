@@ -6,7 +6,6 @@ import { SInput, SButton, SLoader } from '../components';
 import { Page } from '../components/Page';
 import actions from '../store/actions';
 import { routes } from '../constants';
-import checkAuth from '../middlewares/checkAuth';
 import { isBrowser } from '../utils';
 import { Header } from '../components/Header';
 
@@ -25,7 +24,7 @@ function reducer(state, action) {
   }
 }
 
-const Login = ({ isAuthServer, auth, login }) => {
+const Login = ({ auth, login }) => {
   const [state, dispatch] = useReducer(reducer, {
     mounting: true,
     loading: false,
@@ -50,7 +49,7 @@ const Login = ({ isAuthServer, auth, login }) => {
     dispatch({ type: 'mounted' });
   }, []);
 
-  const isAuth = isAuthServer || auth.status;
+  const isAuth = auth.status;
 
   useEffect(() => {
     if (isBrowser() && isAuth) {
@@ -98,20 +97,13 @@ const Login = ({ isAuthServer, auth, login }) => {
 Login.defaultProps = {
   auth: undefined,
   login: () => undefined,
-  status: false,
-  isAuthServer: false
+  status: false
 };
 
 Login.propTypes = {
   auth: PropTypes.objectOf(oneOfType([string, number, bool, object])),
   login: PropTypes.func,
-  status: PropTypes.bool,
-  isAuthServer: PropTypes.bool
-};
-
-Login.getInitialProps = async (ctx) => {
-  const isAuthServer = await checkAuth(ctx);
-  return { isAuthServer };
+  status: PropTypes.bool
 };
 
 export default connect(({ auth }) => ({ auth }), {

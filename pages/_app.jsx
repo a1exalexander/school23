@@ -19,13 +19,14 @@ import { firebase } from '../firebase';
 import { actionType } from '../constants';
 
 class MyApp extends App {
-  static getInitialProps = async ({ Component, ctx }) => {
-    return {
-      pageProps: {
-        ...(Component && Component.getInitialProps ? await Component.getInitialProps(ctx) : {})
-      }
-    };
-  };
+  // static getInitialProps = async ({ Component, ctx }) => {
+  //   let pageProps = {};
+  //   if (Component.getInitialProps) {
+  //     pageProps = await Component.getInitialProps(ctx);
+  //   }
+
+  //   return { pageProps };
+  // };
 
   state = {
     onloadLoading: true,
