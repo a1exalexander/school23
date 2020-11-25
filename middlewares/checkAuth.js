@@ -3,6 +3,8 @@ import { actions } from '../store/modules/auth';
 
 export default async (ctx) => {
   const { ADMIN_TOKEN } = nookies.get(ctx);
-  if (ctx && ctx.store) ctx.store.dispatch(actions.setAuthStatus(!!ADMIN_TOKEN));
+  if (ctx && ctx.store && !ADMIN_TOKEN) {
+    ctx.store.dispatch(actions.cleanAuth());
+  }
   return !!ADMIN_TOKEN;
 };

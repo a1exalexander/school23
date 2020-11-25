@@ -29,7 +29,7 @@ const SNavigationInfo = ({ className = '' }) => {
     }, 1000);
     return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [stateTime]);
 
   return (
     <div className={classNames('nav-info', state.type, className)}>

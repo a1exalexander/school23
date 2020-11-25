@@ -36,7 +36,7 @@ const reducer = (state, action) => {
   }
 };
 
-const Admin = ({ auth, isAuthServer, logout }) => {
+const Admin = ({ auth, logout }) => {
   const [state, dispatch] = useReducer(reducer, {
     tab: ADMIN_NEWS,
     mounting: true
@@ -58,7 +58,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
 
   const router = useRouter();
 
-  const isAuth = isAuthServer || auth.status;
+  const isAuth = auth.status;
 
   useEffect(() => {
     if (isBrowser()) {
@@ -115,8 +115,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
 
 Admin.defaultProps = {
   logout: () => undefined,
-  auth: object,
-  isAuthServer: false
+  auth: object
 };
 
 Admin.propTypes = {
@@ -135,13 +134,11 @@ Admin.propTypes = {
       admin: false,
       providerData: arrayOf(oneOfType([object, string, number]))
     })
-  }),
-  isAuthServer: bool
+  })
 };
 
 Admin.getInitialProps = async (ctx) => {
-  const isAuthServer = await checkAuth(ctx);
-  return { isAuthServer };
+  await checkAuth(ctx);
 };
 
 export default connect(({ auth }) => ({ auth }), { logout: actions.auth.logout })(Admin);

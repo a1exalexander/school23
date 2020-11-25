@@ -10,7 +10,9 @@ $styles: nav-info;
   border-radius: 2px;
   box-shadow: $SH1;
   line-height: 1.3;
+  
   @include media {
+    min-width: 320px;
     padding: 8px 18px;
   }
   @each $name in $names {

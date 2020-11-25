@@ -21,14 +21,14 @@ const reducer = (state = { auth: { ...getInitState() } }, action) => {
       return {
         ...state.auth,
         loading: false,
-        hasError: false,
-        user: { ...action.payload }
+        hasError: false
       };
     case actionType.AUTH_FAILURE:
       return {
         ...state.auth,
         loading: false,
-        hasError: true
+        hasError: true,
+        user: {}
       };
     case actionType.AUTH_STATUS:
       return {
