@@ -1,6 +1,7 @@
 import nookies from 'nookies';
 import { actionType } from '../../../constants';
 import { utils, firebase } from '../../../firebase';
+import { isBrowser } from '../../../utils';
 import { actions as notifications } from '../notifications';
 
 export const authRequest = () => ({ type: actionType.AUTH_REQUEST });
@@ -23,7 +24,7 @@ export const setAuthStatus = (status = false) => {
 
 export const cleanAuth = () => {
   nookies.destroy({}, 'ADMIN_TOKEN');
-  localStorage.removeItem('ADMIN_TOKEN');
+  if (isBrowser()) localStorage.removeItem('ADMIN_TOKEN');
   return { type: actionType.AUTH_CLEAN };
 };
 
@@ -33,7 +34,7 @@ export const login = ({ email, password }) => async (dispatch) => {
     const { user } = await firebase.auth.signInWithEmailAndPassword(email, password);
     const { token } = await user.getIdTokenResult();
     nookies.set({}, 'ADMIN_TOKEN', token);
-    localStorage.setItem('ADMIN_TOKEN', token);
+    if (isBrowser()) localStorage.setItem('ADMIN_TOKEN', token);
     dispatch({ type: actionType.AUTH_SUCCESS, payload: userUpdate(user) });
     dispatch(notifications.notify('success', 'Успішна авторизація'));
     return true;
