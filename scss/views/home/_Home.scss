@@ -30,6 +30,9 @@ $border-color: rgb(189, 189, 189);
   }
   &__inner {
     margin-bottom: 48px;
+    @include media($screen-desktop) {
+      margin-bottom: 0;
+    }
   }
   &__banner {
     position: relative;
