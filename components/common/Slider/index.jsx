@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import Carousel from 'react-slick';
+import Image from 'next/image';
 import classNames from 'classnames';
 import { arrayOf, oneOfType, shape, string, bool } from 'prop-types';
 import './styles/_plugin-react-slick.scss';
@@ -22,7 +23,13 @@ export default function Slider({ slides, className, autoplay, title }) {
           onClick={() => setFullImage(slide?.src)}
           key={slide?.id || slide?.title || String(idx)}
         >
-          <img src={slide?.src || slide} alt={slide?.title || 'image'} className="slick-image" />
+          <Image
+            loading="lazy"
+            layout="fill"
+            className="slick-image"
+            src={slide?.src || slide}
+            alt={slide?.title || 'image'}
+          />
           {title && (
             <div className="slick-caption">
               <h4>{title}</h4>

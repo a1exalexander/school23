@@ -9,7 +9,8 @@ export const publicInfoModel = {
   },
   created: '',
   images: [],
-  iframe: ''
+  iframe: '',
+  video: ''
 };
 
 export const formatPublicIbfo = (post) => {

@@ -96,6 +96,19 @@ const Post = ({
               {hasImages && !isEditorVisible && (
                 <Slider className="post__slider" slides={post?.images} />
               )}
+              {!!post?.video && (
+                <iframe
+                  src={`https://www.facebook.com/plugins/video.php?href=${post?.video}&show_text=false&width=734&appId=2464432437148222&height=411`}
+                  width="734"
+                  height="411"
+                  scrolling="no"
+                  title={post?.title}
+                  className="post__video"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                />
+              )}
               {post?.text && (
                 <SEditorPreview
                   className="post__content"

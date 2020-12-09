@@ -10,6 +10,7 @@ export const postModel = {
   },
   created: '',
   images: [],
+  video: '',
   iframe: ''
 };
 

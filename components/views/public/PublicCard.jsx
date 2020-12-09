@@ -4,6 +4,7 @@ import { number, oneOfType, shape, string } from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 import Link from 'next/link';
+import Image from 'next/image';
 import { routes } from '../../../constants';
 
 export const PublicCard = ({ post, className }) => {
@@ -25,7 +26,14 @@ export const PublicCard = ({ post, className }) => {
         </div>
         {hasImage && (
           <div className="public-card__image-wrapper">
-            <img className="public-card__image" src={imageSrc} alt={post.title} />
+            <Image
+              unoptimized
+              loading="lazy"
+              layout="fill"
+              className="public-card__image"
+              src={imageSrc}
+              alt={post.title}
+            />
           </div>
         )}
       </a>

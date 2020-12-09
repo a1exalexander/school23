@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { number, oneOfType, shape, string } from 'prop-types';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { SButton, SBadge } from '../../index';
 import { trancate } from '../../../utils';
 import { routes } from '../../../constants';
@@ -33,7 +34,16 @@ const NewsCard = ({ post, className, idx }) => {
           className
         )}
       >
-        {hasImage && <img className="news-card__image" src={imageSrc} alt="" />}
+        {hasImage && (
+          <Image
+            unoptimized
+            loading="lazy"
+            layout="fill"
+            className="news-card__image"
+            src={imageSrc}
+            alt={post?.title}
+          />
+        )}
         <div className="news-card__content">
           <h2 className="news-card__title">{post?.title}</h2>
           <div className="news-card__info">
