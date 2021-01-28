@@ -8,7 +8,8 @@ import {
   ADMIN_NEWS,
   ADMIN_PUBLIC_INFO,
   ADMIN_SCHOOL_CANTEEN,
-  ADMIN_CLOCK
+  ADMIN_CLOCK,
+  ADMIN_ACTIVITY
 } from '../constants';
 import { SRadioSlider, STransitionSwitch, SButton, SLoader } from '../components';
 import { Page } from '../components/Page';
@@ -50,6 +51,8 @@ const Admin = ({ auth, isAuthServer, logout }) => {
         return <AdminPostEditor type="page" />;
       case ADMIN_SCHOOL_CANTEEN:
         return <AdminPostEditor type="canteen" />;
+      case ADMIN_ACTIVITY:
+        return <AdminPostEditor type="activity" />;
       case ADMIN_CLOCK:
         return <AdminClockEditor />;
       default:
@@ -100,7 +103,13 @@ const Admin = ({ auth, isAuthServer, logout }) => {
                   onChange={onTabChange}
                   name="law"
                   checked={state.tab}
-                  tabs={[ADMIN_NEWS, ADMIN_PUBLIC_INFO, ADMIN_SCHOOL_CANTEEN, ADMIN_CLOCK]}
+                  tabs={[
+                    ADMIN_NEWS,
+                    ADMIN_PUBLIC_INFO,
+                    ADMIN_ACTIVITY,
+                    ADMIN_SCHOOL_CANTEEN,
+                    ADMIN_CLOCK
+                  ]}
                 />
               </div>
               <div className="admin__view">

@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { routes } from '../../constants';
 import { db } from '../../firebase';
 import { actions } from '../../store/modules/notifications';
-import { publicInfoModel, formatPublicIbfo } from '../../models/publicInfo';
+import { activityPostModel, formatActivityPost } from '../../models/activity';
 import Post from '../../components/Post';
 
 const AdminPostEditor = dynamic(() => import('../../components/views/admin/AdminPostEditor'), {
@@ -24,11 +24,11 @@ const AdminPostEditor = dynamic(() => import('../../components/views/admin/Admin
 });
 
 const initPost = {
-  ...publicInfoModel,
+  ...activityPostModel,
   id: ''
 };
 
-const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
+const ActivityPostPage = ({ post, isEmptyInit, notify }) => {
   const [$post, setPost] = useState(post);
   const [isEditorVisible, setEditorVisible] = useState(false);
   const [isEmpty, setEmpty] = useState(isEmptyInit);
@@ -36,9 +36,9 @@ const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
   const router = useRouter();
 
   const onUpdate = async (updatedPost) => {
-    const fetchedPost = await db.getPublicInfo(post.id);
+    const fetchedPost = await db.getActivityPost(post.id);
     const newPost = { ...fetchedPost, ...updatedPost };
-    const res = await db.updatePublicInfo(post.id, newPost);
+    const res = await db.updateActivityPost(post.id, newPost);
     if (res) {
       notify('success', 'Сторінку успішно оновлено!');
       setPost(newPost);
@@ -50,10 +50,10 @@ const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
   };
 
   const onRemove = async () => {
-    const res = await db.deletePublicInfo(post.id);
+    const res = await db.deleteActivityPost(post.id);
     if (res) {
       notify('success', 'Сторінку видалено!');
-      router.push({ pathname: routes.PUBLIC_INFO });
+      router.push({ pathname: routes.ACTIVITY });
     } else {
       notify('error', 'Помилка при видаленні!');
     }
@@ -74,13 +74,13 @@ const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
   );
 };
 
-PublicInfoPage.defaultProps = {
+ActivityPostPage.defaultProps = {
   post: initPost,
   isEmptyInit: true,
   notify: () => undefined
 };
 
-PublicInfoPage.propTypes = {
+ActivityPostPage.propTypes = {
   post: shape({
     id: oneOfType([number, string]),
     title: string,
@@ -94,9 +94,9 @@ PublicInfoPage.propTypes = {
   notify: func
 };
 
-PublicInfoPage.getInitialProps = async ({ query }) => {
-  const res = await db.getPublicInfo(query.pid);
-  return { post: { ...formatPublicIbfo(res) }, isEmptyInit: !res.id };
+ActivityPostPage.getInitialProps = async ({ query }) => {
+  const res = await db.getActivityPost(query.aid);
+  return { post: { ...formatActivityPost(res) }, isEmptyInit: !res.id };
 };
 
-export default connect(null, { notify: actions.notify })(PublicInfoPage);
+export default connect(null, { notify: actions.notify })(ActivityPostPage);

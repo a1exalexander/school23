@@ -6,7 +6,7 @@ import { bool, func } from 'prop-types';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { STransition, SButton } from '../index';
-import { IconRadio, IconSchool, IconMail, IconBooksApple } from '../common/icons';
+import { IconRadio, IconSchool, IconMail, IconBooksApple, IconBag } from '../common/icons';
 import { SNavigationItem } from './components/SNavigationItem';
 import SNavigationInfo from './components/SNavigationInfo';
 import logo from '../../assets/images/Kremenchuk-mini.png';
@@ -32,6 +32,13 @@ const SNavigationMenu = ({ inProp, onClose }) => {
                   className="nav-menu__item"
                 >
                   <IconSchool />
+                </SNavigationItem>
+                <SNavigationItem
+                  href={routes.ACTIVITY}
+                  label="Діяльність Гімназії"
+                  className="nav-menu__item"
+                >
+                  <IconBag />
                 </SNavigationItem>
                 <SNavigationItem
                   href={routes.SCHOOL_CANTEEN}

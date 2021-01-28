@@ -1,6 +1,7 @@
 import { db } from './firebase';
 import { genPost, postModel } from '../models/post';
 import { genPublicInfo, publicInfoModel } from '../models/publicInfo';
+import { activityPostModel, genActivityPost } from '../models/activity';
 import { logger } from '../services';
 import { foodModel, genFood } from '../models/food';
 import { isObject } from '../utils';
@@ -81,7 +82,7 @@ export const getPost = async (id) => {
   }
 };
 
-// Post
+// Public Post
 export const addPublicInfo = async (post) => {
   try {
     const ref = await db.collection('publicInfo').add(genPublicInfo(post));
@@ -141,6 +142,71 @@ export const getPublicInfo = async (id) => {
     return objectWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET PUBLIC INFO');
+    return false;
+  }
+};
+
+// Activity Post
+
+export const addActivityPost = async (post) => {
+  try {
+    const ref = await db.collection('activity').add(genActivityPost(post));
+    logger.info(ref, 'NEW ACTIVITY POST');
+    return ref;
+  } catch (err) {
+    logger.error(err, 'NEW ACTIVITY POST');
+    return false;
+  }
+};
+
+export const updateActivityPost = async (id, post) => {
+  try {
+    db.collection('activity').doc(id).update(post);
+    logger.info('Success', 'UPDATE ACTIVITY POST');
+    return true;
+  } catch (err) {
+    logger.error(err, 'UPDATE ACTIVITY POST');
+    return false;
+  }
+};
+
+export const deleteActivityPost = async (id) => {
+  try {
+    db.collection('activity').doc(id).delete();
+    logger.info('Success', 'DELETE ACTIVITY POST');
+    return true;
+  } catch (err) {
+    logger.error(err, 'DELETE ACTIVITY POST');
+    return false;
+  }
+};
+
+export const getAllActivityPosts = async () => {
+  try {
+    const querySnapshot = await db.collection('activity').get();
+    const res = querySnapshot.docs.map((doc) => ({
+      ...activityPostModel,
+      ...doc.data(),
+      id: doc.id
+    }));
+    logger.info(res, 'GET ACTIVITY POST');
+    return arrayWithFilteredImages(res);
+  } catch (err) {
+    logger.error(err, 'GET ACTIVITY POST');
+    return false;
+  }
+};
+
+export const getActivityPost = async (id) => {
+  try {
+    const doc = await db.collection('activity').doc(id).get();
+    if (!doc.exists) {
+      return false;
+    }
+    const res = { ...activityPostModel, ...doc.data(), id };
+    return objectWithFilteredImages(res);
+  } catch (err) {
+    logger.error(err, 'GET ACTIVITY POST');
     return false;
   }
 };

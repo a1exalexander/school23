@@ -1,6 +1,6 @@
 import React from 'react';
 
-const IconBooks = ({ className = ''  }) => {
+const IconBooks = ({ className = '' }) => {
   return (
     <svg
       className={className}

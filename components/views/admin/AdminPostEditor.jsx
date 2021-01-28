@@ -256,6 +256,9 @@ class AdminPostEditor extends Component {
     if (type !== 'canteen') {
       post.delta = state.delta;
       post.text = state.text;
+    }
+
+    if (type !== 'canteen' && type !== 'activity') {
       post.iframe = state.iframe;
       post.video = state.video;
     }
@@ -263,6 +266,7 @@ class AdminPostEditor extends Component {
     if (type === 'post') {
       post.type = state.type;
     }
+
     if (type === 'page') {
       http = 'addPublicInfo';
       messageSuccess = 'Сторінку успішно опублковано!';
@@ -274,6 +278,12 @@ class AdminPostEditor extends Component {
       messageSuccess = 'Меню успішно опублковано!';
       route = routes.SCHOOL_CANTEEN;
       post.date = state.date;
+    }
+
+    if (type === 'activity') {
+      http = 'addActivityPost';
+      messageSuccess = 'Сторінку успішно опублковано!';
+      route = routes.ACTIVITY;
     }
 
     onDispatch('loading')(true);
@@ -356,7 +366,7 @@ class AdminPostEditor extends Component {
         <SInput className="admin-post__input" onChange={onDispatch('title')} value={state.title}>
           {props.type !== 'canteen' ? 'Головний заголовок статті' : "Коментар (Не обов'язково)"}
         </SInput>
-        {props.type !== 'canteen' && (
+        {!['canteen', 'activity'].includes(props.type) && (
           <SInput
             className="admin-post__input"
             onChange={onDispatch('iframe')}
@@ -365,7 +375,7 @@ class AdminPostEditor extends Component {
             Посилання на сайт, який буде інтегровано на сторінці
           </SInput>
         )}
-        {props.type !== 'canteen' && (
+        {!['canteen', 'activity'].includes(props.type) && (
           <SInput className="admin-post__input" onChange={onDispatch('video')} value={state.video}>
             Посилання на відео з facebook
           </SInput>

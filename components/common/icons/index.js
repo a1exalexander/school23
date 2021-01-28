@@ -14,5 +14,24 @@ import IconClose from './IconClose';
 import IconSchoolColor from './IconSchoolColor';
 import IconDownloadFile from './IconDownloadFile';
 import IconBox from './IconBox';
+import IconBag from './IconBag';
 
-export { IconBox, IconDownloadFile, IconClose, IconSchoolColor, IconUp, IconSearch, IconHide, IconEye, IconCheck, IconMail, IconRadio, IconArrowLeft, IconSchool, IconBooksApple, IconBooks, IconLaws };
+export {
+  IconBox,
+  IconDownloadFile,
+  IconClose,
+  IconSchoolColor,
+  IconUp,
+  IconSearch,
+  IconHide,
+  IconEye,
+  IconCheck,
+  IconMail,
+  IconRadio,
+  IconArrowLeft,
+  IconSchool,
+  IconBooksApple,
+  IconBooks,
+  IconLaws,
+  IconBag
+};
