@@ -50,7 +50,7 @@
 }
 
 @mixin transition($types...) {
-  transition-property: $types;
+  transition-property: #{join($types, ' ')};
   transition-duration: 0.2s;
   transition-timing-function: ease;
   @content;
