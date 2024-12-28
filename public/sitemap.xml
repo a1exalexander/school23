@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://school23.now.sh/</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2020-11-25T12:29:25.731Z</lastmod></url>
-<url><loc>https://school23.now.sh/contacts</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2020-11-25T12:29:25.731Z</lastmod></url>
-<url><loc>https://school23.now.sh/login</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2020-11-25T12:29:25.731Z</lastmod></url>
-<url><loc>https://school23.now.sh/news</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2020-11-25T12:29:25.731Z</lastmod></url>
-<url><loc>https://school23.now.sh/public</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2020-11-25T12:29:25.731Z</lastmod></url>
-<url><loc>https://school23.now.sh/school-canteen</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2020-11-25T12:29:25.731Z</lastmod></url>
+<url><loc>https://school23.vercel.app/</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-12-28T16:23:31.518Z</lastmod></url>
+<url><loc>https://school23.vercel.app/activity</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-12-28T16:23:31.518Z</lastmod></url>
+<url><loc>https://school23.vercel.app/contacts</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-12-28T16:23:31.518Z</lastmod></url>
+<url><loc>https://school23.vercel.app/login</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-12-28T16:23:31.518Z</lastmod></url>
+<url><loc>https://school23.vercel.app/news</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-12-28T16:23:31.518Z</lastmod></url>
+<url><loc>https://school23.vercel.app/public</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-12-28T16:23:31.518Z</lastmod></url>
+<url><loc>https://school23.vercel.app/school-canteen</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-12-28T16:23:31.518Z</lastmod></url>
 </urlset>
