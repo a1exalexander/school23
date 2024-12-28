@@ -38,7 +38,12 @@ class MyApp extends App {
 
   constructor() {
     super();
-    Router.onRouteChangeStart = () => {
+    Router.onRouteChangeStart = (route) => {
+      const prevRoute = this.props.router.route;
+      const nextRoute = String(route).split('?')[0];
+      if (prevRoute === nextRoute) {
+        return;
+      }
       if (this._ismounted) {
         this.showLoader();
         setTimeout(() => this.showLoader(), 500);

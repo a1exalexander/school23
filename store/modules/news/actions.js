@@ -2,12 +2,19 @@ import { actionType } from '../../../constants';
 import { db } from '../../../firebase';
 import { actions as notifications } from '../notifications';
 
-export const getNews = () => async (dispatch) => {
+export const getNews = (currentPage, itemsPerPage) => async (dispatch, getState) => {
+  const cache = getState().news.cache?.[currentPage];
+  if (cache) {
+    return;
+  }
   dispatch(actionType.NEWS_REQUEST);
-  const res = await db.getPosts();
-  if (res) {
-    res.sort((a, b) => Number(b.created) - Number(a.created));
-    dispatch({ type: actionType.NEWS_UPDATE, payload: res });
+  const { posts } = await db.getPosts(currentPage, itemsPerPage);
+  if (posts) {
+    posts.sort((a, b) => Number(b.created) - Number(a.created));
+    dispatch({
+      type: actionType.NEWS_UPDATE,
+      payload: { posts, currentPage }
+    });
     dispatch(actionType.NEWS_SUCCESS);
   } else {
     dispatch(actionType.NEWS_FAILURE);

@@ -52,16 +52,24 @@ export const deletePost = async (id) => {
   }
 };
 
-export const getPosts = async () => {
+export const getPosts = async (currentPage = 1, itemsPerPage = 10) => {
   try {
-    const querySnapshot = await db.collection('news').get();
+    const query = db
+      .collection('news')
+      .orderBy('created', 'desc')
+      .limit(currentPage * itemsPerPage);
+
+    const querySnapshot = await query.get();
     const res = querySnapshot.docs.map((doc) => ({
       ...postModel,
       ...doc.data(),
       id: doc.id
     }));
     logger.info(res, 'GET POSTS');
-    return arrayWithFilteredImages(res);
+    return {
+      posts: arrayWithFilteredImages(res),
+      lastVisible: querySnapshot.docs[querySnapshot.docs.length - 1]
+    };
   } catch (err) {
     logger.error(err, 'GET POSTS');
     return false;

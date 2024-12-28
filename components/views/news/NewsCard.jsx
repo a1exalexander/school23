@@ -22,6 +22,9 @@ const NewsCard = ({ post, className, idx }) => {
   const hasImage = (reImg.test(post?.text) || firstImage) && !isAnnouncement;
   const imageSrc = hasImage && (firstImage?.src || post?.text.match(reSrc)[0].slice(5));
   const textWithoutImages = post?.text.replace(/<img([^>]*)>/gi, '');
+  const text = getContent(textWithoutImages) || post.title;
+
+  const hasContent = !!textWithoutImages;
 
   const router = useRouter();
 
@@ -45,7 +48,7 @@ const NewsCard = ({ post, className, idx }) => {
           />
         )}
         <div className="news-card__content">
-          <h2 className="news-card__title">{post?.title}</h2>
+          {hasContent && <h2 className="news-card__title">{post?.title}</h2>}
           <div className="news-card__info">
             <SBadge className="news-card__badge" color={badgeColor} label={postType} />
             <span className="news-card__date">
@@ -55,13 +58,13 @@ const NewsCard = ({ post, className, idx }) => {
           <p
             className="news-card__text is-mobile"
             dangerouslySetInnerHTML={{
-              __html: trancate(getContent(textWithoutImages), idx ? 120 : 180)
+              __html: trancate(text, hasContent ? 80 : 120)
             }}
           />
           <p
             className="news-card__text is-desktop"
             dangerouslySetInnerHTML={{
-              __html: trancate(getContent(textWithoutImages), idx ? 120 : 240)
+              __html: trancate(text, hasContent ? 120 : 220)
             }}
           />
         </div>

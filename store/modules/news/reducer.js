@@ -3,7 +3,9 @@ import { actionType } from '../../../constants';
 const initState = {
   loading: false,
   hasError: false,
-  posts: []
+  posts: [],
+  cache: {},
+  lastVisible: null
 };
 
 const reducer = (state = { news: { ...initState } }, action) => {
@@ -20,11 +22,17 @@ const reducer = (state = { news: { ...initState } }, action) => {
         loading: false,
         hasError: false
       };
-    case actionType.NEWS_UPDATE:
+    case actionType.NEWS_UPDATE: {
       return {
         ...state.news,
-        posts: [...action.payload]
+        posts: [...action.payload.posts],
+        lastVisible: action.payload.lastVisible,
+        cache: {
+          ...state.news.cache,
+          [action.payload.currentPage]: action.payload.posts.slice(-10)
+        }
       };
+    }
     case actionType.NEWS_FAILURE:
       return {
         ...state.news,

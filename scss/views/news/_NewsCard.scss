@@ -1,103 +1,125 @@
 $style: news-card;
 .#{$style} {
-  position: relative;
-  background-color: $N0;
-  border-radius: 4px;
-  box-shadow: $SH3;
-  line-height: 1.4;
-  box-shadow: $SH4;
-  @include flex-col(stretch, stretch);
-  overflow: hidden;
-  @include transition(all);
-  cursor: default;
-  @include media($screen-desktop) {
-    &:hover {
-      box-shadow: 0 0.4em 0.9em -0.1em rgba(0, 0, 0, 0.1);
-    }
-  }
-  &:active {
-    box-shadow: none;
-  }
-  &.announcement {
-    border: 1px solid $R100;
-  }
-  &.with-image {
-    color: $N0;
-    .#{$style}__title {
-      color: $N0;
-    }
-    .#{$style}__date {
-      color: $N0;
-    }
-    .#{$style}__text {
-      color: $N0;
-    }
-  }
-
-  &__title {
-    @include text($H600, 500);
-    @include media {
-      font-size: $H500;
-    }
-    margin-bottom: 8px;
-  }
-  &__info {
-    @include flex-row(flex-start, center);
-    margin-bottom: 16px;
-  }
-  &__badge {
-    margin-right: 8px;
-  }
-  &__date {
-    @include text($H110, 400);
-  }
-  &__text {
-    font-family: $base-font;
-    @include text($H400, 400);
-    line-height: 1.4;
-    max-width: 700px;
-    @include media {
-      line-height: 1.5 ;
-      font-size: $H400;
-    }
-  }
-  &__image {
-    position: absolute;
-    @include position;
-    @include size(100%);
-    object-fit: cover;
-    flex-shrink: 0;
-    filter: brightness(0.7);
-  }
-  &__content {
-    padding: 24px;
     position: relative;
-    z-index: 1;
-    flex: 1 1;
-    padding-bottom: 0;
-    * {
-      list-style-position: inside;
+    background-color: $N0;
+    border-radius: 4px;
+    box-shadow: $SH3;
+    line-height: 1.4;
+    box-shadow: $SH4;
+    @include flex-col(stretch, stretch);
+    overflow: hidden;
+    @include transition(all);
+    cursor: default;
+    @include media($screen-desktop) {
+        &:hover {
+            box-shadow: 0 0.4em 0.9em -0.1em rgba(0, 0, 0, 0.1);
+        }
     }
-  }
-  &.with-image &__content {
-    background: -moz-linear-gradient(
-      top,
-      rgba(0, 0, 0, 0.65) 0%,
-      rgba(0, 0, 0, 0) 100%
-    ); /* FF3.6-15 */
-    background: -webkit-linear-gradient(
-      top,
-      rgba(0, 0, 0, 0.65) 0%,
-      rgba(0, 0, 0, 0) 100%
-    ); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.65) 0%,
-      rgba(0, 0, 0, 0) 100%
-    ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
-  }
-  &__button-wrapper {
-    padding: 24px;
-  }
+
+    &:active {
+        box-shadow: none;
+    }
+
+    &.announcement {
+        border: 1px solid $R100;
+    }
+
+    &.with-image {
+        color: $N0;
+
+        .#{$style}__title {
+            color: $N0;
+        }
+
+        .#{$style}__date {
+            color: $N0;
+        }
+
+        .#{$style}__text {
+            color: $N0;
+        }
+    }
+
+    &__title {
+        @include text($H600, 500);
+        @include media {
+            font-size: $H500;
+        }
+        margin-bottom: 8px;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__info {
+        @include flex-row(flex-start, center);
+        margin-bottom: 16px;
+    }
+
+    &__badge {
+        margin-right: 8px;
+    }
+
+    &__date {
+        @include text($H110, 400);
+    }
+
+    &__text {
+        font-family: $base-font;
+        @include text($H300, 400);
+        line-height: 1.4;
+        max-width: 700px;
+        @include media {
+            line-height: 1.5;
+            font-size: $H300;
+        }
+    }
+
+    &__image {
+        position: absolute;
+        @include position;
+        @include size(100%);
+        object-fit: cover;
+        flex-shrink: 0;
+        filter: brightness(0.7);
+    }
+
+    &__content {
+        padding: 24px;
+        position: relative;
+        z-index: 1;
+        flex: 1 1;
+        padding-bottom: 0;
+
+        * {
+            list-style-position: inside;
+        }
+    }
+
+    &.with-image &__content {
+        background: -moz-linear-gradient(
+                        top,
+                        rgba(0, 0, 0, 0.8) 0%,
+                        rgba(0, 0, 0, 0.6) 60%,
+                        rgba(0, 0, 0, 0) 100%
+        ); /* FF3.6-15 */
+        background: -webkit-linear-gradient(
+                        top,
+                        rgba(0, 0, 0, 0.8) 0%,
+                        rgba(0, 0, 0, 0.6) 60%,
+                        rgba(0, 0, 0, 0) 100%
+        ); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(
+                        to bottom,
+                        rgba(0, 0, 0, 0.8) 0%,
+                        rgba(0, 0, 0, 0.6) 60%,
+                        rgba(0, 0, 0, 0) 100%
+        ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a6000000', endColorstr='#00000000', GradientType=0); /* IE6-9 */
+    }
+
+    &__button-wrapper {
+        padding: 24px;
+    }
 }

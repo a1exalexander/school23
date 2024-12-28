@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import PropTypes, { bool, oneOf, string } from 'prop-types';
+import { bool, oneOf, string } from 'prop-types';
 import classNames from 'classnames';
 import loaderGif from '../../assets/gif/copper.gif';
 import { STransition } from './transition';
