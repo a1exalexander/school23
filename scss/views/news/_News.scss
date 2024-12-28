@@ -111,5 +111,18 @@ $style: news;
     display: flex;
     justify-content: space-between;
     padding: 24px 0;
+    gap: 12px;
+    align-items: center;
+  }
+  &__pagination-text {
+    white-space: nowrap;
+  }
+  &__pagination-button {
+    padding-left: 8px;
+    padding-right: 8px;
+    @include media($screen-iphone-plus) {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
   }
 }

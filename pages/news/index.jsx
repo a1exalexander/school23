@@ -41,6 +41,7 @@ const News = ({ loading, newsCache, getNews }) => {
     return (
       <div className="news__pagination">
         <SButton
+          className="news__pagination-button"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
           type="secondary"
@@ -49,11 +50,12 @@ const News = ({ loading, newsCache, getNews }) => {
         >
           ⬅️
         </SButton>
-        <span>
+        <span className="news__pagination-text">
           <span>Сторінка </span>
           <strong>{currentPage}</strong>
         </span>
         <SButton
+          className="news__pagination-button"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={!hasNews}
           type="secondary"
