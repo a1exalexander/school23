@@ -26,3 +26,4 @@ now-secrets.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.vercelvercel.json
