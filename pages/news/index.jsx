@@ -9,8 +9,7 @@ import { Empty, SButton, SLoader } from '../../components';
 import { Page } from '../../components/Page';
 import { IconSearch } from '../../components/common/icons';
 import { Header } from '../../components/Header';
-
-const itemsPerPage = 10;
+import { ITEMS_PER_PAGE } from '../../constants';
 
 const News = ({ loading, newsCache, getNews }) => {
   const router = useRouter();
@@ -18,7 +17,7 @@ const News = ({ loading, newsCache, getNews }) => {
   const currentPage = parseInt(router.query.page, 10) || 1;
 
   useEffect(() => {
-    getNews(currentPage, itemsPerPage);
+    getNews(currentPage, ITEMS_PER_PAGE);
   }, [currentPage]);
 
   const newsList = useMemo(() => {
@@ -84,9 +83,9 @@ const News = ({ loading, newsCache, getNews }) => {
       <SLoader loading={loading}>
         {hasNews || loading ? (
           <div className="news__grid-wrapper">
-            {renderPagination()}
+            {!loading && renderPagination()}
             <div className="news__grid">{newsList}</div>
-            {renderPagination()}
+            {!loading && renderPagination()}
           </div>
         ) : (
           <Empty />

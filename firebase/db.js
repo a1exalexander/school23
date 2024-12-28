@@ -6,6 +6,7 @@ import { logger } from '../services';
 import { foodModel, genFood } from '../models/food';
 import { isObject } from '../utils';
 import { clockModel } from '../models/clock';
+import { ITEMS_PER_PAGE } from '../constants';
 
 const arrayWithFilteredImages = (data) => {
   return (data || []).map((item) => {
@@ -52,7 +53,7 @@ export const deletePost = async (id) => {
   }
 };
 
-export const getPosts = async (currentPage = 1, itemsPerPage = 10) => {
+export const getPosts = async (currentPage = 1, itemsPerPage = ITEMS_PER_PAGE) => {
   try {
     const query = db
       .collection('news')
