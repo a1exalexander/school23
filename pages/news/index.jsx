@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -7,13 +7,11 @@ import NewsCard from '../../components/views/news/NewsCard';
 import { actions } from '../../store/modules/news';
 import { Empty, SButton, SLoader } from '../../components';
 import { Page } from '../../components/Page';
-import { IconSearch } from '../../components/common/icons';
 import { Header } from '../../components/Header';
 import { ITEMS_PER_PAGE } from '../../constants';
 
 const News = ({ loading, newsCache, getNews }) => {
   const router = useRouter();
-  const [state, setState] = useState('');
   const currentPage = parseInt(router.query.page, 10) || 1;
 
   useEffect(() => {
@@ -27,11 +25,6 @@ const News = ({ loading, newsCache, getNews }) => {
   }, [newsCache, currentPage]);
 
   const hasNews = newsCache?.[currentPage]?.length > 0;
-
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setState(value);
-  };
 
   const handlePageChange = (newPage) => {
     router.push(`/news?page=${newPage}`);
@@ -70,18 +63,7 @@ const News = ({ loading, newsCache, getNews }) => {
 
   return (
     <Page title="Новини" className="news">
-      <Header title="Шкільні новини" className="_mobile-pb">
-        <label className="news__input-wrapper">
-          <input
-            value={state}
-            onChange={handleChange}
-            className="news__input"
-            placeholder="Пошук новин..."
-            type="text"
-          />
-          <IconSearch className="news__input-icon" />
-        </label>
-      </Header>
+      <Header title="Шкільні новини" className="_mobile-pb" />
       <SLoader loading={loading}>
         {hasNews || loading ? (
           <div className="news__grid-wrapper">
