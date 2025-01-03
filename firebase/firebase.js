@@ -31,4 +31,5 @@ if (process.browser) {
 }
 
 export { db, auth, analytics, storage };
+
 export default firebase;

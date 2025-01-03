@@ -33,7 +33,7 @@ export const addPost = async (post) => {
 
 export const updatePost = async (id, post) => {
   try {
-    db.collection('news').doc(id).update(post);
+    await db.collection('news').doc(id).update(genPost(post));
     logger.info('Success', 'UPDATE POST');
     return true;
   } catch (err) {
@@ -44,7 +44,7 @@ export const updatePost = async (id, post) => {
 
 export const deletePost = async (id) => {
   try {
-    db.collection('news').doc(id).delete();
+    await db.collection('news').doc(id).delete();
     logger.info('Success', 'DELETE POST');
     return true;
   } catch (err) {
@@ -53,12 +53,20 @@ export const deletePost = async (id) => {
   }
 };
 
-export const getPosts = async (currentPage = 1, itemsPerPage = ITEMS_PER_PAGE) => {
+export const getPosts = async (
+  currentPage = 1,
+  itemsPerPage = ITEMS_PER_PAGE,
+  searchQuery = ''
+) => {
   try {
-    const query = db
-      .collection('news')
-      .orderBy('created', 'desc')
-      .limit(currentPage * itemsPerPage);
+    let query = db.collection('news');
+
+    if (searchQuery) {
+      const tokens = searchQuery.split(/\s+/).map((word) => word.toLowerCase());
+      query = query.where('titleTokens', 'array-contains-any', tokens).orderBy('created', 'desc');
+    } else {
+      query = query.orderBy('created', 'desc').limit(currentPage * itemsPerPage);
+    }
 
     const querySnapshot = await query.get();
     const res = querySnapshot.docs.map((doc) => ({

@@ -14,6 +14,8 @@ export const NEWS_REQUEST = 'NEWS_REQUEST';
 export const NEWS_SUCCESS = 'NEWS_SUCCESS';
 export const NEWS_FAILURE = 'NEWS_FAILURE';
 export const NEWS_UPDATE = 'NEWS_UPDATE';
+export const NEWS_SET = 'NEWS_SET';
+export const NEWS_CACHE_CLEAN = 'NEWS_CACHE_CLEAN';
 
 // PUBLIC INFO
 export const PUBLIC_INFO_REQUEST = 'PUBLIC_INFO_REQUEST';

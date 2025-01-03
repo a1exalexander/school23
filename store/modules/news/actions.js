@@ -2,17 +2,24 @@ import { actionType } from '../../../constants';
 import { db } from '../../../firebase';
 import { actions as notifications } from '../notifications';
 
-export const getNews = (currentPage, itemsPerPage) => async (dispatch, getState) => {
+export const getNews = (currentPage, itemsPerPage, searchQuery = '') => async (
+  dispatch,
+  getState
+) => {
   const cache = getState().news.cache?.[currentPage];
-  if (cache) {
+  if (cache && !searchQuery) {
+    dispatch({
+      type: actionType.NEWS_SET,
+      payload: { posts: [] }
+    });
     return;
   }
   dispatch(actionType.NEWS_REQUEST);
-  const { posts } = await db.getPosts(currentPage, itemsPerPage);
+  const { posts } = await db.getPosts(currentPage, itemsPerPage, searchQuery);
   if (posts) {
     posts.sort((a, b) => Number(b.created) - Number(a.created));
     dispatch({
-      type: actionType.NEWS_UPDATE,
+      type: searchQuery ? actionType.NEWS_SET : actionType.NEWS_UPDATE,
       payload: { posts, currentPage }
     });
     dispatch(actionType.NEWS_SUCCESS);

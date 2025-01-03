@@ -1,8 +1,10 @@
 import moment from 'moment';
 import { isObject } from '../utils';
+import generateTokens from '../utils/generateTokens';
 
 export const postModel = {
   title: '',
+  titleTokens: [],
   text: '',
   type: '',
   delta: {
@@ -24,8 +26,9 @@ export const genPost = (post) => {
   Object.keys(postModel).forEach((key) => {
     newPost[key] = post[key] || postModel[key];
   });
+  newPost.titleTokens = generateTokens(newPost.title);
   newPost.created = moment().unix();
-  return newPost;
+  return { ...post, ...newPost };
 };
 
 export default class Post {

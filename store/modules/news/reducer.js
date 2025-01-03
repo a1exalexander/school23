@@ -4,7 +4,7 @@ const initState = {
   loading: false,
   hasError: false,
   posts: [],
-  cache: {},
+  cache: null,
   lastVisible: null
 };
 
@@ -22,6 +22,12 @@ const reducer = (state = { news: { ...initState } }, action) => {
         loading: false,
         hasError: false
       };
+    case actionType.NEWS_SET: {
+      return {
+        ...state.news,
+        posts: [...action.payload.posts]
+      };
+    }
     case actionType.NEWS_UPDATE: {
       const groudedPostsByPage = action.payload.posts.reduce((acc, post, currentIndex) => {
         const page = Math.floor(currentIndex / ITEMS_PER_PAGE) + 1;
@@ -34,7 +40,6 @@ const reducer = (state = { news: { ...initState } }, action) => {
       return {
         ...state.news,
         posts: [...action.payload.posts],
-        lastVisible: action.payload.lastVisible,
         cache: {
           ...state.news.cache,
           ...groudedPostsByPage
