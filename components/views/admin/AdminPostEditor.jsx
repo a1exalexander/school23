@@ -30,7 +30,7 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { SInput, SButton, SRadio } from '../../index';
+import { SButton, SInput, SRadio } from '../../index';
 import actions from '../../../store/actions';
 import { db, storage } from '../../../firebase';
 import { routes } from '../../../constants';
@@ -192,7 +192,9 @@ class AdminPostEditor extends Component {
   };
 
   attachQuillRefs = () => {
-    if (typeof this?.reactQuillRef?.getEditor !== 'function') return;
+    if (typeof this?.reactQuillRef?.getEditor !== 'function') {
+      return;
+    }
     const editor = this.reactQuillRef.getEditor();
     this.quillRef = this.reactQuillRef.makeUnprivilegedEditor(editor);
   };
@@ -364,20 +366,17 @@ class AdminPostEditor extends Component {
           </div>
         )}
         <SInput className="admin-post__input" onChange={onDispatch('title')} value={state.title}>
-          {props.type !== 'canteen' ? 'Головний заголовок статті' : "Коментар (Не обов'язково)"}
+          {props.type !== 'canteen' ? (
+            <span>
+              <sup>*</sup>Головний заголовок статті
+            </span>
+          ) : (
+            "Коментар (Не обов'язково)"
+          )}
         </SInput>
         {!['canteen', 'activity'].includes(props.type) && (
-          <SInput
-            className="admin-post__input"
-            onChange={onDispatch('iframe')}
-            value={state.iframe}
-          >
-            Посилання на сайт, який буде інтегровано на сторінці
-          </SInput>
-        )}
-        {!['canteen', 'activity'].includes(props.type) && (
           <SInput className="admin-post__input" onChange={onDispatch('video')} value={state.video}>
-            Посилання на відео з facebook
+            Посилання на відео з facebook (Не обов&apos;язково)
           </SInput>
         )}
         {props.type === 'canteen' && (
@@ -399,7 +398,7 @@ class AdminPostEditor extends Component {
           acceptedFileTypes={['image/png', 'image/jpg', 'image/jpeg']}
           maxFiles={10}
           onupdatefiles={onDispatch('images')}
-          labelIdle={`Перетягни фото сюди або <br/><span class="filepond--label-action"> обери файлы </span>`}
+          labelIdle={`Перетягни фото сюди або <br/><span class="filepond--label-action"> обери файли </span>`}
         />
         {!!state?.oldImages?.length && (
           <ul className="admin-post__images-old">
@@ -472,7 +471,7 @@ class AdminPostEditor extends Component {
           disabled={isDisabled()}
           label="Опублікувати статтю"
         >
-          <span role="img" area-label="post">
+          <span role="img" aria-label="post">
             ✎
           </span>
         </SButton>
