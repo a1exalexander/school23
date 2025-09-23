@@ -24,6 +24,7 @@ import { Empty } from '../common/Empty';
 import { SButton, SUp } from '../common/buttons';
 import { STransitionSwitch } from '../common/transition';
 import { SEditorPreview } from '../common/SEditorPreview';
+import LikeButton from '../common/LikeButton';
 
 const AdminControls = dynamic(() => import('./components/AdminControls'), { ssr: false });
 const Slider = dynamic(() => import('../common/Slider'), { ssr: false });
@@ -59,6 +60,8 @@ const Post = ({
   const date = `Від ${moment(post?.created * 1000).format('DD MMMM, YYYY')}`;
   const hasImages = Array.isArray(post?.images) && !!post?.images.length;
   const editMode = !!post?.delta && !!isAuth && !!isEditorVisible;
+
+  const isDeltaEmpty = !post?.delta || (post?.delta?.ops && post?.delta?.ops.length === 0);
 
   return (
     <Page className={classNames('post', className)}>
@@ -112,7 +115,7 @@ const Post = ({
               {post?.text && (
                 <SEditorPreview
                   className="post__content"
-                  content={post?.delta || post?.text}
+                  content={isDeltaEmpty ? post?.text : post?.delta}
                   postType={post?.type}
                 />
               )}
@@ -123,6 +126,11 @@ const Post = ({
                   src={post?.iframe}
                   frameBorder="0"
                 />
+              )}
+              {!isEmpty && (
+                <div className="post__like-section">
+                  <LikeButton post={post} className="post__like-button" showCount />
+                </div>
               )}
             </div>
           )}

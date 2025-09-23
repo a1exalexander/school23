@@ -11,6 +11,7 @@ import { trancate } from '../../../utils';
 import { routes } from '../../../constants';
 import { getContent } from '../../../utils/truncate';
 
+
 const NewsCard = ({ post, className, idx }) => {
   const postType = post?.type === 'post' ? 'Стаття' : 'Оголошення';
   const badgeColor = post?.type === 'post' ? 'blue' : 'red';
@@ -68,17 +69,25 @@ const NewsCard = ({ post, className, idx }) => {
             }}
           />
         </div>
-        <div className="news-card__button-wrapper">
-          <SButton
-            onClick={(e) => {
-              if (e) e.preventDefault();
-              router.push({ pathname: routes.NEWS_POST, query: { nid: post.id } });
-            }}
-            type={hasImage ? 'white' : 'secondary'}
-            className="news-card__button"
-          >
-            Переглянути
-          </SButton>
+        <div className="news-card__footer">
+          <div className="news-card__like-counter">
+            <svg className="like-counter__icon" viewBox="0 0 24 24" fill="#e91e63">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+            <span className="like-counter__count">{post?.likes || 0}</span>
+          </div>
+          <div className="news-card__button-wrapper">
+            <SButton
+              onClick={(e) => {
+                if (e) e.preventDefault();
+                router.push({ pathname: routes.NEWS_POST, query: { nid: post.id } });
+              }}
+              type={hasImage ? 'white' : 'secondary'}
+              className="news-card__button"
+            >
+              Переглянути
+            </SButton>
+          </div>
         </div>
       </a>
     </Link>

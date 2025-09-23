@@ -2,6 +2,11 @@
   "name": "school23.next",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0",
+    "yarn": ">=1.22.0"
+  },
   "scripts": {
     "dev": "NODE_OPTIONS=--openssl-legacy-provider next dev",
     "build": "NODE_OPTIONS=--openssl-legacy-provider next build",

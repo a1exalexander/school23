@@ -15,12 +15,19 @@ export const getNews = (currentPage, itemsPerPage, searchQuery = '') => async (
     return;
   }
   dispatch(actionType.NEWS_REQUEST);
-  const { posts } = await db.getPosts(currentPage, itemsPerPage, searchQuery);
+
+  // Fetch posts and total count
+  const [postsResult, totalCount] = await Promise.all([
+    db.getPosts(currentPage, itemsPerPage, searchQuery),
+    searchQuery ? null : db.getPostsCount() // Only get count for non-search queries
+  ]);
+
+  const { posts } = postsResult || {};
   if (posts) {
     posts.sort((a, b) => Number(b.created) - Number(a.created));
     dispatch({
       type: searchQuery ? actionType.NEWS_SET : actionType.NEWS_UPDATE,
-      payload: { posts, currentPage }
+      payload: { posts, currentPage, totalCount }
     });
     dispatch(actionType.NEWS_SUCCESS);
   } else {
@@ -29,4 +36,9 @@ export const getNews = (currentPage, itemsPerPage, searchQuery = '') => async (
   }
 };
 
-export default { getNews };
+export const updatePostLikes = (postId, newLikesCount) => ({
+  type: actionType.NEWS_UPDATE_LIKES,
+  payload: { postId, newLikesCount }
+});
+
+export default { getNews, updatePostLikes };

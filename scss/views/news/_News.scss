@@ -113,6 +113,58 @@ $style: news;
     padding: 24px 0;
     gap: 12px;
     align-items: center;
+
+    @media screen and (max-width: $screen-tablet) {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+  &__pagination-pages {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    @media screen and (max-width: $screen-tablet) {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+  }
+  &__pagination-page {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 8px;
+    border-radius: 8px;
+    @include transition(all);
+
+    &--active {
+      font-weight: 600;
+    }
+
+    &:not(:disabled):hover {
+      transform: translateY(-1px);
+    }
+
+    @media screen and (max-width: $screen-iphone-plus) {
+      min-width: 36px;
+      height: 36px;
+      padding: 0 6px;
+    }
+  }
+  &__pagination-ellipsis {
+    padding: 0 8px;
+    @include text($H600, 400, $N60);
+    user-select: none;
+    display: flex;
+    align-items: center;
+    height: 40px;
+
+    @media screen and (max-width: $screen-iphone-plus) {
+      height: 36px;
+      padding: 0 6px;
+    }
   }
   &__pagination-text {
     white-space: nowrap;

@@ -128,4 +128,26 @@ $container: 800px;
     margin-bottom: 4px;
     font-weight: 700;
   }
+  
+  &__like-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 0;
+    margin-top: 32px;
+    border-top: 1px solid $N100;
+  }
+  
+  &__like-button {
+    font-size: 16px;
+    
+    .like-button__icon {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .like-button__count {
+      @include text($B400, 500);
+    }
+  }
 }

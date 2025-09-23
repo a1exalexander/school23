@@ -19,11 +19,46 @@ const objectWithFilteredImages = (data) => ({
   images: (data?.images || []).filter((image) => isObject(image))
 });
 
+// Counter functions
+export const getPostsCount = async () => {
+  try {
+    const doc = await db.collection('metadata').doc('counters').get();
+    if (!doc.exists) {
+      logger.error('Posts counter not found', 'GET POSTS COUNT');
+      return 0;
+    }
+    const data = doc.data();
+    return data.postsCount || 0;
+  } catch (err) {
+    logger.error(err, 'GET POSTS COUNT');
+    return 0;
+  }
+};
+
+const updatePostsCount = async (increment = true) => {
+  try {
+    const counterRef = db.collection('metadata').doc('counters');
+    const doc = await counterRef.get();
+
+    if (!doc.exists) {
+      logger.error('Posts counter not found for update', 'UPDATE POSTS COUNT');
+      return;
+    }
+
+    const currentCount = doc.data().postsCount || 0;
+    const newCount = increment ? currentCount + 1 : Math.max(0, currentCount - 1);
+    await counterRef.update({ postsCount: newCount });
+  } catch (err) {
+    logger.error(err, 'UPDATE POSTS COUNT');
+  }
+};
+
 // Post
 export const addPost = async (post) => {
   try {
     const ref = await db.collection('news').add(genPost(post));
-    logger.info(ref, 'NEW POST');
+    await updatePostsCount(true); // Increment counter
+    logger.info(ref.id, 'NEW POST');
     return ref;
   } catch (err) {
     logger.error(err, 'NEW POST');
@@ -45,6 +80,7 @@ export const updatePost = async (id, post) => {
 export const deletePost = async (id) => {
   try {
     await db.collection('news').doc(id).delete();
+    await updatePostsCount(false); // Decrement counter
     logger.info('Success', 'DELETE POST');
     return true;
   } catch (err) {
@@ -53,31 +89,120 @@ export const deletePost = async (id) => {
   }
 };
 
+// Cache for cursor positions to enable efficient pagination
+const pageCursorCache = new Map();
+
 export const getPosts = async (
   currentPage = 1,
   itemsPerPage = ITEMS_PER_PAGE,
   searchQuery = ''
 ) => {
   try {
-    let query = db.collection('news');
+    let query = db.collection('news').orderBy('created', 'desc');
 
     if (searchQuery) {
       const tokens = searchQuery.split(/\s+/).map((word) => word.toLowerCase());
-      query = query.where('titleTokens', 'array-contains-any', tokens).orderBy('created', 'desc');
-    } else {
-      query = query.orderBy('created', 'desc').limit(currentPage * itemsPerPage);
+      query = db
+        .collection('news')
+        .where('titleTokens', 'array-contains-any', tokens)
+        .orderBy('created', 'desc');
+
+      // For search queries, use simple pagination (less critical for performance)
+      const querySnapshot = await query.limit(itemsPerPage * currentPage).get();
+      const allResults = querySnapshot.docs.map((doc) => ({
+        ...postModel,
+        ...doc.data(),
+        id: doc.id
+      }));
+
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const pageResults = allResults.slice(startIndex, startIndex + itemsPerPage);
+
+      logger.info(`Search Page ${currentPage}: ${pageResults?.length} posts`, 'GET POSTS');
+      return {
+        posts: arrayWithFilteredImages(pageResults),
+        lastVisible: querySnapshot.docs[querySnapshot.docs.length - 1] || null
+      };
     }
 
-    const querySnapshot = await query.get();
-    const res = querySnapshot.docs.map((doc) => ({
+    // Efficient cursor-based pagination for regular posts
+    if (currentPage === 1) {
+      // First page - simple query
+      const querySnapshot = await query.limit(itemsPerPage).get();
+      const results = querySnapshot.docs.map((doc) => ({
+        ...postModel,
+        ...doc.data(),
+        id: doc.id
+      }));
+
+      // Cache the last document for next page
+      if (querySnapshot.docs.length > 0) {
+        pageCursorCache.set(2, querySnapshot.docs[querySnapshot.docs.length - 1]);
+      }
+
+      logger.info(`Page ${currentPage}: ${results?.length} posts (cursor-based)`, 'GET POSTS');
+      return {
+        posts: arrayWithFilteredImages(results),
+        lastVisible: querySnapshot.docs[querySnapshot.docs.length - 1] || null
+      };
+    }
+
+    // For pages > 1, try to use cached cursor or build cursor chain
+    let startAfterDoc = pageCursorCache.get(currentPage);
+
+    if (!startAfterDoc) {
+      // Build cursor by fetching from page 1 up to current page
+      // This is more efficient than fetching all posts at once
+      const tempQuery = query;
+      let lastDoc = null;
+
+      for (let page = 1; page < currentPage; page += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        const tempSnapshot = await (lastDoc
+          ? tempQuery.startAfter(lastDoc).limit(itemsPerPage)
+          : tempQuery.limit(itemsPerPage)
+        ).get();
+
+        if (tempSnapshot.docs.length === 0) {
+          // No more posts available
+          return {
+            posts: [],
+            lastVisible: null
+          };
+        }
+
+        lastDoc = tempSnapshot.docs[tempSnapshot.docs.length - 1];
+
+        // Cache this cursor for future use
+        if (page + 1 <= currentPage) {
+          pageCursorCache.set(page + 1, lastDoc);
+        }
+      }
+
+      startAfterDoc = lastDoc;
+    }
+
+    // Fetch the actual page data
+    const querySnapshot = await (startAfterDoc
+      ? query.startAfter(startAfterDoc).limit(itemsPerPage)
+      : query.limit(itemsPerPage)
+    ).get();
+
+    const results = querySnapshot.docs.map((doc) => ({
       ...postModel,
       ...doc.data(),
       id: doc.id
     }));
-    logger.info(res, 'GET POSTS');
+
+    // Cache cursor for next page
+    if (querySnapshot.docs.length > 0) {
+      pageCursorCache.set(currentPage + 1, querySnapshot.docs[querySnapshot.docs.length - 1]);
+    }
+
+    logger.info(`Page ${currentPage}: ${results?.length} posts (cursor-based)`, 'GET POSTS');
     return {
-      posts: arrayWithFilteredImages(res),
-      lastVisible: querySnapshot.docs[querySnapshot.docs.length - 1]
+      posts: arrayWithFilteredImages(results),
+      lastVisible: querySnapshot.docs[querySnapshot.docs.length - 1] || null
     };
   } catch (err) {
     logger.error(err, 'GET POSTS');
@@ -99,11 +224,60 @@ export const getPost = async (id) => {
   }
 };
 
+export const incrementPostLikes = async (postId) => {
+  try {
+    const postRef = db.collection('news').doc(postId);
+
+    // Use Firestore transaction for atomic increment
+    await db.runTransaction(async (transaction) => {
+      const doc = await transaction.get(postRef);
+
+      if (!doc.exists) {
+        throw new Error('Post not found for like increment');
+      }
+
+      const currentLikes = doc.data().likes || 0;
+      transaction.update(postRef, { likes: currentLikes + 1 });
+    });
+
+    logger.info(`Post ${postId} likes incremented`, 'INCREMENT POST LIKES');
+    return true;
+  } catch (err) {
+    logger.error(err, 'INCREMENT POST LIKES');
+    return false;
+  }
+};
+
+export const decrementPostLikes = async (postId) => {
+  try {
+    const postRef = db.collection('news').doc(postId);
+
+    // Use Firestore transaction for atomic decrement
+    await db.runTransaction(async (transaction) => {
+      const doc = await transaction.get(postRef);
+
+      if (!doc.exists) {
+        throw new Error('Post not found for like decrement');
+      }
+
+      const currentLikes = doc.data().likes || 0;
+      const newLikes = Math.max(0, currentLikes - 1); // Prevent negative likes
+      transaction.update(postRef, { likes: newLikes });
+    });
+
+    logger.info(`Post ${postId} likes decremented`, 'DECREMENT POST LIKES');
+    return true;
+  } catch (err) {
+    logger.error(err, 'DECREMENT POST LIKES');
+    return false;
+  }
+};
+
 // Public Post
 export const addPublicInfo = async (post) => {
   try {
     const ref = await db.collection('publicInfo').add(genPublicInfo(post));
-    logger.info(ref, 'NEW PUBLIC INFO');
+    logger.info(ref.id, 'NEW PUBLIC INFO');
     return ref;
   } catch (err) {
     logger.error(err, 'NEW PUBLIC INFO');
@@ -141,7 +315,7 @@ export const getAllPublicInfo = async () => {
       ...doc.data(),
       id: doc.id
     }));
-    logger.info(res, 'GET PUBLIC INFO');
+    logger.info(res?.length, 'GET PUBLIC INFO');
     return arrayWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET PUBLIC INFO');
@@ -168,7 +342,7 @@ export const getPublicInfo = async (id) => {
 export const addActivityPost = async (post) => {
   try {
     const ref = await db.collection('activity').add(genActivityPost(post));
-    logger.info(ref, 'NEW ACTIVITY POST');
+    logger.info(ref.id, 'NEW ACTIVITY POST');
     return ref;
   } catch (err) {
     logger.error(err, 'NEW ACTIVITY POST');
@@ -206,7 +380,7 @@ export const getAllActivityPosts = async () => {
       ...doc.data(),
       id: doc.id
     }));
-    logger.info(res, 'GET ACTIVITY POST');
+    logger.info(res?.length, 'GET ACTIVITY POST');
     return arrayWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET ACTIVITY POST');
@@ -232,7 +406,7 @@ export const getActivityPost = async (id) => {
 export const addFood = async (post) => {
   try {
     const ref = await db.collection('food').add(genFood(post));
-    logger.info(ref, 'NEW FOOD');
+    logger.info(ref.id, 'NEW FOOD');
     return ref;
   } catch (err) {
     logger.error(err, 'NEW FOOD');
@@ -259,7 +433,7 @@ export const getFood = async () => {
       ...doc.data(),
       id: doc.id
     }));
-    logger.info(res, 'GET FOOD');
+    logger.info(res?.length, 'GET FOOD');
     return arrayWithFilteredImages(res);
   } catch (err) {
     logger.error(err, 'GET FOOD');

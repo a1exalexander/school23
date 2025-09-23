@@ -13,7 +13,8 @@ export const postModel = {
   created: '',
   images: [],
   video: '',
-  iframe: ''
+  iframe: '',
+  likes: 0
 };
 
 export const formatPost = (post) => {

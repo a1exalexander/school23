@@ -37,7 +37,7 @@ const NewsPost = ({ post, isEmptyInit, notify }) => {
 
   const onUpdate = async (updatedPost) => {
     const fetchedPost = await db.getPost(post.id);
-    const newPost = { ...fetchedPost, ...updatedPost };
+    const newPost = { ...fetchedPost, ...updatedPost, created: fetchedPost.created };
     const res = await db.updatePost(post.id, newPost);
     if (res) {
       window.scrollTo(0, 0);
