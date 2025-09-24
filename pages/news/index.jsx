@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import NewsCard from '../../components/views/news/NewsCard';
 import { actions } from '../../store/modules/news';
-import { Empty, SButton, SLoader } from '../../components';
+import { Empty, SLoader, Pagination } from '../../components';
 import { Page } from '../../components/Page';
 import { IconSearch } from '../../components/common/icons';
 import { Header } from '../../components/Header';
@@ -51,132 +51,6 @@ const News = ({ loading, newsCache, getNews, news, totalCount }) => {
   const hasNews = newsList?.length > 0;
   const isLastPage = newsList?.length < ITEMS_PER_PAGE;
 
-  const generatePageNumbers = () => {
-    // Calculate exact last page from total count
-    const exactLastPage = totalCount > 0 ? Math.ceil(totalCount / ITEMS_PER_PAGE) : currentPage;
-
-    // Use exact count if available, otherwise fall back to estimation
-    let lastPage;
-    if (totalCount > 0) {
-      lastPage = exactLastPage;
-    } else if (isLastPage) {
-      lastPage = currentPage;
-    } else {
-      lastPage = currentPage + 1;
-    }
-
-    // Ensure lastPage is at least currentPage
-    lastPage = Math.max(lastPage, currentPage);
-
-    const pages = [];
-
-    // If we have 7 or fewer pages total, show them all
-    if (lastPage <= 7) {
-      for (let i = 1; i <= lastPage; i += 1) {
-        pages.push(i);
-      }
-      return pages;
-    }
-
-    // Complex pagination logic for more than 7 pages
-    const delta = 2; // Number of pages around current page
-
-    // Calculate range around current page
-    const rangeStart = Math.max(2, currentPage - delta);
-    const rangeEnd = Math.min(lastPage - 1, currentPage + delta);
-
-    // Always show page 1
-    pages.push(1);
-
-    // Add left ellipsis if there's a gap after page 1
-    if (rangeStart > 2) {
-      pages.push('...');
-    }
-
-    // Add pages in the range around current page
-    for (let i = rangeStart; i <= rangeEnd; i += 1) {
-      // Don't add page 1 again
-      if (i !== 1) {
-        pages.push(i);
-      }
-    }
-
-    // Add right ellipsis if there's a gap before last page
-    if (rangeEnd < lastPage - 1) {
-      pages.push('...');
-    }
-
-    // Always show last page (if it's different from page 1)
-    if (lastPage > 1 && rangeEnd < lastPage) {
-      pages.push(lastPage);
-    }
-
-    return pages;
-  };
-
-  const renderPageButton = (page, index) => {
-    if (page === '...') {
-      return (
-        <span key={`ellipsis-${index}`} className="news__pagination-ellipsis">
-          ...
-        </span>
-      );
-    }
-
-    const pageNum = typeof page === 'number' ? page : parseInt(page, 10);
-    const isCurrentPage = pageNum === currentPage;
-    const isDisabled = isCurrentPage || (pageNum > currentPage && isLastPage);
-
-    return (
-      <SButton
-        key={`page-${pageNum}-${index}`}
-        className={`news__pagination-page ${isCurrentPage ? 'news__pagination-page--active' : ''}`}
-        onClick={() => handlePageChange(pageNum)}
-        disabled={isDisabled}
-        type={isCurrentPage ? 'primary' : 'secondary'}
-        buttonType="button"
-      >
-        {pageNum}
-      </SButton>
-    );
-  };
-
-  const renderPagination = () => {
-    if (isSearchQuery || loading) {
-      return null;
-    }
-
-    const pageNumbers = generatePageNumbers();
-
-    return (
-      <div className="news__pagination">
-        <SButton
-          className="news__pagination-button"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          type="secondary"
-          buttonType="button"
-          label="Назад"
-        >
-          ⬅️
-        </SButton>
-        <div className="news__pagination-pages">
-          {pageNumbers.map((page, index) => renderPageButton(page, index))}
-        </div>
-        <SButton
-          className="news__pagination-button"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={!hasNews || isLastPage}
-          type="secondary"
-          buttonType="button"
-          label="➡️"
-        >
-          Вперед
-        </SButton>
-      </div>
-    );
-  };
-
   return (
     <Page title="Новини" className="news">
       <Header title="Шкільні новини" className="_mobile-pb">
@@ -194,9 +68,27 @@ const News = ({ loading, newsCache, getNews, news, totalCount }) => {
       <SLoader loading={loading}>
         {hasNews || loading ? (
           <div className="news__grid-wrapper">
-            {renderPagination()}
+            <Pagination
+              currentPage={currentPage}
+              totalCount={totalCount}
+              itemsPerPage={ITEMS_PER_PAGE}
+              onPageChange={handlePageChange}
+              hasItems={hasNews}
+              isLastPage={isLastPage}
+              isSearchQuery={isSearchQuery}
+              loading={loading}
+            />
             <div className="news__grid">{newsList}</div>
-            {renderPagination()}
+            <Pagination
+              currentPage={currentPage}
+              totalCount={totalCount}
+              itemsPerPage={ITEMS_PER_PAGE}
+              onPageChange={handlePageChange}
+              hasItems={hasNews}
+              isLastPage={isLastPage}
+              isSearchQuery={isSearchQuery}
+              loading={loading}
+            />
           </div>
         ) : (
           <Empty />

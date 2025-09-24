@@ -7,6 +7,7 @@ import * as icons from './common/icons';
 import SVideo from './common/media/SVideo';
 import SLoader from './common/SLoader';
 import { Empty } from './common/Empty';
+import Pagination from './common/Pagination';
 
 export {
   Empty,
@@ -23,5 +24,6 @@ export {
   STransitionSwitch,
   transitionClasses,
   icons,
-  Meta
+  Meta,
+  Pagination
 };
