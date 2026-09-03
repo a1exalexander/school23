@@ -1,6 +1,7 @@
 import filterSearch from './search';
 import trancate from './truncate';
 import clock from './clock';
+import { getHoliday, isHoliday } from './holidays';
 import {
   formatFileSize,
   getFileName,
@@ -56,6 +57,8 @@ export {
   filterSearch,
   trancate,
   clock,
+  getHoliday,
+  isHoliday,
   formatFileSize,
   getFileName,
   getFileSize,

@@ -1,15 +1,17 @@
-$names: 'before', 'lesson', 'break', 'after';
+$names: 'before', 'lesson', 'break', 'after', 'holiday';
 $bg: (
   'before': $P300,
   'lesson': $G300,
   'break': $Y300,
-  'after': $B300
+  'after': $B300,
+  'holiday': $T300
 );
 $color: (
   'before': $N0,
   'lesson': $N0,
   'break': $N0,
-  'after': $N0
+  'after': $N0,
+  'holiday': $N0
 );
 $styles: nav-info;
 

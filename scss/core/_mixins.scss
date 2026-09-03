@@ -159,6 +159,8 @@ $screen-retina: 1660px;
     background: linear-gradient(271deg, $G200, $G400);
   } @else if $type == break {
     background: linear-gradient(271deg, $Y200, $Y400);
+  } @else if $type == holiday {
+    background: linear-gradient(271deg, $T200, $T400);
   } @else {
     background: linear-gradient(271deg, $B200, $B300);
   }
