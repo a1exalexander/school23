@@ -60,6 +60,14 @@ $style: news-card;
       height: 72px;
     }
   }
+  // Without a picture the media area is only a decorative placeholder,
+  // so it should not keep the full space reserved for a real image.
+  &:not(._with-image):not(._announcement) &__media {
+    aspect-ratio: 32 / 9;
+    @supports not (aspect-ratio: 1 / 1) {
+      height: 90px;
+    }
+  }
   &__image {
     width: 100%;
     height: 100%;
@@ -79,6 +87,9 @@ $style: news-card;
   }
   &._announcement &__placeholder svg {
     @include size(24px);
+  }
+  &:not(._with-image):not(._announcement) &__placeholder svg {
+    @include size(26px);
   }
   &__badge {
     position: absolute;
@@ -152,6 +163,11 @@ $style: news-card;
       &._announcement .#{$style}__media {
         width: 96px;
         height: auto;
+      }
+      &:not(._with-image):not(._announcement) .#{$style}__media {
+        width: 22%;
+        aspect-ratio: auto;
+        min-height: 0;
       }
       .#{$style}__body {
         padding: 28px 32px;
