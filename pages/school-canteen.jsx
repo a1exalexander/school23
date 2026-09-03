@@ -10,6 +10,8 @@ import { db } from '../firebase';
 import { notify } from '../store/modules/notifications/actions';
 import { ITEMS_PER_PAGE } from '../constants';
 import usePagination from '../hooks/usePagination';
+import { YearDivider } from '../components/common/YearDivider';
+import { withYearDividers, yearFromDate } from '../utils/groupByYear';
 
 const toUnix = (date) =>
   date && typeof date.toDate === 'function' ? moment(date.toDate()).unix() : 0;
@@ -74,9 +76,18 @@ export const SchoolCanteenPage = () => {
           {food.length || loading ? (
             <>
               <div className="SchoolCanteenPage__grid">
-                {pageItems.map((item) => (
-                  <CanteenCard key={item.id} item={item} canRemove={!!status} onRemove={onRemove} />
-                ))}
+                {withYearDividers(pageItems, (item) => yearFromDate(item?.date)).map((entry) =>
+                  entry.kind === 'divider' ? (
+                    <YearDivider key={entry.key} year={entry.year} />
+                  ) : (
+                    <CanteenCard
+                      key={entry.item.id}
+                      item={entry.item}
+                      canRemove={!!status}
+                      onRemove={onRemove}
+                    />
+                  )
+                )}
               </div>
               {totalPages > 1 && (
                 <Pagination

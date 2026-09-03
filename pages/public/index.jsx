@@ -8,6 +8,8 @@ import { Page } from '../../components/Page';
 import { Header } from '../../components/Header';
 import { ITEMS_PER_PAGE } from '../../constants';
 import usePagination from '../../hooks/usePagination';
+import { YearDivider } from '../../components/common/YearDivider';
+import { withYearDividers, yearFromUnix } from '../../utils/groupByYear';
 
 const Public = () => {
   const [search, setSearch] = useState('');
@@ -54,9 +56,13 @@ const Public = () => {
             <div className="public__grid-wrapper">
               {isSearching && <p className="public__count">{`Знайдено: ${totalCount}`}</p>}
               <div className="public__grid">
-                {pageItems.map((post) => (
-                  <PublicCard key={post.id} post={post} className="public__card" />
-                ))}
+                {withYearDividers(pageItems, (post) => yearFromUnix(post?.created)).map((entry) =>
+                  entry.kind === 'divider' ? (
+                    <YearDivider key={entry.key} year={entry.year} />
+                  ) : (
+                    <PublicCard key={entry.item.id} post={entry.item} className="public__card" />
+                  )
+                )}
               </div>
               {totalPages > 1 && (
                 <Pagination

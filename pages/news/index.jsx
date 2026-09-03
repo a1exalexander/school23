@@ -10,6 +10,8 @@ import { Page } from '../../components/Page';
 import { Header } from '../../components/Header';
 import { ITEMS_PER_PAGE } from '../../constants';
 import useDebounced from '../../hooks/useDebounced';
+import { YearDivider } from '../../components/common/YearDivider';
+import { withYearDividers, yearFromUnix } from '../../utils/groupByYear';
 
 const News = ({ loading, newsCache, getNews, news, totalCount }) => {
   const router = useRouter();
@@ -40,7 +42,11 @@ const News = ({ loading, newsCache, getNews, news, totalCount }) => {
     } else {
       list = newsCache?.[currentPage];
     }
-    return list?.map((post, idx) => {
+    return withYearDividers(list, (post) => yearFromUnix(post?.created)).map((entry, idx) => {
+      if (entry.kind === 'divider') {
+        return <YearDivider key={entry.key} year={entry.year} className="news__divider" />;
+      }
+      const { item: post } = entry;
       const featured = idx === 0 && !isSearchQuery && currentPage === 1;
       return (
         <NewsCard
