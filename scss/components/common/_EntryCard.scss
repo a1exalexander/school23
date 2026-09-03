@@ -1,0 +1,102 @@
+$style: entry-card;
+
+.#{$style} {
+  position: relative;
+  @include flex-row(flex-start, center);
+  gap: 16px;
+  min-height: 92px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid $N30;
+  background-color: $N0;
+  color: $N900;
+  @include transition(box-shadow, border-color, transform);
+  @include media {
+    gap: 20px;
+    padding: 18px 20px;
+  }
+  @include media($screen-desktop) {
+    &:hover {
+      border-color: $N40;
+      box-shadow: $SH4;
+      transform: translateY(-2px);
+      .#{$style}__arrow {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .#{$style}__title {
+        color: $B400;
+      }
+    }
+  }
+  &:active {
+    transform: translateY(0);
+    box-shadow: $SH1;
+  }
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($B300, 0.3);
+  }
+  &__media {
+    @include size(56px);
+    @include flex-row(center, center);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: $C50;
+    @include media {
+      @include size(64px);
+    }
+  }
+  &._with-image &__media {
+    background-color: $N20;
+  }
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  &__icon {
+    @include svg(26px, $C400);
+    @include media {
+      @include svg(30px, $C400);
+    }
+  }
+  &__body {
+    flex: 1 1 auto;
+    min-width: 0;
+    @include flex-col(center, flex-start);
+    gap: 6px;
+  }
+  &__title {
+    @include text($H600, 500, $N900);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    @include transition(color);
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+  &__date {
+    @include text($H300, 400, $N300);
+    font-family: $base-font;
+  }
+  &__arrow {
+    @include flex-row(center, center);
+    @include size(32px, true);
+    flex-shrink: 0;
+    background-color: $N20;
+    @include transition(opacity, transform, background-color);
+    svg {
+      @include svg(11px, $N600);
+      transform: rotate(180deg);
+    }
+    @include media($screen-desktop) {
+      opacity: 0;
+      transform: translateX(-6px);
+    }
+  }
+}

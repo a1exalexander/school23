@@ -1,110 +1,31 @@
 $style: news;
+
 .#{$style} {
-  &__title {
-    display: none;
-    @include media {
-      display: block;
-      padding-left: 12px;
-      @include text($H700, 400);
-      margin-right: 24px;
-    }
-  }
-  &__header {
-    @include flex-row(flex-start, flex-end);
-    margin-bottom: 32px;
-  }
   &__grid-wrapper {
-    max-width: 1240px;
-    margin: 0 auto;
     width: 100%;
+    @include flex-col(flex-start, stretch);
+    gap: 24px;
   }
   &__grid {
-    @include flex-row(flex-start, stretch);
-    flex-wrap: wrap;
-    @include media($screen-desktop) {
-      margin: 0 -12px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+    @include media($screen-tablet) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+    @include media($screen-desktop-large) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   &__card {
-    margin-bottom: 24px;
-    min-height: 180px;
-    height: auto;
-    flex: 1 1 100%;
-    cursor: pointer;
-    @include media($screen-desktop) {
-      cursor: auto;
-      height: 320px;
-      margin: 12px 12px 12px 12px;
-      flex: 1 1 calc(50% - 24px);
-      &:nth-child(2n + 3) {
-        flex: 1 1 calc(40% - 24px);
-      }
-      &:nth-child(2n + 4) {
-        flex: 1 1 calc(60% - 24px);
-      }
-      &:nth-child(4n + 4) {
-        flex: 1 1 calc(40% - 24px);
-      }
-      &:nth-child(4n + 5) {
-        flex: 1 1 calc(60% - 24px);
-      }
-      &:nth-child(4) {
-        flex: 1 1 calc(40% - 24px);
-      }
-      &:nth-child(5) {
-        flex: 1 1 calc(60% - 24px);
-      }
-      &:nth-child(7n + 7) {
-        flex: 1 1 calc(40% - 24px);
-      }
-      &:first-child {
-        flex: 1 1 calc(100% - 24px);
-        .news-card__text {
-          max-width: 70%;
-        }
-      }
-    }
-    @include media($screen-hd) {
-      flex: 1 1 calc(25% - 24px);
-      &:nth-child(even),
-      &:nth-child(odd) {
-        flex: 1 1 calc(25% - 24px);
-      }
-      &:first-child {
-        flex: 1 1 calc(100% - 24px);
-      }
-      &:nth-child(3n + 3) {
-        flex: 1 1 calc(38% - 24px);
-      }
-      &:nth-child(2n + 2) {
-        flex: 1 1 calc(25% - 24px);
-      }
-      &:nth-child(7n + 7) {
-        flex: 1 1 calc(46% - 24px);
-      }
-      &:nth-child(6n + 6) {
-        flex: 1 1 calc(46% - 24px);
-      }
+    min-width: 0;
+    &._featured {
+      grid-column: 1 / -1;
     }
   }
-  &__input-wrapper {
-    @include flex-row(flex-start, center);
-  }
-  &__input-icon {
-    @include svg(16px, $N100);
-    margin-right: 6px;
-    order: -1;
-  }
-  &__input {
-    border: none;
-    outline: none;
-    @include text($H600, 300);
-    @include transition(all);
-    &::placeholder {
-      @include text($H600, 300, $N60);
-    }
-    &:focus + .#{$style}__input-icon {
-      fill: $N900;
-    }
+  &__count {
+    @include text($H300, 400, $N300);
   }
 }

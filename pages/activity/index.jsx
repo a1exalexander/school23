@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActivityCard } from '../../components/views/activty/ActivityCard';
 import { SLoader, Empty, Pagination } from '../../components';
-import { IconSearch } from '../../components/common/icons';
+import { SSearch } from '../../components/common/form/SSearch';
 import { getters, actions } from '../../store/modules/activity';
 import { Page } from '../../components/Page';
 import { Header } from '../../components/Header';
@@ -11,13 +10,13 @@ import { ITEMS_PER_PAGE } from '../../constants';
 import usePagination from '../../hooks/usePagination';
 
 const Activity = () => {
-  const [state, setState] = useState('');
+  const [search, setSearch] = useState('');
 
   const { loading, pages = [] } = useSelector((store) => store.activity || {});
 
   const dispatch = useDispatch();
 
-  const filteredPages = useMemo(() => getters.filteredPages(pages)(state), [pages, state]);
+  const filteredPages = useMemo(() => getters.filteredPages(pages)(search), [pages, search]);
 
   const {
     currentPage,
@@ -30,22 +29,8 @@ const Activity = () => {
     resetPage
   } = usePagination(filteredPages, ITEMS_PER_PAGE);
 
-  const renderPagination = () =>
-    totalPages > 1 ? (
-      <Pagination
-        currentPage={currentPage}
-        totalCount={totalCount}
-        itemsPerPage={ITEMS_PER_PAGE}
-        onPageChange={goToPage}
-        hasItems={hasItems}
-        isLastPage={isLastPage}
-        loading={loading}
-      />
-    ) : null;
-
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setState(value);
+  const handleChange = (value) => {
+    setSearch(value);
     resetPage();
   };
 
@@ -53,37 +38,46 @@ const Activity = () => {
     dispatch(actions.getActivityPosts());
   }, [dispatch]);
 
+  const isSearching = search.trim().length > 0;
+
   return (
-    <Page title="Діяльність Гімназії" className="public">
-      <Header title="Діяльність Гімназії" className="_mobile-pb">
-        <label className="public__input-wrapper">
-          <input
-            value={state}
-            onChange={handleChange}
-            className="public__input"
-            placeholder="Пошук..."
-            type="text"
-          />
-          <IconSearch className="public__input-icon" />
-        </label>
-      </Header>
-      <SLoader loading={loading}>
-        {pages.length || loading ? (
-          <div className="public__grid-wrapper">
-            {renderPagination()}
-            <div className="public__grid">
-              {pageItems.map((post, idx) => {
-                return (
-                  <ActivityCard key={post.id} idx={idx} post={post} className="public__card" />
-                );
-              })}
+    <Page title="Діяльність гімназії" className="public">
+      <div className="Page__inner">
+        <Header
+          title="Діяльність гімназії"
+          description="Гуртки, проєкти, учнівське самоврядування та інші напрями роботи гімназії."
+        >
+          <SSearch value={search} onChange={handleChange} placeholder="Пошук..." />
+        </Header>
+        <SLoader loading={loading}>
+          {filteredPages.length || loading ? (
+            <div className="public__grid-wrapper">
+              {isSearching && <p className="public__count">{`Знайдено: ${totalCount}`}</p>}
+              <div className="public__grid">
+                {pageItems.map((post) => (
+                  <ActivityCard key={post.id} post={post} className="public__card" />
+                ))}
+              </div>
+              {totalPages > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalCount={totalCount}
+                  itemsPerPage={ITEMS_PER_PAGE}
+                  onPageChange={goToPage}
+                  hasItems={hasItems}
+                  isLastPage={isLastPage}
+                  loading={loading}
+                />
+              )}
             </div>
-            {renderPagination()}
-          </div>
-        ) : (
-          <Empty />
-        )}
-      </SLoader>
+          ) : (
+            <Empty
+              text={isSearching ? 'Нічого не знайдено' : 'Матеріали поки відсутні'}
+              hint={isSearching ? 'Спробуйте інший пошуковий запит.' : undefined}
+            />
+          )}
+        </SLoader>
+      </div>
     </Page>
   );
 };

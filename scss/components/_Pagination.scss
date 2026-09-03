@@ -1,108 +1,81 @@
-@import '../core/vars';
-@import '../core/mixins';
+$style: pagination;
 
-.pagination {
+.#{$style} {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 24px 0;
-  gap: 12px;
-  align-items: center;
-
-  @media screen and (max-width: $screen-tablet) {
-    flex-wrap: wrap;
-  }
-
-  &__pages {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    & > * {
-        width: initial;
-        flex-grow: 0;
-        flex-shrink: 1;
-    }
-
-    @media screen and (max-width: $screen-tablet) {
-      order: 3;
-      width: 100%;
-      justify-content: center;
-      margin-top: 8px;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-  }
-
+  @include flex-row(center, center);
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 0;
+  &__button,
   &__page {
+    @include flex-row(center, center);
     min-width: 40px;
     height: 40px;
-    padding: 0 8px;
-    border-radius: 8px;
-    @include transition(all);
-
-    &--active {
-      font-weight: 600;
+    padding: 0 10px;
+    border-radius: 10px;
+    border: 1px solid $N40;
+    background-color: $N0;
+    @include text($H400, 500, $N700);
+    font-family: $head-font;
+    cursor: pointer;
+    @include transition(background-color, border-color, color, transform, box-shadow);
+    svg {
+      @include svg(12px, $N700);
     }
-
-    &:not(:disabled):hover {
-      transform: translateY(-1px);
+    @include media($screen-desktop) {
+      &:not(:disabled):hover {
+        border-color: $N60;
+        background-color: $N20;
+      }
     }
-
-    @media screen and (max-width: $screen-tablet) {
-      min-width: 32px;
-      height: 32px;
-      padding: 0 4px;
-      font-size: 14px;
-      border-radius: 6px;
+    &:not(:disabled):active {
+      transform: translateY(1px);
     }
-
-    @media screen and (max-width: $screen-iphone-plus) {
-      min-width: 28px;
-      height: 28px;
-      padding: 0 2px;
-      font-size: 12px;
+    &:disabled {
+      cursor: default;
+      color: $N70;
+      background-color: $N10;
+      svg {
+        fill: $N70;
+      }
     }
-  }
-
-  &__ellipsis {
-    padding: 0 8px;
-    @include text($H600, 400, $N60);
-    user-select: none;
-    display: flex;
-    align-items: center;
-    height: 40px;
-
-    @media screen and (max-width: $screen-tablet) {
-      height: 32px;
-      padding: 0 4px;
-      font-size: 14px;
-    }
-
-    @media screen and (max-width: $screen-iphone-plus) {
-      height: 28px;
-      padding: 0 2px;
-      font-size: 12px;
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba($B300, 0.25);
     }
   }
-
   &__button {
-    padding-left: 8px;
-    padding-right: 8px;
-    white-space: nowrap;
-    width: initial;
-    flex-grow: 0;
-    flex-shrink: 1;
-
-    @media screen and (max-width: $screen-tablet) {
-      padding-left: 12px;
-      padding-right: 12px;
-      font-size: 14px;
+    padding: 0 12px;
+    gap: 6px;
+    &._prev svg {
+      transform: translateX(-1px);
     }
-
-    @media screen and (max-width: $screen-iphone-plus) {
-      padding-left: 8px;
-      padding-right: 8px;
-      font-size: 12px;
+    &._next svg {
+      transform: rotate(180deg) translateX(-1px);
     }
+  }
+  &__button-text {
+    display: none;
+    @include media($screen-tablet-small) {
+      display: inline;
+    }
+  }
+  &__pages {
+    @include flex-row(center, center);
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  &__page--active,
+  &__page--active:disabled {
+    background-color: $N800;
+    border-color: $N800;
+    color: $N0;
+  }
+  &__ellipsis {
+    @include flex-row(center, center);
+    min-width: 28px;
+    height: 40px;
+    @include text($H400, 400, $N70);
+    user-select: none;
   }
 }

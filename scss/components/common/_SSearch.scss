@@ -1,0 +1,65 @@
+$style: s-search;
+
+.#{$style} {
+  position: relative;
+  @include flex-row(flex-start, center);
+  width: 100%;
+  height: 44px;
+  padding: 0 12px 0 14px;
+  border-radius: 12px;
+  border: 1px solid $N40;
+  background-color: $N0;
+  @include transition(border-color, box-shadow, background-color);
+  @include media($screen-tablet-small) {
+    width: 320px;
+  }
+  &:hover {
+    border-color: $N60;
+  }
+  &:focus-within {
+    border-color: $B200;
+    box-shadow: 0 0 0 3px rgba($B300, 0.15);
+  }
+  &__icon {
+    @include svg(16px, $N100);
+    margin-right: 10px;
+    @include transition(fill);
+  }
+  &:focus-within &__icon {
+    fill: $N800;
+  }
+  &__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    @include text($H500, 400, $N900);
+    font-family: $base-font;
+    -webkit-appearance: none;
+    appearance: none;
+    &::placeholder {
+      @include text($H500, 300, $N80);
+    }
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+  }
+  &__clear {
+    @include flex-row(center, center);
+    @include size(26px, true);
+    margin-left: 6px;
+    cursor: pointer;
+    background-color: $N30;
+    @include transition(background-color);
+    svg {
+      @include svg(10px, $N600);
+    }
+    &:hover {
+      background-color: $N40;
+    }
+  }
+}

@@ -61,6 +61,8 @@ const NewsPost = ({ post, isEmptyInit, notify }) => {
 
   return (
     <Post
+      backHref={routes.NEWS}
+      backLabel="До новин"
       post={$post}
       isEmpty={isEmpty}
       isEditorVisible={isEditorVisible}

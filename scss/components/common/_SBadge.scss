@@ -1,51 +1,50 @@
-$names: "blue", "green", "cyan", "red", "yellow";
+$names: 'blue', 'green', 'cyan', 'red', 'yellow';
 $bg-default: (
-  "blue": $B50,
-  "green": $G50,
-  "cyan": $C50,
-  "red": $R50,
-  "yellow": $Y50
+  'blue': $B50,
+  'green': $G50,
+  'cyan': $C50,
+  'red': $R50,
+  'yellow': $Y50
 );
 $color: (
-  "blue": $B400,
-  "green": $G300,
-  "cyan": $C300,
-  "red": $R300,
-  "yellow": $Y300
+  'blue': $B400,
+  'green': $G400,
+  'cyan': $C400,
+  'red': $R400,
+  'yellow': darken($Y400, 8%)
 );
 
 $styles: s-badge;
 .#{$styles} {
   background-color: $B50;
-  max-height: 20px;
-  border-radius: 2px;
-  padding: 3px 7px;
+  border-radius: 999px;
+  padding: 3px 9px;
   @include flex-row(center, center);
   display: inline-flex;
   box-shadow: none;
   cursor: default;
+  line-height: 1.2;
   @include transition(box-shadow, background-color);
-  transition-duration: 0.5s;
   pointer-events: all;
   &.large {
-    padding: 6px 12px 7px;
+    padding: 5px 12px;
     .#{$styles}__text {
-      font-size: $H200;
+      font-size: $H300;
     }
   }
   &__text {
-    font-size: $H100;
+    font-size: $H110;
     font-weight: 500;
+    font-family: $head-font;
+    letter-spacing: 0.01em;
     pointer-events: none;
     white-space: nowrap;
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
   @each $name in $names {
     &.#{$name} {
-      
-      &:active {
-        background-color: darken(map-get($bg-default, $name), 2%);
-        box-shadow: 0 0 8px 0 rgba(map-get($bg-default, $name), 0.9);
-      }
       background-color: map-get($bg-default, $name);
       color: map-get($color, $name);
       svg {

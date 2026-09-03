@@ -1,60 +1,121 @@
 $style: contacts;
+
 .#{$style} {
-  @extend %container;
-  width: 100%;
-  #typed {
-    white-space: pre-line;
-  }
-  &__message {
-    display: inline-block;
-    margin-bottom: 24px;
-  }
-  &__title {
-    line-height: 1;
-    display: none;
-    @include media {
-      display: block;
-      @include text($H800, 400);
-      margin-bottom: 32px;
-    }
-  }
-  &__container {
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
     width: 100%;
+    @include media($screen-netbook) {
+      grid-template-columns: minmax(320px, 5fr) 7fr;
+      gap: 32px;
+      align-items: start;
+    }
+  }
+  &__list {
+    list-style: none;
     @include flex-col(flex-start, stretch);
-    padding-top: 24px;
+    gap: 12px;
+  }
+  &__card {
+    @include flex-row(flex-start, flex-start);
+    gap: 16px;
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid $N30;
+    background-color: $N0;
+    color: $N900;
+    @include transition(box-shadow, border-color, transform);
     @include media {
-      padding-top: 42px;
-      @include flex-row(flex-start, baseline);
+      padding: 20px 22px;
+      gap: 18px;
+    }
+    &:not(._static) {
+      @include media($screen-desktop) {
+        &:hover {
+          border-color: $N40;
+          box-shadow: $SH4;
+          transform: translateY(-2px);
+          .#{$style}__hint {
+            color: $B400;
+          }
+        }
+      }
+      &:active {
+        transform: translateY(0);
+      }
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba($B300, 0.3);
     }
   }
-  &__content {
-    flex: 1 1 160px;
-    @include text($H900, 400);
-    line-height: 1.6;
-    margin-bottom: 42px;
-    @include media {
-      margin-bottom: 0;
-      margin-right: 15%;
+  &__icon {
+    @include size(48px);
+    @include flex-row(center, center);
+    border-radius: 14px;
+    flex-shrink: 0;
+    svg {
+      @include svg(22px, $N0);
     }
-    
+    &._mail {
+      background: linear-gradient(135deg, $B200, $B400);
+    }
+    &._phone {
+      background: linear-gradient(135deg, $G200, $G400);
+    }
+    &._pin {
+      background: linear-gradient(135deg, $R200, $P1);
+    }
   }
-  &__info {
-    flex: 1 1;
+  &__body {
+    @include flex-col(flex-start, flex-start);
+    gap: 4px;
+    min-width: 0;
+    padding-top: 2px;
   }
   &__caption {
-    @include text($H400, 400, $N200);
-    margin-bottom: 32px;
+    @include text($H200, 500, $N300);
     font-family: $head-font;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
   }
   &__value {
-    display: block;
-    @include text($H600, 400);
-    margin-bottom: 12px;
-    line-height: 1.5;
+    @include text($H600, 500, $N900);
+    line-height: 1.45;
+    word-break: break-word;
+    &._link {
+      @include transition(color);
+      &:hover {
+        color: $B400;
+      }
+    }
   }
-  &__link {
-    @include text($H600, 400);
-    line-height: 1.5;
-    margin-right: 12px;
+  &__hint {
+    margin-top: 6px;
+    @include text($H300, 400, $N400);
+    @include transition(color);
+  }
+  &__map {
+    position: relative;
+    width: 100%;
+    min-height: 320px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid $N30;
+    background-color: $N20;
+    @include media($screen-netbook) {
+      min-height: 100%;
+      height: 100%;
+    }
+    iframe {
+      position: absolute;
+      @include position;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
   }
 }

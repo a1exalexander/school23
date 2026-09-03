@@ -1,6 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SButton } from '../index';
+import classNames from 'classnames';
+import { IconArrowLeft } from './icons';
+
+const generatePageNumbers = (currentPage, totalCount, itemsPerPage, isLastPage) => {
+  let lastPage;
+  if (totalCount > 0) {
+    lastPage = Math.ceil(totalCount / itemsPerPage);
+  } else if (isLastPage) {
+    lastPage = currentPage;
+  } else {
+    lastPage = currentPage + 1;
+  }
+  lastPage = Math.max(lastPage, currentPage);
+
+  if (lastPage <= 7) {
+    return Array.from({ length: lastPage }, (_, i) => i + 1);
+  }
+
+  const delta = 2;
+  const rangeStart = Math.max(2, currentPage - delta);
+  const rangeEnd = Math.min(lastPage - 1, currentPage + delta);
+  const pages = [1];
+
+  if (rangeStart > 2) pages.push('...');
+  for (let i = rangeStart; i <= rangeEnd; i += 1) pages.push(i);
+  if (rangeEnd < lastPage - 1) pages.push('...');
+  if (rangeEnd < lastPage) pages.push(lastPage);
+
+  return pages;
+};
 
 const Pagination = ({
   currentPage,
@@ -9,133 +38,65 @@ const Pagination = ({
   onPageChange,
   hasItems,
   isLastPage,
-  isSearchQuery = false,
-  loading = false,
-  className = ''
+  isSearchQuery,
+  loading,
+  className
 }) => {
-  const generatePageNumbers = () => {
-    // Calculate exact last page from total count
-    const exactLastPage = totalCount > 0 ? Math.ceil(totalCount / itemsPerPage) : currentPage;
-
-    // Use exact count if available, otherwise fall back to estimation
-    let lastPage;
-    if (totalCount > 0) {
-      lastPage = exactLastPage;
-    } else if (isLastPage) {
-      lastPage = currentPage;
-    } else {
-      lastPage = currentPage + 1;
-    }
-
-    // Ensure lastPage is at least currentPage
-    lastPage = Math.max(lastPage, currentPage);
-
-    const pages = [];
-
-    // If we have 7 or fewer pages total, show them all
-    if (lastPage <= 7) {
-      for (let i = 1; i <= lastPage; i += 1) {
-        pages.push(i);
-      }
-      return pages;
-    }
-
-    // Complex pagination logic for more than 7 pages
-    const delta = 2; // Number of pages around current page
-
-    // Calculate range around current page
-    const rangeStart = Math.max(2, currentPage - delta);
-    const rangeEnd = Math.min(lastPage - 1, currentPage + delta);
-
-    // Always show page 1
-    pages.push(1);
-
-    // Add left ellipsis if there's a gap after page 1
-    if (rangeStart > 2) {
-      pages.push('...');
-    }
-
-    // Add pages in the range around current page
-    for (let i = rangeStart; i <= rangeEnd; i += 1) {
-      // Don't add page 1 again
-      if (i !== 1) {
-        pages.push(i);
-      }
-    }
-
-    // Add right ellipsis if there's a gap before last page
-    if (rangeEnd < lastPage - 1) {
-      pages.push('...');
-    }
-
-    // Always show last page (if it's different from page 1)
-    if (lastPage > 1 && rangeEnd < lastPage) {
-      pages.push(lastPage);
-    }
-
-    return pages;
-  };
-
-  const renderPageButton = (page, index) => {
-    if (page === '...') {
-      return (
-        <span key={`ellipsis-${index}`} className="pagination__ellipsis">
-          ...
-        </span>
-      );
-    }
-
-    const pageNum = typeof page === 'number' ? page : parseInt(page, 10);
-    const isCurrentPage = pageNum === currentPage;
-    const isDisabled = isCurrentPage || (pageNum > currentPage && isLastPage);
-
-    return (
-      <SButton
-        key={`page-${pageNum}-${index}`}
-        className={`pagination__page ${isCurrentPage ? 'pagination__page--active' : ''}`}
-        onClick={() => onPageChange(pageNum)}
-        disabled={isDisabled}
-        type={isCurrentPage ? 'primary' : 'secondary'}
-        buttonType="button"
-      >
-        {pageNum}
-      </SButton>
-    );
-  };
-
-  // Don't render if search query or loading
   if (isSearchQuery || loading) {
     return null;
   }
 
-  const pageNumbers = generatePageNumbers();
+  const pageNumbers = generatePageNumbers(currentPage, totalCount, itemsPerPage, isLastPage);
+
+  const renderPageButton = (page, index) => {
+    if (page === '...') {
+      return (
+        <span key={`ellipsis-${index}`} className="pagination__ellipsis" aria-hidden="true">
+          …
+        </span>
+      );
+    }
+    const isCurrentPage = page === currentPage;
+    const isDisabled = isCurrentPage || (page > currentPage && isLastPage);
+    return (
+      <button
+        key={`page-${page}`}
+        type="button"
+        className={classNames('pagination__page', { 'pagination__page--active': isCurrentPage })}
+        onClick={() => onPageChange(page)}
+        disabled={isDisabled}
+        aria-current={isCurrentPage ? 'page' : undefined}
+        aria-label={`Сторінка ${page}`}
+      >
+        {page}
+      </button>
+    );
+  };
 
   return (
-    <div className={`pagination ${className}`}>
-      <SButton
-        className="pagination__button"
+    <nav className={classNames('pagination', className)} aria-label="Пагінація">
+      <button
+        type="button"
+        className="pagination__button _prev"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        type="secondary"
-        buttonType="button"
-        label="Назад"
+        aria-label="Попередня сторінка"
       >
-        ⬅️
-      </SButton>
-      <div className="pagination__pages">
-        {pageNumbers.map((page, index) => renderPageButton(page, index))}
-      </div>
-      <SButton
-        className="pagination__button"
+        <IconArrowLeft />
+        <span className="pagination__button-text">Назад</span>
+      </button>
+      <div className="pagination__pages">{pageNumbers.map(renderPageButton)}</div>
+      <button
+        type="button"
+        className="pagination__button _next"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={!hasItems || isLastPage}
-        type="secondary"
-        buttonType="button"
-        label="Вперед"
+        aria-label="Наступна сторінка"
       >
-        ➡️
-      </SButton>
-    </div>
+        <span className="pagination__button-text">Вперед</span>
+        <IconArrowLeft />
+      </button>
+    </nav>
   );
 };
 

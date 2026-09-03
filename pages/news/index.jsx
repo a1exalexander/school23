@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,8 +5,8 @@ import { useRouter } from 'next/router';
 import NewsCard from '../../components/views/news/NewsCard';
 import { actions } from '../../store/modules/news';
 import { Empty, SLoader, Pagination } from '../../components';
+import { SSearch } from '../../components/common/form/SSearch';
 import { Page } from '../../components/Page';
-import { IconSearch } from '../../components/common/icons';
 import { Header } from '../../components/Header';
 import { ITEMS_PER_PAGE } from '../../constants';
 import useDebounced from '../../hooks/useDebounced';
@@ -21,10 +20,7 @@ const News = ({ loading, newsCache, getNews, news, totalCount }) => {
   const isSearchQuery = searchDebounced.length > 0;
 
   const onSearchChange = (query) => {
-    let searchQuery = `&search=${query}`;
-    if (!query) {
-      searchQuery = '';
-    }
+    const searchQuery = query ? `&search=${encodeURIComponent(query)}` : '';
     router.push(`/news?page=${currentPage}${searchQuery}`);
   };
 
@@ -34,6 +30,7 @@ const News = ({ loading, newsCache, getNews, news, totalCount }) => {
 
   useEffect(() => {
     getNews(currentPage, ITEMS_PER_PAGE, searchDebounced);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, searchDebounced]);
 
   const newsList = useMemo(() => {
@@ -44,7 +41,15 @@ const News = ({ loading, newsCache, getNews, news, totalCount }) => {
       list = newsCache?.[currentPage];
     }
     return list?.map((post, idx) => {
-      return <NewsCard key={post.id} idx={idx} post={post} className="news__card" />;
+      const featured = idx === 0 && !isSearchQuery && currentPage === 1;
+      return (
+        <NewsCard
+          key={post.id}
+          post={post}
+          featured={featured}
+          className={`news__card${featured ? ' _featured' : ''}`}
+        />
+      );
     });
   }, [newsCache, news, currentPage, isSearchQuery]);
 
@@ -53,47 +58,36 @@ const News = ({ loading, newsCache, getNews, news, totalCount }) => {
 
   return (
     <Page title="Новини" className="news">
-      <Header title="Шкільні новини" className="_mobile-pb">
-        <label className="news__input-wrapper">
-          <input
-            value={currentSearch}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className="news__input"
-            placeholder="Пошук новин..."
-            type="text"
-          />
-          <IconSearch className="news__input-icon" />
-        </label>
-      </Header>
-      <SLoader loading={loading}>
-        {hasNews || loading ? (
-          <div className="news__grid-wrapper">
-            <Pagination
-              currentPage={currentPage}
-              totalCount={totalCount}
-              itemsPerPage={ITEMS_PER_PAGE}
-              onPageChange={handlePageChange}
-              hasItems={hasNews}
-              isLastPage={isLastPage}
-              isSearchQuery={isSearchQuery}
-              loading={loading}
+      <div className="Page__inner">
+        <Header
+          title="Шкільні новини"
+          description="Статті, фотозвіти та оголошення з життя гімназії."
+        >
+          <SSearch value={currentSearch} onChange={onSearchChange} placeholder="Пошук новин..." />
+        </Header>
+        <SLoader loading={loading}>
+          {hasNews || loading ? (
+            <div className="news__grid-wrapper">
+              <div className="news__grid">{newsList}</div>
+              <Pagination
+                currentPage={currentPage}
+                totalCount={totalCount}
+                itemsPerPage={ITEMS_PER_PAGE}
+                onPageChange={handlePageChange}
+                hasItems={hasNews}
+                isLastPage={isLastPage}
+                isSearchQuery={isSearchQuery}
+                loading={loading}
+              />
+            </div>
+          ) : (
+            <Empty
+              text={isSearchQuery ? 'Нічого не знайдено' : 'Новин поки немає'}
+              hint={isSearchQuery ? 'Спробуйте змінити пошуковий запит.' : undefined}
             />
-            <div className="news__grid">{newsList}</div>
-            <Pagination
-              currentPage={currentPage}
-              totalCount={totalCount}
-              itemsPerPage={ITEMS_PER_PAGE}
-              onPageChange={handlePageChange}
-              hasItems={hasNews}
-              isLastPage={isLastPage}
-              isSearchQuery={isSearchQuery}
-              loading={loading}
-            />
-          </div>
-        ) : (
-          <Empty />
-        )}
-      </SLoader>
+          )}
+        </SLoader>
+      </div>
     </Page>
   );
 };

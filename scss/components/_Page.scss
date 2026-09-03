@@ -1,11 +1,25 @@
 $style: Page;
 
+// Base layout for every page except the home screen (which overrides it).
+// Mobile keeps room for the fixed gradient top-bar; desktop keeps room
+// for the floating menu button in the top-left corner.
 .#{$style} {
   min-height: 100vh;
-  padding: 92px 24px;
-  background-color: $N0;
-  @include flex-col(stretch, stretch);
+  padding: 92px 20px 56px;
+  background-color: $N10;
+  color: $N900;
+  @include flex-col(flex-start, stretch);
   @include media {
-    padding: 35px 8%;
+    padding: 36px max(8%, 96px) 72px;
+  }
+  &__inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    @include flex-col(flex-start, stretch);
+    flex-grow: 1;
+  }
+  &__section {
+    width: 100%;
   }
 }
