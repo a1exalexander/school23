@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { getHoliday } from './holidays';
 
 moment.locale('uk');
 
@@ -78,6 +79,9 @@ const getLesson = (msg) => ({ msg, type: 'lesson' });
 const getBreak = (msg) => ({ msg, type: 'break' });
 
 const clock = (state) => {
+  const holiday = getHoliday();
+  if (holiday) return holiday;
+
   const shallowTime = { ...timeModel };
   Object.entries(timeModel).forEach(([key, value]) => {
     shallowTime[key] = { ...value, time: state[key] };
