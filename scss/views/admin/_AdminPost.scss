@@ -12,6 +12,12 @@ $style: admin-post;
     overflow: hidden;
     @include flex-row(center, center);
   }
+  .filepond--label-hint {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: $H100;
+    color: $N300;
+  }
   &__images {
     width: 100%;
     @include flex-row(center, center);

@@ -33,10 +33,16 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { SButton, SInput, SRadio } from '../../index';
 import actions from '../../../store/actions';
 import { db, storage } from '../../../firebase';
-import { routes } from '../../../constants';
+import {
+  ACCEPTED_IMAGE_TYPES,
+  ERROR_NOTIFICATION_TIMEOUT,
+  MAX_IMAGE_SIZE_MB,
+  messages,
+  routes
+} from '../../../constants';
 import { ascii } from '../../../utils/string';
 import { STransition } from '../../common/transition';
-import { isObject, isString } from '../../../utils';
+import { getImageTooLargeMessage, isFileTooLarge, isObject, isString } from '../../../utils';
 
 registerLocale('uk', uk);
 
@@ -153,6 +159,8 @@ class AdminPostEditor extends Component {
     this.state = { ...initState, modules: this.modules };
     this.quillRef = null;
     this.reactQuillRef = null;
+    this.tooLargeImages = [];
+    this.tooLargeImagesTimer = null;
   }
 
   componentDidMount() {
@@ -175,6 +183,10 @@ class AdminPostEditor extends Component {
 
   componentDidUpdate() {
     this.attachQuillRefs();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.tooLargeImagesTimer);
   }
 
   onDateChange = (date) => {
@@ -288,31 +300,79 @@ class AdminPostEditor extends Component {
       route = routes.ACTIVITY;
     }
 
+    if (typeof e?.preventDefault === 'function') {
+      e.preventDefault();
+    }
+
     onDispatch('loading')(true);
     if (images.length) {
-      const savedImages = await Promise.all(
-        images.map(async (file) => {
-          const image = await storage.addPostImage(file);
-          return image;
-        })
-      );
-      post.images = [...oldImages, ...savedImages];
+      // Firebase Storage refuses images heavier than 2 MB,
+      // so all of the oversized ones are reported at once, before any upload starts
+      const tooLargeImages = images.filter((image) => isFileTooLarge(image?.file));
+      if (tooLargeImages.length) {
+        notify(
+          'error',
+          getImageTooLargeMessage(tooLargeImages.map((image) => image?.file)),
+          ERROR_NOTIFICATION_TIMEOUT
+        );
+        onDispatch('loading')(false);
+        return;
+      }
+      try {
+        const savedImages = await Promise.all(
+          images.map(async (file) => {
+            const image = await storage.addPostImage(file);
+            return image;
+          })
+        );
+        post.images = [...oldImages, ...savedImages];
+      } catch (error) {
+        notify('error', error?.message || messages.IMAGE_UPLOAD_ERROR, ERROR_NOTIFICATION_TIMEOUT);
+        onDispatch('loading')(false);
+        return;
+      }
     }
     post.images = (post?.images || []).filter((image) => isObject(image) || isString(image));
     if (isUpdate) {
       onUpdate(post);
     } else {
-      e.preventDefault();
       const res = await db[http](post);
       if (res) {
         notify('success', messageSuccess);
         onDispatch('clean')();
         Router.push(route);
       } else {
-        notify('error', 'Упс! Щось сталося( Мабуть картинка занадто важка');
+        notify('error', messages.POST_SAVE_ERROR, ERROR_NOTIFICATION_TIMEOUT);
       }
     }
     onDispatch('loading')(false);
+  };
+
+  /**
+   * Show one toast for the whole batch of dropped files
+   * instead of a separate one for every oversized image
+   */
+  notifyTooLargeImage = (file) => {
+    const { notify } = this.props;
+    this.tooLargeImages.push(file);
+    clearTimeout(this.tooLargeImagesTimer);
+    this.tooLargeImagesTimer = setTimeout(() => {
+      notify('error', getImageTooLargeMessage(this.tooLargeImages), ERROR_NOTIFICATION_TIMEOUT);
+      this.tooLargeImages = [];
+    }, 100);
+  };
+
+  /**
+   * Firebase Storage does not accept images heavier than 2 MB,
+   * so an oversized file is rejected right away with a friendly toast
+   * instead of a failed upload after the "Опублікувати" click.
+   */
+  beforeAddFile = (item) => {
+    if (isFileTooLarge(item?.file)) {
+      this.notifyTooLargeImage(item?.file);
+      return false;
+    }
+    return true;
   };
 
   onRemoveImage = (removingId) => {
@@ -395,10 +455,11 @@ class AdminPostEditor extends Component {
           className="admin-post__images"
           files={state.images}
           allowMultiple
-          acceptedFileTypes={['image/png', 'image/jpg', 'image/jpeg']}
+          acceptedFileTypes={ACCEPTED_IMAGE_TYPES}
           maxFiles={10}
+          beforeAddFile={this.beforeAddFile}
           onupdatefiles={onDispatch('images')}
-          labelIdle={`Перетягни фото сюди або <br/><span class="filepond--label-action"> обери файли </span>`}
+          labelIdle={`Перетягни фото сюди або <br/><span class="filepond--label-action"> обери файли </span><br/><span class="filepond--label-hint">до ${MAX_IMAGE_SIZE_MB} МБ кожне</span>`}
         />
         {!!state?.oldImages?.length && (
           <ul className="admin-post__images-old">
@@ -481,7 +542,7 @@ class AdminPostEditor extends Component {
 }
 
 AdminPostEditor.defaultProps = {
-  notify: func,
+  notify: () => undefined,
   isUpdate: false,
   onUpdate: () => undefined,
   post: undefined,

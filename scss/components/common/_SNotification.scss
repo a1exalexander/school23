@@ -2,7 +2,7 @@ $names: "info", "success", "error";
 $color: (
   "info": $B300,
   "success": $G300,
-  "error": $Y300,
+  "error": $R400,
 );
 $color-text: (
   "info": $N0,
@@ -17,24 +17,48 @@ $styles: s-notification;
   box-shadow: $SH4;
   width: 100%;
   min-height: 42px;
-  padding: 6px 24px;
+  padding: 10px 12px 10px 16px;
   @include flex-row(flex-start, center);
   cursor: pointer;
   @include media {
     max-width: 420px;
   }
   &__text {
+    flex: 1 1 auto;
     font-size: $H200;
+    line-height: 1.4;
     color: $N900;
+    word-break: break-word;
   }
   &__icon {
+    flex: 0 0 auto;
     font-size: 16px;
     margin-right: 12px;
+  }
+  &__close {
+    flex: 0 0 auto;
+    margin-left: 12px;
+    padding: 4px 6px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: $N900;
+    font-size: $H200;
+    line-height: 1;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+    &:hover,
+    &:focus {
+      opacity: 1;
+      background-color: rgba($N00, 0.12);
+    }
   }
 
   @each $name in $names {
     &.#{$name} {
-      .#{$styles}__text {
+      .#{$styles}__text,
+      .#{$styles}__close {
         color: map-get($color-text, $name);
       }
       background-color: map-get($color, $name);
