@@ -9,6 +9,7 @@ import { routes } from '../constants';
 import { isBrowser } from '../utils';
 import { Header } from '../components/Header';
 import checkAuth from '../middlewares/checkAuth';
+import logo from '../assets/images/Kremenchuk-mini.png';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -59,38 +60,45 @@ const Login = ({ auth, isAuthServer, login }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderForm = () => (
-    <form className="login__form" onSubmit={onSubmit}>
-      <SInput
-        className="login__input"
-        autoComplete="on"
-        required
-        onChange={handleChange('email')}
-        value={state.email}
-        validator="email"
-      >
-        Імейл
-      </SInput>
-      <SInput
-        className="login__input"
-        autoComplete="on"
-        required
-        onChange={handleChange('password')}
-        value={state.password}
-        type="password"
-      >
-        Пароль
-      </SInput>
-      <SButton buttonType="submit" loading={state.loading} label="Увійти" />
-    </form>
-  );
-
   return (
     <Page title="Авторизація" className="login">
-      <Header title="Авторизація" />
-      <SLoader className="login__loader" loading={state.loading}>
-        {renderForm()}
-      </SLoader>
+      <div className="Page__inner">
+        <Header title="Авторизація" />
+        <SLoader className="login__loader" loading={state.loading}>
+          <div className="login__card">
+            <div className="login__brand">
+              <img src={logo} alt="" className="login__logo" />
+              <div>
+                <p className="login__title">Вхід для адміністратора</p>
+                <p className="login__subtitle">Кременчуцька гімназія №23</p>
+              </div>
+            </div>
+            <form className="login__form" onSubmit={onSubmit}>
+              <SInput
+                className="login__input"
+                autoComplete="username"
+                required
+                onChange={handleChange('email')}
+                value={state.email}
+                validator="email"
+              >
+                Імейл
+              </SInput>
+              <SInput
+                className="login__input"
+                autoComplete="current-password"
+                required
+                onChange={handleChange('password')}
+                value={state.password}
+                type="password"
+              >
+                Пароль
+              </SInput>
+              <SButton fluid buttonType="submit" loading={state.loading} label="Увійти" />
+            </form>
+          </div>
+        </SLoader>
+      </div>
     </Page>
   );
 };

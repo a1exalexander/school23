@@ -1,25 +1,45 @@
 $style: Header;
 
 .#{$style} {
-  @include flex-row(flex-start, center);
-  @include media($screen-tablet) {
-    padding: 0 0 42px;
-  }
-  &._mobile-pb {
-    padding: 0 0 42px;
-    @include media($screen-tablet) {
-      padding: 0 0 42px;
-    }
-  }
+  @include flex-col(flex-start, stretch);
+  gap: 16px;
+  padding-bottom: 28px;
   @include media {
+    @include flex-row(space-between, flex-end);
+    gap: 24px;
     min-height: 64px;
+    padding-bottom: 36px;
   }
+  &__heading {
+    @include flex-col(flex-start, flex-start);
+    gap: 8px;
+    min-width: 0;
+  }
+  // On mobile the fixed top-bar already shows the page title.
   &__title {
     display: none;
     @include media {
       display: block;
-      @include text($H700, 400, $N900);
-      margin-right: 24px;
+      @include text($H900, 500, $N900);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+  }
+  &__description {
+    @include text($H400, 300, $N300);
+    line-height: 1.55;
+    max-width: 620px;
+    @include media {
+      font-size: $H500;
+    }
+  }
+  &__actions {
+    @include flex-row(flex-start, center);
+    flex-wrap: wrap;
+    gap: 12px;
+    flex-shrink: 0;
+    @include media {
+      justify-content: flex-end;
     }
   }
 }

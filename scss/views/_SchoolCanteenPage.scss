@@ -1,117 +1,110 @@
 $style: SchoolCanteenPage;
 
 .#{$style} {
-  &__grid-wrapper {
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
   &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 32px;
+    @include media($screen-tablet) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+    @include media($screen-desktop-large) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  &__legend {
+    @include flex-row(flex-start, center);
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 24px;
+    @include text($H300, 400, $N300);
+    @include media {
+      margin-bottom: 0;
+    }
+  }
+  &__legend-item {
+    @include flex-row(flex-start, center);
+    gap: 6px;
+    &::before {
+      content: '';
+      @include size(8px, true);
+    }
+    &._today::before {
+      background-color: $G300;
+    }
+    &._upcoming::before {
+      background-color: $Y300;
+    }
+    &._past::before {
+      background-color: $R300;
+    }
+  }
+}
+
+$card: canteen-card;
+
+.#{$card} {
+  @include flex-col(flex-start, stretch);
+  gap: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid $N30;
+  background-color: $N0;
+  @include transition(box-shadow, border-color);
+  @include media {
+    padding: 18px;
+  }
+  @include media($screen-desktop) {
+    &:hover {
+      box-shadow: $SH4;
+    }
+  }
+  &._today {
+    border-color: $G200;
+    box-shadow: 0 0 0 3px rgba($G300, 0.12);
+  }
+  &._past {
+    .#{$card}__title,
+    .#{$card}__date {
+      color: $N300;
+    }
+  }
+  &__header {
+    @include flex-col(flex-start, flex-start);
+    gap: 8px;
+  }
+  &__meta {
+    @include flex-row(flex-start, center);
+    flex-wrap: wrap;
+    gap: 8px 12px;
     width: 100%;
   }
-  &__card {
-    border-radius: 4px;
-    position: relative;
-    padding: 20px 0;
-    max-width: 1200px;
-    margin: 0 auto 12px;
+  &__date {
+    @include text($H300, 400, $N300);
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+  &__title {
+    @include text($H600, 500, $N900);
+    line-height: 1.35;
     @include media {
-      padding: 12px 0;
-      margin-bottom: 24px;
-    }
-    &:hover {
-      .#{$style}__badge {
-        opacity: 0.3;
-      }
-      .slick-caption {
-        opacity: 0;
-      }
-      .slick-arrow {
-        opacity: 0.7 !important;
-        visibility: visible;
-      }
-      img {
-        filter: brightness(0.8);
-      }
+      font-size: $H650;
     }
   }
-  &__badge {
-    position: absolute;
-    top: 30px;
-    left: 12px;
-    z-index: 2;
-    @include transition(opacity);
-    @include media($screen-iphone-plus) {
-      left: 24px;
-    }
-    @include media($screen-tablet-small) {
-      top: 40px;
-      left: 32px;
-    }
-    @include media(600px) {
-      left: 40px;
-    }
-    @include media(1090px) {
-      left: 50px;
-    }
-    @include media(1120px) {
-      left: 60px;
-    }
-    @include media(1150px) {
-      left: 70px;
-    }
-    @include media(1170px) {
-      left: 80px;
+  &__gallery {
+    .s-gallery__stage {
+      border-radius: 12px;
     }
   }
-  &__remove-btn {
-    position: absolute;
-    top: 30px;
-    right: 12px;
-    z-index: 2;
-    @include transition(opacity);
-    @include media($screen-iphone-plus) {
-      right: 24px;
-    }
-    @include media($screen-tablet-small) {
-      top: 40px;
-      right: 32px;
-    }
-    @include media(600px) {
-      right: 40px;
-    }
-    @include media(1090px) {
-      right: 50px;
-    }
-    @include media(1120px) {
-      right: 60px;
-    }
-    @include media(1150px) {
-      right: 70px;
-    }
-    @include media(1170px) {
-      right: 80px;
-    }
-  }
-  &__slider {
-    .slick-list {
-      border-radius: 4px;
-      overflow: hidden;
-      background-color: $P50;
-      border: 12px solid $P50;
-    }
-    img {
-      @include transition(filter);
-      filter: brightness(0.8);
-    }
-  }
-  .slick-dots,
-  .slick-caption {
-    @include transition(opacity);
-  }
-  .slick-arrow {
-    @include transition(opacity, visibility);
-    visibility: hidden;
-    opacity: 0 !important;
+  &__footer {
+    @include flex-row(flex-end, center);
+    padding-top: 4px;
+    border-top: 1px dashed $N30;
+    margin-top: 2px;
+    padding-top: 14px;
   }
 }

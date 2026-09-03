@@ -2,15 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { SBadge, SButton, SLoader, Pagination } from '../components';
-import Slider from '../components/common/Slider';
+import { SLoader, Pagination, Empty } from '../components';
+import { CanteenCard } from '../components/views/canteen/CanteenCard';
 import { Header } from '../components/Header';
 import { Page } from '../components/Page';
 import { db } from '../firebase';
-import { more, less } from '../utils/clock';
 import { notify } from '../store/modules/notifications/actions';
 import { ITEMS_PER_PAGE } from '../constants';
 import usePagination from '../hooks/usePagination';
+import { YearDivider } from '../components/common/YearDivider';
+import { withYearDividers, yearFromDate } from '../utils/groupByYear';
+
+const toUnix = (date) =>
+  date && typeof date.toDate === 'function' ? moment(date.toDate()).unix() : 0;
 
 export const SchoolCanteenPage = () => {
   const [loading, setLoading] = useState(false);
@@ -18,28 +22,22 @@ export const SchoolCanteenPage = () => {
 
   const { status } = useSelector((state) => state.auth);
 
-  const { currentPage, totalCount, totalPages, pageItems, hasItems, isLastPage, goToPage } =
-    usePagination(food, ITEMS_PER_PAGE);
-
-  const renderPagination = () =>
-    totalPages > 1 ? (
-      <Pagination
-        currentPage={currentPage}
-        totalCount={totalCount}
-        itemsPerPage={ITEMS_PER_PAGE}
-        onPageChange={goToPage}
-        hasItems={hasItems}
-        isLastPage={isLastPage}
-        loading={loading}
-      />
-    ) : null;
+  const {
+    currentPage,
+    totalCount,
+    totalPages,
+    pageItems,
+    hasItems,
+    isLastPage,
+    goToPage
+  } = usePagination(food, ITEMS_PER_PAGE);
 
   const fetchData = async () => {
     setLoading(true);
     const res = await db.getFood();
-    const sorted = res.sort(
-      (a, b) => moment(b.date.toDate()).unix() - moment(a.date.toDate()).unix()
-    );
+    const sorted = Array.isArray(res)
+      ? [...res].sort((a, b) => toUnix(b.date) - toUnix(a.date))
+      : [];
     setFood(sorted);
     setLoading(false);
   };
@@ -47,37 +45,6 @@ export const SchoolCanteenPage = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const getDateString = (date) => {
-    return moment(date.toDate()).calendar(null, {
-      lastDay: '[Учора]',
-      sameDay: '[Сьогодні]',
-      nextDay: '[Завтра]',
-      lastWeek: () => {
-        if (['ср', 'пт', 'сб', 'нд'].includes(moment(date.toDate()).format('dd')))
-          return `[Минулої] dddd`;
-        return `[Минулого] dddd`;
-      },
-      nextWeek: 'dddd',
-      sameElse: 'L'
-    });
-  };
-
-  const getColorBadge = (date) => {
-    const dateSting = date.toDate();
-    switch (true) {
-      case moment().isSame(dateSting, 'day') && less('17:00:00'):
-        return 'green';
-      case moment().add(1, 'day').isSame(dateSting, 'day') && less('17:00:00'):
-        return 'yellow';
-      case moment().add(1, 'day').isSame(dateSting, 'day') && more('17:00:00'):
-        return 'green';
-      case moment().isBefore(dateSting):
-        return 'yellow';
-      default:
-        return 'red';
-    }
-  };
 
   const onRemove = async (id) => {
     const ok = window?.confirm('Точно видаляти?');
@@ -94,49 +61,56 @@ export const SchoolCanteenPage = () => {
 
   return (
     <Page title="Шкільна їдальня" className="SchoolCanteenPage">
-      <Header title="Шкільна їдальня" />
-      <SLoader loading={loading}>
-        <div className="SchoolCanteenPage__grid-wrapper">
-          {renderPagination()}
-          <main className="SchoolCanteenPage__grid">
-            {pageItems.map(({ id, images, title, date }) => {
-              return (
-                <div className="SchoolCanteenPage__card" key={id}>
-                  <SBadge
-                    size="large"
-                    className="SchoolCanteenPage__badge"
-                    color={getColorBadge(date)}
-                    label={getDateString(date)}
-                  />
-                  <Slider
-                    title={title}
-                    autoplay={false}
-                    className="SchoolCanteenPage__slider"
-                    slides={images}
-                  />
-                  {status && (
-                    <SButton
-                      onClick={() => onRemove(id)}
-                      type="danger"
-                      className="SchoolCanteenPage__remove-btn"
-                      size="small"
-                    >
-                      Видалити
-                    </SButton>
-                  )}
-                </div>
-              );
-            })}
-          </main>
-          {renderPagination()}
-        </div>
-      </SLoader>
+      <div className="Page__inner">
+        <Header
+          title="Шкільна їдальня"
+          description="Меню шкільної їдальні на кожен день. Натисніть на фото, щоб роздивитись його ближче."
+        >
+          <div className="SchoolCanteenPage__legend" aria-hidden="true">
+            <span className="SchoolCanteenPage__legend-item _today">сьогодні</span>
+            <span className="SchoolCanteenPage__legend-item _upcoming">найближчі дні</span>
+            <span className="SchoolCanteenPage__legend-item _past">минулі</span>
+          </div>
+        </Header>
+        <SLoader loading={loading}>
+          {food.length || loading ? (
+            <>
+              <div className="SchoolCanteenPage__grid">
+                {withYearDividers(pageItems, (item) => yearFromDate(item?.date)).map((entry) =>
+                  entry.kind === 'divider' ? (
+                    <YearDivider key={entry.key} year={entry.year} />
+                  ) : (
+                    <CanteenCard
+                      key={entry.item.id}
+                      item={entry.item}
+                      canRemove={!!status}
+                      onRemove={onRemove}
+                    />
+                  )
+                )}
+              </div>
+              {totalPages > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalCount={totalCount}
+                  itemsPerPage={ITEMS_PER_PAGE}
+                  onPageChange={goToPage}
+                  hasItems={hasItems}
+                  isLastPage={isLastPage}
+                  loading={loading}
+                />
+              )}
+            </>
+          ) : (
+            <Empty
+              text="Меню поки не додано"
+              hint="Фото меню з'являться тут, щойно їх опублікують."
+            />
+          )}
+        </SLoader>
+      </div>
     </Page>
   );
 };
-
-SchoolCanteenPage.defaultProps = {};
-
-SchoolCanteenPage.propTypes = {};
 
 export default SchoolCanteenPage;

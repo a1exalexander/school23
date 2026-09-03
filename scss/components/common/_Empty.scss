@@ -1,13 +1,25 @@
 .empty {
   @include flex-col(center, center);
   flex: 1 1;
-  max-height: 60vh;
+  width: 100%;
+  padding: 48px 24px;
+  text-align: center;
+  gap: 8px;
   &__logo {
-    @include size(64px);
-    margin-bottom: 24px;
+    @include size(72px);
+    margin-bottom: 12px;
+    opacity: 0.9;
   }
   &__text {
-    @include text($H600, 300);
+    @include text($H650, 500, $N800);
     font-family: $head-font;
+  }
+  &__hint {
+    @include text($H400, 300, $N300);
+    line-height: 1.5;
+    max-width: 420px;
+  }
+  &__action {
+    margin-top: 16px;
   }
 }

@@ -62,6 +62,9 @@ const ActivityPostPage = ({ post, isEmptyInit, notify }) => {
   return (
     <Post
       className="_pure"
+      backHref={routes.ACTIVITY}
+      backLabel="До діяльності гімназії"
+      section="Діяльність гімназії"
       post={$post}
       isEmpty={isEmpty}
       isEditorVisible={isEditorVisible}

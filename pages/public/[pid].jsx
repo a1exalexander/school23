@@ -62,6 +62,9 @@ const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
   return (
     <Post
       className="_pure"
+      backHref={routes.PUBLIC_INFO}
+      backLabel="До публічної інформації"
+      section="Публічна інформація"
       post={$post}
       isEmpty={isEmpty}
       isEditorVisible={isEditorVisible}

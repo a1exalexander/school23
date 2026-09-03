@@ -34,6 +34,9 @@ const SNavigation = () => {
         return title('Публічна Інформація');
       case routes.PUBLIC_INFO_POST:
         return title('Публічна Інформація');
+      case routes.ACTIVITY:
+      case routes.ACTIVITY_POST:
+        return title('Діяльність Гімназії');
       case routes.CONTACTS:
         return title('Контакти');
       case routes.ADMIN:

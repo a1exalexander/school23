@@ -1,0 +1,35 @@
+$style: year-divider;
+
+.#{$style} {
+  grid-column: 1 / -1;
+  width: 100%;
+  @include flex-row(flex-start, center);
+  gap: 16px;
+  margin: 8px 0 -4px;
+  @include media {
+    margin: 16px 0 -4px;
+  }
+  &::before,
+  &::after {
+    content: '';
+    flex: 1 1 auto;
+    height: 1px;
+    background-color: $N40;
+  }
+  &::before {
+    flex: 0 0 24px;
+    @include media {
+      flex: 0 0 40px;
+    }
+  }
+  &__label {
+    @include text($H400, 500, $N400);
+    font-family: $head-font;
+    letter-spacing: 0.04em;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid $N40;
+    background-color: $N0;
+    white-space: nowrap;
+  }
+}

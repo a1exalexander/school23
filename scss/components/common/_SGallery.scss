@@ -1,0 +1,170 @@
+$style: s-gallery;
+
+.#{$style} {
+  width: 100%;
+  @include flex-col(flex-start, stretch);
+  gap: 10px;
+  --gallery-aspect: 16 / 10;
+  &._square {
+    --gallery-aspect: 1 / 1;
+  }
+  &._portrait {
+    --gallery-aspect: 4 / 5;
+  }
+  &__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--gallery-aspect);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: $N20;
+    // Fallback for browsers without aspect-ratio support
+    @supports not (aspect-ratio: 1 / 1) {
+      height: 0;
+      padding-bottom: 62.5%;
+    }
+    &:hover .#{$style}__arrow {
+      opacity: 1;
+    }
+  }
+  &__view {
+    position: absolute;
+    @include position;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    cursor: zoom-in;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    &._active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: inset 0 0 0 3px rgba($B300, 0.5);
+    }
+  }
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    user-select: none;
+  }
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    @include size(40px, true);
+    @include flex-row(center, center);
+    background-color: rgba($N0, 0.92);
+    box-shadow: $SH2;
+    cursor: pointer;
+    z-index: 2;
+    opacity: 1;
+    @include transition(opacity, background-color, transform);
+    svg {
+      @include svg(14px, $N800);
+    }
+    @include media($screen-desktop) {
+      opacity: 0;
+      @include size(44px, true);
+    }
+    &:hover {
+      background-color: $N0;
+    }
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+    &:focus-visible {
+      opacity: 1;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba($B300, 0.35);
+    }
+    &._prev {
+      left: 12px;
+    }
+    &._next {
+      right: 12px;
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  &__counter {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 2;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background-color: rgba($N900, 0.65);
+    @include text($H200, 500, $N0);
+    font-family: $head-font;
+    letter-spacing: 0.02em;
+    pointer-events: none;
+  }
+  &__thumbs {
+    @include flex-row(flex-start, center);
+    gap: 8px;
+    overflow-x: auto;
+    padding: 2px;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  &__thumb {
+    @include size(64px);
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+    background-color: $N20;
+    opacity: 0.6;
+    box-shadow: 0 0 0 2px transparent;
+    @include transition(opacity, box-shadow);
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    &:hover {
+      opacity: 0.9;
+    }
+    &._active {
+      opacity: 1;
+      box-shadow: 0 0 0 2px $N800;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px $B300;
+    }
+  }
+  &__dots {
+    @include flex-row(center, center);
+    gap: 6px;
+  }
+  &__dot {
+    @include size(8px, true);
+    padding: 0;
+    cursor: pointer;
+    background-color: $N50;
+    @include transition(background-color, transform);
+    &._active {
+      background-color: $N800;
+      transform: scale(1.25);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($B300, 0.5);
+    }
+  }
+}

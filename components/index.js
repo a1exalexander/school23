@@ -8,6 +8,7 @@ import SVideo from './common/media/SVideo';
 import SLoader from './common/SLoader';
 import { Empty } from './common/Empty';
 import Pagination from './common/Pagination';
+import { SSearch } from './common/form/SSearch';
 
 export {
   Empty,
@@ -25,5 +26,6 @@ export {
   transitionClasses,
   icons,
   Meta,
-  Pagination
+  Pagination,
+  SSearch
 };
