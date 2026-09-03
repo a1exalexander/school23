@@ -1,10 +1,10 @@
-import React from "react";
-import classNames from "classnames";
-import PropTypes from "prop-types";
+import React from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import { messages } from '../../constants';
 
-const NNotification = props => {
-  const { message, className = '', children, type = "success", onClick } = props;
+const SNotification = (props) => {
+  const { message, className = '', children, type = 'success', onClick } = props;
 
   const getMessage = () => {
     switch (type) {
@@ -15,31 +15,66 @@ const NNotification = props => {
       default:
         return children || message || messages.SUCCESS_MESSAGE;
     }
-  }
+  };
 
   const notificationIcon = () => {
     switch (type) {
       default:
-        return <span className='s-notification__icon' role="img" area-label='success'>🚀</span>;
-      case "error":
-        return <span className='s-notification__icon' role="img" area-label='error'>🖤</span>
-      case "info":
-        return <span className='s-notification__icon' role="img" area-label='info'>⚡</span>
+        return (
+          <span className="s-notification__icon" role="img" aria-label="success">
+            🚀
+          </span>
+        );
+      case 'error':
+        return (
+          <span className="s-notification__icon" role="img" aria-label="error">
+            ⚠️
+          </span>
+        );
+      case 'info':
+        return (
+          <span className="s-notification__icon" role="img" aria-label="info">
+            ⚡
+          </span>
+        );
     }
   };
 
   return (
-    <div onClick={onClick} className={classNames("s-notification", type, className)}>
+    <div
+      onClick={onClick}
+      role={type === 'error' ? 'alert' : 'status'}
+      className={classNames('s-notification', type, className)}
+    >
       {notificationIcon()}
-      <span className="s-notification__text">{ getMessage() }</span>
+      <span className="s-notification__text">{getMessage()}</span>
+      <button
+        type="button"
+        className="s-notification__close"
+        aria-label="Закрити повідомлення"
+        title="Закрити"
+        onClick={onClick}
+      >
+        ✕
+      </button>
     </div>
   );
 };
 
-NNotification.propTypes = {
-  label: PropTypes.string,
-  className: PropTypes.string,
-  type: PropTypes.oneOf(['success', 'error', 'info']),
+SNotification.defaultProps = {
+  message: '',
+  className: '',
+  children: null,
+  type: 'success',
+  onClick: () => undefined
 };
 
-export default NNotification;
+SNotification.propTypes = {
+  message: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  type: PropTypes.oneOf(['success', 'error', 'info']),
+  onClick: PropTypes.func
+};
+
+export default SNotification;

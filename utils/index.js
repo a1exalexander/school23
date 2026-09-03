@@ -1,6 +1,15 @@
 import filterSearch from './search';
 import trancate from './truncate';
 import clock from './clock';
+import {
+  formatFileSize,
+  getFileName,
+  getFileSize,
+  getImageTooLargeMessage,
+  isFileSizeError,
+  isFileTooLarge,
+  isNetworkError
+} from './file';
 
 const $hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -43,4 +52,15 @@ export const getErrorMessage = (error = 'Somthing Wrong') => {
 export const searchString = (str, query) =>
   String(str).toLowerCase().indexOf(String(query).toLowerCase()) !== -1;
 export const generateFileName = (name) => `${Date.now()}-${name}`;
-export { filterSearch, trancate, clock };
+export {
+  filterSearch,
+  trancate,
+  clock,
+  formatFileSize,
+  getFileName,
+  getFileSize,
+  getImageTooLargeMessage,
+  isFileSizeError,
+  isFileTooLarge,
+  isNetworkError
+};

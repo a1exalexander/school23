@@ -13,7 +13,7 @@ import {
   string
 } from 'prop-types';
 import { connect } from 'react-redux';
-import { routes } from '../../constants';
+import { ERROR_NOTIFICATION_TIMEOUT, messages, routes } from '../../constants';
 import { db } from '../../firebase';
 import { actions } from '../../store/modules/notifications';
 import { activityPostModel, formatActivityPost } from '../../models/activity';
@@ -45,7 +45,7 @@ const ActivityPostPage = ({ post, isEmptyInit, notify }) => {
       setEditorVisible(false);
       window.scrollTo(0, 0);
     } else {
-      notify('error', 'Помилка при оновленні! Мабуть картинка занадто важка');
+      notify('error', messages.POST_SAVE_ERROR, ERROR_NOTIFICATION_TIMEOUT);
     }
   };
 
