@@ -21,15 +21,19 @@ describe('Utils: holidays', () => {
     expect(isHoliday('2026-01-07')).to.equal(false);
   });
 
-  it('державні свята мають власну назву', () => {
+  it('Новий рік має власну назву', () => {
     expect(getHoliday('2026-01-01').msg).to.equal(PUBLIC_HOLIDAYS['01-01']);
-    expect(getHoliday('2025-12-25').msg).to.equal(PUBLIC_HOLIDAYS['12-25']);
-    expect(getHoliday('2026-08-24').msg).to.equal(PUBLIC_HOLIDAYS['08-24']);
-    expect(getHoliday('2026-10-01').type).to.equal(HOLIDAY_TYPE);
+    expect(getHoliday('2026-01-01').type).to.equal(HOLIDAY_TYPE);
+  });
+
+  it('інші державні свята не є вихідними в школі', () => {
+    expect(getHoliday('2026-03-08')).to.equal(null);
+    expect(getHoliday('2026-05-01')).to.equal(null);
+    expect(getHoliday('2026-10-01')).to.equal(null);
+    expect(getHoliday('2026-12-25')).to.equal(null);
   });
 
   it('звичайний навчальний день не є святом', () => {
     expect(getHoliday('2026-09-15')).to.equal(null);
-    expect(getHoliday('2026-03-09')).to.equal(null);
   });
 });
