@@ -29,7 +29,7 @@ export const getMenuStatus = (date) => {
   let color = 'red';
   let tone = 'past';
   switch (true) {
-    case moment().isSame(day, 'day') && less('17:00:00'):
+    case moment().isSame(day, 'day'):
       color = 'green';
       tone = 'today';
       break;
