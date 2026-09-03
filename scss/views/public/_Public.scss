@@ -16,6 +16,10 @@ $style: public;
     @include flex-row(flex-start, flex-end);
     margin-bottom: 46px;
   }
+  &__grid-wrapper {
+    width: 100%;
+    margin: 0 auto;
+  }
   &__grid {
     @include flex-row(flex-start, stretch);
     flex-wrap: wrap;

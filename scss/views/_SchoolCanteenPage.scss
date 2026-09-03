@@ -1,10 +1,13 @@
 $style: SchoolCanteenPage;
 
 .#{$style} {
-  &__grid {
+  &__grid-wrapper {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
+  }
+  &__grid {
+    width: 100%;
   }
   &__card {
     border-radius: 4px;

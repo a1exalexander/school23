@@ -2,11 +2,13 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PublicCard } from '../../components/views/public/PublicCard';
-import { SLoader, Empty } from '../../components';
+import { SLoader, Empty, Pagination } from '../../components';
 import { IconSearch } from '../../components/common/icons';
 import { getters, actions } from '../../store/modules/public';
 import { Page } from '../../components/Page';
 import { Header } from '../../components/Header';
+import { ITEMS_PER_PAGE } from '../../constants';
+import usePagination from '../../hooks/usePagination';
 
 const Public = () => {
   const [state, setState] = useState('');
@@ -15,16 +17,41 @@ const Public = () => {
 
   const dispatch = useDispatch();
 
+  const filteredPages = useMemo(() => getters.filteredPages(pages)(state), [pages, state]);
+
+  const {
+    currentPage,
+    totalCount,
+    totalPages,
+    pageItems,
+    hasItems,
+    isLastPage,
+    goToPage,
+    resetPage
+  } = usePagination(filteredPages, ITEMS_PER_PAGE);
+
+  const renderPagination = () =>
+    totalPages > 1 ? (
+      <Pagination
+        currentPage={currentPage}
+        totalCount={totalCount}
+        itemsPerPage={ITEMS_PER_PAGE}
+        onPageChange={goToPage}
+        hasItems={hasItems}
+        isLastPage={isLastPage}
+        loading={loading}
+      />
+    ) : null;
+
   const handleChange = (e) => {
     const { value } = e.target;
     setState(value);
+    resetPage();
   };
 
   useEffect(() => {
     dispatch(actions.getPublicInfo());
   }, [dispatch]);
-
-  const filteredPages = useMemo(() => getters.filteredPages(pages)(state), [pages, state]);
 
   return (
     <Page title="Публічна Інформація" className="public">
@@ -42,10 +69,14 @@ const Public = () => {
       </Header>
       <SLoader loading={loading}>
         {pages.length || loading ? (
-          <div className="public__grid">
-            {filteredPages.map((post, idx) => {
-              return <PublicCard key={post.id} idx={idx} post={post} className="public__card" />;
-            })}
+          <div className="public__grid-wrapper">
+            {renderPagination()}
+            <div className="public__grid">
+              {pageItems.map((post, idx) => {
+                return <PublicCard key={post.id} idx={idx} post={post} className="public__card" />;
+              })}
+            </div>
+            {renderPagination()}
           </div>
         ) : (
           <Empty />

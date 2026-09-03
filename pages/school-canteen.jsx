@@ -2,19 +2,37 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { SBadge, SButton, SLoader } from '../components';
+import { SBadge, SButton, SLoader, Pagination } from '../components';
 import Slider from '../components/common/Slider';
 import { Header } from '../components/Header';
 import { Page } from '../components/Page';
 import { db } from '../firebase';
 import { more, less } from '../utils/clock';
 import { notify } from '../store/modules/notifications/actions';
+import { ITEMS_PER_PAGE } from '../constants';
+import usePagination from '../hooks/usePagination';
 
 export const SchoolCanteenPage = () => {
   const [loading, setLoading] = useState(false);
   const [food, setFood] = useState([]);
 
   const { status } = useSelector((state) => state.auth);
+
+  const { currentPage, totalCount, totalPages, pageItems, hasItems, isLastPage, goToPage } =
+    usePagination(food, ITEMS_PER_PAGE);
+
+  const renderPagination = () =>
+    totalPages > 1 ? (
+      <Pagination
+        currentPage={currentPage}
+        totalCount={totalCount}
+        itemsPerPage={ITEMS_PER_PAGE}
+        onPageChange={goToPage}
+        hasItems={hasItems}
+        isLastPage={isLastPage}
+        loading={loading}
+      />
+    ) : null;
 
   const fetchData = async () => {
     setLoading(true);
@@ -78,36 +96,40 @@ export const SchoolCanteenPage = () => {
     <Page title="Шкільна їдальня" className="SchoolCanteenPage">
       <Header title="Шкільна їдальня" />
       <SLoader loading={loading}>
-        <main className="SchoolCanteenPage__grid">
-          {food.map(({ id, images, title, date }) => {
-            return (
-              <div className="SchoolCanteenPage__card" key={id}>
-                <SBadge
-                  size="large"
-                  className="SchoolCanteenPage__badge"
-                  color={getColorBadge(date)}
-                  label={getDateString(date)}
-                />
-                <Slider
-                  title={title}
-                  autoplay={false}
-                  className="SchoolCanteenPage__slider"
-                  slides={images}
-                />
-                {status && (
-                  <SButton
-                    onClick={() => onRemove(id)}
-                    type="danger"
-                    className="SchoolCanteenPage__remove-btn"
-                    size="small"
-                  >
-                    Видалити
-                  </SButton>
-                )}
-              </div>
-            );
-          })}
-        </main>
+        <div className="SchoolCanteenPage__grid-wrapper">
+          {renderPagination()}
+          <main className="SchoolCanteenPage__grid">
+            {pageItems.map(({ id, images, title, date }) => {
+              return (
+                <div className="SchoolCanteenPage__card" key={id}>
+                  <SBadge
+                    size="large"
+                    className="SchoolCanteenPage__badge"
+                    color={getColorBadge(date)}
+                    label={getDateString(date)}
+                  />
+                  <Slider
+                    title={title}
+                    autoplay={false}
+                    className="SchoolCanteenPage__slider"
+                    slides={images}
+                  />
+                  {status && (
+                    <SButton
+                      onClick={() => onRemove(id)}
+                      type="danger"
+                      className="SchoolCanteenPage__remove-btn"
+                      size="small"
+                    >
+                      Видалити
+                    </SButton>
+                  )}
+                </div>
+              );
+            })}
+          </main>
+          {renderPagination()}
+        </div>
       </SLoader>
     </Page>
   );
