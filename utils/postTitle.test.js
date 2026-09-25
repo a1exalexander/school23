@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import {
-  getTextAfterTitle,
-  isTitleHidden,
+  isTitleRepeated,
   isTitleMisplaced,
   makeTitle,
   normalizePost,
@@ -64,23 +63,13 @@ describe('Utils: postTitle', () => {
     expect(normalizePost(post)).to.equal(post);
   });
 
-  it('ховає заголовок, лише коли текст з нього починається', () => {
-    expect(isTitleHidden(normalizePost({ title: ARTICLE, text: '' }))).to.equal(true);
-    expect(isTitleHidden({ title: 'Шановні батьки…', text: 'Шановні батьки, увага!' })).to.equal(
+  it('заголовок повторюється, лише коли текст з нього починається', () => {
+    expect(isTitleRepeated(normalizePost({ title: ARTICLE, text: '' }))).to.equal(true);
+    expect(isTitleRepeated({ title: 'Шановні батьки…', text: 'Шановні батьки, увага!' })).to.equal(
       true
     );
-    expect(isTitleHidden({ title: 'День знань', text: 'Сьогодні свято' })).to.equal(false);
-    expect(isTitleHidden({ title: 'Увага', text: 'Увагам батьків' })).to.equal(false);
-    expect(isTitleHidden({ title: '', text: 'Текст' })).to.equal(false);
-  });
-
-  it('уривок у картці продовжує заголовок, а не повторює його', () => {
-    const cut = { title: 'Сьогодні в гімназії…', text: 'Сьогодні в гімназії свято' };
-    expect(getTextAfterTitle(cut)).to.equal('…свято');
-    const fixed = normalizePost({ title: ARTICLE, text: '' });
-    expect(getTextAfterTitle(fixed).startsWith('Повідомляємо')).to.equal(true);
-    expect(getTextAfterTitle({ title: 'День знань', text: 'Сьогодні свято' })).to.equal(
-      'Сьогодні свято'
-    );
+    expect(isTitleRepeated({ title: 'День знань', text: 'Сьогодні свято' })).to.equal(false);
+    expect(isTitleRepeated({ title: 'Увага', text: 'Увагам батьків' })).to.equal(false);
+    expect(isTitleRepeated({ title: '', text: 'Текст' })).to.equal(false);
   });
 });

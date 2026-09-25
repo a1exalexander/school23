@@ -1,7 +1,7 @@
 /**
  * Editors sometimes paste the whole article into the title field and leave the body empty.
- * These helpers move such text into the body, give the post a short title made
- * of its first words, and hide that title on the page, since the body already starts with it.
+ * These helpers move such text into the body and give the post a short title made
+ * of its first words. News cards hide such a title, since the body already starts with it.
  */
 
 /** A title is a short line; anything longer belongs in the body */
@@ -89,10 +89,10 @@ export const normalizePost = (post) => {
 };
 
 /**
- * The title is not shown when the body already starts with it,
+ * True when the body already starts with the title,
  * e.g. a title made by `makeTitle` («Перші слова статті…»).
  */
-export const isTitleHidden = (post) => {
+export const isTitleRepeated = (post) => {
   const title = collapse(post?.title).replace(TRAILING_DOTS_RE, '').trim().toLowerCase();
   if (!title) return false;
   const body = getPlainText(post?.text).toLowerCase();
@@ -100,16 +100,4 @@ export const isTitleHidden = (post) => {
   // "Увага" must not hide the title of a body that starts with "Увагам ..."
   const nextChar = body.charAt(title.length);
   return !nextChar || !WORD_CHAR_RE.test(nextChar);
-};
-
-/** The body text that goes after the title, so a card doesn't repeat the title as its excerpt */
-export const getTextAfterTitle = (post) => {
-  const body = getPlainText(post?.text);
-  if (!isTitleHidden(post)) return body;
-  const fullTitle = collapse(post?.title);
-  const title = fullTitle.replace(TRAILING_DOTS_RE, '').trim();
-  const rest = body.slice(title.length).replace(/^[\s,;:.!?–—-]+/, '');
-  if (!rest) return '';
-  // a title cut in the middle of a sentence is continued with «…»
-  return TRAILING_DOTS_RE.test(fullTitle) ? `${ELLIPSIS}${rest}` : rest;
 };
