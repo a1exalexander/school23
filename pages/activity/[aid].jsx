@@ -40,22 +40,23 @@ const ActivityPostPage = ({ post, isEmptyInit, notify }) => {
     const newPost = { ...fetchedPost, ...updatedPost };
     const res = await db.updateActivityPost(post.id, newPost);
     if (res) {
-      notify('success', 'Сторінку успішно оновлено!');
+      notify('success', 'Сторінку оновлено!');
       setPost(newPost);
       setEditorVisible(false);
       window.scrollTo(0, 0);
-    } else {
-      notify('error', messages.POST_SAVE_ERROR, ERROR_NOTIFICATION_TIMEOUT);
+      return true;
     }
+    notify('error', messages.POST_SAVE_ERROR, ERROR_NOTIFICATION_TIMEOUT);
+    return false;
   };
 
   const onRemove = async () => {
     const res = await db.deleteActivityPost(post.id);
     if (res) {
-      notify('success', 'Сторінку видалено!');
+      notify('success', 'Сторінку видалено');
       router.push({ pathname: routes.ACTIVITY });
     } else {
-      notify('error', 'Помилка при видаленні!');
+      notify('error', 'Не вдалося видалити. Спробуйте ще раз', ERROR_NOTIFICATION_TIMEOUT);
     }
   };
 

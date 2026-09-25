@@ -12,3 +12,5 @@ export const IMAGE_UPLOAD_NETWORK =
 export const IMAGE_UPLOAD_ERROR =
   'Не вдалося завантажити фото. Спробуйте ще раз або оберіть інше 🖼';
 export const POST_SAVE_ERROR = `Не вдалося зберегти. Перевірте, чи всі фото не важчі за ${MAX_IMAGE_SIZE_MB} МБ, і спробуйте ще раз`;
+export const IMAGE_COMPRESS_ERROR =
+  'Не вдалося стиснути фото. Спробуйте інше фото або збережіть його як JPG 🖼';

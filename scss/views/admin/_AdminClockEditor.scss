@@ -1,40 +1,75 @@
 $style: AdminClockEditor;
 
 .#{$style} {
-  &__btns {
-    @include flex-row(flex-start, center);
+  max-width: 560px;
+  &__hint {
+    @include text($H400, 400, $N400);
+    line-height: 1.5;
     margin-bottom: 24px;
   }
-  &__btn {
-    &:not(:last-of-type) {
-      margin-right: 24px;
-    }
+  &__list {
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
   }
-  &__title {
-    @include text($H500, 500, $N900);
-    margin-bottom: 24px;
+  &__lesson {
+    border-bottom: 1px solid $N40;
+    padding: 12px 0;
   }
   &__item {
-    @include flex-row(flex-start, center);
-    border-bottom: 1px solid $N40;
-  }
-  &__row {
-    @include flex-row(flex-start, center);
+    @include flex-row(flex-start, flex-end);
+    flex-wrap: wrap;
+    gap: 12px;
+    &._error .#{$style}__input {
+      border-color: $R300;
+    }
   }
   &__label {
-    padding: 16px 0;
-    min-width: 90px;
-    @include text($H200, 400, $N900);
-    border-right: 1px solid $N40;
+    flex: 1 0 100%;
+    @include text($H600, 500, $N900);
+    @include media {
+      flex: 0 0 72px;
+      padding-bottom: 8px;
+    }
+  }
+  &__field {
+    flex: 1 1 0;
+    min-width: 0;
+    @include flex-col(flex-start, stretch);
+    @include media {
+      flex: 0 0 auto;
+    }
+  }
+  &__caption {
+    @include text($H200, 400, $N300);
+    margin-bottom: 4px;
   }
   &__input {
-    width: 40px;
-    margin: 0 12px;
-    input {
-      text-align: center;
+    @extend %input;
+    width: 100%;
+    @include media {
+      width: 120px;
     }
-    input::placeholder {
-      font-size: $H100;
+    font-variant-numeric: tabular-nums;
+  }
+  &__dash {
+    padding-bottom: 8px;
+    color: $N100;
+  }
+  &__break {
+    margin-top: 8px;
+    @include media {
+      padding-left: 84px;
     }
+    @include text($H200, 400, $N100);
+  }
+  &__error {
+    margin-top: 8px;
+    @include text($H300, 500, $R400);
+  }
+  &__btns {
+    @include flex-row(flex-start, center);
+    flex-wrap: wrap;
+    gap: 16px;
   }
 }

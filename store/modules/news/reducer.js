@@ -66,6 +66,11 @@ const reducer = (state = { news: { ...initState } }, action) => {
         cache: updatedCache
       };
     }
+    case actionType.NEWS_CACHE_CLEAN:
+      return {
+        ...state.news,
+        cache: null
+      };
     case actionType.NEWS_FAILURE:
       return {
         ...state.news,

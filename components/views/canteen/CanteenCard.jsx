@@ -51,7 +51,7 @@ export const getMenuStatus = (date) => {
   return { label, color, tone };
 };
 
-export const CanteenCard = ({ item, canRemove, onRemove, className }) => {
+export const CanteenCard = ({ item, canRemove, onRemove, onEdit, className }) => {
   const day = toDate(item.date);
   const status = getMenuStatus(item.date);
   const fullDate = day ? moment(day).format('dddd, D MMMM YYYY') : '';
@@ -78,6 +78,9 @@ export const CanteenCard = ({ item, canRemove, onRemove, className }) => {
       />
       {canRemove && (
         <footer className="canteen-card__footer">
+          <SButton onClick={() => onEdit(item)} type="white" size="small">
+            Редагувати
+          </SButton>
           <SButton onClick={() => onRemove(item.id)} type="danger" size="small">
             Видалити
           </SButton>
@@ -90,6 +93,7 @@ export const CanteenCard = ({ item, canRemove, onRemove, className }) => {
 CanteenCard.defaultProps = {
   canRemove: false,
   onRemove: () => undefined,
+  onEdit: () => undefined,
   className: undefined
 };
 
@@ -102,6 +106,7 @@ CanteenCard.propTypes = {
   }).isRequired,
   canRemove: bool,
   onRemove: func,
+  onEdit: func,
   className: string
 };
 

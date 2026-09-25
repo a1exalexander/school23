@@ -23,7 +23,7 @@ $style: admin-post;
     @include flex-row(center, center);
   }
   &__images-old {
-    margin-bottom: 32px;
+    margin: 0;
     @include flex-row();
     flex-wrap: wrap;
     img {
@@ -35,7 +35,10 @@ $style: admin-post;
     }
   }
   &__old-image-item {
-    padding: 12px;
+    padding: 8px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    overflow: hidden;
     width: 140px;
     height: 100px;
     position: relative;
@@ -59,9 +62,8 @@ $style: admin-post;
     }
     margin-bottom: 24px;
   }
-  .ql-container {
+  &__editor {
     max-width: 900px;
-    margin: 0 auto;
   }
   .ql-editor {
     min-height: 200px;
@@ -84,40 +86,57 @@ $style: admin-post;
       }
     }
   }
-  &__submit {
-    margin-bottom: 32px;
-  }
   &__preview-title {
     text-align: center;
     font-family: $head-font;
     @include text($H600, 700);
     margin-bottom: 24px;
   }
-  &__emoji-wrapper {
-    z-index: 2;
-    position: relative;
+  &__hint {
     margin-bottom: 24px;
-    padding: 24px 0;
-
-    & > div {
-      @include flex-col(flex-start, center);
-      margin: 0 -24px;
-      @include media($screen-tablet-small) {
-        margin: 0;
-        align-items: flex-start;
-      }
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: $B50;
+    @include text($H400, 400, $N700);
+    line-height: 1.5;
+  }
+  &__field {
+    margin-bottom: 24px;
+    @include flex-col(flex-start, stretch);
+    .admin-post__radio-group,
+    .admin-post__input {
+      margin-bottom: 0;
     }
-    @include media($screen-tablet-small) {
-      padding: 0;
+  }
+  &__help {
+    margin-top: 8px;
+    @include text($H300, 400, $N300);
+  }
+  &__label-row {
+    max-width: 900px;
+    @include flex-row(space-between, flex-end);
+    margin-bottom: 8px;
+    .admin-post__label {
+      margin-bottom: 0;
     }
+  }
+  &__emoji-wrapper {
+    position: relative;
+    z-index: 3;
   }
   &__emoji {
     position: absolute;
-    top: 100%;
-    left: 0;
+    top: calc(100% + 8px);
+    right: 0;
   }
-  &__emoji-btn {
-    margin-bottom: 12px;
+  &__actions {
+    @include flex-row(flex-start, center);
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  &__missing {
+    @include text($H400, 400, $N300);
   }
   &__datepicker {
     @extend %input;
@@ -129,7 +148,98 @@ $style: admin-post;
   &__label {
     @extend %label;
   }
-  &__link {
+}
+
+// Quill has no translations, so the words in its toolbar are replaced here
+.admin-post .ql-snow {
+  .ql-picker.ql-header {
+    width: 156px;
+  }
+  .ql-picker.ql-size {
+    width: 116px;
+  }
+  .ql-picker.ql-header .ql-picker-label::before,
+  .ql-picker.ql-header .ql-picker-item::before {
+    content: 'Звичайний текст';
+  }
+  @for $level from 1 through 6 {
+    .ql-picker.ql-header .ql-picker-label[data-value='#{$level}']::before,
+    .ql-picker.ql-header .ql-picker-item[data-value='#{$level}']::before {
+      content: 'Заголовок #{$level}';
+    }
+  }
+  .ql-picker.ql-size .ql-picker-label::before,
+  .ql-picker.ql-size .ql-picker-item::before {
+    content: 'Звичайний';
+  }
+  .ql-picker.ql-size .ql-picker-label[data-value='small']::before,
+  .ql-picker.ql-size .ql-picker-item[data-value='small']::before {
+    content: 'Дрібний';
+  }
+  .ql-picker.ql-size .ql-picker-label[data-value='large']::before,
+  .ql-picker.ql-size .ql-picker-item[data-value='large']::before {
+    content: 'Великий';
+  }
+  .ql-picker.ql-size .ql-picker-label[data-value='huge']::before,
+  .ql-picker.ql-size .ql-picker-item[data-value='huge']::before {
+    content: 'Дуже великий';
+  }
+  .ql-tooltip::before {
+    content: 'Відкрити посилання:';
+  }
+  .ql-tooltip[data-mode='link']::before {
+    content: 'Вставте посилання:';
+  }
+  .ql-tooltip a.ql-action::after {
+    content: 'Змінити';
+  }
+  .ql-tooltip.ql-editing a.ql-action::after {
+    content: 'Зберегти';
+  }
+  .ql-tooltip a.ql-remove::before {
+    content: 'Прибрати';
+  }
+}
+
+.admin-post {
+  &__draft {
+    @include flex-row(space-between, center);
+    flex-wrap: wrap;
+    gap: 12px;
     margin-bottom: 24px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: $Y50;
+    border: 1px solid $Y100;
+  }
+  &__draft-text {
+    flex: 1 1 260px;
+    @include text($H400, 400, $N700);
+    line-height: 1.5;
+  }
+  &__saved {
+    @include text($H300, 400, $G400);
+  }
+  &__preview-actions {
+    @include flex-row(flex-start, center);
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid $N40;
+  }
+}
+
+.admin-preview {
+  &._canteen {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  &__note {
+    margin-bottom: 24px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: $N20;
+    @include text($H400, 400, $N500);
   }
 }

@@ -21,13 +21,18 @@ const News = ({ loading, newsCache, getNews, news, totalCount }) => {
   const searchDebounced = useDebounced(currentSearch, 1000);
   const isSearchQuery = searchDebounced.length > 0;
 
+  const buildUrl = (page, search) => {
+    const searchQuery = search ? `&search=${encodeURIComponent(search)}` : '';
+    return `/news?page=${page}${searchQuery}`;
+  };
+
+  // a new search starts from the first page; replace() keeps typing out of the browser history
   const onSearchChange = (query) => {
-    const searchQuery = query ? `&search=${encodeURIComponent(query)}` : '';
-    router.push(`/news?page=${currentPage}${searchQuery}`);
+    router.replace(buildUrl(1, query));
   };
 
   const handlePageChange = (newPage) => {
-    router.push(`/news?page=${newPage}`);
+    router.push(buildUrl(newPage, currentSearch));
   };
 
   useEffect(() => {

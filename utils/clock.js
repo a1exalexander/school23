@@ -87,6 +87,11 @@ const clock = (state) => {
     shallowTime[key] = { ...value, time: state[key] };
   });
   const { l1, l2, l3, l4, l5, l6, l7, l8, b1, b2, b3, b4, b5, b6, b7, b8 } = shallowTime;
+  // the first bell comes from the schedule set in the admin, not a hard-coded 08:30
+  const firstBell = moment(l1.time, 'H:mm').isValid()
+    ? moment(l1.time, 'H:mm')
+    : moment('08:30', 'HH:mm');
+  b8.msg = `Завтра о ${firstBell.format('HH:mm')} в школу`;
 
   const nextWeekday = () => ['пт'].includes(moment().format('dd')) && !isTime(l1.time, b8.time);
 
@@ -128,7 +133,7 @@ const clock = (state) => {
     case isTime(l8.time, b8.time):
       return getLesson(l8.msg);
     default:
-      return { msg: `${moment('08:30', 'HH:mm').calendar()} в школу`, type: 'before' };
+      return { msg: `${firstBell.calendar()} в школу`, type: 'before' };
   }
 };
 
