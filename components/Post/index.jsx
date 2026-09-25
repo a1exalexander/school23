@@ -30,6 +30,7 @@ import { SGallery } from '../common/media/SGallery';
 import LikeButton from '../common/LikeButton';
 import { routes } from '../../constants';
 import { normalizePost } from '../../utils/postTitle';
+import { getVideoEmbedSrc, getVideoUrl, isVideoEmbeddable } from '../../utils/postVideo';
 
 const AdminControls = dynamic(() => import('./components/AdminControls'), { ssr: false });
 
@@ -81,6 +82,7 @@ const Post = ({
   }, []);
 
   const created = post?.created ? moment(post.created * 1000) : null;
+  const videoUrl = getVideoUrl(post?.video);
   const hasImages = Array.isArray(post?.images) && !!post?.images.length;
   const editMode = !!post?.delta && !!isAuth && !!isEditorVisible;
   const isDeltaEmpty = !post?.delta || (post?.delta?.ops && post?.delta?.ops.length === 0);
@@ -139,21 +141,6 @@ const Post = ({
                     </div>
                     <h1 className="post__title">{post?.title}</h1>
                   </header>
-                  {hasImages && (
-                    <SGallery className="post__gallery" images={post.images} alt={post?.title} />
-                  )}
-                  {!!post?.video && (
-                    <div className="post__video">
-                      <iframe
-                        src={`https://www.facebook.com/plugins/video.php?href=${post?.video}&show_text=false&appId=2464432437148222`}
-                        scrolling="no"
-                        title={post?.title}
-                        frameBorder="0"
-                        allowFullScreen
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                      />
-                    </div>
-                  )}
                   {post?.text && (
                     <SEditorPreview
                       className="post__content"
@@ -168,6 +155,33 @@ const Post = ({
                       src={post?.iframe}
                       frameBorder="0"
                     />
+                  )}
+                  {/* photos and video go after the text, so the article is read first */}
+                  {!!videoUrl &&
+                    (isVideoEmbeddable(videoUrl) ? (
+                      <div className="post__video">
+                        <iframe
+                          src={getVideoEmbedSrc(videoUrl)}
+                          scrolling="no"
+                          title={post?.title}
+                          frameBorder="0"
+                          allowFullScreen
+                          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        />
+                      </div>
+                    ) : (
+                      // a link to a Facebook post, not a video: the player would stay empty
+                      <a
+                        className="post__video-link"
+                        href={videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Переглянути в Facebook
+                      </a>
+                    ))}
+                  {hasImages && (
+                    <SGallery className="post__gallery" images={post.images} alt={post?.title} />
                   )}
                   {showLikes && (
                     <footer className="post__footer">
