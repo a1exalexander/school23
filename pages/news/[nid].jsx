@@ -46,9 +46,10 @@ const NewsPost = ({ post, isEmptyInit, notify, onNewsChange }) => {
       notify('success', 'Новину оновлено!');
       setPost(newPost);
       setEditorVisible(false);
-    } else {
-      notify('error', messages.POST_SAVE_ERROR, ERROR_NOTIFICATION_TIMEOUT);
+      return true;
     }
+    notify('error', messages.POST_SAVE_ERROR, ERROR_NOTIFICATION_TIMEOUT);
+    return false;
   };
 
   const onRemove = async () => {

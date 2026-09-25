@@ -414,6 +414,18 @@ export const addFood = async (post) => {
   }
 };
 
+export const updateFood = async (id, post) => {
+  try {
+    const { title = '', images = [], date } = post;
+    await db.collection('food').doc(id).update({ title, images, date });
+    logger.info('Success', 'UPDATE FOOD');
+    return true;
+  } catch (err) {
+    logger.error(err, 'UPDATE FOOD');
+    return false;
+  }
+};
+
 export const deleteFood = async (id) => {
   try {
     await db.collection('food').doc(id).delete();

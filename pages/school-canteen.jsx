@@ -1,9 +1,11 @@
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { SLoader, Pagination, Empty } from '../components';
 import { CanteenCard } from '../components/views/canteen/CanteenCard';
+import { SModal } from '../components/common/SModal';
 import { Header } from '../components/Header';
 import { Page } from '../components/Page';
 import { db } from '../firebase';
@@ -13,12 +15,17 @@ import usePagination from '../hooks/usePagination';
 import { YearDivider } from '../components/common/YearDivider';
 import { withYearDividers, yearFromDate } from '../utils/groupByYear';
 
+const AdminPostEditor = dynamic(() => import('../components/views/admin/AdminPostEditor'), {
+  ssr: false
+});
+
 const toUnix = (date) =>
   date && typeof date.toDate === 'function' ? moment(date.toDate()).unix() : 0;
 
 export const SchoolCanteenPage = () => {
   const [loading, setLoading] = useState(false);
   const [food, setFood] = useState([]);
+  const [editing, setEditing] = useState(null);
 
   const { status } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -46,6 +53,20 @@ export const SchoolCanteenPage = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const onUpdate = async (updated) => {
+    const res = await db.updateFood(editing.id, updated);
+    if (res) {
+      dispatch(notify('success', 'Меню оновлено'));
+      setEditing(null);
+      await fetchData();
+      return true;
+    }
+    dispatch(
+      notify('error', 'Не вдалося зберегти меню. Спробуйте ще раз', ERROR_NOTIFICATION_TIMEOUT)
+    );
+    return false;
+  };
 
   const onRemove = async (id) => {
     const ok = window?.confirm('Видалити це меню? Цю дію не можна скасувати.');
@@ -88,6 +109,7 @@ export const SchoolCanteenPage = () => {
                       item={entry.item}
                       canRemove={!!status}
                       onRemove={onRemove}
+                      onEdit={setEditing}
                     />
                   )
                 )}
@@ -111,6 +133,11 @@ export const SchoolCanteenPage = () => {
             />
           )}
         </SLoader>
+        <SModal open={!!editing} onClose={() => setEditing(null)} title="Редагування меню">
+          {editing && (
+            <AdminPostEditor type="canteen" isUpdate post={editing} onUpdate={onUpdate} />
+          )}
+        </SModal>
       </div>
     </Page>
   );

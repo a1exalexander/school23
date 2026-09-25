@@ -44,9 +44,10 @@ const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
       setPost(newPost);
       setEditorVisible(false);
       window.scrollTo(0, 0);
-    } else {
-      notify('error', messages.POST_SAVE_ERROR, ERROR_NOTIFICATION_TIMEOUT);
+      return true;
     }
+    notify('error', messages.POST_SAVE_ERROR, ERROR_NOTIFICATION_TIMEOUT);
+    return false;
   };
 
   const onRemove = async () => {

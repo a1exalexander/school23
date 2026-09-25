@@ -22,6 +22,7 @@ import uk from 'date-fns/locale/uk';
 import 'react-datepicker/dist/react-datepicker.min.css';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import Router from 'next/router';
+import moment from 'moment';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
@@ -41,7 +42,19 @@ import {
   routes
 } from '../../../constants';
 import { STransition } from '../../common/transition';
-import { getImageTooLargeMessage, isFileTooLarge, isObject, isString } from '../../../utils';
+import { SModal } from '../../common/SModal';
+import { AdminPostPreview } from './AdminPostPreview';
+import {
+  formatFileSize,
+  getFileName,
+  getFileSize,
+  getImageTooLargeMessage,
+  isFileTooLarge,
+  isObject,
+  isString
+} from '../../../utils';
+import { compressImage, MAX_SOURCE_IMAGE_SIZE } from '../../../utils/imageCompress';
+import { clearDraft, readDraft, saveDraft } from '../../../utils/drafts';
 
 registerLocale('uk', uk);
 
@@ -162,8 +175,58 @@ const initState = {
   iframe: '',
   video: '',
   emoji: false,
+  preview: false,
+  draftSavedAt: null,
+  draftRestoredAt: null,
   date: null
 };
+
+// Quill has no translations, so the toolbar buttons get Ukrainian hints this way
+const TOOLBAR_TITLES = {
+  '.ql-bold': 'Жирний',
+  '.ql-italic': 'Курсив',
+  '.ql-underline': 'Підкреслений',
+  '.ql-strike': 'Закреслений',
+  '.ql-blockquote': 'Цитата',
+  '.ql-link': 'Посилання',
+  '.ql-image': 'Вставити фото в текст',
+  '.ql-align': 'Вирівнювання',
+  '.ql-list[value="ordered"]': 'Нумерований список',
+  '.ql-list[value="bullet"]': 'Маркований список',
+  '.ql-indent[value="-1"]': 'Зменшити відступ',
+  '.ql-indent[value="+1"]': 'Збільшити відступ',
+  '.ql-size': 'Розмір тексту',
+  '.ql-header': 'Заголовок',
+  '.ql-color': 'Колір тексту',
+  '.ql-background': 'Колір виділення',
+  '.ql-clean': 'Прибрати форматування'
+};
+
+const DRAFT_SAVE_DELAY = 800;
+
+/** Firestore Timestamp, Date or string -> Date */
+const toJsDate = (value) => {
+  if (!value) return null;
+  if (typeof value.toDate === 'function') return value.toDate();
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+};
+
+/** The part of the form that is kept in a draft and compared to find unsaved changes */
+const getDraftFields = (state, withDate) => ({
+  title: state.title || '',
+  text: state.text || '',
+  delta: state.delta || { ops: [] },
+  video: state.video || '',
+  type: state.type || initState.type,
+  // only the canteen menu has a date; a local day, not UTC, so it survives the time zone
+  date: withDate && state.date ? moment(toJsDate(state.date)).format('YYYY-MM-DD') : null
+});
+
+const isSameDraft = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+const isEmptyDraft = (fields) =>
+  !fields.title.trim() && !fields.text.trim() && !fields.video.trim();
 
 // What every kind of entry is, where it shows up on the site and what it needs
 const TYPE_INFO = {
@@ -205,7 +268,7 @@ class AdminPostEditor extends Component {
       maxWidth: 1000,
       maxHeight: 1000,
       imageType: ['image/jpeg', 'image/png'],
-      debug: true
+      debug: false
     }
   };
 
@@ -216,34 +279,133 @@ class AdminPostEditor extends Component {
     this.reactQuillRef = null;
     this.tooLargeImages = [];
     this.tooLargeImagesTimer = null;
+    this.draftTimer = null;
+    this.initialFields = null;
+    this.userEdited = false;
+    this.toolbarTranslated = false;
   }
 
   componentDidMount() {
-    const { post = initState } = this.props;
-    const payload = {
-      title: post?.title,
-      delta: post?.delta,
-      text: post?.text,
-      type: post?.type || initState.type,
-      iframe: post?.iframe,
-      video: post?.video || '',
-      oldImages: post?.images
-    };
-    this.onDispatch('init')(payload);
+    const payload = this.getInitialPayload();
+    this.initialFields = this.getFields({ ...this.state, ...payload });
+
+    // an unfinished text survives a closed tab, a reload or a switch to another admin tab
+    const draft = readDraft(this.getDraftKey());
+    const draftFields = draft && this.getFields(draft.fields);
+    const hasDraft =
+      draftFields && !isEmptyDraft(draftFields) && !isSameDraft(draftFields, this.initialFields);
+    const draftPayload = hasDraft
+      ? {
+          ...draft.fields,
+          date: draft.fields.date ? moment(draft.fields.date, 'YYYY-MM-DD').toDate() : payload.date,
+          draftRestoredAt: draft.savedAt
+        }
+      : {};
+
     this.setState((prevState) => ({
       ...prevState,
       ...payload,
+      ...draftPayload,
       modules: this.modules
     }));
+    window.addEventListener('beforeunload', this.onBeforeUnload);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     this.attachQuillRefs();
+    if (!isSameDraft(this.getFields(prevState), this.getFields(this.state))) {
+      clearTimeout(this.draftTimer);
+      this.draftTimer = setTimeout(this.saveDraft, DRAFT_SAVE_DELAY);
+    }
   }
 
   componentWillUnmount() {
     clearTimeout(this.tooLargeImagesTimer);
+    clearTimeout(this.draftTimer);
+    // don't lose the last keystrokes when the editor is closed right after typing
+    if (!this.published) this.saveDraft();
+    window.removeEventListener('beforeunload', this.onBeforeUnload);
   }
+
+  getInitialPayload = () => {
+    const { post } = this.props;
+    return {
+      title: post?.title || '',
+      delta: post?.delta || { ops: [] },
+      text: post?.text || '',
+      type: post?.type || initState.type,
+      iframe: post?.iframe || '',
+      video: post?.video || '',
+      oldImages: post?.images || [],
+      date: toJsDate(post?.date) || new Date()
+    };
+  };
+
+  getFields = (state) => {
+    const { type } = this.props;
+    return getDraftFields(state, type === 'canteen');
+  };
+
+  getDraftKey = () => {
+    const { isUpdate, post, type } = this.props;
+    return isUpdate ? `edit_${type}_${post?.id}` : `new_${type}`;
+  };
+
+  hasUnsavedChanges = () => {
+    const { images } = this.state;
+    if (this.published || !this.initialFields) return false;
+    return !!images?.length || !isSameDraft(this.getFields(this.state), this.initialFields);
+  };
+
+  saveDraft = () => {
+    if (!this.initialFields || this.published) return;
+    const fields = this.getFields(this.state);
+    if (isSameDraft(fields, this.initialFields) || isEmptyDraft(fields)) {
+      clearDraft(this.getDraftKey());
+      return;
+    }
+    const savedAt = saveDraft(this.getDraftKey(), fields);
+    if (savedAt) this.setState((prevState) => ({ ...prevState, draftSavedAt: savedAt }));
+  };
+
+  discardDraft = () => {
+    // eslint-disable-next-line no-alert
+    const ok = window.confirm('Прибрати чернетку і почати з початку?');
+    if (!ok) return;
+    clearTimeout(this.draftTimer);
+    clearDraft(this.getDraftKey());
+    this.userEdited = false;
+    this.setState((prevState) => ({
+      ...prevState,
+      ...this.getInitialPayload(),
+      images: [],
+      draftRestoredAt: null,
+      draftSavedAt: null
+    }));
+  };
+
+  onBeforeUnload = (e) => {
+    if (!this.hasUnsavedChanges()) return undefined;
+    // the text is kept in the draft anyway, but photos that are not uploaded yet would be lost
+    const { images } = this.state;
+    if (!images?.length) return undefined;
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+  };
+
+  togglePreview = (preview) => {
+    this.setState((prevState) => ({ ...prevState, preview }));
+  };
+
+  translateToolbar = (editor) => {
+    const toolbar = editor.getModule('toolbar')?.container;
+    if (!toolbar || this.toolbarTranslated) return;
+    Object.entries(TOOLBAR_TITLES).forEach(([selector, title]) => {
+      toolbar.querySelectorAll(selector).forEach((el) => el.setAttribute('title', title));
+    });
+    this.toolbarTranslated = true;
+  };
 
   onDateChange = (date) => {
     this.setState((prevState) => ({ ...prevState, date }));
@@ -265,15 +427,24 @@ class AdminPostEditor extends Component {
     }
     const editor = this.reactQuillRef.getEditor();
     this.quillRef = this.reactQuillRef.makeUnprivilegedEditor(editor);
+    this.translateToolbar(editor);
   };
 
-  handleChange = () => {
+  handleChange = (content, change, source) => {
     if (this.quillRef) {
       const delta = this.quillRef.getContents();
       const cfg = {};
       const converter = new QuillDeltaToHtmlConverter(delta.ops, cfg);
       const conerted = converter.convert();
       const text = conerted.replace(/(<([^>]+)>)/gi, '').trim();
+      const { draftRestoredAt } = this.state;
+      if (source === 'user') {
+        this.userEdited = true;
+      } else if (!this.userEdited && !draftRestoredAt && this.initialFields) {
+        // Quill rewrites the loaded text in its own way (e.g. adds a trailing line break);
+        // that is not a change made by the admin, so it must not count as an unsaved draft
+        this.initialFields = { ...this.initialFields, text, delta: { ...delta } };
+      }
       this.setState((prevState) => {
         return {
           ...prevState,
@@ -345,13 +516,27 @@ class AdminPostEditor extends Component {
 
     onDispatch('loading')(true);
     if (images.length) {
-      // Firebase Storage refuses images heavier than 2 MB,
-      // so all of the oversized ones are reported at once, before any upload starts
-      const tooLargeImages = images.filter((image) => isFileTooLarge(image?.file));
+      // Firebase Storage refuses images heavier than 2 MB, so big photos from a phone
+      // are shrunk right here instead of making the admin compress them by hand
+      let prepared;
+      try {
+        prepared = await Promise.all(
+          images.map(async (item) => ({
+            file: await compressImage(item.file),
+            id: item.id,
+            filenameWithoutExtension: item.filenameWithoutExtension
+          }))
+        );
+      } catch (error) {
+        notify('error', messages.IMAGE_COMPRESS_ERROR, ERROR_NOTIFICATION_TIMEOUT);
+        onDispatch('loading')(false);
+        return;
+      }
+      const tooLargeImages = prepared.filter((image) => isFileTooLarge(image.file));
       if (tooLargeImages.length) {
         notify(
           'error',
-          getImageTooLargeMessage(tooLargeImages.map((image) => image?.file)),
+          getImageTooLargeMessage(tooLargeImages.map((image) => image.file)),
           ERROR_NOTIFICATION_TIMEOUT
         );
         onDispatch('loading')(false);
@@ -359,7 +544,7 @@ class AdminPostEditor extends Component {
       }
       try {
         const savedImages = await Promise.all(
-          images.map(async (file) => {
+          prepared.map(async (file) => {
             const image = await storage.addPostImage(file);
             return image;
           })
@@ -373,10 +558,12 @@ class AdminPostEditor extends Component {
     }
     post.images = (post?.images || []).filter((image) => isObject(image) || isString(image));
     if (isUpdate) {
-      await onUpdate(post);
+      const ok = await onUpdate(post);
+      if (ok) this.onPublished();
     } else {
       const res = await db[http](post);
       if (res) {
+        this.onPublished();
         if (http === 'addPost') onNewsChange();
         notify('success', messageSuccess);
         onDispatch('clean')();
@@ -385,7 +572,13 @@ class AdminPostEditor extends Component {
         notify('error', messages.POST_SAVE_ERROR, ERROR_NOTIFICATION_TIMEOUT);
       }
     }
-    onDispatch('loading')(false);
+    if (!this.published) onDispatch('loading')(false);
+  };
+
+  onPublished = () => {
+    this.published = true;
+    clearTimeout(this.draftTimer);
+    clearDraft(this.getDraftKey());
   };
 
   /**
@@ -397,18 +590,24 @@ class AdminPostEditor extends Component {
     this.tooLargeImages.push(file);
     clearTimeout(this.tooLargeImagesTimer);
     this.tooLargeImagesTimer = setTimeout(() => {
-      notify('error', getImageTooLargeMessage(this.tooLargeImages), ERROR_NOTIFICATION_TIMEOUT);
+      const list = this.tooLargeImages
+        .map((item) => `«${getFileName(item)}» — ${formatFileSize(getFileSize(item))}`)
+        .join(', ');
+      notify(
+        'error',
+        `Файл завеликий для фото: ${list}. Оберіть інше зображення 🖼`,
+        ERROR_NOTIFICATION_TIMEOUT
+      );
       this.tooLargeImages = [];
     }, 100);
   };
 
   /**
-   * Firebase Storage does not accept images heavier than 2 MB,
-   * so an oversized file is rejected right away with a friendly toast
-   * instead of a failed upload after the "Опублікувати" click.
+   * Photos over 2 MB are compressed when the entry is published,
+   * only files that can't be a photo at all are rejected right away.
    */
   beforeAddFile = (item) => {
-    if (isFileTooLarge(item?.file)) {
+    if (isFileTooLarge(item?.file, MAX_SOURCE_IMAGE_SIZE)) {
       this.notifyTooLargeImage(item?.file);
       return false;
     }
@@ -434,7 +633,9 @@ class AdminPostEditor extends Component {
     const getMissing = () => {
       if (isCanteen) {
         if (!state.date) return 'Оберіть дату меню';
-        if (!state.images?.length) return 'Додайте хоча б одне фото меню';
+        if (!state.images?.length && !state.oldImages?.length) {
+          return 'Додайте хоча б одне фото меню';
+        }
         return null;
       }
       if (!state.title?.trim()) return 'Додайте заголовок';
@@ -443,10 +644,22 @@ class AdminPostEditor extends Component {
       return null;
     };
     const missing = getMissing();
+    const formatTime = (time) => moment(time).calendar(null, { sameElse: 'D MMMM о HH:mm' });
 
     return (
       <div className="admin-post">
         {!props.isUpdate && <p className="admin-post__hint">{info.hint}</p>}
+        {state.draftRestoredAt && (
+          <div className="admin-post__draft">
+            <p className="admin-post__draft-text">
+              {`Відновлено незбережену чернетку (${formatTime(state.draftRestoredAt)}).`}
+              {!isCanteen && ' Фото, якщо вони були, потрібно додати ще раз.'}
+            </p>
+            <SButton type="transparent" size="small" onClick={this.discardDraft}>
+              Почати з початку
+            </SButton>
+          </div>
+        )}
         {props.type === 'post' && (
           <div className="admin-post__field">
             <span className="admin-post__label">Тип публікації</span>
@@ -510,7 +723,7 @@ class AdminPostEditor extends Component {
             maxFiles={10}
             beforeAddFile={this.beforeAddFile}
             onupdatefiles={onDispatch('images')}
-            labelIdle={`Перетягніть фото сюди або <br/><span class="filepond--label-action">оберіть файли</span><br/><span class="filepond--label-hint">JPG або PNG, до ${MAX_IMAGE_SIZE_MB} МБ кожне, не більше 10 фото</span>`}
+            labelIdle={`Перетягніть фото сюди або <br/><span class="filepond--label-action">оберіть файли</span><br/><span class="filepond--label-hint">JPG або PNG, не більше 10 фото. Фото понад ${MAX_IMAGE_SIZE_MB} МБ стиснемо автоматично</span>`}
             labelFileTypeNotAllowed="Цей формат не підходить"
             fileValidateTypeLabelExpectedTypes="Потрібне фото JPG або PNG"
             labelMaxFilesExceeded="Забагато фото"
@@ -608,8 +821,55 @@ class AdminPostEditor extends Component {
             disabled={!!missing}
             label={props.isUpdate ? 'Зберегти зміни' : info.publish}
           />
+          <SButton
+            className="admin-post__preview-btn"
+            type="transparent"
+            onClick={() => this.togglePreview(true)}
+            label="Попередній перегляд"
+          />
           {missing && <span className="admin-post__missing">{missing}</span>}
+          {!missing && state.draftSavedAt && (
+            <span className="admin-post__saved">Чернетку збережено</span>
+          )}
         </div>
+        <SModal
+          open={state.preview}
+          onClose={() => this.togglePreview(false)}
+          title="Так це виглядатиме на сайті"
+          wide={!isCanteen}
+        >
+          <AdminPostPreview
+            type={props.type}
+            post={{
+              title: state.title,
+              text: state.text,
+              delta: state.delta,
+              type: state.type,
+              video: state.video,
+              date: state.date,
+              created: props.post?.created
+            }}
+            images={state.oldImages}
+            files={state.images}
+          />
+          <div className="admin-post__preview-actions">
+            <SButton
+              loading={state.loading}
+              onClick={async () => {
+                await _onSubmit();
+                if (!this.published) this.togglePreview(false);
+              }}
+              disabled={!!missing}
+              label={props.isUpdate ? 'Зберегти зміни' : info.publish}
+            />
+            <SButton
+              type="transparent"
+              onClick={() => this.togglePreview(false)}
+              label="Повернутись до редагування"
+            />
+            {missing && <span className="admin-post__missing">{missing}</span>}
+          </div>
+        </SModal>
       </div>
     );
   }
