@@ -112,6 +112,21 @@ $style: admin-post;
     margin-top: 8px;
     @include text($H300, 400, $N300);
   }
+  &__help-row {
+    max-width: 900px;
+    @include flex-row(space-between, flex-start);
+    gap: 16px;
+  }
+  &__counter {
+    flex-shrink: 0;
+    margin-top: 8px;
+    @include text($H300, 400, $N300);
+    font-variant-numeric: tabular-nums;
+    &._error {
+      color: $R400;
+      font-weight: 600;
+    }
+  }
   &__label-row {
     max-width: 900px;
     @include flex-row(space-between, flex-end);

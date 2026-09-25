@@ -30,6 +30,7 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 import OutsideClickHandler from 'react-outside-click-handler';
+import classNames from 'classnames';
 import { SButton, SInput, SRadio } from '../../index';
 import actions from '../../../store/actions';
 import { cleanNewsCache } from '../../../store/modules/news/actions';
@@ -55,6 +56,12 @@ import {
 } from '../../../utils';
 import { compressImage, MAX_SOURCE_IMAGE_SIZE } from '../../../utils/imageCompress';
 import { clearDraft, readDraft, saveDraft } from '../../../utils/drafts';
+import {
+  isBodyEmpty,
+  isTitleHidden,
+  normalizePost,
+  TITLE_MAX_LENGTH
+} from '../../../utils/postTitle';
 
 registerLocale('uk', uk);
 
@@ -233,6 +240,7 @@ const TYPE_INFO = {
   post: {
     hint: 'Новина зʼявиться першою на сторінці «Новини». Потрібні заголовок і текст або фото.',
     titleLabel: 'Заголовок новини',
+    textLabel: 'Текст новини',
     publish: 'Опублікувати новину',
     success: 'Новину опубліковано!'
   },
@@ -240,6 +248,7 @@ const TYPE_INFO = {
     hint:
       'Документ або сторінка для розділу «Публічна інформація» (звіти, положення, кошториси). Потрібні заголовок і текст або фото.',
     titleLabel: 'Назва документа',
+    textLabel: 'Текст документа',
     publish: 'Опублікувати документ',
     success: 'Документ опубліковано!'
   },
@@ -247,6 +256,7 @@ const TYPE_INFO = {
     hint:
       'Матеріал для розділу «Діяльність гімназії»: гуртки, проєкти, самоврядування. Потрібні заголовок і текст або фото.',
     titleLabel: 'Заголовок',
+    textLabel: 'Текст',
     publish: 'Опублікувати',
     success: 'Матеріал опубліковано!'
   },
@@ -328,7 +338,9 @@ class AdminPostEditor extends Component {
   }
 
   getInitialPayload = () => {
-    const { post } = this.props;
+    const { post: rawPost, type } = this.props;
+    // an old entry with the whole article in the title opens already fixed
+    const post = type === 'canteen' ? rawPost : normalizePost(rawPost);
     return {
       title: post?.title || '',
       delta: post?.delta || { ops: [] },
@@ -455,6 +467,34 @@ class AdminPostEditor extends Component {
     }
   };
 
+  /**
+   * A whole article pasted into the title while the body is still empty is moved
+   * into the body right away, and the title becomes its first words.
+   */
+  onTitleChange = (value) => {
+    const { type, notify } = this.props;
+    const { text, delta } = this.state;
+    const tooLong = String(value || '').trim().length > TITLE_MAX_LENGTH;
+    if (type === 'canteen' || !tooLong || !isBodyEmpty({ text, delta })) {
+      this.onDispatch('title')(value);
+      return;
+    }
+    const moved = normalizePost({ title: value, text, delta });
+    // Quill reports the new text as its own change, but this one was made by the admin
+    this.userEdited = true;
+    this.setState((prevState) => ({
+      ...prevState,
+      title: moved.title,
+      text: moved.text,
+      delta: moved.delta
+    }));
+    notify(
+      'info',
+      'Це схоже на основний текст, тому ми перенесли його в поле «Текст» нижче. Заголовок — перші слова, його можна змінити.',
+      ERROR_NOTIFICATION_TIMEOUT
+    );
+  };
+
   onEmojiChange = (emoji) => {
     const icon = emoji?.native || emoji?.unified;
     const editor = this.reactQuillRef?.getEditor?.();
@@ -481,8 +521,11 @@ class AdminPostEditor extends Component {
     const messageSuccess = (TYPE_INFO[type] || TYPE_INFO.post).success;
     let route = routes.NEWS;
     if (type !== 'canteen') {
-      post.delta = state.delta;
-      post.text = state.text;
+      // an article left in the title is moved into the body, a short title is made from it
+      const fixed = normalizePost({ title: state.title, text: state.text, delta: state.delta });
+      post.title = fixed.title;
+      post.delta = fixed.delta;
+      post.text = fixed.text;
     }
 
     if (type !== 'canteen' && type !== 'activity') {
@@ -639,11 +682,16 @@ class AdminPostEditor extends Component {
         return null;
       }
       if (!state.title?.trim()) return 'Додайте заголовок';
+      if (state.title.trim().length > TITLE_MAX_LENGTH) {
+        return `Заголовок задовгий — скоротіть до ${TITLE_MAX_LENGTH} символів, а решту перенесіть у текст`;
+      }
       const hasImages = !!state.images?.length || !!state.oldImages?.length;
       if (!hasImages && !state.text?.trim()) return 'Додайте текст або фото';
       return null;
     };
     const missing = getMissing();
+    const titleLength = state.title?.trim().length || 0;
+    const titleHidden = !isCanteen && isTitleHidden(state);
     const formatTime = (time) => moment(time).calendar(null, { sameElse: 'D MMMM о HH:mm' });
 
     return (
@@ -695,67 +743,43 @@ class AdminPostEditor extends Component {
             />
           </div>
         )}
-        <SInput className="admin-post__input" onChange={onDispatch('title')} value={state.title}>
-          {isCanteen ? (
-            info.titleLabel
-          ) : (
-            <span>
-              <sup>*</sup>
-              {info.titleLabel}
-            </span>
-          )}
-        </SInput>
         <div className="admin-post__field">
-          <span className="admin-post__label">
+          <SInput
+            className="admin-post__input"
+            onChange={this.onTitleChange}
+            value={state.title}
+            placeholder={isCanteen ? undefined : 'Коротко, в одне речення'}
+          >
             {isCanteen ? (
-              <>
-                <sup>*</sup>Фото меню
-              </>
+              info.titleLabel
             ) : (
-              'Фото (не обовʼязково)'
+              <span>
+                <sup>*</sup>
+                {info.titleLabel}
+              </span>
             )}
-          </span>
-          <FilePond
-            className="admin-post__images"
-            files={state.images}
-            allowMultiple
-            acceptedFileTypes={ACCEPTED_IMAGE_TYPES}
-            maxFiles={10}
-            beforeAddFile={this.beforeAddFile}
-            onupdatefiles={onDispatch('images')}
-            labelIdle={`Перетягніть фото сюди або <br/><span class="filepond--label-action">оберіть файли</span><br/><span class="filepond--label-hint">JPG або PNG, не більше 10 фото. Фото понад ${MAX_IMAGE_SIZE_MB} МБ стиснемо автоматично</span>`}
-            labelFileTypeNotAllowed="Цей формат не підходить"
-            fileValidateTypeLabelExpectedTypes="Потрібне фото JPG або PNG"
-            labelMaxFilesExceeded="Забагато фото"
-            labelTapToCancel="натисніть, щоб скасувати"
-            labelTapToUndo="натисніть, щоб повернути"
-            labelButtonRemoveItem="Прибрати"
-          />
+          </SInput>
+          {!isCanteen && (
+            <div className="admin-post__help-row">
+              <span className="admin-post__help">
+                {titleHidden
+                  ? 'Заголовок збігається з початком тексту, тому на самій сторінці його не видно — лише в списку і в пошуковиках.'
+                  : 'Лише назва. Сам текст пишіть у полі нижче ↓'}
+              </span>
+              <span
+                className={classNames('admin-post__counter', {
+                  _error: titleLength > TITLE_MAX_LENGTH
+                })}
+              >
+                {`${titleLength} / ${TITLE_MAX_LENGTH}`}
+              </span>
+            </div>
+          )}
         </div>
-        {!!state?.oldImages?.length && (
-          <div className="admin-post__field">
-            <span className="admin-post__label">Вже додані фото</span>
-            <ul className="admin-post__images-old">
-              {state?.oldImages?.map(({ id, src }) => (
-                <li key={id} className="admin-post__old-image-item">
-                  <SButton
-                    onClick={() => this.onRemoveImage(id)}
-                    className="admin-post__images-remove-btn"
-                    type="danger"
-                    size="small"
-                  >
-                    Прибрати
-                  </SButton>
-                  <img src={src} alt="" />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
         {!isCanteen && (
           <div className="admin-post__field">
             <div className="admin-post__label-row">
-              <span className="admin-post__label">Текст</span>
+              <span className="admin-post__label">{info.textLabel || 'Текст'}</span>
               <div className="admin-post__emoji-wrapper">
                 <SButton
                   className="admin-post__emoji-btn"
@@ -804,8 +828,55 @@ class AdminPostEditor extends Component {
               onChange={handleChange}
               modules={state.modules}
               formats={formats}
-              placeholder="Напишіть текст. Фото можна вставити просто в текст або додати вище."
+              placeholder="Тут основний текст: усе, що має прочитати відвідувач. Фото можна вставити просто в текст або додати нижче."
             />
+          </div>
+        )}
+        <div className="admin-post__field">
+          <span className="admin-post__label">
+            {isCanteen ? (
+              <>
+                <sup>*</sup>Фото меню
+              </>
+            ) : (
+              'Фото (не обовʼязково)'
+            )}
+          </span>
+          <FilePond
+            className="admin-post__images"
+            files={state.images}
+            allowMultiple
+            acceptedFileTypes={ACCEPTED_IMAGE_TYPES}
+            maxFiles={10}
+            beforeAddFile={this.beforeAddFile}
+            onupdatefiles={onDispatch('images')}
+            labelIdle={`Перетягніть фото сюди або <br/><span class="filepond--label-action">оберіть файли</span><br/><span class="filepond--label-hint">JPG або PNG, не більше 10 фото. Фото понад ${MAX_IMAGE_SIZE_MB} МБ стиснемо автоматично</span>`}
+            labelFileTypeNotAllowed="Цей формат не підходить"
+            fileValidateTypeLabelExpectedTypes="Потрібне фото JPG або PNG"
+            labelMaxFilesExceeded="Забагато фото"
+            labelTapToCancel="натисніть, щоб скасувати"
+            labelTapToUndo="натисніть, щоб повернути"
+            labelButtonRemoveItem="Прибрати"
+          />
+        </div>
+        {!!state?.oldImages?.length && (
+          <div className="admin-post__field">
+            <span className="admin-post__label">Вже додані фото</span>
+            <ul className="admin-post__images-old">
+              {state?.oldImages?.map(({ id, src }) => (
+                <li key={id} className="admin-post__old-image-item">
+                  <SButton
+                    onClick={() => this.onRemoveImage(id)}
+                    className="admin-post__images-remove-btn"
+                    type="danger"
+                    size="small"
+                  >
+                    Прибрати
+                  </SButton>
+                  <img src={src} alt="" />
+                </li>
+              ))}
+            </ul>
           </div>
         )}
         {!['canteen', 'activity'].includes(props.type) && (

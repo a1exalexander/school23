@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { isObject } from '../utils';
+import { normalizePost } from '../utils/postTitle';
 
 export const activityPostModel = {
   title: '',
@@ -16,7 +17,9 @@ export const formatActivityPost = (post) => {
   return shallowPost;
 };
 
-export const genActivityPost = (post) => {
+export const genActivityPost = (rawPost) => {
+  // an article pasted into the title is moved into the body
+  const post = normalizePost(rawPost);
   const newPost = {};
   Object.keys(activityPostModel).forEach((key) => {
     newPost[key] = post[key] || activityPostModel[key];

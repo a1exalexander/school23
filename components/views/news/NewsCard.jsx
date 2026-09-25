@@ -9,14 +9,18 @@ import { SBadge } from '../../index';
 import { IconRadio } from '../../common/icons';
 import { routes } from '../../../constants';
 import { getExcerpt, getPreviewImage } from '../../../utils/preview';
+import { getTextAfterTitle, normalizePost } from '../../../utils/postTitle';
 
-const NewsCard = ({ post, className, featured }) => {
+const NewsCard = ({ post: rawPost, className, featured }) => {
+  // old posts may still have the whole article in the title
+  const post = normalizePost(rawPost);
   const isAnnouncement = post?.type === 'announcement';
   const postType = isAnnouncement ? 'Оголошення' : 'Стаття';
   const badgeColor = isAnnouncement ? 'red' : 'blue';
 
   const image = isAnnouncement ? null : getPreviewImage(post);
-  const excerpt = getExcerpt(post?.text, featured ? 320 : 200);
+  // the excerpt continues the title instead of repeating it
+  const excerpt = getExcerpt(getTextAfterTitle(post), featured ? 320 : 200);
   const created = post?.created ? moment(post.created * 1000) : null;
 
   return (

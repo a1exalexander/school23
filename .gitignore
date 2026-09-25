@@ -28,3 +28,7 @@ yarn-debug.log*
 yarn-error.log*
 .vercel
 vercel.json
+
+# migration backups and keys
+scripts/backup-long-titles-*.json
+service-account*.json

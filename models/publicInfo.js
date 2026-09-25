@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { isObject } from '../utils';
+import { normalizePost } from '../utils/postTitle';
 
 export const publicInfoModel = {
   title: '',
@@ -18,7 +19,9 @@ export const formatPublicIbfo = (post) => {
   return shallowPost;
 };
 
-export const genPublicInfo = (post) => {
+export const genPublicInfo = (rawPost) => {
+  // an article pasted into the title is moved into the body
+  const post = normalizePost(rawPost);
   const newPost = {};
   Object.keys(publicInfoModel).forEach((key) => {
     newPost[key] = post[key] || publicInfoModel[key];

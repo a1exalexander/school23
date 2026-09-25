@@ -6,12 +6,15 @@ import moment from 'moment';
 import Link from 'next/link';
 import { IconArrowLeft, IconLaws } from '../icons';
 import { getPreviewImage } from '../../../utils/preview';
+import { normalizePost } from '../../../utils/postTitle';
 
 /**
  * Card for list pages with document-like entries
  * (public information, school activity).
  */
-export const EntryCard = ({ post, href, className }) => {
+export const EntryCard = ({ post: rawPost, href, className }) => {
+  // old entries may still have the whole article in the title
+  const post = normalizePost(rawPost);
   const image = getPreviewImage(post);
   const date = post?.created ? moment(post.created * 1000).format('D MMMM YYYY') : '';
 
