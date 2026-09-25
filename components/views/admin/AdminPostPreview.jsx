@@ -5,7 +5,6 @@ import SBadge from '../../common/SBadge';
 import { SGallery } from '../../common/media/SGallery';
 import { SEditorPreview } from '../../common/SEditorPreview';
 import { CanteenCard } from '../canteen/CanteenCard';
-import { isTitleHidden } from '../../../utils/postTitle';
 
 const SECTION_BADGE = {
   page: { label: 'Публічна інформація', color: 'cyan' },
@@ -57,13 +56,7 @@ export const AdminPostPreview = ({ type, post, images, files }) => {
           {badge && <SBadge color={badge.color} label={badge.label} />}
           <time className="post__date">{created.format('D MMMM YYYY')}</time>
         </div>
-        {isTitleHidden(post) ? (
-          <p className="admin-preview__note">
-            Заголовок не показується: текст новини вже починається з тих самих слів.
-          </p>
-        ) : (
-          <h1 className="post__title">{post.title || 'Без заголовка'}</h1>
-        )}
+        <h1 className="post__title">{post.title || 'Без заголовка'}</h1>
       </header>
       {!!allImages.length && (
         <SGallery className="post__gallery" images={allImages} alt={post.title} />

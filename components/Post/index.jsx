@@ -29,7 +29,7 @@ import { SEditorPreview } from '../common/SEditorPreview';
 import { SGallery } from '../common/media/SGallery';
 import LikeButton from '../common/LikeButton';
 import { routes } from '../../constants';
-import { isTitleHidden, normalizePost } from '../../utils/postTitle';
+import { normalizePost } from '../../utils/postTitle';
 
 const AdminControls = dynamic(() => import('./components/AdminControls'), { ssr: false });
 
@@ -57,7 +57,6 @@ const Post = ({
   const router = useRouter();
   // old posts may still have the whole article in the title
   const post = normalizePost(rawPost);
-  const hideTitle = isTitleHidden(post);
 
   const handleRemove = () => {
     const ok = window?.confirm('Видалити цей запис? Цю дію не можна скасувати.');
@@ -138,10 +137,7 @@ const Post = ({
                         </time>
                       )}
                     </div>
-                    {/* the body already starts with the title, but search engines still need it */}
-                    <h1 className={classNames('post__title', { 'is-visually-hidden': hideTitle })}>
-                      {post?.title}
-                    </h1>
+                    <h1 className="post__title">{post?.title}</h1>
                   </header>
                   {hasImages && (
                     <SGallery className="post__gallery" images={post.images} alt={post?.title} />

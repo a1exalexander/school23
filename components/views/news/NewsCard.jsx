@@ -9,7 +9,7 @@ import { SBadge } from '../../index';
 import { IconRadio } from '../../common/icons';
 import { routes } from '../../../constants';
 import { getExcerpt, getPreviewImage } from '../../../utils/preview';
-import { getTextAfterTitle, normalizePost } from '../../../utils/postTitle';
+import { isTitleRepeated, normalizePost } from '../../../utils/postTitle';
 
 const NewsCard = ({ post: rawPost, className, featured }) => {
   // old posts may still have the whole article in the title
@@ -19,8 +19,9 @@ const NewsCard = ({ post: rawPost, className, featured }) => {
   const badgeColor = isAnnouncement ? 'red' : 'blue';
 
   const image = isAnnouncement ? null : getPreviewImage(post);
-  // the excerpt continues the title instead of repeating it
-  const excerpt = getExcerpt(getTextAfterTitle(post), featured ? 320 : 200);
+  const excerpt = getExcerpt(post?.text, featured ? 320 : 200);
+  // a title made of the first words of the body would only repeat the excerpt
+  const hideTitle = !!excerpt && isTitleRepeated(post);
   const created = post?.created ? moment(post.created * 1000) : null;
 
   return (
@@ -48,7 +49,10 @@ const NewsCard = ({ post: rawPost, className, featured }) => {
               {created.format('D MMMM YYYY')}
             </time>
           )}
-          <h2 className="news-card__title">{post?.title}</h2>
+          {/* a hidden title still names the link for screen readers and search engines */}
+          <h2 className={classNames('news-card__title', { 'is-visually-hidden': hideTitle })}>
+            {post?.title}
+          </h2>
           {excerpt && (
             <p className="news-card__excerpt" dangerouslySetInnerHTML={{ __html: excerpt }} />
           )}

@@ -58,7 +58,7 @@ import { compressImage, MAX_SOURCE_IMAGE_SIZE } from '../../../utils/imageCompre
 import { clearDraft, readDraft, saveDraft } from '../../../utils/drafts';
 import {
   isBodyEmpty,
-  isTitleHidden,
+  isTitleRepeated,
   normalizePost,
   TITLE_MAX_LENGTH
 } from '../../../utils/postTitle';
@@ -691,7 +691,7 @@ class AdminPostEditor extends Component {
     };
     const missing = getMissing();
     const titleLength = state.title?.trim().length || 0;
-    const titleHidden = !isCanteen && isTitleHidden(state);
+    const titleHidden = props.type === 'post' && isTitleRepeated(state);
     const formatTime = (time) => moment(time).calendar(null, { sameElse: 'D MMMM о HH:mm' });
 
     return (
@@ -763,7 +763,7 @@ class AdminPostEditor extends Component {
             <div className="admin-post__help-row">
               <span className="admin-post__help">
                 {titleHidden
-                  ? 'Заголовок збігається з початком тексту, тому на самій сторінці його не видно — лише в списку і в пошуковиках.'
+                  ? 'Заголовок збігається з початком тексту, тому в списку новин його не видно — лише на сторінці новини і в пошуковиках.'
                   : 'Лише назва. Сам текст пишіть у полі нижче ↓'}
               </span>
               <span
