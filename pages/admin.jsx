@@ -26,6 +26,19 @@ const AdminClockEditor = dynamic(() => import('../components/views/admin/AdminCl
   ssr: false
 });
 
+const TABS = [ADMIN_NEWS, ADMIN_PUBLIC_INFO, ADMIN_ACTIVITY, ADMIN_SCHOOL_CANTEEN, ADMIN_CLOCK];
+
+// short latin keys for the address bar, so a reload or a shared link opens the same tab
+const TAB_KEYS = {
+  [ADMIN_NEWS]: 'news',
+  [ADMIN_PUBLIC_INFO]: 'public',
+  [ADMIN_ACTIVITY]: 'activity',
+  [ADMIN_SCHOOL_CANTEEN]: 'canteen',
+  [ADMIN_CLOCK]: 'clock'
+};
+
+const tabFromKey = (key) => TABS.find((tab) => TAB_KEYS[tab] === key) || ADMIN_NEWS;
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'tab':
@@ -38,8 +51,10 @@ const reducer = (state, action) => {
 };
 
 const Admin = ({ auth, isAuthServer, logout }) => {
+  const router = useRouter();
+
   const [state, dispatch] = useReducer(reducer, {
-    tab: ADMIN_NEWS,
+    tab: tabFromKey(router.query.tab),
     mounting: true
   });
 
@@ -60,8 +75,6 @@ const Admin = ({ auth, isAuthServer, logout }) => {
     }
   };
 
-  const router = useRouter();
-
   const isAuth = isAuthServer || auth.status;
 
   useEffect(() => {
@@ -81,7 +94,10 @@ const Admin = ({ auth, isAuthServer, logout }) => {
     }
   };
 
-  const onTabChange = (payload) => dispatch({ type: 'tab', payload });
+  const onTabChange = (payload) => {
+    dispatch({ type: 'tab', payload });
+    router.replace(`${routes.ADMIN}?tab=${TAB_KEYS[payload]}`, undefined, { shallow: true });
+  };
 
   return (
     <Page title="Кабінет адміністратора" className="admin">
@@ -89,13 +105,11 @@ const Admin = ({ auth, isAuthServer, logout }) => {
         <SLoader loading={state.mounting}>
           <>
             <Header title="Кабінет адміністратора" className="admin__header">
-              <SButton onClick={onLogout} type="transparent" label="Вийти">
-                <span role="img" aria-label="logout">
-                  🔌
-                </span>
-              </SButton>
+              <SButton onClick={onLogout} type="transparent" label="Вийти" />
             </Header>
-            <h3 className="admin__email">{auth?.user?.email}</h3>
+            {auth?.user?.email && (
+              <p className="admin__email">{`Ви увійшли як ${auth.user.email}`}</p>
+            )}
             <div className="admin__container">
               <div className="admin__navigation">
                 <SRadioSlider
@@ -103,13 +117,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
                   onChange={onTabChange}
                   name="law"
                   checked={state.tab}
-                  tabs={[
-                    ADMIN_NEWS,
-                    ADMIN_PUBLIC_INFO,
-                    ADMIN_ACTIVITY,
-                    ADMIN_SCHOOL_CANTEEN,
-                    ADMIN_CLOCK
-                  ]}
+                  tabs={TABS}
                 />
               </div>
               <div className="admin__view">
@@ -125,7 +133,7 @@ const Admin = ({ auth, isAuthServer, logout }) => {
 
 Admin.defaultProps = {
   logout: () => undefined,
-  auth: object,
+  auth: {},
   isAuthServer: false
 };
 

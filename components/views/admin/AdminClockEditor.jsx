@@ -1,133 +1,186 @@
-import { string, func } from 'prop-types';
+import { string } from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEqual } from 'lodash';
-import React, { useEffect, useMemo, useState } from 'react';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import { actions } from '../../../store/modules/clock';
-import { SInput } from '../../common/form';
+import { actions as notifications } from '../../../store/modules/notifications';
 import { SButton } from '../../common/buttons';
 import { db } from '../../../firebase';
-import { actionType } from '../../../constants';
+import { actionType, ERROR_NOTIFICATION_TIMEOUT } from '../../../constants';
 
-const TimeItem = ({ label, value, onChange }) => {
-  const [start, end] = useMemo(() => (value || ':').split(':'), [value]);
+// In the stored schedule `lN` is the start of lesson N and `bN` is the start of the break
+// after it, which is the same moment as the end of that lesson.
+const LESSONS = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => ({
+  n,
+  startKey: `l${n}`,
+  endKey: `b${n}`
+}));
 
-  const handleChange = (idx) => (val) => {
-    if (idx === 0 && (val < 0 || val > 23)) return;
-    if (idx === 1 && (val < 0 || val > 59)) return;
-
-    const shallowCopy = [start, end];
-    shallowCopy.splice(idx, 1, val);
-    onChange(shallowCopy.join(':'));
-  };
-
-  return (
-    <div className="AdminClockEditor__item">
-      <div className="AdminClockEditor__label">{label}</div>
-      <div className="AdminClockEditor__row">
-        <SInput
-          placeholder="hh"
-          type="number"
-          maxLength={2}
-          className="AdminClockEditor__input"
-          value={start}
-          onChange={handleChange(0)}
-        />
-        {' : '}
-        <SInput
-          placeholder="mm"
-          type="number"
-          maxLength={2}
-          className="AdminClockEditor__input"
-          value={end}
-          onChange={handleChange(1)}
-        />
-      </div>
-    </div>
-  );
+/** '8:5' -> '08:05', anything unreadable -> '' (an empty time input) */
+const toInputTime = (value) => {
+  const [hours, minutes] = String(value || '').split(':');
+  if (!hours || !minutes) return '';
+  return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
 };
 
-TimeItem.defaultProps = {
-  label: null,
-  onChange: () => undefined
+const toMinutes = (value) => {
+  const time = moment(value, 'HH:mm', true);
+  return time.isValid() ? time.hours() * 60 + time.minutes() : null;
 };
 
-TimeItem.propTypes = {
-  label: string,
-  value: string.isRequired,
-  onChange: func
+const normalize = (time) =>
+  Object.entries(time || {}).reduce((acc, [key, value]) => {
+    acc[key] = toInputTime(value);
+    return acc;
+  }, {});
+
+/**
+ * Returns a readable problem for every lesson whose time doesn't add up,
+ * so a mistake is visible before the schedule gets to the site.
+ */
+const getErrors = (time) => {
+  const errors = {};
+  LESSONS.forEach(({ n, startKey, endKey }, idx) => {
+    const start = toMinutes(time[startKey]);
+    const end = toMinutes(time[endKey]);
+    if (start === null || end === null) {
+      errors[n] = 'Вкажіть час початку і кінця';
+      return;
+    }
+    if (end <= start) {
+      errors[n] = 'Урок має закінчуватись пізніше, ніж починається';
+      return;
+    }
+    const prev = LESSONS[idx - 1];
+    const prevEnd = prev ? toMinutes(time[prev.endKey]) : null;
+    if (prevEnd !== null && start < prevEnd) {
+      errors[n] = `Урок починається раніше, ніж закінчується ${prev.n} урок`;
+    }
+  });
+  return errors;
+};
+
+const getBreakLength = (time, idx) => {
+  const next = LESSONS[idx + 1];
+  if (!next) return null;
+  const end = toMinutes(time[LESSONS[idx].endKey]);
+  const nextStart = toMinutes(time[next.startKey]);
+  if (end === null || nextStart === null || nextStart < end) return null;
+  return nextStart - end;
 };
 
 export const AdminClockEditor = ({ className }) => {
-  const [backUp, setBackUp] = useState();
-
-  const { time } = useSelector((state) => state.clock);
-
+  const { time: savedTime } = useSelector((state) => state.clock);
   const dispatch = useDispatch();
 
-  const handleChangeState = (key) => (val) => {
-    dispatch(actions[actionType.CLOCK_UPDATE]({ ...time, [key]: val }));
+  const [time, setTime] = useState(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (savedTime && !time) setTime(normalize(savedTime));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savedTime]);
+
+  if (!time) {
+    return (
+      <p className={classNames('AdminClockEditor', 'AdminClockEditor__hint', className)}>
+        Завантажуємо розклад…
+      </p>
+    );
+  }
+
+  const initial = normalize(savedTime);
+  const hasChanges = !isEqual(time, initial);
+  const errors = getErrors(time);
+  const hasErrors = Object.keys(errors).length > 0;
+
+  const onChange = (key) => (e) => {
+    const { value } = e.target;
+    setTime((prev) => ({ ...prev, [key]: value }));
   };
 
-  const disabled = !backUp || isEqual(time, backUp);
-
   const onSave = async () => {
-    const shallowTime = { ...time };
-    Object.entries(time).forEach(([key, value]) => {
-      const [start, end] = value.split(':');
-      time[key] = `${start.padStart(2, '0')}:${end.padStart(2, '0')}`;
-    });
-    const res = await db.saveClock(shallowTime);
+    setSaving(true);
+    const res = await db.saveClock(time);
+    setSaving(false);
     if (res) {
-      dispatch(actions[actionType.CLOCK_UPDATE](shallowTime));
-      setBackUp(shallowTime);
+      dispatch(actions[actionType.CLOCK_UPDATE](time));
+      dispatch(notifications.notify('success', 'Розклад дзвінків збережено'));
+    } else {
+      dispatch(
+        notifications.notify(
+          'error',
+          'Не вдалося зберегти розклад. Перевірте інтернет і спробуйте ще раз',
+          ERROR_NOTIFICATION_TIMEOUT
+        )
+      );
     }
   };
 
-  useEffect(() => {
-    setBackUp({ ...time });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div className={classNames('AdminClockEditor', className)}>
+      <p className="AdminClockEditor__hint">
+        Вкажіть, коли починається і закінчується кожен урок. За цим розкладом годинник на головній
+        сторінці та в меню показує, що зараз триває — урок чи перерва.
+      </p>
+      <ol className="AdminClockEditor__list">
+        {LESSONS.map(({ n, startKey, endKey }, idx) => {
+          const breakLength = getBreakLength(time, idx);
+          return (
+            <li key={n} className="AdminClockEditor__lesson">
+              <div className={classNames('AdminClockEditor__item', { _error: errors[n] })}>
+                <span className="AdminClockEditor__label">{`${n} урок`}</span>
+                <label className="AdminClockEditor__field" htmlFor={startKey}>
+                  <span className="AdminClockEditor__caption">початок</span>
+                  <input
+                    id={startKey}
+                    type="time"
+                    className="AdminClockEditor__input"
+                    value={time[startKey] || ''}
+                    onChange={onChange(startKey)}
+                  />
+                </label>
+                <span className="AdminClockEditor__dash">—</span>
+                <label className="AdminClockEditor__field" htmlFor={endKey}>
+                  <span className="AdminClockEditor__caption">кінець</span>
+                  <input
+                    id={endKey}
+                    type="time"
+                    className="AdminClockEditor__input"
+                    value={time[endKey] || ''}
+                    onChange={onChange(endKey)}
+                  />
+                </label>
+              </div>
+              {errors[n] && <p className="AdminClockEditor__error">{errors[n]}</p>}
+              {breakLength !== null && (
+                <p className="AdminClockEditor__break">{`перерва ${breakLength} хв`}</p>
+              )}
+            </li>
+          );
+        })}
+      </ol>
       <div className="AdminClockEditor__btns">
         <SButton
           onClick={onSave}
           className="AdminClockEditor__btn"
-          type="transparent"
-          disabled={disabled}
-        >
-          Зберегти
-        </SButton>
+          loading={saving}
+          disabled={!hasChanges || hasErrors || saving}
+          label="Зберегти розклад"
+        />
         <SButton
-          onClick={() => dispatch(actions[actionType.CLOCK_UPDATE](backUp))}
+          onClick={() => setTime(initial)}
           className="AdminClockEditor__btn"
-          type="warning"
-          disabled={disabled}
-        >
-          Відмінити зміни
-        </SButton>
+          type="transparent"
+          disabled={!hasChanges || saving}
+          label="Скасувати зміни"
+        />
       </div>
-      <section className="AdminClockEditor__section">
-        <h3 className="AdminClockEditor__title">Уроки та перерви</h3>
-        <TimeItem value={time.l1} onChange={handleChangeState('l1')} label="1 урок" />
-        <TimeItem value={time.b1} onChange={handleChangeState('b1')} label="1 перерва" />
-        <TimeItem value={time.l2} onChange={handleChangeState('l2')} label="2 урок" />
-        <TimeItem value={time.b2} onChange={handleChangeState('b2')} label="2 перерва" />
-        <TimeItem value={time.l3} onChange={handleChangeState('l3')} label="3 урок" />
-        <TimeItem value={time.b3} onChange={handleChangeState('b3')} label="3 перерва" />
-        <TimeItem value={time.l4} onChange={handleChangeState('l4')} label="4 урок" />
-        <TimeItem value={time.b4} onChange={handleChangeState('b4')} label="4 перерва" />
-        <TimeItem value={time.l5} onChange={handleChangeState('l5')} label="5 урок" />
-        <TimeItem value={time.b5} onChange={handleChangeState('b5')} label="5 перерва" />
-        <TimeItem value={time.l6} onChange={handleChangeState('l6')} label="6 урок" />
-        <TimeItem value={time.b6} onChange={handleChangeState('b6')} label="6 перерва" />
-        <TimeItem value={time.l7} onChange={handleChangeState('l7')} label="7 урок" />
-        <TimeItem value={time.b7} onChange={handleChangeState('b7')} label="7 перерва" />
-        <TimeItem value={time.l8} onChange={handleChangeState('l8')} label="8 урок" />
-        <TimeItem value={time.b8} onChange={handleChangeState('b8')} label="8 перерва" />
-      </section>
+      {hasChanges && hasErrors && (
+        <p className="AdminClockEditor__error">Виправте помилки в розкладі, щоб зберегти його</p>
+      )}
     </div>
   );
 };

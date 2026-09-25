@@ -56,7 +56,7 @@ const Post = ({
   const router = useRouter();
 
   const handleRemove = () => {
-    const ok = window?.confirm('Точно видаляти?');
+    const ok = window?.confirm('Видалити цей запис? Цю дію не можна скасувати.');
 
     if (!ok) return;
     onRemove();

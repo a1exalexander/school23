@@ -107,8 +107,11 @@ export const addPostImage = async ({ file, id, filenameWithoutExtension }) => {
     throw error;
   }
   try {
-    await storage.ref().child(`images/${filenameWithoutExtension}`).put(file);
-    const src = await storage.ref().child(`images/${filenameWithoutExtension}`).getDownloadURL();
+    // a unique prefix keeps photos with the same name (e.g. IMG_0001 from different phones)
+    // from overwriting each other in the storage
+    const ref = storage.ref().child(`images/${Date.now()}-${id}-${filenameWithoutExtension}`);
+    await ref.put(file);
+    const src = await ref.getDownloadURL();
     logger.log(src, 'ADD IMAGE');
     return { id, filenameWithoutExtension, src };
   } catch (err) {

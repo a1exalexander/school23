@@ -28,14 +28,14 @@ const SNavigationMenu = ({ inProp, onClose }) => {
                 </SNavigationItem>
                 <SNavigationItem
                   href={routes.PUBLIC_INFO}
-                  label="Публічна Інформація"
+                  label="Публічна інформація"
                   className="nav-menu__item"
                 >
                   <IconSchool />
                 </SNavigationItem>
                 <SNavigationItem
                   href={routes.ACTIVITY}
-                  label="Діяльність Гімназії"
+                  label="Діяльність гімназії"
                   className="nav-menu__item"
                 >
                   <IconBag />
@@ -72,7 +72,7 @@ const SNavigationMenu = ({ inProp, onClose }) => {
               {isAdmin && (
                 <Link href={routes.ADMIN}>
                   <a>
-                    <SButton type="transparent">Кабінет Адміна</SButton>
+                    <SButton type="transparent">Кабінет адміністратора</SButton>
                   </a>
                 </Link>
               )}

@@ -28,7 +28,8 @@ export const genPost = (post) => {
     newPost[key] = post[key] || postModel[key];
   });
   newPost.titleTokens = generateTokens(newPost.title);
-  newPost.created = moment().unix();
+  // an edited post keeps its original date so it doesn't jump to the top of the news
+  newPost.created = Number(post.created) || moment().unix();
   return { ...post, ...newPost };
 };
 

@@ -31,16 +31,16 @@ const SNavigation = () => {
       case routes.NEWS_POST:
         return title('Шкільні новини');
       case routes.PUBLIC_INFO:
-        return title('Публічна Інформація');
+        return title('Публічна інформація');
       case routes.PUBLIC_INFO_POST:
-        return title('Публічна Інформація');
+        return title('Публічна інформація');
       case routes.ACTIVITY:
       case routes.ACTIVITY_POST:
-        return title('Діяльність Гімназії');
+        return title('Діяльність гімназії');
       case routes.CONTACTS:
         return title('Контакти');
       case routes.ADMIN:
-        return title('Кабінет адміна');
+        return title('Кабінет адміністратора');
       case routes.LOGIN:
         return title('Авторизація');
       case routes.SCHOOL_CANTEEN:
@@ -54,11 +54,21 @@ const SNavigation = () => {
     setShowMenu(false);
   }, [route]);
 
+  useEffect(() => {
+    if (!showMenu) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setShowMenu(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [showMenu]);
+
   return (
     <nav className="s-navigation">
       <div className={classNames('s-navigation__top-bar', { visible: !isHome, active: showMenu })}>
         <SNavigationButton
           onClick={() => setShowMenu(!showMenu)}
+          expanded={showMenu}
           className={classNames('s-navigation__button', { active: showMenu })}
         />
         {isHome && (

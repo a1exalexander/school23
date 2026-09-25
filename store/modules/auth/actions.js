@@ -42,13 +42,23 @@ export const login = ({ email, password }) => async (dispatch) => {
     dispatch(actionType.AUTH_FAILURE);
     switch (err.code) {
       case 'auth/user-not-found':
-        dispatch(notifications.notify('error', 'Дані введено не правильно'));
+      case 'auth/wrong-password':
+      case 'auth/invalid-credential':
+        dispatch(notifications.notify('error', 'Неправильний імейл або пароль'));
         break;
       case 'auth/invalid-email':
-        dispatch(notifications.notify('error', 'Імейл введено не правильно'));
+        dispatch(notifications.notify('error', 'Імейл введено неправильно'));
+        break;
+      case 'auth/too-many-requests':
+        dispatch(
+          notifications.notify('error', 'Забагато спроб входу. Зачекайте кілька хвилин', 10000)
+        );
+        break;
+      case 'auth/network-request-failed':
+        dispatch(notifications.notify('error', 'Немає зʼєднання з інтернетом. Перевірте мережу'));
         break;
       default:
-        dispatch(notifications.notify('error'));
+        dispatch(notifications.notify('error', 'Не вдалося увійти. Спробуйте ще раз'));
         break;
     }
     dispatch(cleanAuth());
@@ -63,7 +73,7 @@ export const logout = () => async (dispatch) => {
     dispatch(setAuthStatus(false));
     return true;
   } catch (err) {
-    dispatch(notifications.notify('error'));
+    dispatch(notifications.notify('error', 'Не вдалося вийти. Спробуйте ще раз'));
     return false;
   }
 };

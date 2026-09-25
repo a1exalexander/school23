@@ -287,7 +287,7 @@ export const addPublicInfo = async (post) => {
 
 export const updatePublicInfo = async (id, post) => {
   try {
-    db.collection('publicInfo').doc(id).update(post);
+    await db.collection('publicInfo').doc(id).update(post);
     logger.info('Success', 'UPDATE PUBLIC INFO');
     return true;
   } catch (err) {
@@ -298,7 +298,7 @@ export const updatePublicInfo = async (id, post) => {
 
 export const deletePublicInfo = async (id) => {
   try {
-    db.collection('publicInfo').doc(id).delete();
+    await db.collection('publicInfo').doc(id).delete();
     logger.info('Success', 'DELETE PUBLIC INFO');
     return true;
   } catch (err) {
@@ -352,7 +352,7 @@ export const addActivityPost = async (post) => {
 
 export const updateActivityPost = async (id, post) => {
   try {
-    db.collection('activity').doc(id).update(post);
+    await db.collection('activity').doc(id).update(post);
     logger.info('Success', 'UPDATE ACTIVITY POST');
     return true;
   } catch (err) {
@@ -363,7 +363,7 @@ export const updateActivityPost = async (id, post) => {
 
 export const deleteActivityPost = async (id) => {
   try {
-    db.collection('activity').doc(id).delete();
+    await db.collection('activity').doc(id).delete();
     logger.info('Success', 'DELETE ACTIVITY POST');
     return true;
   } catch (err) {
@@ -416,7 +416,7 @@ export const addFood = async (post) => {
 
 export const deleteFood = async (id) => {
   try {
-    db.collection('food').doc(id).delete();
+    await db.collection('food').doc(id).delete();
     logger.info('Success', 'DELETE FOOD');
     return true;
   } catch (err) {
@@ -459,7 +459,7 @@ export const getClock = async () => {
 
 export const saveClock = async (data) => {
   try {
-    db.collection('clock').doc('time').update(data);
+    await db.collection('clock').doc('time').set(data, { merge: true });
     logger.info('Success', 'UPDATE CLOCK');
     return true;
   } catch (err) {

@@ -36,9 +36,12 @@ export const getNews = (currentPage, itemsPerPage, searchQuery = '') => async (
   }
 };
 
+/** Forget cached pages so the list shows a new, edited or removed post right away */
+export const cleanNewsCache = () => ({ type: actionType.NEWS_CACHE_CLEAN });
+
 export const updatePostLikes = (postId, newLikesCount) => ({
   type: actionType.NEWS_UPDATE_LIKES,
   payload: { postId, newLikesCount }
 });
 
-export default { getNews, updatePostLikes };
+export default { getNews, updatePostLikes, cleanNewsCache };

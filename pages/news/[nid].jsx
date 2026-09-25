@@ -17,6 +17,7 @@ import { ERROR_NOTIFICATION_TIMEOUT, messages, routes } from '../../constants';
 import { db } from '../../firebase';
 import { formatPost, postModel } from '../../models/post';
 import { actions } from '../../store/modules/notifications';
+import { cleanNewsCache } from '../../store/modules/news/actions';
 import Post from '../../components/Post';
 
 const AdminPostEditor = dynamic(() => import('../../components/views/admin/AdminPostEditor'), {
@@ -28,7 +29,7 @@ const initPost = {
   id: ''
 };
 
-const NewsPost = ({ post, isEmptyInit, notify }) => {
+const NewsPost = ({ post, isEmptyInit, notify, onNewsChange }) => {
   const [$post, setPost] = useState(post);
   const [isEditorVisible, setEditorVisible] = useState(false);
   const [isEmpty, setEmpty] = useState(isEmptyInit);
@@ -40,8 +41,9 @@ const NewsPost = ({ post, isEmptyInit, notify }) => {
     const newPost = { ...fetchedPost, ...updatedPost, created: fetchedPost.created };
     const res = await db.updatePost(post.id, newPost);
     if (res) {
+      onNewsChange();
       window.scrollTo(0, 0);
-      notify('success', 'Пост успішно оновлено!');
+      notify('success', 'Новину оновлено!');
       setPost(newPost);
       setEditorVisible(false);
     } else {
@@ -52,10 +54,11 @@ const NewsPost = ({ post, isEmptyInit, notify }) => {
   const onRemove = async () => {
     const res = await db.deletePost(post.id);
     if (res) {
-      notify('success', 'Пост видалено!');
+      onNewsChange();
+      notify('success', 'Новину видалено');
       router.push({ pathname: routes.NEWS });
     } else {
-      notify('error', 'Помилка при видаленні!');
+      notify('error', 'Не вдалося видалити. Спробуйте ще раз', ERROR_NOTIFICATION_TIMEOUT);
     }
   };
 
@@ -78,6 +81,7 @@ const NewsPost = ({ post, isEmptyInit, notify }) => {
 NewsPost.defaultProps = {
   post: initPost,
   notify: () => undefined,
+  onNewsChange: () => undefined,
   isEmptyInit: true
 };
 
@@ -94,6 +98,7 @@ NewsPost.propTypes = {
     images: arrayOf(shape({ id: string, src: string }))
   }),
   notify: func,
+  onNewsChange: func,
   isEmptyInit: bool
 };
 
@@ -102,4 +107,4 @@ NewsPost.getInitialProps = async ({ query }) => {
   return { post: { ...formatPost(res) }, isEmptyInit: !res.id };
 };
 
-export default connect(null, { notify: actions.notify })(NewsPost);
+export default connect(null, { notify: actions.notify, onNewsChange: cleanNewsCache })(NewsPost);

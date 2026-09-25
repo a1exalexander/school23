@@ -40,7 +40,7 @@ const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
     const newPost = { ...fetchedPost, ...updatedPost };
     const res = await db.updatePublicInfo(post.id, newPost);
     if (res) {
-      notify('success', 'Сторінку успішно оновлено!');
+      notify('success', 'Сторінку оновлено!');
       setPost(newPost);
       setEditorVisible(false);
       window.scrollTo(0, 0);
@@ -52,10 +52,10 @@ const PublicInfoPage = ({ post, isEmptyInit, notify }) => {
   const onRemove = async () => {
     const res = await db.deletePublicInfo(post.id);
     if (res) {
-      notify('success', 'Сторінку видалено!');
+      notify('success', 'Сторінку видалено');
       router.push({ pathname: routes.PUBLIC_INFO });
     } else {
-      notify('error', 'Помилка при видаленні!');
+      notify('error', 'Не вдалося видалити. Спробуйте ще раз', ERROR_NOTIFICATION_TIMEOUT);
     }
   };
 

@@ -23,7 +23,7 @@ $style: admin-post;
     @include flex-row(center, center);
   }
   &__images-old {
-    margin-bottom: 32px;
+    margin: 0;
     @include flex-row();
     flex-wrap: wrap;
     img {
@@ -35,7 +35,10 @@ $style: admin-post;
     }
   }
   &__old-image-item {
-    padding: 12px;
+    padding: 8px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    overflow: hidden;
     width: 140px;
     height: 100px;
     position: relative;
@@ -59,9 +62,8 @@ $style: admin-post;
     }
     margin-bottom: 24px;
   }
-  .ql-container {
+  &__editor {
     max-width: 900px;
-    margin: 0 auto;
   }
   .ql-editor {
     min-height: 200px;
@@ -84,40 +86,57 @@ $style: admin-post;
       }
     }
   }
-  &__submit {
-    margin-bottom: 32px;
-  }
   &__preview-title {
     text-align: center;
     font-family: $head-font;
     @include text($H600, 700);
     margin-bottom: 24px;
   }
-  &__emoji-wrapper {
-    z-index: 2;
-    position: relative;
+  &__hint {
     margin-bottom: 24px;
-    padding: 24px 0;
-
-    & > div {
-      @include flex-col(flex-start, center);
-      margin: 0 -24px;
-      @include media($screen-tablet-small) {
-        margin: 0;
-        align-items: flex-start;
-      }
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: $B50;
+    @include text($H400, 400, $N700);
+    line-height: 1.5;
+  }
+  &__field {
+    margin-bottom: 24px;
+    @include flex-col(flex-start, stretch);
+    .admin-post__radio-group,
+    .admin-post__input {
+      margin-bottom: 0;
     }
-    @include media($screen-tablet-small) {
-      padding: 0;
+  }
+  &__help {
+    margin-top: 8px;
+    @include text($H300, 400, $N300);
+  }
+  &__label-row {
+    max-width: 900px;
+    @include flex-row(space-between, flex-end);
+    margin-bottom: 8px;
+    .admin-post__label {
+      margin-bottom: 0;
     }
+  }
+  &__emoji-wrapper {
+    position: relative;
+    z-index: 3;
   }
   &__emoji {
     position: absolute;
-    top: 100%;
-    left: 0;
+    top: calc(100% + 8px);
+    right: 0;
   }
-  &__emoji-btn {
-    margin-bottom: 12px;
+  &__actions {
+    @include flex-row(flex-start, center);
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  &__missing {
+    @include text($H400, 400, $N300);
   }
   &__datepicker {
     @extend %input;
@@ -128,8 +147,5 @@ $style: admin-post;
   }
   &__label {
     @extend %label;
-  }
-  &__link {
-    margin-bottom: 24px;
   }
 }
