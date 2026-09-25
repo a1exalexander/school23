@@ -5,6 +5,7 @@ import SBadge from '../../common/SBadge';
 import { SGallery } from '../../common/media/SGallery';
 import { SEditorPreview } from '../../common/SEditorPreview';
 import { CanteenCard } from '../canteen/CanteenCard';
+import { getVideoUrl, isVideoEmbeddable } from '../../../utils/postVideo';
 
 const SECTION_BADGE = {
   page: { label: 'Публічна інформація', color: 'cyan' },
@@ -48,6 +49,7 @@ export const AdminPostPreview = ({ type, post, images, files }) => {
   const badge = getBadge(type, post.type);
   const created = post.created ? moment(post.created * 1000) : moment();
   const isDeltaEmpty = !post.delta?.ops?.length;
+  const videoUrl = getVideoUrl(post.video);
 
   return (
     <article className="admin-preview post__article">
@@ -58,20 +60,22 @@ export const AdminPostPreview = ({ type, post, images, files }) => {
         </div>
         <h1 className="post__title">{post.title || 'Без заголовка'}</h1>
       </header>
-      {!!allImages.length && (
-        <SGallery className="post__gallery" images={allImages} alt={post.title} />
-      )}
-      {!!post.video && (
-        <p className="admin-preview__note">
-          Тут буде відео з Facebook — воно зʼявиться на сайті після публікації.
-        </p>
-      )}
       {!!post.text?.trim() && (
         <SEditorPreview
           className="post__content"
           content={isDeltaEmpty ? post.text : post.delta}
           postType={post.type}
         />
+      )}
+      {!!videoUrl && (
+        <p className="admin-preview__note">
+          {isVideoEmbeddable(videoUrl)
+            ? 'Тут буде відео з Facebook — воно зʼявиться на сайті після публікації.'
+            : 'Це посилання не на відео, а на допис у Facebook, тому тут буде кнопка «Переглянути в Facebook».'}
+        </p>
+      )}
+      {!!allImages.length && (
+        <SGallery className="post__gallery" images={allImages} alt={post.title} />
       )}
     </article>
   );

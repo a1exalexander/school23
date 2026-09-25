@@ -62,6 +62,7 @@ import {
   normalizePost,
   TITLE_MAX_LENGTH
 } from '../../../utils/postTitle';
+import { getVideoUrl } from '../../../utils/postVideo';
 
 registerLocale('uk', uk);
 
@@ -224,7 +225,7 @@ const getDraftFields = (state, withDate) => ({
   title: state.title || '',
   text: state.text || '',
   delta: state.delta || { ops: [] },
-  video: state.video || '',
+  video: getVideoUrl(state.video),
   type: state.type || initState.type,
   // only the canteen menu has a date; a local day, not UTC, so it survives the time zone
   date: withDate && state.date ? moment(toJsDate(state.date)).format('YYYY-MM-DD') : null
@@ -347,7 +348,8 @@ class AdminPostEditor extends Component {
       text: post?.text || '',
       type: post?.type || initState.type,
       iframe: post?.iframe || '',
-      video: post?.video || '',
+      // old posts may keep the link as an array of characters
+      video: getVideoUrl(post?.video),
       oldImages: post?.images || [],
       date: toJsDate(post?.date) || new Date()
     };
