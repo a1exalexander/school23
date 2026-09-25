@@ -13,12 +13,23 @@
  *     — saves the changes; the old titles are backed up to scripts/backup-long-titles-<time>.json
  */
 process.env.NODE_ENV = process.env.NODE_ENV || 'test';
-require('@babel/register')({
-  presets: [['next/babel', { 'preset-env': { modules: 'commonjs' } }]]
-});
-
 const fs = require('fs');
 const path = require('path');
+
+// @babel/runtime is a dependency of next, not of the project, so resolve it from next
+// (pnpm doesn't hoist it to the top-level node_modules)
+const babelRuntime = path.dirname(
+  require.resolve('@babel/runtime/package.json', { paths: [path.dirname(require.resolve('next/package.json'))] })
+);
+require('@babel/register')({
+  presets: [
+    [
+      'next/babel',
+      { 'preset-env': { modules: 'commonjs' }, 'transform-runtime': { absoluteRuntime: babelRuntime } }
+    ]
+  ]
+});
+
 const admin = require('firebase-admin');
 const { isTitleMisplaced, normalizePost } = require('../utils/postTitle');
 const generateTokens = require('../utils/generateTokens').default;
